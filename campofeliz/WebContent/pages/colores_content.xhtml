@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
+	
+	<h:form id="form-contentpage">
+		<p:growl id="mensajes" showDetail="true" />
+		<p:panel id="panel-colorcontent">
+			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
+				<my:buttons renderedButtonNewItem="true" actionButtonNewItem="#{colorBean.newItem()}" onclickButtonNewItem="vartablaColores.unselectAllRows()" oncompleteButtonNewItem="vardialogeditor.show()" updateButtonNewItem=":form-contentpage:idpaneleditor" 
+				renderedButtonEliminar="false"
+				renderedButtonCancelar="false" actionButtonCancelar="#{colorBean.cancelar()}" 
+				renderedButtonAceptar="false" />
+			</h:panelGrid>
+			<br />
+			<p:dataTable id="idTablaColores" value="#{colorBean.lisCotcolor}" var="color" rowKey="#{color.idcolor}" widgetVar="vartablaColores"
+				paginator="true" rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="6,8,10" selection="#{colorBean.cotcolorItem}" selectionMode="single" emptyMessage="No se encontraron registros">
+				
+				<p:ajax event="rowSelect" update=":form-contentpage:idpaneleditor" oncomplete="vardialogeditor.show()"></p:ajax>
+				
+				<f:facet name="header">
+					Colores
+				</f:facet>
+				
+				<p:column id="idNombreHeader" headerText="Nombre" style="width: 150px">
+					<h:outputText value="#{color.nombre}" />
+				</p:column>
+				
+				<p:column id="idDescripcionHeader" headerText="Descripci&oacute;n">
+					<h:outputText value="#{color.descripcion}" />
+				</p:column>
+				
+				<p:column id="idColorHeader" headerText="Color" style="width: 125px">
+					<div class="ui-corner-all" style="width: inherit; height: 15px; border: 1px solid #aaaaaa; background-color: ##{color.hex}"></div>
+				</p:column>
+			</p:dataTable>
+			
+			<p:dialog id="iddialogeditor" header="Editor de colores" closable="true" onHide="vartablaColores.unselectAllRows()" widgetVar="vardialogeditor" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
+				<h:panelGrid id="idpaneleditor" columns="2">
+					<h:outputLabel id="ideditorlblnombre" value="Nombre" />
+					<h:inputText id="ideditortxtnombre" value="#{colorBean.cotcolorItem.nombre}" />
+					
+					<h:outputLabel id="ideditorlbldescripcion" value="Descripci&oacute;n" />
+					<h:inputText id="ideditortxtdescripcion" value="#{colorBean.cotcolorItem.descripcion}" style="width: 300px" />
+					
+					<h:outputLabel id="ideditorlblcolor" value="Color" />
+					<p:colorPicker id="ideditorpikcolor" value="#{colorBean.cotcolorItem.hex}" />
+					
+					<h:panelGrid id="idpanel2editor" columns="3" style="position: absolute;right: 0;bottom: 0;">
+						<p:commandButton id="idgrabar" value="Grabar" action="#{colorBean.guardar()}" oncomplete="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaColores" />
+						<p:commandButton id="ideliminar" value="Eliminar" action="#{colorBean.eliminar()}" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaColores" rendered="#{colorBean.cotcolorItem.idcolor > 0}" />
+						<p:commandButton id="idcancelar" value="Cancelar" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes" />
+					</h:panelGrid>
+				</h:panelGrid>
+			</p:dialog>
+		
+            <h:panelGrid id="panelgridbuttonsdown" columns="1" style="padding: 10px 10px 0 0">
+				<my:buttons renderedButtonNewItem="true" actionButtonNewItem="#{colorBean.newItem()}" onclickButtonNewItem="vartablaColores.unselectAllRows()" oncompleteButtonNewItem="vardialogeditor.show()" updateButtonNewItem=":form-contentpage:idpaneleditor" 
+				renderedButtonEliminar="false"
+				renderedButtonCancelar="false" actionButtonCancelar="#{colorBean.cancelar()}" 
+				renderedButtonAceptar="false" />
+            </h:panelGrid>
+            
+		</p:panel>
+	</h:form>
+</ui:composition>

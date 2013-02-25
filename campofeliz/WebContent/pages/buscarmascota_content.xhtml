@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+      
+	<h:form id="form-contentpage" prependId="false">
+		<p:growl id="mensajes" showDetail="true" />
+		<p:panel id="panel-buscarmascota">
+			<h2>B&uacute;squeda Avanzada</h2>
+			<hr />
+			<br />
+			<p:focus for="idnombre"/>
+			<h:panelGrid columns="3" cellpadding="5">
+				<h:outputLabel value="Nombre:" /><p:inputText id="idnombre" value="#{buscarMascotaBean.petmascota.nombre}" size="80" /><h:outputText value="*Escriba el nombre de la mascota" style="font-style: italic;" />
+				<h2> Otros datos</h2>
+				<h:outputText value="" /><h:outputText value="" />
+				<h:outputLabel value="Caracter&iacute;sticas:" /><p:inputText value="#{buscarMascotaBean.caracteristicas}" size="80" /><h:outputText value="*Separe con espacios &uacute;nicamente cada palabra" style="font-style: italic;" />
+				<h:outputLabel value="Especie:" />
+				<h:selectOneMenu id="idtipolist" value="#{buscarMascotaBean.petmascota.petespecie.idespecie}" var="i">
+					<f:selectItem itemLabel="Todos" />
+				    <f:selectItems value="#{buscarMascotaBean.lisPetespecie}" var="tipo" itemLabel="#{tipo.nombre}" itemValue="#{tipo.idespecie}"/>
+				</h:selectOneMenu> <h:outputText value="*Seleccione la especie" style="font-style: italic;" />
+				<h:outputLabel value="Raza:" />
+				<h:selectOneMenu id="idrazalist" value="#{buscarMascotaBean.petmascota.petraza.idraza}" style="width: 150px" >
+					<f:selectItem itemLabel="Todos" />
+				    <f:selectItems value="#{buscarMascotaBean.lisPetraza}" var="raza" itemLabel="#{raza.nombre}" itemValue="#{raza.idraza}"/>
+				</h:selectOneMenu> <h:outputText value="*Seleccione la raza de la mascota" style="font-style: italic;" />
+				<h:outputLabel value="Sexo:" />
+				<h:selectOneMenu id="idsexolist" value="#{buscarMascotaBean.petmascota.sexo}" >
+					<f:selectItem itemLabel="Todos" itemValue="0" />
+	                <f:selectItem itemLabel="Macho" itemValue="1" />
+	                <f:selectItem itemLabel="Hembra" itemValue="2" />
+	            </h:selectOneMenu> <h:outputText value="*Seleccione el sexo de la mascota" style="font-style: italic;" />
+			</h:panelGrid>
+			<center>
+			<p:commandButton value="Buscar" actionListener="#{buscarMascotaBean.buscarMascotas()}" update=":form-contentpage:idGridResultado" />
+			</center>
+			<br />
+			<p:dataGrid id="idGridResultado" var="pet" value="#{buscarMascotaBean.lisMascotas}" columns="#{buscarMascotaBean.columnsGrid}" rows="#{buscarMascotaBean.rowsGrid}" paginator="true" effect="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				emptyMessage="No se encontraron registros">
+				<p:column>
+					<p:panel>
+						<table>
+						<tr>
+						<td width="200px" align="center" bgcolor="#eaeaea">
+						<h:link title="Ver Información" outcome="mascota.jsf">
+							<f:param name="idmascota" value="#{pet.petmascota.idmascota}" /> 
+							<f:param name="tipo" value="#{pet.petmascota.petespecie.idespecie}" />
+							<p:graphicImage id="idfotoblank" value="#{buscarMascotaBean.blankImage}" style="max-height: 100px" rendered="#{empty pet.petfoto}" />
+							<p:graphicImage id="idfoto" value="#{pet.petfoto.ruta}" style="max-height: 100px" rendered="#{!empty pet.petfoto}" />
+						</h:link>
+						</td>
+						<td>
+							<h:outputText value="Nombre: " style="font-weight: bold;" /><br />
+							<h:outputText value="#{pet.petmascota.nombre}" style="text-transform: capitalize;" /><br />
+							<h:outputText value="Características:" style="font-weight: bold;" /><br />
+							<h:outputText value="#{pet.petmascota.caracteristicas}" />
+						</td>
+						</tr>
+						</table>
+					</p:panel>
+				</p:column>
+		
+			</p:dataGrid>
+		</p:panel>
+	</h:form>
+</ui:composition>

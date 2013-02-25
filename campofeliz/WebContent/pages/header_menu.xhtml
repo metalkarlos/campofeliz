@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	
+	<h:form id="form-menu">
+		<div id="header-menu">
+			<p:tabView id="tabview" activeIndex="#{menuBean.activeIndex}" dynamic="true" cache="false" effect="fade" effectDuration="normal">
+				<p:ajax event="tabChange" listener="#{menuBean.tabChangeListener}" />
+				<c:forEach items="#{menuBean.lisMenu}" var="menu">
+					<p:tab id="id-#{menu.orden}" title="#{menu.nombre}">
+						<c:forEach items="#{menu.lisSevOpcionMenu}" var="opcion" >
+							&nbsp;|&nbsp;
+							<h:link value="#{opcion.nombre}" outcome="#{opcion.paginaurl}">
+								<f:param name="iditem" value="#{opcion.idmenu}"></f:param>
+							</h:link>
+						</c:forEach>
+					</p:tab>
+				</c:forEach>
+			</p:tabView>
+		</div>
+	</h:form>
+</ui:composition>

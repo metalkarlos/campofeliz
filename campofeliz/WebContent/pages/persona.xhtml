@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="../templates/default.xhtml">
+
+	<ui:define name="title">Campo Feliz - Persona</ui:define>
+	<ui:define name="metadata">
+		<f:metadata>
+		  	<f:viewParam name="idpersona" value="#{personaBean.idpersona}"/>
+		</f:metadata>
+	</ui:define>
+	<ui:define name="side_page">
+		<ui:include src="../pages/persona_side.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="content_page">
+		<ui:include src="../pages/persona_content.xhtml"></ui:include>
+	</ui:define>
+	
+</ui:composition>

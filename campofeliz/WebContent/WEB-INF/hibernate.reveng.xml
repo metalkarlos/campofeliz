@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table-filter match-name="cotservicio" match-schema="comun"></table-filter>
+	<table-filter match-name="cottiposervicio" match-schema="comun"></table-filter>
+	<table-filter match-name="petmascota" match-schema="pets"></table-filter>
+	<table-filter match-name="setusuario" match-schema="seguridad"></table-filter>
+	<table-filter match-name="petestado" match-schema="pets"></table-filter>
+	<table-filter match-name="cotestado" match-schema="comun"></table-filter>
+	<table-filter match-name="petordenservicio" match-schema="pets"></table-filter>
+	<table-filter match-name="petordenserviciodetalle"
+		match-schema="pets">
+	</table-filter>
+	<table-filter match-name="cotlugar" match-schema="comun"></table-filter>
+	<table-filter match-name="petcomision" match-schema="pets"></table-filter>
+	<table-filter match-name="petcomisiondetalle" match-schema="pets"></table-filter>
+	<table-filter match-name="pettipocomision" match-schema="pets"></table-filter>
+	<table-filter match-name="pettablacobro" match-schema="pets"></table-filter>
+	<table-filter match-name="cotpersona" match-schema="comun"></table-filter>
+	<table-filter match-name="petraza" match-schema="pets"></table-filter>
+</hibernate-reverse-engineering>

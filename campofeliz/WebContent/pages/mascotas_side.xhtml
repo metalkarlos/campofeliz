@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<h:form id="form-sidepage">
+	    <h1 class="title ui-widget-header ui-corner-all">Mascotas</h1>
+		<h1  class="link">Especie</h1>
+		<p:panel style="text-align: center; width: 185px;">
+		<p:selectOneMenu id="idespeciemascota" style="width: 145px; align: center;" value="#{mascotasBean.especie}" onchange="redirect('mascotas.jsf?especie='+this.options[this.selectedIndex].value+'&amp;iditem='+#{menuBean.activeIndex})">
+			<f:selectItem itemLabel="Seleccione" itemValue="0"/>
+			<f:selectItems value="#{mascotasBean.lisPetespecie}" var="especie" itemLabel="#{especie.nombre}" itemValue="#{especie.idespecie}"></f:selectItems>
+		</p:selectOneMenu>
+		</p:panel>
+		<br />
+		<h:link  class="link" value="[ Nueva Mascota ]" outcome="mascota.hxtml" rendered="#{mascotasBean.especie gt 0}" >
+			<f:param name="idmascota" value="0" /> 
+			<f:param name="especie" value="#{mascotasBean.especie}" />
+		</h:link>
+	</h:form>
+</ui:composition>

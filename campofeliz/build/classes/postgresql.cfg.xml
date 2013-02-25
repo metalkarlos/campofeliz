@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!-- "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd"> -->
+<hibernate-configuration>
+    <session-factory>
+        <!-- <property name="hibernate.session_factory_name">java:/SessionFactory</property> -->
+		<property name="hibernate.connection.datasource">java:/CampoFelizPostgresqlDS</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hibernate.current_session_context_class">org.hibernate.context.JTASessionContext</property>
+		<!-- <property name="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property> -->
+		<!-- <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property> -->
+		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+		<property name="hibernate.search.autoregister_listeners">false</property>
+		<property name="hibernate.show_sql">true</property>
+		<!-- <property name="hibernate.format_sql">true</property> -->
+		<property name="hibernate.use_sql_comments">false</property>
+		<!-- <property name="hibernate.jdbc.use_streams_for_binary">true</property> -->
+		
+		<!-- Usar en Desarrollo, comentar en Producción 
+        <property name="hbm2ddl.auto">update</property>-->
+
+		<!-- Para no usar jboss\common\lib -->
+		<property name="hibernate.validator.apply_to_ddl">false</property>
+		<property name="hibernate.validator.autoregister_listeners">false</property>
+		
+		<!-- Mapeos-->
+        <mapping class="com.web.pet.pojo.annotations.Cottipoidentificacion" />
+        <mapping class="com.web.pet.pojo.annotations.Petespecie" />
+        <mapping class="com.web.pet.pojo.annotations.Petmascota" />
+        <mapping class="com.web.pet.pojo.annotations.Setestado" />
+        <mapping class="com.web.pet.pojo.annotations.Petraza" />
+        <mapping class="com.web.pet.pojo.annotations.Setperfil" />
+        <mapping class="com.web.pet.pojo.annotations.Sevmenu" />
+        <mapping class="com.web.pet.pojo.annotations.Petmascotacolor" />
+        <mapping class="com.web.pet.pojo.annotations.Cotpersona" />
+        <mapping class="com.web.pet.pojo.annotations.Petfoto" />
+        <mapping class="com.web.pet.pojo.annotations.Cotestado" />
+        <mapping class="com.web.pet.pojo.annotations.Cotcolor" />
+        <mapping class="com.web.pet.pojo.annotations.Petestado" />
+        <mapping class="com.web.pet.pojo.annotations.Setusuario" />
+        <mapping class="com.web.pet.pojo.annotations.Cotevento" />
+        <mapping class="com.web.pet.pojo.annotations.Cotservicio" />
+        <mapping class="com.web.pet.pojo.annotations.Cottiposervicio" />
+        <mapping class="com.web.pet.pojo.annotations.Petcomisiondetalle" />
+        <mapping class="com.web.pet.pojo.annotations.Pettipocomision" />
+        <mapping class="com.web.pet.pojo.annotations.Cotlugar" />
+        <mapping class="com.web.pet.pojo.annotations.Petordenservicio" />
+        <mapping class="com.web.pet.pojo.annotations.Pettablacobro" />
+        <mapping class="com.web.pet.pojo.annotations.Petordenserviciodetalle" />
+        <mapping class="com.web.pet.pojo.annotations.Petcomision" />
+    </session-factory>
+</hibernate-configuration>

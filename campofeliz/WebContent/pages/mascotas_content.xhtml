@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="form-contentpage" prependId="false">
+		<p:growl id="mensajes" showDetail="true" />
+		<p:panel id="panel-ordencontent">
+		<p:focus for="idtxtnombre" />
+		<h:outputLabel id="idlblnombre"  value="Buscar por Nombre de Mascota: " for="idtxtnombre" />
+		<p:inputText id="idtxtnombre" value="#{mascotasBean.nombre}" style="width: 500px">
+			<f:ajax event="keyup" render="idGridMascotas"></f:ajax>
+		</p:inputText>
+		</p:panel>
+		<br />
+		<p:dataGrid id="idGridMascotas" value="#{mascotasBean.lisMascotas}" var="pet" columns="#{mascotasBean.columnsGrid}" rows="#{mascotasBean.rowsGrid}" paginator="true" effect="true" 
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			emptyMessage="No se encontraron registros">
+			<p:column>
+				<span style="text-transform: capitalize;"></span>
+				<p:panel header="#{pet.petmascota.nombre}" style="text-align:center; text-transform: capitalize;">
+					<h:panelGrid columns="1" style="width:100%;">
+						<h:link title="Ver Información" outcome="mascota.hxtml" >
+							<f:param name="idmascota" value="#{pet.petmascota.idmascota}" /> 
+							<f:param name="especie" value="#{mascotasBean.especie}" />
+							<f:param name="iditem" value="#{menuBean.activeIdItem}" />
+							<p:graphicImage id="idfotoblank" value="#{mascotasBean.blankImage}" style="max-height: 100px" rendered="#{empty pet.petfoto}" />
+							<p:graphicImage id="idfoto" value="#{pet.petfoto.ruta}" style="max-height: 100px" rendered="#{!empty pet.petfoto}" />
+						</h:link>
+						<h:outputText value="#{pet.petmascota.sexo==1?'Macho':'Hembra'}" />
+					</h:panelGrid>
+				</p:panel>
+			</p:column>
+		</p:dataGrid>
+	</h:form>
+</ui:composition>
