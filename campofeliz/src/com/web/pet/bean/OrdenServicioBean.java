@@ -371,7 +371,7 @@ public class OrdenServicioBean implements Serializable {
 	
 	public void imprimir(){
 		try {
-			String nombreReporte = "Rep_Solicitd_Mourtoria";
+			String nombreReporte = "OrdenServicio";
 
 			String rutaLogo = Parametro.RUTA_IMAGENES_MISCELLANEOUS+"logo_empresa.jpg";
 			Map<String, Object> parametros = new HashMap<String, Object>();
