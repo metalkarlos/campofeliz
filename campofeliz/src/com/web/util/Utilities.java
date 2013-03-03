@@ -22,9 +22,6 @@ public class Utilities {
 			String rutaReporte = Parametro.RUTA_REPORTES+nombreReporte+".jasper";
 	        Session session = HibernateUtil.getSessionFactory().openSession();
 	        Connection connection = session.connection();
-	        /*Class.forName("org.postgresql.Driver");
-	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/campofeliz", "postgres", "postgres");
-	        */
 	        
 			JasperPrint jasperPrint = JasperFillManager.fillReport(rutaReporte, parametros, connection);//new JREmptyDataSource());
 			
