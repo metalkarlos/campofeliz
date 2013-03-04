@@ -26,7 +26,7 @@
 				    </h:panelGrid>
 				</p:galleriaContent>
 			</p:galleria>
-			<h:outputLabel value="No posee imágenes, puede empezar a subirlas dando clic en el botón 'Examinar', elija la imágen y luego de clic en el botón 'Subir Foto'" rendered="#{empty albumBean.lispetfoto}" />
+			<h:outputLabel value="No posee im&aacute;genes, puede empezar a subirlas dando clic en el bot&oacute;n 'Examinar', elija la im&aacute;gen y luego de clic en el bot&oacute;n 'Subir Foto'" rendered="#{empty albumBean.lispetfoto}" />
 			<br />
 			<br />
 			<!-- <p:fileUpload id="idfileupload2" fileUploadListener="#{aalbumBean.handleFileUpload}"  mode="advanced"   
@@ -37,7 +37,7 @@
 		    <p:commandButton title="Subir Foto" value="Subir Foto" ajax="false" actionListener="#{albumBean.subirImagen()}" />
 		    <br />
 		    <br />
-			<p:commandButton id="idverinformacion" title="Ver Información" value="Ver Registro de la Mascota" action="#{albumBean.verInformacion()}" immediate="true" />
+			<p:commandButton id="idverinformacion" title="Ver Informaci&oacute;n" value="Ver Registro de la Mascota" action="#{albumBean.verInformacion()}" immediate="true" />
 			<br /><br />
 		</p:panel>
 		<p:dialog id="iddialogupload" closable="true" widgetVar="vardialogupload" modal="true" showEffect="bounce" hideEffect="explode" width="600" height="150" resizable="true">
@@ -50,7 +50,7 @@
 		<p:dialog id="iddialogperfil" header="Foto de Perfil" closable="true" widgetVar="vardialogperfil" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
 			<h:panelGrid id="idpanelperfil" columns="2">
 				<p:graphicImage value="#{albumBean.mascotasPath}#{albumBean.petfotoSelected.petmascota.idmascota}#{albumBean.fileSeparator}#{albumBean.petfotoSelected.nombrearchivo}" style="max-height: 50px" />
-				<h:outputLabel id="idlabelperfil" value="¿Poner imágen como foto del Perfil?" />
+				<h:outputLabel id="idlabelperfil" value="¿Poner im&aacute;gen como foto del Perfil?" />
 				<h:outputText value="" />
 				<h:panelGrid id="idpanel2perfil" columns="2" style="position: absolute;right: 0;bottom: 0;">
 					<p:commandButton id="idconfirmarperfil" value="Confirmar" actionListener="#{albumBean.ponerFotoPerfil}" oncomplete="vardialogperfil.hide()" update=":form-contentpage:mensajes" />
@@ -61,7 +61,7 @@
 		<p:dialog id="iddialogdelete"  header="Eliminar Foto" closable="true" widgetVar="vardialogdelete" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
 			<h:panelGrid id="idpaneldelete" columns="2">
 				<p:graphicImage value="#{albumBean.mascotasPath}#{albumBean.petfotoSelected.petmascota.idmascota}#{albumBean.fileSeparator}#{albumBean.petfotoSelected.nombrearchivo}" style="max-height: 50px" />
-				<h:outputLabel id="idlabeldelete" value="¿Eliminar Permanentemente la imágen del álbum? Ésta acción no podrá deshacerse" />
+				<h:outputLabel id="idlabeldelete" value="¿Eliminar Permanentemente la im&aacute;gen del &aacute;lbum? &eacute;sta acci&oacute;n no podr&aacute; deshacerse" />
 				<h:outputText value="" />
 				<h:panelGrid id="idpanel2delete" columns="2" style="position: absolute;right: 0;bottom: 0;">
 					<p:commandButton id="idconfirmardelete" value="Confirmar" actionListener="#{albumBean.eliminarFotoAlbum}" oncomplete="vardialogdelete.hide()" update=":form-contentpage:mensajes, :form-contentpage:panel-albumcontent" />

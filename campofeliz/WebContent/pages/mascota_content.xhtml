@@ -28,7 +28,7 @@
 				<f:param name="iditem" value="#{menuBean.activeIdItem}"/>
 			</h:link>
 			
-			<h1 class="title ui-widget-header ui-corner-all">Código</h1>
+			<h1 class="title ui-widget-header ui-corner-all">C&oacute;digo</h1>
 			<h:outputText value="#{mascotaBean.petmascota.idmascota}" />
 			<br /><br />
 			
@@ -37,7 +37,7 @@
 			<p:inputText id="idnombre" value="#{mascotaBean.petmascota.nombre}" size="200" style="max-width: 760px" required="true" requiredMessage="El Nombre es obligatorio." />
 			<br /><br />
 			
-			<h1 class="title ui-widget-header ui-corner-all">Número de Identificación</h1>
+			<h1 class="title ui-widget-header ui-corner-all">N&uacute;mero de Identificaci&oacute;n</h1>
 			<p:selectOneMenu id="idtipoidentificacion" value="#{mascotaBean.cottipoidentificacionselected.idtipoidentificacion}">
 			    <f:selectItems value="#{mascotaBean.lisCottipoidentificacion}" var="i" itemLabel="#{i.nombre}" itemValue="#{i.idtipoidentificacion}" />
 			</p:selectOneMenu>
@@ -61,16 +61,16 @@
 					<f:param name="iditem" value="36"></f:param>
 				</h:link>
 				
-				<h:outputLabel id="idlblidentificacionp" value="No. Identificación: " for="ididentificacionp" />
+				<h:outputLabel id="idlblidentificacionp" value="No. Identificaci&oacute;n: " for="ididentificacionp" />
 				<h:outputText id="ididentificacionp" value="#{mascotaBean.cotpersonaselected.numeroidentificacion}" />
 
 				<h:outputLabel id="idlblemailp" value="E-mail: " for="idemailp" />
 				<h:outputText id="idemailp" value="#{mascotaBean.cotpersonaselected.email}" />
 	
-				<h:outputLabel id="idlbltelefonop" value="Teléfono: " for="idtelefonop" />
+				<h:outputLabel id="idlbltelefonop" value="Tel&eacute;fono: " for="idtelefonop" />
 				<h:outputText id="idtelefonop" value="#{mascotaBean.cotpersonaselected.telefono}" />
 	
-				<h:outputLabel id="idlbldireccionp" value="Dirección: " for="iddireccionp" />
+				<h:outputLabel id="idlbldireccionp" value="Direcci&oacute;n: " for="iddireccionp" />
 				<h:outputText id="iddireccionp" value="#{mascotaBean.cotpersonaselected.direccion}" />
 			</h:panelGrid>
 			<br /><br />

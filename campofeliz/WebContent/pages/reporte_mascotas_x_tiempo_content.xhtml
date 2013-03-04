@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
+  <h:form id="form-contentpage">
+		<p:growl id="mensajes" showDetail="true" />
+			<p:panel id="panel-reportemascotaxtiempocontent">
+            <p style="text-align: justify;">
+              Permite obtener el Reporte (Listado o Gr&aacute;fica) de las mascotas que han sido sepultadas o cremadas en Campo Feliz, por per&iacute;odos de tiempo. 
+            </p>
+            <h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
+				<my:buttons renderedButtonImprimir="true"  renderedButtonAceptar="false"
+				renderedButtonEliminar="false"  
+				renderedButtonCancelar="true" labelButtonCancelar="Cancelar" 
+				renderedButtonNewItem="false" />
+			</h:panelGrid>
+			<h1 class="title ui-widget-header ui-corner-all">Criterios de Consulta</h1>
+			<h:panelGrid columns="3" cellpadding="5">
+			<h:outputLabel value="A&ntilde;o:" />
+			<h:selectOneMenu id="idtipolistAnio" >
+					<f:selectItem itemLabel="Seleccione" />
+			        <f:selectItem itemLabel="2013" itemValue="2013" />
+			        <f:selectItem itemLabel="2012" itemValue="2012" />
+				</h:selectOneMenu> <h:outputText value="*Seleccione el A&ntilde;o a consultar" style="font-style: italic;" />
+			
+			<h:outputLabel value="Mes:" />
+			<h:selectOneMenu id="idtipolistMes" >
+					<f:selectItem itemLabel="Seleccione" />
+			        <f:selectItem itemLabel="Enero" itemValue="1" />
+			        <f:selectItem itemLabel="Febrero" itemValue="2" />
+			        <f:selectItem itemLabel="Marzo" itemValue="3" />
+			        <f:selectItem itemLabel="Abril" itemValue="4" />
+			        <f:selectItem itemLabel="Mayo" itemValue="5" />
+			        <f:selectItem itemLabel="Junio" itemValue="6" />
+			        <f:selectItem itemLabel="Julio" itemValue="7" />
+			        <f:selectItem itemLabel="Agosto" itemValue="8" />
+			        <f:selectItem itemLabel="Septiembre" itemValue="9" />
+			        <f:selectItem itemLabel="Octubre" itemValue="10" />
+			        <f:selectItem itemLabel="Noviembre" itemValue="11" />
+			        <f:selectItem itemLabel="Diciembre" itemValue="12" />
+				</h:selectOneMenu> <h:outputText value="*Seleccione el Mes a consultar" style="font-style: italic;" />
+			</h:panelGrid>	
+			<h:panelGrid columns="1" cellpadding="5">
+			<h:outputLabel value="Rangos de Fechas" />
+			</h:panelGrid>
+			<h:panelGrid columns="3" cellpadding="5">
+			<h:outputLabel value="Fecha Desde:" />
+			<p:calendar id="idfechanadesde"  yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />	<h:outputText value="*Seleccione la Fecha Desde a consultar" style="font-style: italic;" />		
+			
+			<h:outputLabel value="Fecha Hasta:" />
+			<p:calendar id="idfechanahasta"  yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />	<h:outputText value="*Seleccione la Fecha Hasta a consultar" style="font-style: italic;" />		
+			
+			<h:outputLabel value="Tipo de Reporte:" />
+				<p:selectOneRadio id="idlugar" value="#{ordenServicioBean.petordenservicio.cotlugar.idlugar}">
+				    <f:selectItem  itemLabel="Listado" itemValue="1" />
+				    <f:selectItem  itemLabel="Gr&aacute;fica" itemValue="2" />
+				</p:selectOneRadio>
+			</h:panelGrid>
+			<br clear="left"/>
+			<h:panelGrid id="panelgridbuttonsdown" columns="1" style="padding: 10px 10px 0 0;">
+			   <my:buttons renderedButtonImprimir="true"  renderedButtonAceptar="false"
+				renderedButtonEliminar="false"  
+				renderedButtonCancelar="true" labelButtonCancelar="Cancelar" 
+				renderedButtonNewItem="false" />
+			</h:panelGrid>
+			</p:panel>
+  </h:form>
+</ui:composition>

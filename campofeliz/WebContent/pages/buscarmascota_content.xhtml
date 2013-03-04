@@ -47,7 +47,7 @@
 						<table>
 						<tr>
 						<td width="200px" align="center" bgcolor="#eaeaea">
-						<h:link title="Ver Información" outcome="mascota.jsf">
+						<h:link title="Ver Informaci&oacute;n" outcome="mascota.jsf">
 							<f:param name="idmascota" value="#{pet.petmascota.idmascota}" /> 
 							<f:param name="tipo" value="#{pet.petmascota.petespecie.idespecie}" />
 							<p:graphicImage id="idfotoblank" value="#{buscarMascotaBean.blankImage}" style="max-height: 100px" rendered="#{empty pet.petfoto}" />
@@ -57,7 +57,7 @@
 						<td>
 							<h:outputText value="Nombre: " style="font-weight: bold;" /><br />
 							<h:outputText value="#{pet.petmascota.nombre}" style="text-transform: capitalize;" /><br />
-							<h:outputText value="Características:" style="font-weight: bold;" /><br />
+							<h:outputText value="Caracter&iacute;sticas:" style="font-weight: bold;" /><br />
 							<h:outputText value="#{pet.petmascota.caracteristicas}" />
 						</td>
 						</tr>
