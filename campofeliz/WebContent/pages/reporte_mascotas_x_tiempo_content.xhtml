@@ -10,24 +10,34 @@
 		<p:growl id="mensajes" showDetail="true" />
 			<p:panel id="panel-reportemascotaxtiempocontent">
             <p style="text-align: justify;">
-              Permite obtener el Reporte (Listado o Gr&aacute;fica) de las mascotas que han sido sepultadas o cremadas en Campo Feliz, por per&iacute;odos de tiempo. 
+              Permite obtener el Reporte (Listado o Gr&aacute;fica) por per&iacute;odos de tiempo, de las mascotas que han sido sepultadas o cremadas en Campo Feliz. 
             </p>
             <h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
-				<my:buttons renderedButtonImprimir="true"  renderedButtonAceptar="false" actionButtonImprimir="#{reporteBean.imprimir()}" 
+				<my:buttons renderedButtonImprimir="true" renderedButtonAceptar="false" actionButtonImprimir="#{reporteMascotasxTiempo.imprimir()}" 
 				renderedButtonEliminar="false"  
 				renderedButtonCancelar="true" labelButtonCancelar="Cancelar" 
 				renderedButtonNewItem="false" />
 			</h:panelGrid>
 			<h1 class="title ui-widget-header ui-corner-all">Criterios de Consulta</h1>
-			<h:panelGrid columns="3" cellpadding="5">
-			<h:outputLabel value="A&ntilde;o:" />
-			<h:selectOneMenu id="idtipolistAnio" value="#{reporteBean.anio}"  >
-					<f:selectItem itemLabel="2013" itemValue="2013" />
-			        <f:selectItem itemLabel="2012" itemValue="2012" />
-				</h:selectOneMenu> <h:outputText value="*Seleccione el A&ntilde;o a consultar" style="font-style: italic;" />
 			
-			<h:outputLabel value="Mes:" />
-			<h:selectOneMenu id="idtipolistMes" value="#{reporteBean.mes}" >
+			<h:panelGrid columns="2" cellpadding="2">
+			<h:outputLabel value="Tipo de Reporte:" />
+			<p:selectOneMenu id="idTipoListado"   value="#{reporteMascotasxTiempo.tipolistado}"  >
+			    <f:selectItem itemLabel="Seleccione" itemValue="0"  />
+			    <f:selectItem  itemLabel="Listado" itemValue="1" />
+			    <f:selectItem  itemLabel="Gráfica" itemValue="2" />
+			    <!--  <p:ajax  listener="#{reporteMascotasxTiempo.activarcriterios()}" update="panel-listadocontent,panel-Graficacontent"   />-->
+			</p:selectOneMenu><h:outputLabel value="" />
+			</h:panelGrid>
+			<p:panel id="panel-listadocontent" header="Listado" >
+			 <h:panelGrid columns="3" cellpadding="5" >
+				<h:outputLabel value="A&ntilde;o:" />
+				<p:inputTextarea id="idAnio" value="#{reporteMascotasxTiempo.anio}"  disabled="#{reporteMascotasxTiempo.tipolistado ==0 || reporteMascotasxTiempo.tipolistado ==2 }"  style="max-width: 32px; min-width: 32px; max-height: 10px; " required="false" requiredMessage="El campo 'A&ntilde;o' es obligatorio." maxlength="4"  />
+				<h:outputText value="*Seleccione el A&ntilde;o a consultar" style="font-style: italic;" />
+				
+				<h:outputLabel value="Mes:" />
+				<p:selectOneMenu id="idtipolistMes" value="#{reporteMascotasxTiempo.mes}" disabled="#{reporteMascotasxTiempo.tipolistado ==0 || reporteMascotasxTiempo.tipolistado ==2 }" style="max-width: 162px; min-width: 152px; max-height: 20px; ">
+					<f:selectItem itemLabel="Seleccione" itemValue="0" />
 					<f:selectItem itemLabel="Enero" itemValue="1" />
 			        <f:selectItem itemLabel="Febrero" itemValue="2" />
 			        <f:selectItem itemLabel="Marzo" itemValue="3" />
@@ -40,27 +50,34 @@
 			        <f:selectItem itemLabel="Octubre" itemValue="10" />
 			        <f:selectItem itemLabel="Noviembre" itemValue="11" />
 			        <f:selectItem itemLabel="Diciembre" itemValue="12" />
-				</h:selectOneMenu> <h:outputText value="*Seleccione el Mes a consultar" style="font-style: italic;" />
+				</p:selectOneMenu> <h:outputText value="*Seleccione el Mes a consultar" style="font-style: italic;" />
 			</h:panelGrid>	
 			<h:panelGrid columns="1" cellpadding="5">
-			<h:outputLabel value="Rangos de Fechas" />
+				<h:outputLabel value="Rangos de Fechas"  />
 			</h:panelGrid>
 			<h:panelGrid columns="3" cellpadding="5">
-			<h:outputLabel value="Fecha Desde:" />
-			<p:calendar id="idfechanadesde"  yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />	<h:outputText value="*Seleccione la Fecha Desde a consultar" style="font-style: italic;" />		
+				<h:outputLabel value="Fecha Desde:" />
+				<p:calendar id="idfechanadesde" disabled="#{reporteMascotasxTiempo.tipolistado ==0 || reporteMascotasxTiempo.tipolistado ==2}" yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />	<h:outputText value="*Seleccione la Fecha Desde a consultar" style="font-style: italic;" />		
 			
-			<h:outputLabel value="Fecha Hasta:" />
-			<p:calendar id="idfechanahasta"  yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />	<h:outputText value="*Seleccione la Fecha Hasta a consultar" style="font-style: italic;" />		
-			
-			<h:outputLabel value="Tipo de Reporte:" />
-				<p:selectOneRadio id="idlugar" >
-				    <f:selectItem  itemLabel="Listado" itemValue="1" />
-				    <f:selectItem  itemLabel="Gr&aacute;fica" itemValue="2" />
-				</p:selectOneRadio>
+				<h:outputLabel value="Fecha Hasta:" />
+				<p:calendar id="idfechanahasta"  disabled="#{reporteMascotasxTiempo.tipolistado ==0 || reporteMascotasxTiempo.tipolistado ==2}" yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true"  />	<h:outputText value="*Seleccione la Fecha Hasta a consultar" style="font-style: italic;" />		
 			</h:panelGrid>
+		    </p:panel>
+			
+			<br clear="left"/>
+			<p:panel id="panel-Graficacontent" header="Gr&aacute;fica">
+				<h:panelGrid columns="4" cellpadding="5">
+					<p:selectOneRadio id="idGrafica" disabled="#{reporteMascotasxTiempo.tipolistado ==0 || reporteMascotasxTiempo.tipolistado ==1}" value="#{reporteMascotasxTiempo.tipografica}">
+						<f:selectItem  itemLabel="Año" itemValue="1" />
+						<f:selectItem  itemLabel="Meses" itemValue="2" />
+						<p:ajax   update="panel-Graficacontent"   />
+					</p:selectOneRadio>
+					<h:outputLabel id="anio" value="A&ntilde;o:" /> <p:inputTextarea id="idAnioGrafica" disabled="reporteMascotasxTiempo.tipografica ==0 || reporteMascotasxTiempo.tipografica ==1}" value="#{reporteMascotasxTiempo.anio}" style="max-width: 32px; min-width: 32px; max-height: 10px; " required="false" requiredMessage="El campo 'A&ntilde;o' es obligatorio." maxlength="4"   />
+			   </h:panelGrid>		
+			</p:panel>
 			<br clear="left"/>
 			<h:panelGrid id="panelgridbuttonsdown" columns="1" style="padding: 10px 10px 0 0;">
-			   <my:buttons renderedButtonImprimir="true"  renderedButtonAceptar="false"
+			   <my:buttons renderedButtonImprimir="true"  renderedButtonAceptar="false" actionButtonImprimir="#{reporteMascotasxTiempo.imprimir()}" 
 				renderedButtonEliminar="false"  
 				renderedButtonCancelar="true" labelButtonCancelar="Cancelar" 
 				renderedButtonNewItem="false" />
