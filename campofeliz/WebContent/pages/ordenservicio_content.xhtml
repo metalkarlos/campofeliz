@@ -27,7 +27,7 @@
 				<p:autoComplete id="idmascota" size="60" value="#{ordenServicioBean.mascotasselected}" completeMethod="#{ordenServicioBean.buscarMascotas}" 
 				var="m" itemLabel="#{m.petmascota.nombre}" itemValue="#{m}" converter="mascota" minQueryLength="1"  
 				forceSelection="true" required="true" requiredMessage="La Mascota es obligatoria">
-					<p:ajax event="itemSelect" listener="#{ordenServicioBean.itemSelectMascota}" update=":form-contentpage:panelgridmascota, :form-contentpage:panelgridpropietario, :form-contentpage:mensajes"></p:ajax>
+					<p:ajax event="itemSelect" listener="#{ordenServicioBean.itemSelectMascota}" update=":form-contentpage:idfoto, :form-contentpage:panelgridmascota, :form-contentpage:panelgridpropietario, :form-contentpage:mensajes"></p:ajax>
 					
 					<f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="350px">  
@@ -47,7 +47,11 @@
                 </f:facet>
 				</p:autoComplete>
 				<br /><br />
-					
+				<h1 class="title ui-widget-header ui-corner-all">Foto</h1>
+				<div style="padding-left: 5px">
+					<p:graphicImage id="idfoto" value="#{ordenServicioBean.mascotasselected.petfoto.ruta}" style="max-height: 100px" />
+				</div>
+				<br />
 				<h1 class="title ui-widget-header ui-corner-all" >Datos de la Mascota</h1>
 				<h:panelGrid id="panelgridmascota" columns="2" columnClasses="primeracolmascota" >
 					<h:outputLabel id="idlblcodigo" value="Código: " for="idcodigo" />

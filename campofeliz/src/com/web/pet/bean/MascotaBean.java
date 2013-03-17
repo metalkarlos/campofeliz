@@ -3,7 +3,6 @@ package com.web.pet.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -16,7 +15,6 @@ import com.web.pet.bo.PetfotoBO;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetmascotacolorBO;
 import com.web.pet.bo.PetrazaBO;
-import com.web.pet.global.Parametro;
 import com.web.pet.pojo.annotations.Cotcolor;
 import com.web.pet.pojo.annotations.Cotestado;
 import com.web.pet.pojo.annotations.Cotpersona;
@@ -29,7 +27,6 @@ import com.web.pet.pojo.annotations.Petmascotacolor;
 import com.web.pet.pojo.annotations.Petraza;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.FacesUtil;
-import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
@@ -50,24 +47,23 @@ public class MascotaBean implements Serializable {
 	private List<Petmascotacolor> lisPetmascotacolorOld;
 	private List<Petmascotacolor> lisPetmascotacolor;
 	//private static StreamedContent foto;
-	private String mascotasPath;
-	private String blankImage;
 	private int idcolorselected;
 	private Cotcolor cotcolorselected;
 	private Cotpersona cotpersonaselected;
 	private Cottipoidentificacion cottipoidentificacionselected;
+	private Petfoto petfoto;
 
 	public MascotaBean() {
 		petmascota = new Petmascota(0, new Petestado(), null, new Petraza(), new Setusuario(), new Petespecie(), new Cotpersona(), null, null, null, null, null, null, null, null, false, false, null);
 		cottipoidentificacionselected = new Cottipoidentificacion();
 		lisPetmascotacolorOld = new ArrayList<Petmascotacolor>();
+		petfoto = new Petfoto();
 
 		llenarLisTipoidentificacion();
 		llenarLisRaza();
 		llenarLisColor();
 		lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 		//lisColor = ColorConverter.lisColorDB;//Programación ubicada en ColorConverter
-		setBlankImage(Parametro.BLANK_IMAGE_PATH);
 	}
 	
 	private void llenarLisTipoidentificacion(){
@@ -152,22 +148,13 @@ public class MascotaBean implements Serializable {
 				if(petmascota != null && petmascota.getCottipoidentificacion() != null && petmascota.getCottipoidentificacion().getIdtipoidentificacion() > 0){
 					cottipoidentificacionselected = petmascota.getCottipoidentificacion();
 				}
-				Petfoto petfoto = new PetfotoBO().getPetfotoPerfilByPetId(idmascota);
+				petfoto = new PetfotoBO().getPetfotoPerfilByPetId(idmascota);
 				lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(idmascota);
 				if(lisPetmascotacolor == null){
 					lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 				}
 				lisPetmascotacolorOld = new ArrayList<Petmascotacolor>(lisPetmascotacolor);
-				if(petfoto!=null){
-					FileUtil fileUtil = new FileUtil();
-					Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-					String resources_server_url = petsoftProperties.getProperty("resources_server_url");
-					
-					setMascotasPath(resources_server_url+petfoto.getRuta());
-					//setMascotasPath(Parametro.MASCOTAS_PATH+idmascota+Parametro.FILE_SEPARATOR+petfoto.getName());
-					//mascotasPath = petfoto.getPath()+idmascota+"/"+petfoto.getName();
-					//foto = new PrimeUtil().getByteDefaultStreamedContent(petfoto.getFoto());
-				}
+				//foto = new PrimeUtil().getByteDefaultStreamedContent(petfoto.getFoto());
 				/*else{
 					try {
 						String imagePath = new FacesUtil().getRealPath("")+File.separator+"resources"+File.separator+"images"+File.separator+"miscellaneous"+File.separator+"blank.jpg";
@@ -208,6 +195,9 @@ public class MascotaBean implements Serializable {
 
 	public void setEspecie(int especie) {
 		this.especie = especie;
+		if(this.especie > 0){
+			petmascota.getPetespecie().setIdespecie(this.especie);
+		}
 	}
 
 	public int getEspecie() {
@@ -241,22 +231,6 @@ public class MascotaBean implements Serializable {
 	/*public StreamedContent getFoto() {
 		return foto;
 	}*/
-
-	public String getBlankImage() {
-		return blankImage;
-	}
-
-	public void setBlankImage(String blankImage) {
-		this.blankImage = blankImage;
-	}
-
-	public String getMascotasPath() {
-		return mascotasPath;
-	}
-
-	public void setMascotasPath(String mascotasPath) {
-		this.mascotasPath = mascotasPath;
-	}
 
 	public List<Petmascotacolor> getLisPetmascotacolor() {
 		return lisPetmascotacolor;
@@ -297,6 +271,14 @@ public class MascotaBean implements Serializable {
 	public void setCottipoidentificacionselected(
 			Cottipoidentificacion cottipoidentificacionselected) {
 		this.cottipoidentificacionselected = cottipoidentificacionselected;
+	}
+
+	public Petfoto getPetfoto() {
+		return petfoto;
+	}
+
+	public void setPetfoto(Petfoto petfoto) {
+		this.petfoto = petfoto;
 	}
 
 	public List<Cotpersona> buscarPropietarios(String query) {

@@ -20,17 +20,19 @@
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			emptyMessage="No se encontraron registros">
 			<p:column>
-				<span style="text-transform: capitalize;"></span>
 				<p:panel header="#{pet.petmascota.nombre}" style="text-align:center; text-transform: capitalize;">
 					<h:panelGrid columns="1" style="width:100%;">
-						<h:link title="Ver Informaci&oacute;n" outcome="mascota.hxtml" >
+						<h:link outcome="mascota.hxtml" >
 							<f:param name="idmascota" value="#{pet.petmascota.idmascota}" /> 
 							<f:param name="especie" value="#{mascotasBean.especie}" />
 							<f:param name="iditem" value="#{menuBean.activeIdItem}" />
-							<p:graphicImage id="idfotoblank" value="#{mascotasBean.blankImage}" style="max-height: 100px" rendered="#{empty pet.petfoto}" />
-							<p:graphicImage id="idfoto" value="#{pet.petfoto.ruta}" style="max-height: 100px" rendered="#{!empty pet.petfoto}" />
+							<p:graphicImage id="idfoto" title="#{pet.petmascota.nombre}" value="#{pet.petfoto.ruta}" style="max-height: 100px" />
 						</h:link>
-						<h:outputText value="#{pet.petmascota.sexo==1?'Macho':'Hembra'}" />
+						<h:link value="#{pet.petmascota.sexo==1?'Macho':'Hembra'}" outcome="mascota.hxtml" >
+							<f:param name="idmascota" value="#{pet.petmascota.idmascota}" /> 
+							<f:param name="especie" value="#{mascotasBean.especie}" />
+							<f:param name="iditem" value="#{menuBean.activeIdItem}" />
+						</h:link>
 					</h:panelGrid>
 				</p:panel>
 			</p:column>

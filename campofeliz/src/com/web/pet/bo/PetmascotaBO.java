@@ -231,20 +231,24 @@ public class PetmascotaBO {
 			lisMascotas = new ArrayList<Mascotas>();
 			session = HibernateUtil.getSessionFactory().openSession();
 			List<Petmascota> lisPetmascota = petmascotaDAOInterface.lisPetmascota(session, tipo);
+			FileUtil fileUtil = new FileUtil();
+			Properties systemProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
+			String resources_server_url = systemProperties.getProperty("resources_server_url");
+			String resources_server_war = systemProperties.getProperty("resources_server_war");
 			
 			for(Petmascota petmascota : lisPetmascota){
 				Petfoto petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, petmascota.getIdmascota());
-				FileUtil fileUtil = new FileUtil();
-				Properties systemProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-				String resources_server_war = systemProperties.getProperty("resources_server_war");
-				String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-				if(!fileUtil.existFile(mascotaPath))
-				{
-					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}
-				else{
-					String resources_server_url = systemProperties.getProperty("resources_server_url");
-					petfoto.setRuta(resources_server_url + petfoto.getRuta());
+				
+				if(petfoto != null){
+					String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
+					if(fileUtil.existFile(mascotaPath)){
+						petfoto.setRuta(resources_server_url + petfoto.getRuta());
+					}else{
+						petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+					}
+				}else{
+					petfoto = new Petfoto();
+					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
 				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
@@ -270,24 +274,24 @@ public class PetmascotaBO {
 			lisMascotas = new ArrayList<Mascotas>();
 			session = HibernateUtil.getSessionFactory().openSession();
 			List<Petmascota> lisPetmascota = petmascotaDAOInterface.lisPetmascotaByEspecieByPage(session, especie, nombre, pageSize, pageNumber, args);
+			FileUtil fileUtil = new FileUtil();
+			Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
+			String resources_server_url = petsoftProperties.getProperty("resources_server_url");
+			String resources_server_war = petsoftProperties.getProperty("resources_server_war");
 			
 			for(Petmascota petmascota : lisPetmascota){
 				Petfoto petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, petmascota.getIdmascota());
-
-				if(petfoto != null)
-				{
-					FileUtil fileUtil = new FileUtil();
-					Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-					String resources_server_war = petsoftProperties.getProperty("resources_server_war");
+				
+				if(petfoto != null){
 					String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-					if(!fileUtil.existFile(mascotaPath))
-					{
-						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-					}
-					else{
-						String resources_server_url = petsoftProperties.getProperty("resources_server_url");
+					if(fileUtil.existFile(mascotaPath)){
 						petfoto.setRuta(resources_server_url + petfoto.getRuta());
+					}else{
+						petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
 					}
+				}else{
+					petfoto = new Petfoto();
+					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
 				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
@@ -313,24 +317,26 @@ public class PetmascotaBO {
 			lisMascotas = new ArrayList<Mascotas>();
 			session = HibernateUtil.getSessionFactory().openSession();
 			List<Petmascota> lisPetmascota = petmascotaDAOInterface.lisPetmascotaByPage(session, nombre, pageSize, pageNumber, args);
+			FileUtil fileUtil = new FileUtil();
+			Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
+			String resources_server_url = petsoftProperties.getProperty("resources_server_url");
+			String resources_server_war = petsoftProperties.getProperty("resources_server_war");
 			
 			for(Petmascota petmascota : lisPetmascota){
 				Petfoto petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, petmascota.getIdmascota());
 
-				if(petfoto != null)
-				{
-					FileUtil fileUtil = new FileUtil();
-					Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-					String resources_server_war = petsoftProperties.getProperty("resources_server_war");
+				if(petfoto != null){
 					String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-					if(!fileUtil.existFile(mascotaPath))
-					{
-						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-					}
-					else{
-						String resources_server_url = petsoftProperties.getProperty("resources_server_url");
+					
+					if(fileUtil.existFile(mascotaPath)){
 						petfoto.setRuta(resources_server_url + petfoto.getRuta());
 					}
+					else{
+						petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+					}
+				}else{
+					petfoto = new Petfoto();
+					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
 				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
@@ -356,23 +362,24 @@ public class PetmascotaBO {
 			lisMascotas = new ArrayList<Mascotas>();
 			session = HibernateUtil.getSessionFactory().openSession();
 			List<Petmascota> lisPetmascota = petmascotaDAOInterface.lisPetmascotaBusqueda(session, petmascota, caracteristicas);
+			FileUtil fileUtil = new FileUtil();
+			Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
+			String resources_server_url = petsoftProperties.getProperty("resources_server_url");
+			String resources_server_war = petsoftProperties.getProperty("resources_server_war");
 			
 			for(Petmascota petmascota1 : lisPetmascota){
 				Petfoto petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, petmascota1.getIdmascota());
-				if(petfoto != null)
-				{
-					FileUtil fileUtil = new FileUtil();
-					Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-					String resources_server_war = petsoftProperties.getProperty("resources_server_war");
+				
+				if(petfoto != null){
 					String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-					if(!fileUtil.existFile(mascotaPath))
-					{
-						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-					}
-					else{
-						String resources_server_url = petsoftProperties.getProperty("resources_server_url");
+					if(fileUtil.existFile(mascotaPath)){
 						petfoto.setRuta(resources_server_url + petfoto.getRuta());
+					}else{
+						petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
 					}
+				}else{
+					petfoto = new Petfoto();
+					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
 				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
@@ -398,24 +405,25 @@ public class PetmascotaBO {
 			lisMascotas = new ArrayList<Mascotas>();
 			session = HibernateUtil.getSessionFactory().openSession();
 			List<Petmascota> lisPetmascota = petmascotaDAOInterface.lisPetmascotaBusquedaByPage(session, petmascota, caracteristicas, pageSize, pageNumber, args);
+			FileUtil fileUtil = new FileUtil();
+			Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
+			String resources_server_url = petsoftProperties.getProperty("resources_server_url");
+			String resources_server_war = petsoftProperties.getProperty("resources_server_war");
 			
 			for(Petmascota petmascota1 : lisPetmascota){
 				Petfoto petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, petmascota1.getIdmascota());
 				
-				if(petfoto != null)
-				{
-					FileUtil fileUtil = new FileUtil();
-					Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-					String resources_server_war = petsoftProperties.getProperty("resources_server_war");
+				if(petfoto != null){
 					String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-					if(!fileUtil.existFile(mascotaPath))
-					{
-						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-					}
-					else{
-						String resources_server_url = petsoftProperties.getProperty("resources_server_url");
+					if(fileUtil.existFile(mascotaPath)){
 						petfoto.setRuta(resources_server_url + petfoto.getRuta());
 					}
+					else{
+						petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+					}
+				}else{
+					petfoto = new Petfoto();
+					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
 				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);

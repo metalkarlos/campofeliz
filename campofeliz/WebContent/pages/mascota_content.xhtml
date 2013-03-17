@@ -19,7 +19,7 @@
 			</h:panelGrid>
 			<h1 class="title ui-widget-header ui-corner-all">Foto/Album</h1>
 			<div style="padding-left: 5px">
-				<p:graphicImage id="idfoto" value="#{empty mascotaBean.mascotasPath ? mascotaBean.blankImage : mascotaBean.mascotasPath}" style="max-height: 100px" />
+				<p:graphicImage id="idfoto" value="#{mascotaBean.petfoto.ruta}" style="max-height: 100px" />
 			</div>
 			<br />
 			<h:outputLabel value="&#8226; " rendered="#{mascotaBean.idmascota > 0}" />

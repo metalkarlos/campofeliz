@@ -10,12 +10,11 @@
 		<p:growl id="mensajes" showDetail="true" />
 		<p:panel id="panel-albumcontent" style="padding: 0  0 0 140px;">
 			<p:galleria id="idgalleria" value="#{albumBean.lispetfoto}" var="item" transitionInterval="0" panelWidth="500" panelHeight="320" styleClass="ui-widget-content ui-corner-all">
-				<p:graphicImage id="idfotoblank" value="#{albumBean.resources_server_url}#{albumBean.blankImage}" rendered="#{empty item}" />
-		        <p:graphicImage id="idfotos" value="#{albumBean.resources_server_url}#{item.ruta}" rendered="#{!empty item}" />
+		        <p:graphicImage id="idfotos" value="#{item.ruta}" />
 		        <p:galleriaContent>  
 		            <h:panelGrid columns="1" style="background-color: #eaeaea;height: 100%; width: 100%;" >  
 				        <f:facet name="header">
-			            	<p:graphicImage id="idfoto" value="#{albumBean.resources_server_url}#{item.ruta}" style="max-height: 300px" />
+			            	<p:graphicImage id="idfoto" value="#{item.ruta}" style="max-height: 300px" />
 				        </f:facet>
 				        <p:commandButton id="idbuttonperfil" title="Colocar como foto del Perfil" icon="ui-icon ui-icon-person"  onclick="vardialogperfil.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:idpanelperfil" >
 				        	<f:setPropertyActionListener value="#{item}" target="#{albumBean.petfotoSelected}" />
@@ -49,7 +48,7 @@
 		</p:dialog>
 		<p:dialog id="iddialogperfil" header="Foto de Perfil" closable="true" widgetVar="vardialogperfil" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
 			<h:panelGrid id="idpanelperfil" columns="2">
-				<p:graphicImage value="#{albumBean.mascotasPath}#{albumBean.petfotoSelected.petmascota.idmascota}#{albumBean.fileSeparator}#{albumBean.petfotoSelected.nombrearchivo}" style="max-height: 50px" />
+				<p:graphicImage value="#{albumBean.petfotoSelected.ruta}" style="max-height: 50px" />
 				<h:outputLabel id="idlabelperfil" value="¿Poner im&aacute;gen como foto del Perfil?" />
 				<h:outputText value="" />
 				<h:panelGrid id="idpanel2perfil" columns="2" style="position: absolute;right: 0;bottom: 0;">
@@ -60,8 +59,8 @@
 		</p:dialog>
 		<p:dialog id="iddialogdelete"  header="Eliminar Foto" closable="true" widgetVar="vardialogdelete" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
 			<h:panelGrid id="idpaneldelete" columns="2">
-				<p:graphicImage value="#{albumBean.mascotasPath}#{albumBean.petfotoSelected.petmascota.idmascota}#{albumBean.fileSeparator}#{albumBean.petfotoSelected.nombrearchivo}" style="max-height: 50px" />
-				<h:outputLabel id="idlabeldelete" value="¿Eliminar Permanentemente la im&aacute;gen del &aacute;lbum? &eacute;sta acci&oacute;n no podr&aacute; deshacerse" />
+				<p:graphicImage value="#{albumBean.petfotoSelected.ruta}" style="max-height: 50px" />
+				<h:outputLabel id="idlabeldelete" value="¿Eliminar Permanentemente la im&aacute;gen del &aacute;lbum? Esta acci&oacute;n no podr&aacute; deshacerse" />
 				<h:outputText value="" />
 				<h:panelGrid id="idpanel2delete" columns="2" style="position: absolute;right: 0;bottom: 0;">
 					<p:commandButton id="idconfirmardelete" value="Confirmar" actionListener="#{albumBean.eliminarFotoAlbum}" oncomplete="vardialogdelete.hide()" update=":form-contentpage:mensajes, :form-contentpage:panel-albumcontent" />

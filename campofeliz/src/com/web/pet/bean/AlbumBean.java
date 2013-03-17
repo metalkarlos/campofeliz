@@ -3,7 +3,6 @@ package com.web.pet.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -42,22 +41,13 @@ public class AlbumBean implements Serializable {
 	private Petmascota petmascota;
 	private Petfoto petfotoSelected;
 	private String fileSeparator;
-	private String blankImage;
-	private String mascotasPath;
 	private UploadedFile uploadedFile;
-	private String resources_server_url;
 	
 	public AlbumBean(){
-		FileUtil fileUtil = new FileUtil();
-		Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-		resources_server_url = petsoftProperties.getProperty("resources_server_url");
-		
 		lispetfoto = new ArrayList<Petfoto>();
 		petmascota = new Petmascota(0, new Petestado(), new Cottipoidentificacion(), new Petraza(), new Setusuario(), new Petespecie(), null, null, null, null, null, null, null, null, null, false, false, null);
 		setPetfotoSelected(new Petfoto());
 		setFileSeparator(Parametro.FILE_SEPARATOR);
-		setBlankImage(Parametro.BLANK_IMAGE_PATH);
-		setMascotasPath(Parametro.MASCOTAS_PATH);
 	}
 	
 	public void setIdmascota(int idmascota) {
@@ -111,32 +101,12 @@ public class AlbumBean implements Serializable {
 		this.fileSeparator = fileSeparator;
 	}
 
-	public String getBlankImage() {
-		return blankImage;
-	}
-
-	public void setBlankImage(String blankImage) {
-		this.blankImage = blankImage;
-	}
-
-	public String getMascotasPath() {
-		return mascotasPath;
-	}
-
-	public void setMascotasPath(String mascotasPath) {
-		this.mascotasPath = mascotasPath;
-	}
-
 	public UploadedFile getUploadedFile() {
 		return uploadedFile;
 	}
 
 	public void setUploadedFile(UploadedFile uploadedFile) {
 		this.uploadedFile = uploadedFile;
-	}
-
-	public String getResources_server_url() {
-		return resources_server_url;
 	}
 
 	private void consultarmascota(){
@@ -152,7 +122,6 @@ public class AlbumBean implements Serializable {
 		try {
 			if(idmascota > 0){
 				Petfoto petfoto = new Petfoto(0, new Petmascota(), new Petestado(), new Setusuario(), null, null, null, null, null, null, null);
-				//petfoto.getPetmascota().setIdmascota(idmascota);
 				petfoto.setPetmascota(petmascota);
 				petfoto.setMostrar(0);
 				petfoto.setNombrearchivo(event.getFile().getFileName());

@@ -28,22 +28,23 @@ public class PetfotoBO {
 	}
 
 	public List<Petfoto> lisPetfotoByPetId(int idmascota) throws Exception {
-		List<Petfoto> dataset = null;
+		List<Petfoto> lisPetfoto = null;
 		Session session = null;
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			dataset = petfotoDAOInterface.lisPetfotoByPetId(session, idmascota);
+			lisPetfoto = petfotoDAOInterface.lisPetfotoByPetId(session, idmascota);
 			FileUtil fileUtil = new FileUtil();
 			Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
+			String resources_server_url = petsoftProperties.getProperty("resources_server_url");
 			String resources_server_war = petsoftProperties.getProperty("resources_server_war");
 			
-			for(Petfoto petfoto : dataset)
-			{
+			for(Petfoto petfoto : lisPetfoto){
 				String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-				if(!fileUtil.existFile(mascotaPath))
-				{
-					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
+				if(fileUtil.existFile(mascotaPath)){
+					petfoto.setRuta(resources_server_url + petfoto.getRuta());
+				}else{
+					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
 				}
 			}
 		}catch(Exception re){
@@ -53,7 +54,7 @@ public class PetfotoBO {
 			session.close();
 		}
 		
-		return dataset;
+		return lisPetfoto;
 	}
 	
 	public boolean newPetfoto(Petfoto petfoto) throws Exception {
@@ -160,18 +161,21 @@ public class PetfotoBO {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, idmascota);
+			FileUtil fileUtil = new FileUtil();
+			Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
+			String resources_server_url = petsoftProperties.getProperty("resources_server_url");
+			String resources_server_war = petsoftProperties.getProperty("resources_server_war");
 			
-			if(petfoto != null)
-			{
-				FileUtil fileUtil = new FileUtil();
-				Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-				String resources_server_war = petsoftProperties.getProperty("resources_server_war");
+			if(petfoto != null){
 				String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-				
-				if(!fileUtil.existFile(mascotaPath))
-				{
-					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
+				if(fileUtil.existFile(mascotaPath)){
+					petfoto.setRuta(resources_server_url + petfoto.getRuta());
+				}else{
+					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
 				}
+			}else{
+				petfoto = new Petfoto();
+				petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
 			}
 		} catch(Exception he){
 			he.printStackTrace();
