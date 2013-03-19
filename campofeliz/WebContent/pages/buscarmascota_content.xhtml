@@ -56,7 +56,10 @@
 						</td>
 						<td>
 							<h:outputText value="Nombre: " style="font-weight: bold;" /><br />
-							<h:outputText value="#{pet.petmascota.nombre}" style="text-transform: capitalize;" /><br />
+							<h:link id="idnombremascota" outcome="mascota.jsf" value="#{pet.petmascota.nombre}" style="text-transform: capitalize;">
+								<f:param name="idmascota" value="#{pet.petmascota.idmascota}" /> 
+								<f:param name="tipo" value="#{pet.petmascota.petespecie.idespecie}" />
+							</h:link><br />
 							<h:outputText value="Caracter&iacute;sticas:" style="font-weight: bold;" /><br />
 							<h:outputText value="#{pet.petmascota.caracteristicas}" />
 						</td>
