@@ -397,7 +397,7 @@ public class MascotaBean implements Serializable {
 						ok = false;
 					}else{
 						if(petmascota.getNumeroidentificacion() != null && petmascota.getNumeroidentificacion().trim().length() > 0 && (cottipoidentificacionselected == null || cottipoidentificacionselected.getIdtipoidentificacion() == 0)){
-							new MessageUtil().showErrorMessage("Datos incompletos!", "Si ingresa El Número de Identificación tambien debe seleccionar el Tipo de Identificación!");
+							new MessageUtil().showErrorMessage("Datos incompletos!", "Si ingresa el Número de Identificación también debe seleccionar el Tipo de Identificación!");
 							ok = false;
 						}
 						else{ 
