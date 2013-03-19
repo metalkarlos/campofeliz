@@ -1,6 +1,3 @@
-/*#81562D 129-86-45 cafe*/ 
-/*#F17621  241-118-33 naranja*/
-
 /*
 Design by Marycp
 Develop by Metalkarlos 
@@ -86,6 +83,10 @@ h3 {
 	text-align: center;
 	font-weight: bold;
 
+}
+.sidepage{
+	font-size: 10px; 
+	font-family: Verdana,Lucida Grande,Lucida Sans,Arial,sans-serif;
 }
 
 /************************************** Login Settings **************************************/
