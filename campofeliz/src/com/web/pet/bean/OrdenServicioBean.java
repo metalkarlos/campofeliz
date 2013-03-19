@@ -2,6 +2,7 @@ package com.web.pet.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,11 +59,13 @@ public class OrdenServicioBean implements Serializable {
 	private List<Cotlugar> lisCotlugar;
 	private List<Petmascotacolor> lisPetmascotacolor;
 	private List<Cotservicio> lisCotservicio;
+	private int anios;
 
 	public OrdenServicioBean() {
 		petordenservicio = new Petordenservicio(0, new Petmascota(), new Petestado(), new Cotlugar(), null, null, null, null, null, null, null);
 		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Petestado(), new Setusuario(), new Cotservicio(), new Petordenservicio(), null, null);
 		lisPetmascotacolor = new ArrayList<Petmascotacolor>();
+		anios = 0;
 		llenarListaLugar();
 		llenarListaServicio();
 		consultarDetalle();
@@ -154,6 +157,13 @@ public class OrdenServicioBean implements Serializable {
 				if(lisPetmascotacolor == null){
 					lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 				}
+				if(petmascotaselected.getFechanacimiento() != null){
+					Calendar hoy = Calendar.getInstance();
+					Calendar fechanacimiento = Calendar.getInstance();
+					fechanacimiento.setTime(petmascotaselected.getFechanacimiento());
+					
+					anios = hoy.get(Calendar.YEAR)-fechanacimiento.get(Calendar.YEAR);
+				}
 			}catch(Exception re){
 				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 			}
@@ -218,6 +228,14 @@ public class OrdenServicioBean implements Serializable {
 		this.lisCotservicio = lisCotservicio;
 	}
 
+	public int getAnios() {
+		return anios;
+	}
+
+	public void setAnios(int anios) {
+		this.anios = anios;
+	}
+
 	public List<Cotpersona> buscarPropietarios(String query) {
 		List<Cotpersona> lisPropietarios = new ArrayList<Cotpersona>();
 		
@@ -254,6 +272,13 @@ public class OrdenServicioBean implements Serializable {
 			lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(mascotas.getPetmascota().getIdmascota());
 			if(lisPetmascotacolor == null){
 				lisPetmascotacolor = new ArrayList<Petmascotacolor>();
+			}
+			if(mascotas.getPetmascota().getFechanacimiento() != null){
+				Calendar hoy = Calendar.getInstance();
+				Calendar fechanacimiento = Calendar.getInstance();
+				fechanacimiento.setTime(mascotas.getPetmascota().getFechanacimiento());
+				
+				anios = hoy.get(Calendar.YEAR)-fechanacimiento.get(Calendar.YEAR);
 			}
 		}
 		catch(Exception re){
