@@ -14,7 +14,7 @@
 			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
 				<my:buttons renderedButtonAceptar="false" onclickButtonAceptar="vardialoggrabar.show()" 
 				renderedButtonEliminar="#{ordenServicioBean.petordenservicio.idordenservicio > 0}" onclickButtonEliminar="vardialogdelete.show()" 
-				renderedButtonCancelar="true" labelButtonCancelar="Regresar" onclickButtonCancelar="paginaAnterior();"
+				renderedButtonCancelar="true" labelButtonCancelar="Regresar" onclickButtonCancelar="redirect('ordenesservicio.jsf?iditem='+#{menuBean.activeIdItem});"
 				renderedButtonImprimir="#{ordenServicioBean.petordenservicio.idordenservicio > 0}" actionButtonImprimir="#{ordenServicioBean.imprimir()}" />
 			</h:panelGrid>
 			<br />
@@ -99,7 +99,7 @@
 					
 					<h:outputLabel id="idlblanios" value="Años:" for="idanios" />
 					<h:column>
-					<h:outputText id="idanios" value="#{ordenServicioBean.anios}" />
+					<h:outputText id="idanios" value="#{ordenServicioBean.edadMascota}" />
 					<br />
 					</h:column>
 					
