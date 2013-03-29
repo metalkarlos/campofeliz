@@ -244,11 +244,11 @@ public class PetmascotaBO {
 					if(fileUtil.existFile(mascotaPath)){
 						petfoto.setRuta(resources_server_url + petfoto.getRuta());
 					}else{
-						petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 					}
 				}else{
 					petfoto = new Petfoto();
-					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
@@ -287,11 +287,11 @@ public class PetmascotaBO {
 					if(fileUtil.existFile(mascotaPath)){
 						petfoto.setRuta(resources_server_url + petfoto.getRuta());
 					}else{
-						petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 					}
 				}else{
 					petfoto = new Petfoto();
-					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
@@ -332,11 +332,11 @@ public class PetmascotaBO {
 						petfoto.setRuta(resources_server_url + petfoto.getRuta());
 					}
 					else{
-						petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 					}
 				}else{
 					petfoto = new Petfoto();
-					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
@@ -375,11 +375,11 @@ public class PetmascotaBO {
 					if(fileUtil.existFile(mascotaPath)){
 						petfoto.setRuta(resources_server_url + petfoto.getRuta());
 					}else{
-						petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 					}
 				}else{
 					petfoto = new Petfoto();
-					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
@@ -419,11 +419,11 @@ public class PetmascotaBO {
 						petfoto.setRuta(resources_server_url + petfoto.getRuta());
 					}
 					else{
-						petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 					}
 				}else{
 					petfoto = new Petfoto();
-					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);

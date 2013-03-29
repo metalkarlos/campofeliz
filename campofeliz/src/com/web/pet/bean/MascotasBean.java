@@ -14,7 +14,6 @@ import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetespecieBO;
-import com.web.pet.global.Parametro;
 import com.web.pet.pojo.annotations.Mascotas;
 import com.web.pet.pojo.annotations.Petespecie;
 import com.web.util.MessageUtil;
@@ -30,20 +29,13 @@ public class MascotasBean implements Serializable {
 	private static final long serialVersionUID = -7416931331487760552L;
 	private int especie;
 	private String tipoNombre;
-	private String fileSeparator;
-	private String blankImage;
-	private String mascotasPath;
 	private LazyDataModel<Mascotas> lisMascotas;
 	private int columnsGrid;
 	private int rowsGrid;
 	private List<Petespecie> lisPetespecie;
 	private String nombre;
-	private String deploymentsPath = Parametro.DEPLOYMENTS_PATH;
 
 	public MascotasBean() {
-		setFileSeparator(Parametro.FILE_SEPARATOR);
-		setBlankImage(Parametro.BLANK_IMAGE_PATH);
-		setMascotasPath(Parametro.MASCOTAS_PATH);
 		setColumnsGrid(4);
 		setRowsGrid(4);
 		
@@ -112,30 +104,6 @@ public class MascotasBean implements Serializable {
 		return tipoNombre;
 	}
 
-	public String getFileSeparator() {
-		return fileSeparator;
-	}
-
-	public void setFileSeparator(String fileSeparator) {
-		this.fileSeparator = fileSeparator;
-	}
-
-	public String getBlankImage() {
-		return blankImage;
-	}
-
-	public void setBlankImage(String blankImage) {
-		this.blankImage = blankImage;
-	}
-
-	public String getMascotasPath() {
-		return mascotasPath;
-	}
-
-	public void setMascotasPath(String mascotasPath) {
-		this.mascotasPath = mascotasPath;
-	}
-
 	public LazyDataModel<Mascotas> getLisMascotas() {
 		return lisMascotas;
 	}
@@ -174,10 +142,6 @@ public class MascotasBean implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getDeploymentsPath() {
-		return deploymentsPath;
 	}
 
 }

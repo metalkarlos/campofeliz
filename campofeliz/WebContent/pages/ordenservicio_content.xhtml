@@ -27,7 +27,7 @@
 				<p:autoComplete id="idmascota" size="60" value="#{ordenServicioBean.mascotasselected}" completeMethod="#{ordenServicioBean.buscarMascotas}" 
 				var="m" itemLabel="#{m.petmascota.nombre}" itemValue="#{m}" converter="mascota" minQueryLength="1"  
 				forceSelection="true" required="true" requiredMessage="La Mascota es obligatoria">
-					<p:ajax event="itemSelect" listener="#{ordenServicioBean.itemSelectMascota}" update=":form-contentpage:idfoto, :form-contentpage:panelgridmascota, :form-contentpage:panelgridpropietario, :form-contentpage:mensajes"></p:ajax>
+					<p:ajax event="itemSelect" listener="#{ordenServicioBean.itemSelectMascota}" update=":form-contentpage:panelgridmascota, :form-contentpage:panelgridpropietario, :form-contentpage:mensajes"></p:ajax>
 					
 					<f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="350px">  
@@ -47,82 +47,106 @@
                 </f:facet>
 				</p:autoComplete>
 				<br /><br />
-				<h1 class="title ui-widget-header ui-corner-all">Foto</h1>
-				<div style="padding-left: 5px">
-					<p:graphicImage id="idfoto" value="#{ordenServicioBean.mascotasselected.petfoto.ruta}" style="max-height: 100px" />
-				</div>
-				<br />
 				<h1 class="title ui-widget-header ui-corner-all" >Datos de la Mascota</h1>
-				<h:panelGrid id="panelgridmascota" columns="2" columnClasses="primeracolmascota" >
-					<h:outputLabel id="idlblcodigo" value="Código: " for="idcodigo" />
-					<h:column>
-					<h:outputText id="idcodigo" value="#{ordenServicioBean.mascotasselected.petmascota.idmascota}" />
-					<br />
-					</h:column>
+				<p:panelGrid id="panelgridmascota" styleClass="gridmascota" >
+					<p:row>
+						<p:column style="width: 150px">
+						<h:outputLabel id="idlblcodigo" value="Código: " for="idcodigo" />
+						</p:column>
+						<p:column>
+						<h:outputText id="idcodigo" value="#{ordenServicioBean.mascotasselected.petmascota.idmascota}" />
+						<br />
+						</p:column>
+						<p:column rowspan="8">
+							<p:graphicImage id="idfotox" value="#{ordenServicioBean.mascotasselected.petfoto.ruta}" style="max-height: 150px" />
+						</p:column>
+					</p:row>
 
-					<h:outputLabel id="idlblnombre" value="Nombre: " for="idnombre" />
-					<h:column>
-					<h:link id="idnombre" outcome="mascota.hxtml" target="_blank">
-						<h:outputText value="#{ordenServicioBean.mascotasselected.petmascota.nombre}" />
-						<f:param name="idmascota" value="#{ordenServicioBean.mascotasselected.petmascota.idmascota}" /> 
-						<f:param name="especie" value="#{ordenServicioBean.mascotasselected.petmascota.petespecie.idespecie}" />
-						<f:param name="iditem" value="#{menuBean.activeIdItem}" />
-					</h:link>
-					<br />
-					</h:column>
+					<p:row>
+						<p:column>
+						<h:outputLabel id="idlblnombre" value="Nombre: " for="idnombre" />
+						</p:column>
+						<p:column>
+						<h:link id="idnombre" outcome="mascota.hxtml" target="_blank">
+							<h:outputText value="#{ordenServicioBean.mascotasselected.petmascota.nombre}" />
+							<f:param name="idmascota" value="#{ordenServicioBean.mascotasselected.petmascota.idmascota}" /> 
+							<f:param name="especie" value="#{ordenServicioBean.mascotasselected.petmascota.petespecie.idespecie}" />
+							<f:param name="iditem" value="#{menuBean.activeIdItem}" />
+						</h:link>
+						<br />
+						</p:column>
+					</p:row>
 					
-					<h:outputLabel id="idlblespecie" value="Especie: " for="idespecie" />
-					<h:column>
-					<h:outputText id="idespecie" value="#{ordenServicioBean.mascotasselected.petmascota.petespecie.nombre}" />
-					<br />
-					</h:column>
+					<p:row>
+						<p:column>
+						<h:outputLabel id="idlblespecie" value="Especie: " for="idespecie" />
+						</p:column>
+						<p:column>
+						<h:outputText id="idespecie" value="#{ordenServicioBean.mascotasselected.petmascota.petespecie.nombre}" />
+						<br />
+						</p:column>
+					</p:row>
 					
-					<h:outputLabel id="idlblraza" value="Raza: " for="idraza" />
-					<h:column>
-					<h:outputText id="idraza" value="#{ordenServicioBean.mascotasselected.petmascota.petraza.nombre}" />
-					<br />
-					</h:column>
+					<p:row>
+						<p:column>
+						<h:outputLabel id="idlblraza" value="Raza: " for="idraza" />
+						</p:column>
+						<p:column>
+						<h:outputText id="idraza" value="#{ordenServicioBean.mascotasselected.petmascota.petraza.nombre}" />
+						<br />
+						</p:column>
+					</p:row>
 					
-					<h:outputLabel id="idlblpeso" value="Peso: " for="idpeso" />
-					<h:column>
-					<h:outputText id="idpeso" value="#{ordenServicioBean.mascotasselected.petmascota.pesokg}kg." />
-					<br />
-					</h:column>
+					<p:row>
+						<p:column>
+						<h:outputLabel id="idlblpeso" value="Peso: " for="idpeso" />
+						</p:column>
+						<p:column>
+						<h:outputText id="idpeso" value="#{ordenServicioBean.mascotasselected.petmascota.pesokg}kg." />
+						<br />
+						</p:column>
+					</p:row>
 					
-					<h:outputLabel id="idlblfechanacimiento" value="Fecha Nacimiento: " for="idfechanacimiento" />
-					<h:column>	
-					<h:outputText id="idfechanacimiento" value="#{ordenServicioBean.mascotasselected.petmascota.fechanacimiento}">
-						<f:convertDateTime dateStyle="medium"/>
-					</h:outputText>
-					<br />
-					</h:column>
+					<p:row>
+						<p:column>
+						<h:outputLabel id="idlblfechanacimiento" value="Fecha Nacimiento: " for="idfechanacimiento" />
+						</p:column>
+						<p:column>	
+						<h:outputText id="idfechanacimiento" value="#{ordenServicioBean.mascotasselected.petmascota.fechanacimiento}">
+							<f:convertDateTime dateStyle="medium"/>
+						</h:outputText>
+						<br />
+						</p:column>
+					</p:row>
 					
-					<h:outputLabel id="idlblanios" value="Años:" for="idanios" />
-					<h:column>
-					<h:outputText id="idanios" value="#{ordenServicioBean.edadMascota}" />
-					<br />
-					</h:column>
+					<p:row>
+						<p:column>
+						<h:outputLabel id="idlblfechafallecimiento" value="Fecha Fallecimiento: " for="idfechafallecimiento" />
+						</p:column>
+						<p:column>	
+						<h:outputText id="idfechafallecimiento" value="#{ordenServicioBean.mascotasselected.petmascota.fechafallecimiento}">
+							<f:convertDateTime dateStyle="medium"/>
+						</h:outputText>
+						<br />
+						</p:column>
+					</p:row>
 					
-					<h:outputLabel id="idlblfechafallecimiento" value="Fecha Fallecimiento: " for="idfechafallecimiento" />
-					<h:column>	
-					<h:outputText id="idfechafallecimiento" value="#{ordenServicioBean.mascotasselected.petmascota.fechafallecimiento}">
-						<f:convertDateTime dateStyle="medium"/>
-					</h:outputText>
-					<br />
-					</h:column>
-					
-					<h:outputLabel id="idlblcolor" value="Color: " />
-					<h:column>
-					<ui:repeat var="color" value="#{ordenServicioBean.lisPetmascotacolor}">
-						<div style="float: left; width:35px; height: 60px;  ">
-							<center>
-							<div style="width:30px; height: 30px; border-style: solid; border-width: 1px; background: ##{color.cotcolor.hex}" title="#{color.cotcolor.nombre}"></div>
-							</center>
-						</div>
-					</ui:repeat>
-					<br />
-					</h:column>
-				</h:panelGrid>
+					<p:row>
+						<p:column>
+						<h:outputLabel id="idlblcolor" value="Color: " />
+						</p:column>
+						<p:column>
+						<ui:repeat var="color" value="#{ordenServicioBean.lisPetmascotacolor}">
+							<div style="float: left; width:35px; height: 60px;  ">
+								<center>
+								<div style="width:30px; height: 30px; border-style: solid; border-width: 1px; background: ##{color.cotcolor.hex}" title="#{color.cotcolor.nombre}"></div>
+								</center>
+							</div>
+						</ui:repeat>
+						<br />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
 				
 				<h1 class="title ui-widget-header ui-corner-all">Datos del Propietario</h1>
 				<h:panelGrid id="panelgridpropietario" columns="2" columnClasses="primeracolmascota">

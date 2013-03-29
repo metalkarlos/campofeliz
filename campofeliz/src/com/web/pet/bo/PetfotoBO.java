@@ -44,7 +44,7 @@ public class PetfotoBO {
 				if(fileUtil.existFile(mascotaPath)){
 					petfoto.setRuta(resources_server_url + petfoto.getRuta());
 				}else{
-					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 				}
 			}
 		}catch(Exception re){
@@ -171,11 +171,11 @@ public class PetfotoBO {
 				if(fileUtil.existFile(mascotaPath)){
 					petfoto.setRuta(resources_server_url + petfoto.getRuta());
 				}else{
-					petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 				}
 			}else{
 				petfoto = new Petfoto();
-				petfoto.setRuta(resources_server_url + Parametro.BLANK_IMAGE_PATH);
+				petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
 			}
 		} catch(Exception he){
 			he.printStackTrace();

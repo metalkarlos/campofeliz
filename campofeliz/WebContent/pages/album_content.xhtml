@@ -32,7 +32,7 @@
 		          update=":form-contentpage:mensajes, :form-contentpage:panel-albumcontent" sizeLimit="100000"   
 		          allowTypes="/(\.|\/)(gif|jpe?g|png)$/" rendered="#{empty albumBean.lispetfoto}" label="Buscar" uploadLabel="Subir Foto" cancelLabel="Cancelar" /> -->
             <!-- <p:commandButton id="idbuttonupload" title="Subir Foto" value="Subir Foto" icon="ui-icon ui-icon-folder-open" onclick="vardialogupload.show()" /> -->
-		    <p:fileUpload value="#{albumBean.uploadedFile}" mode="simple" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+		    <p:fileUpload value="#{albumBean.uploadedFile}" mode="simple" invalidSizeMessage="Tamaño de la imágen debber ser menor a 1 mb" sizeLimit="1024" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 		    <p:commandButton title="Subir Foto" value="Subir Foto" ajax="false" actionListener="#{albumBean.subirImagen()}" />
 		    <br />
 		    <br />

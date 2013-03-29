@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -16,7 +15,6 @@ import org.primefaces.model.SortOrder;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetrazaBO;
 import com.web.pet.bo.PetespecieBO;
-import com.web.pet.global.Parametro;
 import com.web.pet.pojo.annotations.Cottipoidentificacion;
 import com.web.pet.pojo.annotations.Mascotas;
 import com.web.pet.pojo.annotations.Petespecie;
@@ -24,7 +22,6 @@ import com.web.pet.pojo.annotations.Petestado;
 import com.web.pet.pojo.annotations.Petmascota;
 import com.web.pet.pojo.annotations.Petraza;
 import com.web.pet.pojo.annotations.Setusuario;
-import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
@@ -37,23 +34,12 @@ public class BuscarMascotaBean implements Serializable {
 	private List<Petespecie> lisPetespecie;
 	private List<Petraza> lisPetraza;
 	private LazyDataModel<Mascotas> lisMascotas;
-	private String blankImage;
-	private String mascotasPath;
-	private String fileSeparator;
 	private boolean renderGrid;//Para evitar consultar al inicio y sólo al presionar botón
 	private int columnsGrid;
 	private int rowsGrid;
-	private String resources_server_url;
 
 	public BuscarMascotaBean() {
-		FileUtil fileUtil = new FileUtil();
-		Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-		resources_server_url = petsoftProperties.getProperty("resources_server_url");
-		
 		petmascota = new Petmascota(0, new Petestado(), new Cottipoidentificacion(), new Petraza(), new Setusuario(), new Petespecie(), null, null, null, null, null, null, null, null, null, false, false, null);
-		setBlankImage(Parametro.BLANK_IMAGE_PATH);
-		setMascotasPath(Parametro.MASCOTAS_PATH);
-		setFileSeparator(Parametro.FILE_SEPARATOR);
 		llenarPettipo();
 		llenarPetraza();
 		setRenderGrid(false);
@@ -131,30 +117,6 @@ public class BuscarMascotaBean implements Serializable {
 		this.lisMascotas = lisMascotas;
 	}
 
-	public String getBlankImage() {
-		return blankImage;
-	}
-
-	public void setBlankImage(String blankImage) {
-		this.blankImage = blankImage;
-	}
-
-	public String getMascotasPath() {
-		return mascotasPath;
-	}
-
-	public void setMascotasPath(String mascotasPath) {
-		this.mascotasPath = mascotasPath;
-	}
-
-	public String getFileSeparator() {
-		return fileSeparator;
-	}
-
-	public void setFileSeparator(String fileSeparator) {
-		this.fileSeparator = fileSeparator;
-	}
-
 	public boolean isRenderGrid() {
 		return renderGrid;
 	}
@@ -177,10 +139,6 @@ public class BuscarMascotaBean implements Serializable {
 
 	public void setRowsGrid(int rowsGrid) {
 		this.rowsGrid = rowsGrid;
-	}
-
-	public String getResources_server_url() {
-		return resources_server_url;
 	}
 
 	private void llenarPettipo(){
