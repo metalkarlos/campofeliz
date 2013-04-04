@@ -45,6 +45,10 @@
 		<param-name>primefaces.THEME</param-name>
 		<param-value>none</param-value>
 	</context-param>
+	<mime-mapping>
+		<extension>pdf</extension>
+		<mime-type>application/pdf</mime-type>
+	</mime-mapping>
 	<filter>
 		<filter-name>PrimeFaces FileUpload Filter</filter-name>
 		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
