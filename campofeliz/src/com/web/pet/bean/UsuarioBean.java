@@ -79,7 +79,6 @@ public class UsuarioBean implements Serializable{
 			setUsuario = new SetusuarioBO().getByUserPasswd(username, password);
 			
 			if(setUsuario!=null && setUsuario.getIdusuario()>0){
-				//System.err.println("Acceso al Sistema! Usuario: "+username+"; Clave: "+password+"; Ip: "+ip);
 				autenticado = true;
 				FacesUtil facesUtil = new FacesUtil();
 				strRedirect = (String) facesUtil.getSessionBean("urlrequested");
@@ -102,7 +101,6 @@ public class UsuarioBean implements Serializable{
 	}
 	
 	public String logout(){
-		System.err.println("Salió del Sistema! Usuario: "+username+"; Clave: "+password+"; Ip: "+ip);
 		FacesUtil facesUtil = new FacesUtil();
 		
 		try{
