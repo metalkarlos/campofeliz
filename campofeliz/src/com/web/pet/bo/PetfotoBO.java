@@ -69,7 +69,7 @@ public class PetfotoBO {
 			int maxid = petfotoDAOInterface.maxIdPetfoto(session)+1;
 			Date fecharegistro = new Date();
 			String fileExtention = new FileUtil().getFileExtention(petfoto.getNombrearchivo());
-			String nombrearchivo = petfoto.getPetmascota().getPetespecie().getIdespecie()+"-"+petfoto.getPetmascota().getIdmascota()+"-"+maxid+"."+fileExtention;
+			String nombrearchivo = petfoto.getPetmascota().getPetespecie().getIdespecie()+"-"+petfoto.getPetmascota().getIdmascota()+"-"+maxid+"."+fileExtention.toLowerCase();
 			
 			petfoto.setIdfoto(maxid);
 			petfoto.setNombrearchivo(nombrearchivo);
