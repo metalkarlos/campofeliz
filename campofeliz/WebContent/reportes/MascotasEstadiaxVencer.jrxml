@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MascotasEstadiaxVencer" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="0" uuid="9031cb32-addc-458e-afc9-82fa81297948">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="P_LOGO" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_ANIOS" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select m.idmascota,InitCap(m.nombre) as nombremascota,
+       m.pesokg,r.nombre as raza,
+       case when m.sexo = 1 then 'Macho' else 'Hembra' end
+       as genero,
+       e.nombre as especie,
+       s.fechaentierro,
+       p.numeroidentificacion,
+       p.nombre1||' '||p.nombre2||' '||
+       p.apellido1||' '||p.apellido2  as propietario,
+       p.telefono,p.email,p.direccion,
+       pets.detalle_servicio(s.idordenservicio) detalleservicio
+
+  from pets.petordenservicio s,
+       pets.petmascota m,
+       comun.cotpersona p,
+       pets.petraza r,
+       pets.petespecie e
+
+ where s.idestado   = 1
+   and m.idestado   = 1
+   and p.idestado   = 1
+   and r.idestado   = 1
+   and e.idestado   = 1
+   and s.idmascota  = m.idmascota
+   and m.idpersona  = p.idpersona
+   and m.idraza     = r.idraza
+   and m.idespecie  = e.idespecie
+   and (select extract (year from current_date ) -
+         extract(year from s.fechaentierro)) = $P{P_ANIOS}
+
+   order by s.fechaentierro asc, propietario desc]]>
+	</queryString>
+	<field name="idmascota" class="java.lang.Integer"/>
+	<field name="nombremascota" class="java.lang.String"/>
+	<field name="pesokg" class="java.math.BigDecimal"/>
+	<field name="raza" class="java.lang.String"/>
+	<field name="genero" class="java.lang.String"/>
+	<field name="especie" class="java.lang.String"/>
+	<field name="fechaentierro" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[fecha en la cual se entierra al animalito]]></fieldDescription>
+	</field>
+	<field name="numeroidentificacion" class="java.lang.String">
+		<fieldDescription><![CDATA[numero de identificacion]]></fieldDescription>
+	</field>
+	<field name="propietario" class="java.lang.String"/>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[numero del telefono convencional o celular]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[cuenta de correo electronico]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[direccion de domicilio]]></fieldDescription>
+	</field>
+	<field name="detalleservicio" class="java.lang.String"/>
+	<variable name="nombremascota_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{nombremascota}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="119" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="9f0a13b0-60f4-4280-b17f-21b0947b9a6e" x="632" y="70" width="200" height="48" forecolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="6" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Dirección: Km 16 vía a Daule frente al centro
+                 penitenciario la Roca, entrando por el Chorrillo
+       Teléf: (04)6014815 / 0993211106 / 0986092471
+ Atención:  Lunes - Domingo 8:00am - 16:30pm
+Consultas: Lunes - Domingo 7:30am - 22:00pm
+  Correo  : campofeliz@campofeliz.com]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="e368ff82-9960-49d0-828d-97d5a678a138" x="664" y="10" width="168" height="61"/>
+				<imageExpression><![CDATA[$P{P_LOGO}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="924ecc67-c63f-4946-b0b4-dd024127752a" x="58" y="15" width="566" height="55" forecolor="#990000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="20" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Listado de Mascotas cuya estadía en Campo Feliz esta por vencer]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement uuid="d028c064-c4e5-42e4-a6aa-dfb10309cad5" x="39" y="99" width="110" height="20" forecolor="#000000"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="58641d0b-6fe4-4d99-8e4d-ca4100e2e1c7" x="0" y="99" width="39" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement uuid="8f511e71-9691-4035-8eda-75e40b8c5ca3" x="563" y="99" width="49" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Tahoma" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{nombremascota_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d9bea1ca-c319-4035-aa33-982f16c6790a" x="481" y="99" width="83" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Cant. Mascotas:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="8b1024d4-a713-4982-82cb-e66fea7a891b" x="393" y="99" width="20" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Tahoma" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_ANIOS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="03434519-0bed-4e36-a9f9-4a937ed33781" x="325" y="99" width="69" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Años Estadía:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<line>
+				<reportElement uuid="cc17c1ae-ad5b-44e9-b659-a22348a9a262" x="1" y="1" width="832" height="1" forecolor="#CC6600"/>
+			</line>
+			<frame>
+				<reportElement uuid="af7a8a20-441d-49f6-a5b4-058416ac5e01" mode="Opaque" x="0" y="2" width="832" height="29" forecolor="#B89F7D" backcolor="#F2EBDF"/>
+				<staticText>
+					<reportElement uuid="6bd1d424-1bc5-4500-a3f6-d886a078540c" x="27" y="0" width="80" height="29" forecolor="#009933"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Nombre
+Mascota]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="b0dacd89-c88a-4f83-a3b9-7569b428f70e" x="546" y="0" width="65" height="29" forecolor="#009933"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Teléfono]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="5287cdef-443b-4b71-b1bc-cd71d01a8c18" x="182" y="0" width="53" height="29" forecolor="#009933"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Sexo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ae7c4945-5d43-4ca3-8b7a-a0b621c7a6b4" x="107" y="0" width="75" height="29" forecolor="#009933"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Especie]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="0f8b72a9-cf59-4fd7-a250-b82acaadec41" x="235" y="0" width="79" height="29" forecolor="#009933"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Raza]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="cca867ed-f0b2-4ae7-a99b-7c4f939e3d3c" x="313" y="0" width="35" height="29" forecolor="#009933"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Peso Kg]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="de703850-e898-40c2-9b56-893e510d4f85" x="611" y="0" width="99" height="29" forecolor="#009933"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Correo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="bb73e015-956d-40a4-b52d-0a42c67ca11d" x="476" y="0" width="70" height="29" forecolor="#009933"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Propietario]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="296235dc-462b-4bcf-b0a2-666554a48241" x="709" y="0" width="123" height="29" forecolor="#009933"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Dirección]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="cb43e8f3-d388-485a-ad68-ce5403fd8409" x="0" y="0" width="28" height="29" forecolor="#009933"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Cód.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="59c7b363-a88c-4fbb-a506-0bd5310a819f" x="421" y="0" width="56" height="29" forecolor="#009933"/>
+					<textElement>
+						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Fecha Entierro]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="80ae32aa-1f8d-4376-a759-0855797b3ed4" x="347" y="0" width="75" height="29" forecolor="#009933"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Servicio]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="2d498ade-0cb1-4920-9cf0-572bfe5ad59e" x="0" y="-1" width="28" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idmascota}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="7bc648b4-b8b4-4e3a-8c29-80ef9db12ca2" x="27" y="-1" width="80" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombremascota}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="fcf14272-b4a2-4728-871b-9c6d7cce7c90" x="107" y="-1" width="75" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{especie}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="51c4accc-4d96-41f4-b3dc-ff8fa506b640" x="183" y="-1" width="53" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{genero}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="66500acc-0e62-47a9-a53a-0cfa2172cda3" x="235" y="-1" width="79" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{raza}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="9ded8eda-53c8-4772-a943-b1b954d6eb9b" x="313" y="-1" width="35" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pesokg}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="652da086-3c38-447d-9a7c-27b62668b6e3" x="477" y="-1" width="70" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{propietario}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="2f423953-c5a6-4431-b6c2-b3f23117db2b" x="547" y="-1" width="65" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="91a67669-845b-4d36-8fa0-a18a0270f4f5" x="611" y="-1" width="98" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="0b802dc9-d550-425d-b40f-29ac0cea0d67" x="709" y="-1" width="123" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement uuid="509744ef-3187-4e27-bc91-3e6b4f95c825" x="421" y="-1" width="56" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaentierro}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="9b53f57b-6761-4250-a033-ed222226055c" x="346" y="-1" width="75" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalleservicio}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="e72b3a77-1db9-4f88-a5c2-3ae1ed22aec2" positionType="FixRelativeToBottom" x="2" y="18" width="832" height="1" forecolor="#CC6600"/>
+				<graphicElement>
+					<pen lineWidth="0.25" lineStyle="Dotted" lineColor="#EDEBEB"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="19" splitType="Stretch">
+			<line>
+				<reportElement uuid="f45c2a46-7b8d-41c8-b631-d9cdb4f6e4ba" positionType="FixRelativeToBottom" x="1" y="1" width="832" height="1" forecolor="#CC6600"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CC6600"/>
+				</graphicElement>
+			</line>
+			<frame>
+				<reportElement uuid="ed706370-4baa-42a5-a676-801d5fb16f17" mode="Opaque" x="1" y="2" width="832" height="17" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="2bb7b627-435d-47d4-8356-3374bf87f45b" x="789" y="0" width="40" height="15" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="688000c7-bbda-496a-a354-9f25eb7864a4" x="709" y="0" width="80" height="15" forecolor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

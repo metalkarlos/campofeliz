@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GraficaMascotasXMes" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="5" bottomMargin="0" uuid="ab6bcb54-3b82-4f13-8e41-35e18ef91b16">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="P_LOGO" class="java.lang.String"/>
+	<parameter name="P_ANIO" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select count(m.idmascota),
+       case when (extract(month from s.fechaentierro)) =1 then 'Enero'  when (extract(month from s.fechaentierro)) =2 then 'Febrero'
+            when (extract(month from s.fechaentierro)) =3 then 'Marzo'  when (extract(month from s.fechaentierro)) =4 then 'Abril'
+	    when (extract(month from s.fechaentierro)) =5 then 'Mayo'  when (extract(month from s.fechaentierro)) =6 then 'Junio'
+            when (extract(month from s.fechaentierro)) =7 then 'Julio'  when (extract(month from s.fechaentierro)) =8 then 'Agosto'
+            when (extract(month from s.fechaentierro)) =9 then 'Septiembre'  when (extract(month from s.fechaentierro)) =10 then 'Octubre'
+            when (extract(month from s.fechaentierro)) =11 then 'Noviembre'  when (extract(month from s.fechaentierro)) =12 then 'Diciembre' end
+  from pets.petordenservicio s,
+       pets.petmascota m
+ where s.idestado   = 1
+   and m.idestado   = 1
+   and s.idmascota  = m.idmascota
+   and extract(year from s.fechaentierro) = $P{P_ANIO}   group by (extract(month from s.fechaentierro))
+   order by extract(month from s.fechaentierro) asc]]>
+	</queryString>
+	<field name="case" class="java.lang.String"/>
+	<field name="count" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="109" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="3a302b6e-39dd-4274-a6d1-976dfad4c2bc" x="3" y="89" width="39" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement uuid="a8cbd397-f44b-4618-8406-e9459f366844" x="42" y="89" width="110" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement uuid="fe5a8de9-d740-4e47-b296-4076fb64d4be" x="673" y="0" width="168" height="61"/>
+				<imageExpression><![CDATA[$P{P_LOGO}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="3ac725e0-7fef-41b8-9336-04e1acecb324" x="644" y="61" width="200" height="48" forecolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="6" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ Dirección: Km 16 vía a Daule frente al centro
+                 penitenciario la Roca, entrando por el Chorrillo
+       Teléf: (04)6014815 / 0993211106 / 0986092471
+ Atención:  Lunes - Domingo 8:00am - 16:30pm
+Consultas: Lunes - Domingo 7:30am - 22:00pm
+  Correo  : campofeliz@campofeliz.com]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e93c8870-d064-4799-b408-8fc473cbf8ea" x="76" y="21" width="558" height="55" forecolor="#990000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="20" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Gráfica de Mascotas sepultadas/cremadas por Mes]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="54201885-dd8b-4008-b4f4-6db212913d98" x="2" y="108" width="840" height="1" forecolor="#CC6600"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CC6600"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="53165aee-d13b-4c4b-b3c7-33738b5e200f" x="395" y="88" width="39" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Año:]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement uuid="6df32183-b543-478c-9bb4-6c59b517be82" x="434" y="88" width="65" height="20" forecolor="#000000"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_ANIO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="184" splitType="Stretch">
+			<barChart>
+				<chart>
+					<reportElement uuid="e72e6bbd-4fb5-44d1-9ea0-f731645ddb53" x="17" y="39" width="163" height="131"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Mascotas Sepultadas/Cremadas"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{case}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{count}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA["Meses"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#006600">
+							<labelFont>
+								<font fontName="Tahoma" size="12" pdfFontName="Helvetica-Bold"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Cantidad"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#006600">
+							<labelFont>
+								<font fontName="Tahoma" size="12" pdfFontName="Helvetica-Bold"/>
+							</labelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>
