@@ -6,15 +6,6 @@
 	<parameter name="P_LOGO" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="P_TIEMPO" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="P_ANIO" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="P_MES" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="P_FECHA_DESDE" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -48,18 +39,8 @@
    and m.idpersona  = p.idpersona
    and m.idraza     = r.idraza
    and m.idespecie  = e.idespecie
-   and ((extract(year from s.fechaentierro) = $P{P_ANIO})
-
-   and ((extract(year from s.fechaentierro) = $P{P_ANIO}
-
-   and extract(month from  s.fechaentierro)=
-        coalesce(to_number($P{P_MES},'99'),extract(month
-                                           from s.fechaentierro))))
-
-   and (s.fechaentierro >=
-         coalesce($P{P_FECHA_DESDE},s.fechaentierro)
-   and s.fechaentierro <=
-        coalesce($P{P_FECHA_HASTA},s.fechaentierro)))
+   and (s.fechaentierro >= coalesce($P{P_FECHA_DESDE},s.fechaentierro)
+        and s.fechaentierro <= coalesce($P{P_FECHA_HASTA},s.fechaentierro))
 
    order by s.fechaentierro asc, p.apellido1 desc]]>
 	</queryString>
@@ -118,7 +99,7 @@ Consultas: Lunes - Domingo 7:30am - 22:00pm
 				<text><![CDATA[Listado de Mascotas por período de tiempo]]></text>
 			</staticText>
 			<textField pattern="dd MMMMM yyyy">
-				<reportElement uuid="d028c064-c4e5-42e4-a6aa-dfb10309cad5" x="33" y="99" width="110" height="20" forecolor="#000000"/>
+				<reportElement uuid="d028c064-c4e5-42e4-a6aa-dfb10309cad5" x="35" y="99" width="110" height="20" forecolor="#000000"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 				</textElement>
@@ -145,13 +126,6 @@ Consultas: Lunes - Domingo 7:30am - 22:00pm
 				</textElement>
 				<text><![CDATA[Cant. Mascotas:]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement uuid="8b1024d4-a713-4982-82cb-e66fea7a891b" x="262" y="99" width="238" height="20"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" pdfFontName="Helvetica" isPdfEmbedded="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{P_TIEMPO}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement uuid="03434519-0bed-4e36-a9f9-4a937ed33781" x="164" y="99" width="99" height="20"/>
 				<textElement verticalAlignment="Middle">
@@ -159,6 +133,20 @@ Consultas: Lunes - Domingo 7:30am - 22:00pm
 				</textElement>
 				<text><![CDATA[Periódo de Tiempo:]]></text>
 			</staticText>
+			<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement uuid="f15c1bb3-9dec-4b48-8cf5-fe42766fe4e6" x="264" y="99" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_FECHA_DESDE} == null ? "De principio" : $P{P_FECHA_DESDE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement uuid="ccd8edbf-2ca9-4d92-96a0-b8f158ff3c78" x="365" y="99" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_FECHA_HASTA} == null ? "A fin" : $P{P_FECHA_HASTA}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
