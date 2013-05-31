@@ -10,6 +10,7 @@
 	<h:form id="form-contentpage">
 		<p:growl id="mensajes" showDetail="true" />
 		<p:panel id="panel-temacontent">
+			<label>Seleccione un Tema:&nbsp;&nbsp;</label>
 			<p:selectOneMenu id="idlistthemes" value="#{themeBean.themeSelected}" style="width: 150px" onchange="$('#form-contentpage').submit()">
 				<f:selectItems value="#{themeBean.themeList}" var="theme" itemLabel="#{theme.value}" itemValue="#{theme.label}" />
 			</p:selectOneMenu>

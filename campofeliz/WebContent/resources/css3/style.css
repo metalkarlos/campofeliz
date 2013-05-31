@@ -87,6 +87,7 @@ h3 {
 .sidepage{
 	font-size: 10px; 
 	font-family: Verdana,Lucida Grande,Lucida Sans,Arial,sans-serif;
+	padding: 0px 5px 0px 5px;
 }
 
 /************************************** Login Settings **************************************/
@@ -214,6 +215,7 @@ h3 {
 	clear:left;
 	float:left;
 	text-align:center;
+	margin: 0px 10px 0px 10px;
 }
 
 #principal .body .content .right {
