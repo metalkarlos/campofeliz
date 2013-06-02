@@ -7,14 +7,14 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 	
 	<h:form id="form-sidepage">
-	    <h1 class="title ui-widget-header ui-corner-all">Mascotas</h1>
-		<h1  class="link">Especie</h1>
-		<p:panel style="text-align: center; width: 185px;">
+	    <h1>Mascotas</h1>
+	    <hr noshade="noshade" />
+		<label>Seleccione la Especie:</label>
 		<p:selectOneMenu id="idespeciemascota" style="width: 145px; align: center;" value="#{mascotasBean.especie}" onchange="redirect('mascotas.jsf?especie='+this.options[this.selectedIndex].value+'&amp;iditem='+#{menuBean.activeIndex})">
 			<f:selectItem itemLabel="Seleccione" itemValue="0"/>
 			<f:selectItems value="#{mascotasBean.lisPetespecie}" var="especie" itemLabel="#{especie.nombre}" itemValue="#{especie.idespecie}"></f:selectItems>
 		</p:selectOneMenu>
-		</p:panel>
+		<br />
 		<br />
 		<h:link  class="link" value="[ Nueva Mascota ]" outcome="mascota.hxtml" rendered="#{mascotasBean.especie gt 0}" >
 			<f:param name="idmascota" value="0" /> 

@@ -10,6 +10,10 @@
 	<h:form id="form-contentpage">
 		<p:growl id="mensajes" showDetail="true" />
 		<p:panel id="panel-temacontent">
+			<h1 class="title ui-widget-header ui-corner-all" >Temas para cambiar el estilo del sitio</h1>
+			<br />
+			<label>Seleccione un Tema:&nbsp;&nbsp;</label>
+			<br />
 			<p:selectOneMenu id="idlistthemes" value="#{themeBean.themeSelected}" style="width: 150px" onchange="$('#form-contentpage').submit()">
 				<f:selectItems value="#{themeBean.themeList}" var="theme" itemLabel="#{theme.value}" itemValue="#{theme.label}" />
 			</p:selectOneMenu>
