@@ -23,46 +23,28 @@ public class ReporteMascotasEstadiaXVencer implements Serializable {
 	private static final long serialVersionUID = -8606123902697883482L;
 	private int anio;
 	
-
-	
+	public  ReporteMascotasEstadiaXVencer(){
+		anio = 0;
+	}
 	
 	public int getAnio() {
 		return anio;
 	}
 
-
-
 	public void setAnio(int anio) {
 		this.anio = anio;
 	}
-
-
-	public  ReporteMascotasEstadiaXVencer(){
-		anio =0;
-		
-	}
-	private boolean validarCampos(){
-		boolean ok = true;
-		if(anio ==0){
-			new MessageUtil().showFatalMessage("Datos incompletos!", "Debe ingresar los años a vencer!");
-			ok = false;
-		}else if(anio < 0){
-			new MessageUtil().showFatalMessage("Datos incompletos!", "Los años a ingresar deben ser mayor a cero!");
-			ok = false;
-		}
-		return ok;
-	}	
 	
 	public void imprimir(){
 		try {
 			if (validarCampos()) {
-				String nombreReporte = new String("");
+				String nombreReporte = "MascotasEstadiaxVencer";
 				String rutaLogo = Parametro.RUTA_IMAGENES_MISCELLANEOUS+"logo_empresa.jpg";
 				Map<String, Object> parametros = new HashMap<String, Object>();
+				
 				parametros.put("P_LOGO", rutaLogo);
 				
-				if(anio >0){
-				  nombreReporte = "MascotasEstadiaxVencer";
+				if(anio >=0 ){
 				  parametros.put("P_ANIOS", anio);
 				}
 				new Utilities().imprimirJasperPdf(nombreReporte, parametros);
@@ -70,5 +52,14 @@ public class ReporteMascotasEstadiaXVencer implements Serializable {
 		}catch (Exception e) {
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
+	}
+	
+	private boolean validarCampos(){
+		boolean ok = true;
+		if(anio < 0){
+			new MessageUtil().showFatalMessage("Datos incompletos!", "Debe ingresar los años a vencer!");
+			ok = false;
+		}
+		return ok;
 	}
 }

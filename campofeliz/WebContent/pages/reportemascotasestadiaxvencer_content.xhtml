@@ -6,31 +6,30 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
-  <h:form id="form-contentpage">
+	<h:form id="form-contentpage">
 		<p:growl id="mensajes" showDetail="true" />
-			<p:panel id="panel-reportemascotaxtiempocontent">
+		<p:panel id="panel-reportemascotaxtiempocontent">
             <h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
 				<my:buttons renderedButtonImprimir="true" renderedButtonAceptar="false" actionButtonImprimir="#{reporteMascotasEstadiaXVencer.imprimir()}" 
 				renderedButtonEliminar="false"  
 				renderedButtonCancelar="true" labelButtonCancelar="Cancelar" 
 				renderedButtonNewItem="false" />
 			</h:panelGrid>
-			<h1 class="title ui-widget-header ui-corner-all">Criterios de Consulta</h1>
-			
-			<h:panelGrid columns="2" cellpadding="2">
-			<h:outputLabel value="Años a Vencer:" />
-			<p:inputTextarea id="idAnio" value="#{reporteMascotasEstadiaXVencer.anio}"   style="max-width: 32px; min-width: 32px; max-height: 10px; " required="false" requiredMessage="El campo 'A&ntilde;os' es obligatorio." maxlength="4"  />
+			<br />
+			<h1 class="title ui-widget-header ui-corner-all">Mascotas cuya estad&iacute;a est&aacute; por vencer</h1>
+			<br />
+			<h:panelGrid columns="3" cellpadding="2">
+				<h:outputLabel value="Años de Estad&iacute;a:" />
+				<p:spinner id="idanio" value="#{reporteMascotasEstadiaXVencer.anio}" min="0" max="99" size="2" />
+				<h:outputText value=" (* 0 - todos)" style="font-style: italic;" />
 			</h:panelGrid>
-			
-			
-			
-			<br clear="left"/>
+			<br />
 			<h:panelGrid id="panelgridbuttonsdown" columns="1" style="padding: 10px 10px 0 0;">
 			   <my:buttons renderedButtonImprimir="true"  renderedButtonAceptar="false" actionButtonImprimir="#{reporteMascotasEstadiaXVencer.imprimir()}" 
 				renderedButtonEliminar="false"  
 				renderedButtonCancelar="true" labelButtonCancelar="Cancelar" 
 				renderedButtonNewItem="false" />
 			</h:panelGrid>
-			</p:panel>
-  </h:form>
+		</p:panel>
+	</h:form>
 </ui:composition>
