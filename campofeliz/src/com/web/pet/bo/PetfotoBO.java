@@ -226,11 +226,13 @@ public class PetfotoBO {
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			Date fecharegistro = new Date();
 			
-			petfoto.setMostrar(1);
-			petfoto.setFecharegistro(fecharegistro);
-			petfoto.setIplog(usuarioBean.getIp());
-			petfoto.setSetusuario(usuarioBean.getSetUsuario());
-			petfotoDAOInterface.updatePetfoto(session, petfoto);
+			Petfoto petfotoTmp = petfotoDAOInterface.getPetfotoById(session, petfoto.getIdfoto());
+			
+			petfotoTmp.setMostrar(1);
+			petfotoTmp.setFecharegistro(fecharegistro);
+			petfotoTmp.setIplog(usuarioBean.getIp());
+			petfotoTmp.setSetusuario(usuarioBean.getSetUsuario());
+			petfotoDAOInterface.updatePetfoto(session, petfotoTmp);
 			
 			session.getTransaction().commit();
 			ok = true;
