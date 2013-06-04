@@ -3,6 +3,20 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<style name="rectangleStyle">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{aniocumplido} >= 4]]></conditionExpression>
+			<style forecolor="#FFFFFF" backcolor="#FFFF33"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{aniocumplido} == 3]]></conditionExpression>
+			<style backcolor="#FFFF99"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{aniocumplido} == 2]]></conditionExpression>
+			<style backcolor="#FFFFCC"/>
+		</conditionalStyle>
+	</style>
 	<parameter name="P_LOGO" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -17,7 +31,7 @@
        e.nombre as especie,
        s.fechaentierro,
        (select extract ( year from age(s.fechaentierro))) as aniocumplido,
-       ((select extract ( year from age(s.fechaentierro))) || ' año, ' ||
+       ((select extract ( year from age(s.fechaentierro))) || ' años, ' ||
         (select extract ( month from age(s.fechaentierro))) || ' meses, ' ||
         (select extract ( day from age(s.fechaentierro))) || ' días ') as tiempocumplido,
        p.numeroidentificacion,
@@ -150,7 +164,7 @@ Consultas: Lunes - Domingo 7:30am - 22:00pm
 	<columnHeader>
 		<band height="31" splitType="Stretch">
 			<line>
-				<reportElement uuid="cc17c1ae-ad5b-44e9-b659-a22348a9a262" x="1" y="1" width="832" height="1" forecolor="#CC6600"/>
+				<reportElement uuid="cc17c1ae-ad5b-44e9-b659-a22348a9a262" x="0" y="1" width="832" height="1" forecolor="#CC6600"/>
 			</line>
 			<frame>
 				<reportElement uuid="af7a8a20-441d-49f6-a5b4-058416ac5e01" mode="Opaque" x="0" y="2" width="832" height="29" forecolor="#B89F7D" backcolor="#F2EBDF"/>
@@ -191,7 +205,7 @@ Mascota]]></text>
 					<text><![CDATA[Raza]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="cca867ed-f0b2-4ae7-a99b-7c4f939e3d3c" x="437" y="0" width="40" height="29" forecolor="#009933"/>
+					<reportElement uuid="cca867ed-f0b2-4ae7-a99b-7c4f939e3d3c" x="363" y="0" width="40" height="29" forecolor="#009933"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 					</textElement>
@@ -226,14 +240,14 @@ Mascota]]></text>
 					<text><![CDATA[Cód.]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="59c7b363-a88c-4fbb-a506-0bd5310a819f" x="383" y="0" width="55" height="29" forecolor="#009933"/>
+					<reportElement uuid="59c7b363-a88c-4fbb-a506-0bd5310a819f" x="309" y="0" width="55" height="29" forecolor="#009933"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[Fecha Entierro]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="80ae32aa-1f8d-4376-a759-0855797b3ed4" x="309" y="0" width="75" height="29" forecolor="#009933"/>
+					<reportElement uuid="80ae32aa-1f8d-4376-a759-0855797b3ed4" x="402" y="0" width="75" height="29" forecolor="#009933"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="Tahoma" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 					</textElement>
@@ -244,6 +258,12 @@ Mascota]]></text>
 	</columnHeader>
 	<detail>
 		<band height="19" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="af1fdc9c-b0d2-471b-b126-db92d090671f" style="rectangleStyle" stretchType="RelativeToBandHeight" x="0" y="0" width="832" height="18" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<graphicElement>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</rectangle>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement uuid="2d498ade-0cb1-4920-9cf0-572bfe5ad59e" x="0" y="-1" width="28" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -280,7 +300,7 @@ Mascota]]></text>
 				<textFieldExpression><![CDATA[$F{raza}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement uuid="9ded8eda-53c8-4772-a943-b1b954d6eb9b" x="437" y="-1" width="40" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<reportElement uuid="9ded8eda-53c8-4772-a943-b1b954d6eb9b" x="363" y="-1" width="40" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 				</textElement>
@@ -315,21 +335,21 @@ Mascota]]></text>
 				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd MMMMM yyyy" isBlankWhenNull="true">
-				<reportElement uuid="509744ef-3187-4e27-bc91-3e6b4f95c825" x="383" y="-1" width="55" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<reportElement uuid="509744ef-3187-4e27-bc91-3e6b4f95c825" x="309" y="-1" width="55" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fechaentierro}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement uuid="9b53f57b-6761-4250-a033-ed222226055c" x="309" y="-1" width="75" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
+				<reportElement uuid="9b53f57b-6761-4250-a033-ed222226055c" x="402" y="-1" width="75" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{detalleservicio}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement uuid="e72b3a77-1db9-4f88-a5c2-3ae1ed22aec2" positionType="FixRelativeToBottom" x="2" y="18" width="832" height="1" forecolor="#CC6600"/>
+				<reportElement uuid="e72b3a77-1db9-4f88-a5c2-3ae1ed22aec2" positionType="FixRelativeToBottom" x="0" y="18" width="832" height="1" forecolor="#CC6600"/>
 				<graphicElement>
 					<pen lineWidth="0.25" lineStyle="Dotted" lineColor="#EDEBEB"/>
 				</graphicElement>
