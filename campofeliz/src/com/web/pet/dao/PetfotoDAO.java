@@ -95,6 +95,14 @@ public class PetfotoDAO implements PetfotoDAOInterface {
 		.setInteger( "idmascota", idmascota )
 		.executeUpdate();
 	}
+	
+	@Override
+	public void setPetfotoPerfil(Session session, int idfoto) throws Exception {
+		String hqlUpdate = "update Petfoto foto set foto.mostrar = 1 where foto.idfoto = :idfoto";
+		session.createQuery( hqlUpdate )
+		.setInteger( "idfoto", idfoto )
+		.executeUpdate();
+	}
 
 	@Override
 	public void deletePetfoto(Session session, int idfoto)
@@ -104,5 +112,6 @@ public class PetfotoDAO implements PetfotoDAOInterface {
 		.setInteger( "idfoto", idfoto )
 		.executeUpdate();
 	}
+
 }
 

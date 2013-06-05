@@ -15,5 +15,6 @@ public interface PetfotoDAOInterface {
 	public void updatePetfoto(Session session, Petfoto petfoto) throws Exception;
 	public void deletePetfoto(Session session, int idfoto) throws Exception;
 	public void resetPetfotoPerfilByPetId(Session session, int idmascota) throws Exception;
+	public void setPetfotoPerfil(Session session, int idfoto) throws Exception;
 	public List<Petfoto> lisPetfotoPerfil(Session session, int tipo) throws Exception;
 }

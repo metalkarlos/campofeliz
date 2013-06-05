@@ -221,18 +221,8 @@ public class PetfotoBO {
 			//Primero se quita la imágen que está actualmente como perfil
 			petfotoDAOInterface.resetPetfotoPerfilByPetId(session, petfoto.getPetmascota().getIdmascota());
 			
-			
 			//Luego se pone la imágen seleccionada como foto del perfil
-			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
-			Date fecharegistro = new Date();
-			
-			Petfoto petfotoTmp = petfotoDAOInterface.getPetfotoById(session, petfoto.getIdfoto());
-			
-			petfotoTmp.setMostrar(1);
-			petfotoTmp.setFecharegistro(fecharegistro);
-			petfotoTmp.setIplog(usuarioBean.getIp());
-			petfotoTmp.setSetusuario(usuarioBean.getSetUsuario());
-			petfotoDAOInterface.updatePetfoto(session, petfotoTmp);
+			petfotoDAOInterface.setPetfotoPerfil(session, petfoto.getIdfoto());
 			
 			session.getTransaction().commit();
 			ok = true;
