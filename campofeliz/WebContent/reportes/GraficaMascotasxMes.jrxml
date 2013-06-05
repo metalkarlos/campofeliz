@@ -22,7 +22,7 @@
    order by extract(month from s.fechaentierro) asc]]>
 	</queryString>
 	<field name="case" class="java.lang.String"/>
-	<field name="count" class="java.lang.Integer"/>
+	<field name="count" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
