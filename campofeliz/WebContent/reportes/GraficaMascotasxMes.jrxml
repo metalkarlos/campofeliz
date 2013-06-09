@@ -106,7 +106,7 @@ Consultas: Lunes - Domingo 7:30am - 22:00pm
 		<band height="184" splitType="Stretch">
 			<barChart>
 				<chart>
-					<reportElement uuid="e72e6bbd-4fb5-44d1-9ea0-f731645ddb53" x="17" y="39" width="163" height="131"/>
+					<reportElement uuid="e72e6bbd-4fb5-44d1-9ea0-f731645ddb53" x="17" y="42" width="223" height="132"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
