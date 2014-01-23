@@ -934,7 +934,7 @@ body .ui-tooltip {
 	height: 16px;
 	background-position: 16px 16px;
 }
-./*ui-icon,*/
+/*.ui-icon,*/
 .ui-widget-content .ui-icon {
 	background-image: url(../resources/themes/skiller/images/ui-icons_e0fdff_256x240.png);
 }
