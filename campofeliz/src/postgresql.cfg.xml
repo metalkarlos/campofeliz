@@ -5,25 +5,33 @@
 <!-- "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd"> -->
 <hibernate-configuration>
     <session-factory>
-        <!-- <property name="hibernate.session_factory_name">java:/SessionFactory</property> -->
-		<property name="hibernate.connection.datasource">java:/CampoFelizPostgresqlDS</property>
-		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-		<property name="hibernate.current_session_context_class">org.hibernate.context.JTASessionContext</property>
-		<!-- <property name="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property> -->
-		<!-- <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property> -->
-		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
-		<property name="hibernate.search.autoregister_listeners">false</property>
-		<property name="hibernate.show_sql">false</property>
-		<!-- <property name="hibernate.format_sql">true</property> -->
-		<property name="hibernate.use_sql_comments">false</property>
-		<!-- <property name="hibernate.jdbc.use_streams_for_binary">true</property> -->
-		
-		<!-- Usar en Desarrollo, comentar en Producción 
-        <property name="hbm2ddl.auto">update</property>-->
-
-		<!-- Para no usar jboss\common\lib -->
-		<property name="hibernate.validator.apply_to_ddl">false</property>
-		<property name="hibernate.validator.autoregister_listeners">false</property>
+        <!-- Descomentar para ingeniería inversa -->
+	    <!--
+	    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+	    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/campofeliz</property>
+	    <property name="hibernate.connection.username">postgres</property>
+	    <property name="hibernate.connection.password">postgres</property>-->
+	    
+	    <!-- Comentar para ingeniería inversa-->
+	    <!----><property name="hibernate.connection.datasource">java:/CampoFelizPostgresqlDS</property>
+	    <!-- <property name="hibernate.session_factory_name">java:/SessionFactory</property> -->
+	    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+	    <property name="hibernate.current_session_context_class">org.hibernate.context.JTASessionContext</property>
+	    <!-- <property name="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property> -->
+	    <!-- <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property> -->
+	    <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+	    <property name="hibernate.search.autoregister_listeners">false</property>
+	    <property name="hibernate.show_sql">false</property>
+	    <!-- <property name="hibernate.format_sql">true</property> -->
+	    <property name="hibernate.use_sql_comments">false</property>
+	    <!-- <property name="hibernate.jdbc.use_streams_for_binary">true</property> -->
+			
+	    <!-- Usar en Desarrollo, comentar en Producción 
+	    <property name="hbm2ddl.auto">update</property>-->
+	
+	    <!-- Para no usar jboss\common\lib -->
+	    <property name="hibernate.validator.apply_to_ddl">false</property>
+	    <property name="hibernate.validator.autoregister_listeners">false</property>
 		
 		<!-- Mapeos-->
         <mapping class="com.web.pet.pojo.annotations.Cottipoidentificacion" />
