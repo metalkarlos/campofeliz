@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -19,7 +18,6 @@ import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.MessageUtil;
 
 @ManagedBean
-@Named
 @ViewScoped
 public class RazaBean implements Serializable {
 	/**

@@ -6,14 +6,11 @@ import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
 
-import com.web.pet.global.Parametro;
 import com.web.util.MessageUtil;
 import com.web.util.Utilities;
 
 @ManagedBean
-@Named
 @ViewScoped
 public class ReporteMascotasEstadiaXVencer implements Serializable {
 
@@ -39,7 +36,7 @@ public class ReporteMascotasEstadiaXVencer implements Serializable {
 		try {
 			if (validarCampos()) {
 				String nombreReporte = "MascotasEstadiaxVencer";
-				String rutaLogo = Parametro.RUTA_IMAGENES_MISCELLANEOUS+"logo_empresa.jpg";
+				String rutaLogo = "logo_empresa.jpg";//TODO foto
 				Map<String, Object> parametros = new HashMap<String, Object>();
 				
 				parametros.put("P_LOGO", rutaLogo);

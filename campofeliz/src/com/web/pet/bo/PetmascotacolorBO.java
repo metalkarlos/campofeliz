@@ -18,7 +18,6 @@ public class PetmascotacolorBO {
 		try{
 			petmascotacolorDAOInterface = (PetmascotacolorDAOInterface)PetmascotacolorBO.class.getClassLoader().loadClass("com.web.pet.dao.PetmascotacolorDAO").newInstance();
 		}catch(Exception ex){
-			ex.printStackTrace();
 			throw new Exception("Problemas al cargar la interfaz PetmascotacolorDAOInterface");
 		}
 	}
@@ -31,7 +30,6 @@ public class PetmascotacolorBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisPetmascotacolor = petmascotacolorDAOInterface.lisPetmascotacolor(session, idmascota);
 		}catch(Exception e){
-			e.printStackTrace();
 			throw new Exception();
 		}finally{
 			session.close();
@@ -63,7 +61,6 @@ public class PetmascotacolorBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception e){
-			e.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception();
 		}finally{

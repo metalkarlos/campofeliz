@@ -10,15 +10,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
-import javax.inject.Named;
 
-import com.web.pet.global.Parametro;
-import com.web.util.FacesUtil;
 import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
-@Named
 @SessionScoped
 public class ThemeBean implements Serializable {
 	
@@ -40,8 +36,7 @@ public class ThemeBean implements Serializable {
 	private void loadThemes()
 	{
 		try{
-			String path = new FacesUtil().getRealPath("")+Parametro.FILE_SEPARATOR+"resources"+Parametro.FILE_SEPARATOR+"themes"+Parametro.FILE_SEPARATOR+"themes.properties";
-			properties = new FileUtil().getPropertiesFile(path);
+			properties = new FileUtil().getPropertiesFile("themes.properties");
 			Enumeration<Object> keys = properties.keys();
 			while(keys.hasMoreElements()){
 				String key = (String) keys.nextElement();

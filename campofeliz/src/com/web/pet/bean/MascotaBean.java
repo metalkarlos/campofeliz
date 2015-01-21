@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
 
 import com.web.pet.bo.CotcolorBO;
 import com.web.pet.bo.CotpersonaBO;
@@ -30,7 +29,6 @@ import com.web.util.FacesUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
-@Named
 @ViewScoped
 public class MascotaBean implements Serializable {
 	
@@ -360,7 +358,7 @@ public class MascotaBean implements Serializable {
 			PetmascotaBO petmascotaBO = new PetmascotaBO();
 			petmascotaBO.updatePet(petmascota, lisPetmascotacolorOld, lisPetmascotacolor);
 			FacesUtil facesUtil = new FacesUtil();
-			facesUtil.redirect("mascotas.jsf?iditem=2");
+			facesUtil.redirect("../pages/mascotas.jsf?iditem=2");
 		}catch(Exception re){
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}

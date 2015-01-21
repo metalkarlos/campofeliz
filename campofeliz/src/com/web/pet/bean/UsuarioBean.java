@@ -1,21 +1,17 @@
 package com.web.pet.bean;
 
 import java.io.Serializable;
-import java.util.Properties;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.inject.Named;
 
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.pet.bo.SetusuarioBO;
-import com.web.pet.global.Parametro;
 import com.web.util.FacesUtil;
 import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
-@Named
 @SessionScoped
 public class UsuarioBean implements Serializable{
 	
@@ -87,13 +83,13 @@ public class UsuarioBean implements Serializable{
 					facesUtil.removeSessionBean("urlrequested");
 				}else{
 					FileUtil fileUtil = new FileUtil();
-					Properties parametrosProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-					strRedirect = parametrosProperties.getProperty("home");
+					strRedirect = fileUtil.getPropertyValue("home");
 				}
 			}else{
 				new MessageUtil().showWarnMessage("Autenticación fallida","Usuario o Contraseña no existen.");
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 		
@@ -106,20 +102,22 @@ public class UsuarioBean implements Serializable{
 		try{
 			facesUtil.logout();
 			FileUtil fileUtil = new FileUtil();
-			Properties parametrosProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-			String strLogin = parametrosProperties.getProperty("login");
-			facesUtil.redirect(strLogin);
-		}catch(RuntimeException re){
+			String strLogin = fileUtil.getPropertyValue("login");
+			facesUtil.redirect("../pages/"+strLogin);
+		}catch(Exception re){
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 		return "";
 	}
 	
 	public String redirect(){
-		FileUtil fileUtil = new FileUtil();
-		Properties parametrosProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-		String strnotlogged = parametrosProperties.getProperty("notlogged");
-		new FacesUtil().redirect(strnotlogged);
+		try{
+			FileUtil fileUtil = new FileUtil();
+			String strnotlogged = fileUtil.getPropertyValue("notlogged");
+			new FacesUtil().redirect("../pages/"+strnotlogged);
+		}catch(Exception re){
+			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+		}
 		return "";
 	}
 	

@@ -19,7 +19,6 @@ public class CotcolorBO {
 		try{
 			cotcolorDAOInterface = (CotcolorDAOInterface) CotcolorBO.class.getClassLoader().loadClass("com.web.pet.dao.CotcolorDAO").newInstance();
         }catch(Exception ex){
-        	ex.printStackTrace();
             throw new RuntimeException("Problemas al cargar la interfaz CotcolorDAOInterface");
         }
 	}
@@ -32,7 +31,6 @@ public class CotcolorBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisCotcolor = cotcolorDAOInterface.lisCotcolor(session);
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new Exception();
 		}finally{
 			session.close();
@@ -49,7 +47,6 @@ public class CotcolorBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			cotcolor = cotcolorDAOInterface.getCotcolorById(session, id);
 		} catch(Exception he) {
-			he.printStackTrace();
 			throw new Exception();
 		} finally {
 			session.close();
@@ -66,7 +63,6 @@ public class CotcolorBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisCotcolor = cotcolorDAOInterface.lisCotcolorByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new RuntimeException();
 		}finally{
 			session.close();
@@ -98,7 +94,6 @@ public class CotcolorBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{
@@ -127,7 +122,6 @@ public class CotcolorBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception();
 		}finally{

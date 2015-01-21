@@ -19,7 +19,6 @@ public class CottiposervicioBO {
 		try {
 			cottiposervicioDAOInterface = (CottiposervicioDAOInterface) CottiposervicioBO.class.getClassLoader().loadClass("com.web.pet.dao.CottiposervicioDAO").newInstance();
 		} catch(Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException("Problemas al cargar la interfaz CottiposervicioDAOInterface");
 		}
 	}
@@ -32,7 +31,6 @@ public class CottiposervicioBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			cottiposervicio = cottiposervicioDAOInterface.getCottiposervicioById(session, id);
 		} catch(Exception e){
-			e.printStackTrace();
 			throw new Exception();
 		} finally {
 			session.close();
@@ -49,7 +47,6 @@ public class CottiposervicioBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisCottiposervicio = cottiposervicioDAOInterface.lisCottiposervicioByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new RuntimeException();
 		}finally{
 			session.close();
@@ -81,7 +78,6 @@ public class CottiposervicioBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{
@@ -110,7 +106,6 @@ public class CottiposervicioBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception();
 		}finally{

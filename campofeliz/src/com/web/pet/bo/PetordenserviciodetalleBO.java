@@ -19,7 +19,6 @@ public class PetordenserviciodetalleBO {
 		try{
 			petordenserviciodetalleDAOInterface = (PetordenserviciodetalleDAOInterface) PetordenserviciodetalleBO.class.getClassLoader().loadClass("com.web.pet.dao.PetordenserviciodetalleDAO").newInstance();
         }catch(Exception ex){
-        	ex.printStackTrace();
             throw new RuntimeException("Problemas al cargar la interfaz PetordenserviciodetalleDAOInterface");
         }
 	}
@@ -32,7 +31,6 @@ public class PetordenserviciodetalleBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			petordenserviciodetalle = petordenserviciodetalleDAOInterface.getPetordenserviciodetalleById(session, petordenserviciodetalleId);
 		} catch(Exception he) {
-			he.printStackTrace();
 			throw new Exception();
 		} finally {
 			session.close();
@@ -49,7 +47,6 @@ public class PetordenserviciodetalleBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisPetordenserviciodetalle = petordenserviciodetalleDAOInterface.lisPethistoriaclinicadetalleByPage(session, pageSize, pageNumber, args, idordenservicio);
 		}catch(Exception e){
-			e.printStackTrace();
 			throw new RuntimeException();
 		}finally{
 			session.close();
@@ -81,7 +78,6 @@ public class PetordenserviciodetalleBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception e){
-			e.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{
@@ -110,7 +106,6 @@ public class PetordenserviciodetalleBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception e){
-			e.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception();
 		}finally{
@@ -133,7 +128,6 @@ public class PetordenserviciodetalleBO {
 			session.getTransaction().commit();
 			ok = true;
 		} catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{

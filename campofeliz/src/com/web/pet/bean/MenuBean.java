@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.inject.Named;
 
 import org.primefaces.event.TabChangeEvent;
 
@@ -15,7 +14,6 @@ import com.web.util.FacesUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
-@Named
 @SessionScoped
 public class MenuBean implements Serializable {
 	
@@ -81,9 +79,9 @@ public class MenuBean implements Serializable {
 			setLogoMenu(menu.getIconourl());
 			
 			if(menu.getPaginaurl() != null){
-				new FacesUtil().redirect(menu.getPaginaurl()+"?iditem="+menu.getIdmenu());
+				new FacesUtil().redirect("../pages/"+menu.getPaginaurl()+"?iditem="+menu.getIdmenu());
 			}
-		}catch(RuntimeException re){
+		}catch(Exception re){
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}

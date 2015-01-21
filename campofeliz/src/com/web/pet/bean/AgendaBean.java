@@ -9,7 +9,6 @@ import java.util.TimeZone;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-import javax.inject.Named;
 
 import org.primefaces.event.DateSelectEvent;
 import org.primefaces.event.ScheduleEntryMoveEvent;
@@ -28,7 +27,6 @@ import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.MessageUtil;
 
 @ManagedBean
-@Named
 @ViewScoped
 public class AgendaBean implements Serializable{
 

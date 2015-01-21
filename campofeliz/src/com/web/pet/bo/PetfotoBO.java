@@ -1,14 +1,13 @@
 package com.web.pet.bo;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
 import com.web.pet.daointerface.PetfotoDAOInterface;
-import com.web.pet.global.Parametro;
 import com.web.pet.pojo.annotations.Petfoto;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
@@ -22,7 +21,6 @@ public class PetfotoBO {
 		try{
 			petfotoDAOInterface = (PetfotoDAOInterface) PetfotoBO.class.getClassLoader().loadClass("com.web.pet.dao.PetfotoDAO").newInstance();
         }catch(Exception e){
-        	e.printStackTrace();
             throw new RuntimeException("Problemas al cargar la interfaz PetfotoDAOInterface");
         }
 	}
@@ -34,21 +32,7 @@ public class PetfotoBO {
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisPetfoto = petfotoDAOInterface.lisPetfotoByPetId(session, idmascota);
-			FileUtil fileUtil = new FileUtil();
-			Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-			String resources_server_url = petsoftProperties.getProperty("resources_server_url");
-			String resources_server_war = petsoftProperties.getProperty("resources_server_war");
-			
-			for(Petfoto petfoto : lisPetfoto){
-				String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-				if(fileUtil.existFile(mascotaPath)){
-					petfoto.setRuta(resources_server_url + petfoto.getRuta());
-				}else{
-					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}
-			}
 		}catch(Exception re){
-			re.printStackTrace();
 			throw new Exception();
 		}finally{
 			session.close();
@@ -72,21 +56,35 @@ public class PetfotoBO {
 			String nombrearchivo = petfoto.getPetmascota().getPetespecie().getIdespecie()+"-"+petfoto.getPetmascota().getIdmascota()+"-"+maxid+"."+fileExtention.toLowerCase();
 			
 			petfoto.setIdfoto(maxid);
+			
+			FileUtil fileUtil = new FileUtil();
+			FacesUtil facesUtil = new FacesUtil();
+			Calendar fecha = Calendar.getInstance();
+			
+			String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
+			String rutaMascota =  "/mascotas/" + fecha.get(Calendar.YEAR);
+			String rutaCompleta = rutaImagenes + rutaMascota;
+			
+			//asignar ruta y nombre de archivo en objeto
 			petfoto.setNombrearchivo(nombrearchivo);
-			petfoto.setRuta(Parametro.MASCOTAS_PATH + petfoto.getPetmascota().getIdmascota() + Parametro.FILE_SEPARATOR + nombrearchivo);
+			petfoto.setRuta(rutaMascota+"/"+nombrearchivo);
 			petfoto.setFecharegistro(fecharegistro);
 			petfoto.setIplog(usuarioBean.getIp());
 			petfoto.getPetestado().setIdestado(1);
 			petfoto.setSetusuario(usuarioBean.getSetUsuario());
 	
-			createImageOnDisc(petfoto);
+			if(fileUtil.createDir(rutaCompleta)){
+				//crear foto en disco
+				String rutaArchivo = rutaCompleta + "/" + nombrearchivo;
+				fileUtil.createFile(rutaArchivo,petfoto.getObjeto());
+			}
+			
 			petfoto.setObjeto(null);
 			petfotoDAOInterface.savePetfoto(session, petfoto);
 			
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception re){
-			re.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{
@@ -94,18 +92,6 @@ public class PetfotoBO {
 		}
 		
 		return ok;
-	}
-	
-	private void createImageOnDisc(Petfoto petfoto) throws Exception {
-		FileUtil fileUtil = new FileUtil();
-		Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-		String resources_server_war = petsoftProperties.getProperty("resources_server_war");
-		
-		String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+Parametro.MASCOTAS_PATH+petfoto.getPetmascota().getIdmascota();
-		
-		if(fileUtil.createDir(mascotaPath)){
-			fileUtil.createFile(mascotaPath+Parametro.FILE_SEPARATOR+petfoto.getNombrearchivo(),petfoto.getObjeto());
-		}
 	}
 	
 	public boolean updatePetfoto(Petfoto petfoto) throws Exception {
@@ -127,7 +113,6 @@ public class PetfotoBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception();
 		}finally{
@@ -145,7 +130,6 @@ public class PetfotoBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lispetfoto = petfotoDAOInterface.lisPetfotoPerfil(session, tipo);
 		}catch(Exception re){
-			re.printStackTrace();
 			throw new Exception(); 
 		}finally{
 			session.close();
@@ -161,24 +145,7 @@ public class PetfotoBO {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, idmascota);
-			FileUtil fileUtil = new FileUtil();
-			Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-			String resources_server_url = petsoftProperties.getProperty("resources_server_url");
-			String resources_server_war = petsoftProperties.getProperty("resources_server_war");
-			
-			if(petfoto != null){
-				String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-				if(fileUtil.existFile(mascotaPath)){
-					petfoto.setRuta(resources_server_url + petfoto.getRuta());
-				}else{
-					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}
-			}else{
-				petfoto = new Petfoto();
-				petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-			}
 		} catch(Exception he){
-			he.printStackTrace();
 			throw new Exception(); 
 		}finally{
 			session.close();
@@ -200,7 +167,6 @@ public class PetfotoBO {
 			session.getTransaction().commit();
 			ok = true;
 		} catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new RuntimeException(); 
 		}finally{
@@ -227,7 +193,6 @@ public class PetfotoBO {
 			session.getTransaction().commit();
 			ok = true;
 		} catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{
@@ -250,7 +215,6 @@ public class PetfotoBO {
 			session.getTransaction().commit();
 			ok = true;
 		} catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{

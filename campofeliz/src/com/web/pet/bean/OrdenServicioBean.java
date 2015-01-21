@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
@@ -41,7 +40,6 @@ import com.web.util.MessageUtil;
 import com.web.util.Utilities;
 
 @ManagedBean
-@Named
 @ViewScoped
 public class OrdenServicioBean implements Serializable {
 	
@@ -362,7 +360,7 @@ public class OrdenServicioBean implements Serializable {
 			petordenservicioBO.updatePetordenservicio(petordenservicio);
 			
 			FacesUtil facesUtil = new FacesUtil();
-			facesUtil.redirect("ordenesservicio.jsf?iditem=40");
+			facesUtil.redirect("../pages/ordenesservicio.jsf?iditem=40");
 		}catch(Exception re){
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
@@ -389,7 +387,7 @@ public class OrdenServicioBean implements Serializable {
 		try {
 			String nombreReporte = "OrdenServicio";
 
-			String rutaLogo = Parametro.RUTA_IMAGENES_MISCELLANEOUS+"logo_empresa.jpg";
+			String rutaLogo = "logo_empresa.jpg";//TODO logo
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("P_LOGO", rutaLogo);
 			parametros.put("P_IDORDENSERVICIO", petordenservicio.getIdordenservicio());

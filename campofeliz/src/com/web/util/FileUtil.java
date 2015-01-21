@@ -1,38 +1,28 @@
 package com.web.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import com.web.pet.global.Parametro;
 
 public class FileUtil {
 
 	public void createFile(String path, byte[] bfile) throws Exception {
 		FileOutputStream fos;
 		
-		try {
-			fos = new FileOutputStream(new File(path));
-			fos.write(bfile);
-			fos.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception();
-		}
+		fos = new FileOutputStream(new File(path));
+		fos.write(bfile);
+		fos.close();
 	}
 	
 	public boolean deleteFile(String pathdirectory) throws Exception {
 		boolean ok = true;
 		
-		try {
-			File fileDir = new File(pathdirectory);
-			if(fileDir.exists()){
-				ok = fileDir.delete();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception();
+		File fileDir = new File(pathdirectory);
+		if(fileDir.exists()){
+			ok = fileDir.delete();
 		}
 				
 		return ok;
@@ -41,53 +31,57 @@ public class FileUtil {
 	public boolean createDir(String pathdirectory) throws Exception {
 		boolean ok = true;
 		
-		try {
-			File fileDir = new File(pathdirectory);
-			if(!fileDir.exists()){
-				ok = fileDir.mkdirs();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception();
+		File fileDir = new File(pathdirectory);
+		if(!fileDir.exists()){
+			ok = fileDir.mkdirs();
 		}
 				
 		return ok;
-	}
-	
-	public InputStream getResourceAsStream(String name)
-	{
-		return this.getClass().getResourceAsStream(name);
 	}
 	
 	public boolean existFile(String pathdirectory) throws Exception {
 		boolean ok = true;
 		
-		try {
-			File fileDir = new File(pathdirectory);
-			ok = fileDir.exists();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception();
-		}
+		File fileDir = new File(pathdirectory);
+		ok = fileDir.exists();
 				
 		return ok;
 	}
 	
-	public Properties getPropertiesFile(String path) {
+	public Properties getPropertiesFile(String nombre) throws Exception {
 		Properties properties = new Properties();
+		InputStream inputStream = null;
 		
 		try {
-			File file = new File(path);
-			if(file.exists()){
-				InputStream in = new FileInputStream(file);
-				properties.load(in);
+			inputStream = FileUtil.class.getClassLoader().getResourceAsStream(nombre);
+			
+			if(inputStream != null){
+				properties.load(inputStream);
+			}else{
+				throw new Exception("No se ha encontrado archivo: " + nombre);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException();
+		} catch (Exception e) {
+			throw new Exception(e);
+		} finally {
+			if(inputStream != null){
+				try{
+					inputStream.close();
+				}catch(Exception e){
+					
+				}
+			}
 		}
 		
 		return properties;
+	}
+	
+	public String getPropertyValue(String key) throws Exception {
+		String value = null;
+		
+		Properties properties = getPropertiesFile(Parametro.PROPERTIES_FILE_NAME);
+		value = properties.getProperty(key);
+		
+		return value;
 	}
 	
 	public String getFileExtention(String fileName){

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Properties;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -12,18 +11,15 @@ import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.inject.Named;
 
 import org.primefaces.event.DateSelectEvent;
 
-import com.web.pet.global.Parametro;
 import com.web.util.FileUtil;
 import com.web.pet.bo.CoteventoBO;
 import com.web.pet.pojo.annotations.Cotevento;
 import com.web.util.MessageUtil;
 
 @ManagedBean
-@Named
 @RequestScoped
 public class HomeBean implements Serializable {
 
@@ -36,9 +32,13 @@ public class HomeBean implements Serializable {
 	private String strUrlAgenda;
 	
 	public HomeBean() {
-		FileUtil fileUtil = new FileUtil();
-		Properties parametrosProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-		setStrUrlAgenda(parametrosProperties.getProperty("agenda"));
+		try {
+			FileUtil fileUtil = new FileUtil();
+			strUrlAgenda = fileUtil.getPropertyValue("agenda");
+		} catch (Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!", null);
+		}
 		
 		mostrarEventosAgendados();
 	}

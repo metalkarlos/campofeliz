@@ -18,7 +18,6 @@ public class CoteventoBO {
 		try {
 			coteventoDAOInterface = (CoteventoDAOInterface) CoteventoBO.class.getClassLoader().loadClass("com.web.pet.dao.CoteventoDAO").newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException("Problemas al cargar la interfaz CoteventoDAOInterface");
 		}
 	}
@@ -46,7 +45,6 @@ public class CoteventoBO {
 			session.getTransaction().commit();
 			ok = true;
 		} catch(Exception e){
-			e.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception();
 		} finally {
@@ -75,7 +73,6 @@ public class CoteventoBO {
 			session.getTransaction().commit();
 			ok = true;
 		} catch(Exception e){
-			e.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception();
 		} finally {
@@ -97,7 +94,6 @@ public class CoteventoBO {
 			session.getTransaction().commit();
 			ok = true;
 		} catch(Exception e){
-			e.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception();
 		} finally {
@@ -115,7 +111,6 @@ public class CoteventoBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisCotevento = coteventoDAOInterface.lisCotevento(session, fechadesde, fechahasta);
 		} catch(Exception e){
-			e.printStackTrace();
 			throw new RuntimeException();
 		} finally {
 			session.close();

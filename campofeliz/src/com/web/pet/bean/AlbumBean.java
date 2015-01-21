@@ -7,7 +7,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-import javax.inject.Named;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -27,7 +26,6 @@ import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
-@Named
 @ViewScoped
 public class AlbumBean implements Serializable {
 
@@ -175,10 +173,16 @@ public class AlbumBean implements Serializable {
 	public void eliminarFotoAlbum(ActionEvent actionEvent)
 	{
 		try {
-			String realpath = new FacesUtil().getRealPath("");
-			FileUtil disco = new FileUtil();
+			//eliminar foto del disco
+			FileUtil fileUtil = new FileUtil();
+			FacesUtil facesUtil = new FacesUtil();
 			
-			if(disco.deleteFile(realpath+Parametro.MASCOTAS_PATH+idmascota+Parametro.FILE_SEPARATOR+petfotoSelected.getNombrearchivo())){
+			String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
+			String rutaArchivo = rutaImagenes + petfotoSelected.getRuta();
+			
+			fileUtil.deleteFile(rutaArchivo);
+			
+			if(fileUtil.deleteFile(rutaArchivo)){
 				new PetfotoBO().eliminarFotoAlbum(petfotoSelected.getIdfoto());
 				new MessageUtil().showInfoMessage("Exito!", " Foto eliminada!");
 				lispetfoto = new PetfotoBO().lisPetfotoByPetId(idmascota);

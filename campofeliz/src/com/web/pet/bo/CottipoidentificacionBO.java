@@ -16,7 +16,6 @@ public class CottipoidentificacionBO {
 		try{
 			cottipoidentificacionDAOInterface = (CottipoidentificacionDAOInterface)CottipoidentificacionBO.class.getClassLoader().loadClass("com.web.pet.dao.CottipoidentificacionDAO").newInstance();
 		}catch(Exception e){
-			e.printStackTrace();
 			throw new Exception("Problemas al cargar la interfaz CottipoidentificacionDAOInterface");
 		}
 	}
@@ -29,7 +28,6 @@ public class CottipoidentificacionBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisCottipoidentificacion = cottipoidentificacionDAOInterface.lisCottipoidentificacion(session);
 		}catch(Exception e){
-			e.printStackTrace();
 			throw new Exception();
 		}finally{
 			session.close();

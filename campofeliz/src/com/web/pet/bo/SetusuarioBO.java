@@ -15,7 +15,6 @@ public class SetusuarioBO {
 		try{
 			setusuarioDAOInterface = (SetusuarioDAOInterface) SetusuarioBO.class.getClassLoader().loadClass("com.web.pet.dao.SetusuarioDAO").newInstance();
         }catch(Exception ex){
-        	ex.printStackTrace();
             throw new RuntimeException("Problemas al cargar la interfaz SetusuarioDAOInterface");
         }
 	}
@@ -27,7 +26,6 @@ public class SetusuarioBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			setusuario = setusuarioDAOInterface.getByUserPasswd(session, nombre, clave);
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new Exception();
 		}finally{
 			session.close();

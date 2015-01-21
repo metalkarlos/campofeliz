@@ -3,7 +3,6 @@ package com.web.pet.bo;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import org.hibernate.Session;
 
@@ -11,14 +10,12 @@ import com.web.pet.bean.UsuarioBean;
 import com.web.pet.daointerface.PetfotoDAOInterface;
 import com.web.pet.daointerface.PetmascotaDAOInterface;
 import com.web.pet.daointerface.PetmascotacolorDAOInterface;
-import com.web.pet.global.Parametro;
 import com.web.pet.pojo.annotations.Mascotas;
 import com.web.pet.pojo.annotations.Petestado;
 import com.web.pet.pojo.annotations.Petfoto;
 import com.web.pet.pojo.annotations.Petmascota;
 import com.web.pet.pojo.annotations.Petmascotacolor;
 import com.web.util.FacesUtil;
-import com.web.util.FileUtil;
 import com.web.util.HibernateUtil;
 
 public class PetmascotaBO {
@@ -32,21 +29,18 @@ public class PetmascotaBO {
 		try {
 			petmascotaDAOInterface = (PetmascotaDAOInterface) PetmascotaBO.class.getClassLoader().loadClass("com.web.pet.dao.PetmascotaDAO").newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException("Problemas al cargar la interfaz PetmascotaDAOInterface");
 		} 
         
         try{
         	petfotoDAOInterface = (PetfotoDAOInterface) PetmascotaBO.class.getClassLoader().loadClass("com.web.pet.dao.PetfotoDAO").newInstance();
         }catch(Exception e){
-        	e.printStackTrace();
 			throw new RuntimeException();
         }
         
         try{
         	petmascotacolorDAOInterface = (PetmascotacolorDAOInterface) PetmascotaBO.class.getClassLoader().loadClass("com.web.pet.dao.PetmascotacolorDAO").newInstance();
         }catch(Exception e){
-        	e.printStackTrace();
 			throw new RuntimeException();
         }
 	}
@@ -59,7 +53,6 @@ public class PetmascotaBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			dataset = petmascotaDAOInterface.lisPetmascota(session, tipo);
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new RuntimeException();
 		}finally{
 			session.close();
@@ -148,7 +141,6 @@ public class PetmascotaBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception();
 		}finally{
@@ -196,7 +188,6 @@ public class PetmascotaBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{
@@ -214,7 +205,6 @@ public class PetmascotaBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			petmascota = petmascotaDAOInterface.getPetmascotaById(session, idmascota);
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new Exception();
 		}finally{
 			session.close();
@@ -231,25 +221,10 @@ public class PetmascotaBO {
 			lisMascotas = new ArrayList<Mascotas>();
 			session = HibernateUtil.getSessionFactory().openSession();
 			List<Petmascota> lisPetmascota = petmascotaDAOInterface.lisPetmascota(session, tipo);
-			FileUtil fileUtil = new FileUtil();
-			Properties systemProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-			String resources_server_url = systemProperties.getProperty("resources_server_url");
-			String resources_server_war = systemProperties.getProperty("resources_server_war");
 			
 			for(Petmascota petmascota : lisPetmascota){
 				Petfoto petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, petmascota.getIdmascota());
 				
-				if(petfoto != null){
-					String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-					if(fileUtil.existFile(mascotaPath)){
-						petfoto.setRuta(resources_server_url + petfoto.getRuta());
-					}else{
-						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-					}
-				}else{
-					petfoto = new Petfoto();
-					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
 				mascotas.setPetmascota(petmascota);
@@ -257,7 +232,6 @@ public class PetmascotaBO {
 			}
 			
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new Exception();
 		}finally{
 			session.close();
@@ -274,25 +248,10 @@ public class PetmascotaBO {
 			lisMascotas = new ArrayList<Mascotas>();
 			session = HibernateUtil.getSessionFactory().openSession();
 			List<Petmascota> lisPetmascota = petmascotaDAOInterface.lisPetmascotaByEspecieByPage(session, especie, nombre, pageSize, pageNumber, args);
-			FileUtil fileUtil = new FileUtil();
-			Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-			String resources_server_url = petsoftProperties.getProperty("resources_server_url");
-			String resources_server_war = petsoftProperties.getProperty("resources_server_war");
 			
 			for(Petmascota petmascota : lisPetmascota){
 				Petfoto petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, petmascota.getIdmascota());
 				
-				if(petfoto != null){
-					String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-					if(fileUtil.existFile(mascotaPath)){
-						petfoto.setRuta(resources_server_url + petfoto.getRuta());
-					}else{
-						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-					}
-				}else{
-					petfoto = new Petfoto();
-					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
 				mascotas.setPetmascota(petmascota);
@@ -300,7 +259,6 @@ public class PetmascotaBO {
 			}
 			
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new RuntimeException();
 		}finally{
 			session.close();
@@ -317,27 +275,10 @@ public class PetmascotaBO {
 			lisMascotas = new ArrayList<Mascotas>();
 			session = HibernateUtil.getSessionFactory().openSession();
 			List<Petmascota> lisPetmascota = petmascotaDAOInterface.lisPetmascotaByPage(session, nombre, pageSize, pageNumber, args);
-			FileUtil fileUtil = new FileUtil();
-			Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-			String resources_server_url = petsoftProperties.getProperty("resources_server_url");
-			String resources_server_war = petsoftProperties.getProperty("resources_server_war");
 			
 			for(Petmascota petmascota : lisPetmascota){
 				Petfoto petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, petmascota.getIdmascota());
 
-				if(petfoto != null){
-					String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-					
-					if(fileUtil.existFile(mascotaPath)){
-						petfoto.setRuta(resources_server_url + petfoto.getRuta());
-					}
-					else{
-						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-					}
-				}else{
-					petfoto = new Petfoto();
-					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
 				mascotas.setPetmascota(petmascota);
@@ -345,7 +286,6 @@ public class PetmascotaBO {
 			}
 			
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new RuntimeException();
 		}finally{
 			session.close();
@@ -362,32 +302,16 @@ public class PetmascotaBO {
 			lisMascotas = new ArrayList<Mascotas>();
 			session = HibernateUtil.getSessionFactory().openSession();
 			List<Petmascota> lisPetmascota = petmascotaDAOInterface.lisPetmascotaBusqueda(session, petmascota, caracteristicas);
-			FileUtil fileUtil = new FileUtil();
-			Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-			String resources_server_url = petsoftProperties.getProperty("resources_server_url");
-			String resources_server_war = petsoftProperties.getProperty("resources_server_war");
 			
 			for(Petmascota petmascota1 : lisPetmascota){
 				Petfoto petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, petmascota1.getIdmascota());
 				
-				if(petfoto != null){
-					String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-					if(fileUtil.existFile(mascotaPath)){
-						petfoto.setRuta(resources_server_url + petfoto.getRuta());
-					}else{
-						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-					}
-				}else{
-					petfoto = new Petfoto();
-					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
 				mascotas.setPetmascota(petmascota1);
 				lisMascotas.add(mascotas);
 			}
 		} catch(Exception e){
-			e.printStackTrace();
 			throw new Exception();
 		} finally {
 			session.close();
@@ -405,33 +329,16 @@ public class PetmascotaBO {
 			lisMascotas = new ArrayList<Mascotas>();
 			session = HibernateUtil.getSessionFactory().openSession();
 			List<Petmascota> lisPetmascota = petmascotaDAOInterface.lisPetmascotaBusquedaByPage(session, petmascota, caracteristicas, pageSize, pageNumber, args);
-			FileUtil fileUtil = new FileUtil();
-			Properties petsoftProperties = fileUtil.getPropertiesFile(Parametro.PARAMETROS_PROPERTIES_PATH);
-			String resources_server_url = petsoftProperties.getProperty("resources_server_url");
-			String resources_server_war = petsoftProperties.getProperty("resources_server_war");
 			
 			for(Petmascota petmascota1 : lisPetmascota){
 				Petfoto petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, petmascota1.getIdmascota());
 				
-				if(petfoto != null){
-					String mascotaPath = Parametro.DEPLOYMENTS_PATH+Parametro.FILE_SEPARATOR+resources_server_war+petfoto.getRuta();
-					if(fileUtil.existFile(mascotaPath)){
-						petfoto.setRuta(resources_server_url + petfoto.getRuta());
-					}
-					else{
-						petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-					}
-				}else{
-					petfoto = new Petfoto();
-					petfoto.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfoto(petfoto);
 				mascotas.setPetmascota(petmascota1);
 				lisMascotas.add(mascotas);
 			}
 		} catch(Exception e){
-			e.printStackTrace();
 			throw new RuntimeException();
 		} finally {
 			session.close();

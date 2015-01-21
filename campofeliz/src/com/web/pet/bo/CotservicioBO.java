@@ -19,7 +19,6 @@ public class CotservicioBO {
 		try {
 			cotservicioDAOInterface = (CotservicioDAOInterface) CotservicioBO.class.getClassLoader().loadClass("com.web.pet.dao.CotservicioDAO").newInstance();
 		} catch(Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException("Problemas al cargar la interfaz CotservicioDAOInterface");
 		}
 	}
@@ -32,7 +31,6 @@ public class CotservicioBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisCotservicio = cotservicioDAOInterface.lisCotservicio(session);
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new Exception();
 		}finally{
 			session.close();
@@ -49,7 +47,6 @@ public class CotservicioBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			cotservicio = cotservicioDAOInterface.getCotservicioById(session, id);
 		} catch(Exception e){
-			e.printStackTrace();
 			throw new Exception();
 		} finally {
 			session.close();
@@ -66,7 +63,6 @@ public class CotservicioBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisCotservicio = cotservicioDAOInterface.lisCotservicioByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new RuntimeException();
 		}finally{
 			session.close();
@@ -98,7 +94,6 @@ public class CotservicioBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{
@@ -127,7 +122,6 @@ public class CotservicioBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception();
 		}finally{

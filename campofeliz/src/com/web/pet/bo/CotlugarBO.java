@@ -19,7 +19,6 @@ public class CotlugarBO {
 		try {
 			cotlugarDAOInterface = (CotlugarDAOInterface) CotlugarBO.class.getClassLoader().loadClass("com.web.pet.dao.CotlugarDAO").newInstance();
 		} catch(Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException("Problemas al cargar la interfaz CotlugarDAOInterface");
 		}
 	}
@@ -32,7 +31,6 @@ public class CotlugarBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisCotlugar = cotlugarDAOInterface.lisCotlugar(session);
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new Exception();
 		}finally{
 			session.close();
@@ -49,7 +47,6 @@ public class CotlugarBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			cotlugar = cotlugarDAOInterface.getCotlugarById(session, id);
 		} catch(Exception e){
-			e.printStackTrace();
 			throw new Exception();
 		} finally {
 			session.close();
@@ -66,7 +63,6 @@ public class CotlugarBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisCotlugar = cotlugarDAOInterface.lisCotlugarByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new RuntimeException();
 		}finally{
 			session.close();
@@ -98,7 +94,6 @@ public class CotlugarBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{
@@ -127,7 +122,6 @@ public class CotlugarBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception();
 		}finally{

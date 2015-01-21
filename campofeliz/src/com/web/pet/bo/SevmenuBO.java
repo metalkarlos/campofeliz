@@ -19,7 +19,6 @@ public class SevmenuBO {
 		try{
 			sevmenuDAOInterface = (SevmenuDAOInterface) SevmenuBO.class.getClassLoader().loadClass("com.web.pet.dao.SevmenuDAO").newInstance();
         }catch(Exception ex){
-        	ex.printStackTrace();
             throw new RuntimeException("Problemas al cargar la interfaz SevmenuDAOInterface");
         }
 	}
@@ -55,7 +54,6 @@ public class SevmenuBO {
 				lisMenu.add(menu);
 			}
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new Exception();
 		}finally{
 			session.close();

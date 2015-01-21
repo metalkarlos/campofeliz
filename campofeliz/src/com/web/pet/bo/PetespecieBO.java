@@ -19,7 +19,6 @@ public class PetespecieBO {
 		try {
 			petespecieDAOInterface = (PetespecieDAOInterface) PetespecieBO.class.getClassLoader().loadClass("com.web.pet.dao.PetespecieDAO").newInstance();
 		} catch(Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException("Problemas al cargar la interfaz PetespecieDAOInterface");
 		}
 	}
@@ -32,7 +31,6 @@ public class PetespecieBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisPetespecie = petespecieDAOInterface.lisPetespecie(session);
 		} catch(Exception e) {
-			e.printStackTrace();
 			throw new Exception();
 		}finally {
 			session.close();
@@ -49,7 +47,6 @@ public class PetespecieBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			petespecie = petespecieDAOInterface.getPetespecieById(session, id);
 		} catch(Exception e){
-			e.printStackTrace();
 			throw new Exception();
 		} finally {
 			session.close();
@@ -66,7 +63,6 @@ public class PetespecieBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			lisPetespecie = petespecieDAOInterface.lisPetespecieByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
-			he.printStackTrace();
 			throw new RuntimeException();
 		}finally{
 			session.close();
@@ -98,7 +94,6 @@ public class PetespecieBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{
@@ -127,7 +122,6 @@ public class PetespecieBO {
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){
-			he.printStackTrace();
 			session.getTransaction().rollback();
 			throw new Exception();
 		}finally{

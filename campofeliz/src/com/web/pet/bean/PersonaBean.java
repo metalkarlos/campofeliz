@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
 
 import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.bo.CottipoidentificacionBO;
@@ -18,7 +17,6 @@ import com.web.util.FacesUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
-@Named
 @ViewScoped
 public class PersonaBean implements Serializable {
 
@@ -257,7 +255,7 @@ public class PersonaBean implements Serializable {
 			CotpersonaBO cotpersonaBO = new CotpersonaBO();
 			cotpersonaBO.updateCotpersona(cotpersona);
 			FacesUtil facesUtil = new FacesUtil();
-			facesUtil.redirect("personas.jsf?iditem=36");
+			facesUtil.redirect("../pages/personas.jsf?iditem=36");
 		}catch(Exception re){
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}

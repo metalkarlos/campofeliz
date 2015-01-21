@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
@@ -22,7 +21,6 @@ import com.web.util.FacesUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
-@Named
 @ViewScoped
 public class PersonasBean implements Serializable {
 
@@ -107,7 +105,11 @@ public class PersonasBean implements Serializable {
 	}
 
 	public void onRowSelect(SelectEvent event){
-		FacesUtil facesUtil = new FacesUtil();
-		facesUtil.redirect("persona.jsf?faces-redirect=true&idpersona="+cotpersonaSelected.getIdpersona()+"&iditem=36");
+		try{
+			FacesUtil facesUtil = new FacesUtil();
+			facesUtil.redirect("../pages/persona.jsf?faces-redirect=true&idpersona="+cotpersonaSelected.getIdpersona()+"&iditem=36");
+		}catch(Exception re){
+			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+		}
 	}
 }
