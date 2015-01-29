@@ -8,12 +8,10 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.PetespecieDAOInterface;
 import com.web.pet.pojo.annotations.Petespecie;
 
-public class PetespecieDAO implements PetespecieDAOInterface {
+public class PetespecieDAO {
 
-	@Override
 	public int maxIdPetespecie(Session session) throws Exception {
 		int max = 0;
 
@@ -26,18 +24,15 @@ public class PetespecieDAO implements PetespecieDAOInterface {
 		return max;
 	}
 
-	@Override
 	public void savePetespecie(Session session, Petespecie petespecie) throws Exception {
 		session.save(petespecie);
 	}
 
-	@Override
 	public void updatePetespecie(Session session, Petespecie petespecie) throws Exception {
 		session.update(petespecie);
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Petespecie> lisPetespecie(Session session) throws Exception {
 		List<Petespecie> lisPettipo = null;
 		
@@ -49,7 +44,6 @@ public class PetespecieDAO implements PetespecieDAOInterface {
 		return lisPettipo;
 	}
 
-	@Override
 	public Petespecie getPetespecieById(Session session, int id) throws Exception {
 		Petespecie pettipo = null;
 		
@@ -63,7 +57,6 @@ public class PetespecieDAO implements PetespecieDAOInterface {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Petespecie> lisPetespecieByPage(Session session, int pageSize, int pageNumber, int[] args) throws Exception {
 		List<Petespecie> lisPetespecie = null;
 		

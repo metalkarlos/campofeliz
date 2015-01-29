@@ -8,12 +8,10 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.CotlugarDAOInterface;
 import com.web.pet.pojo.annotations.Cotlugar;
 
-public class CotlugarDAO implements CotlugarDAOInterface {
+public class CotlugarDAO {
 
-	@Override
 	public int maxIdCotlugar(Session session) throws Exception {
 		int max = 0;
 
@@ -26,20 +24,17 @@ public class CotlugarDAO implements CotlugarDAOInterface {
 		return max;
 	}
 
-	@Override
 	public void saveCotlugar(Session session, Cotlugar cotlugar)
 			throws Exception {
 		session.save(cotlugar);
 	}
 
-	@Override
 	public void updateCotlugar(Session session, Cotlugar cotlugar)
 			throws Exception {
 		session.update(cotlugar);
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Cotlugar> lisCotlugar(Session session) throws Exception {
 		List<Cotlugar> arraydatos = null;
 		
@@ -53,7 +48,6 @@ public class CotlugarDAO implements CotlugarDAOInterface {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Cotlugar> lisCotlugarByPage(Session session, int pageSize,
 			int pageNumber, int[] args) throws Exception {
 		List<Cotlugar> lisCotlugar = null;
@@ -84,7 +78,6 @@ public class CotlugarDAO implements CotlugarDAOInterface {
 		return lisCotlugar;
 	}
 
-	@Override
 	public Cotlugar getCotlugarById(Session session, int id) throws Exception {
 		Cotlugar cotlugar = null;
 		

@@ -8,12 +8,10 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.CotpersonaDAOInterface;
 import com.web.pet.pojo.annotations.Cotpersona;
 
-public class CotpersonaDAO implements CotpersonaDAOInterface {
+public class CotpersonaDAO {
 
-	@Override
 	public int maxIdCotpersona(Session session) throws Exception {
 		int max = 0;
 		
@@ -26,7 +24,6 @@ public class CotpersonaDAO implements CotpersonaDAOInterface {
 		return max;
 	}
 
-	@Override
 	public Cotpersona getCotpersonaById(Session session, int idpersona) throws Exception {
 		Cotpersona cotpersona = null;
 		
@@ -41,7 +38,6 @@ public class CotpersonaDAO implements CotpersonaDAOInterface {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Cotpersona> lisCotpersonaByPage(Session session, String[] nombres, int pageSize, int pageNumber, int[] args) throws Exception {
 		List<Cotpersona> lisCotpersona = null;
 		
@@ -107,7 +103,6 @@ public class CotpersonaDAO implements CotpersonaDAOInterface {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Cotpersona> lisCotpersonaPetmascotaByPage(Session session, String[] nombres, int pageSize, int pageNumber, int[] args) throws Exception {
 		List<Cotpersona> lisCotpersona = null;
 		
@@ -176,18 +171,15 @@ public class CotpersonaDAO implements CotpersonaDAOInterface {
 		return lisCotpersona;
 	}
 
-	@Override
 	public void saveCotpersona(Session session, Cotpersona cotpersona) throws Exception {
 		session.save(cotpersona);
 	}
 
-	@Override
 	public void updateCotpersona(Session session, Cotpersona cotpersona) throws Exception {
 		session.update(cotpersona);
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Cotpersona> lisCotpersonaBusqueda(Session session, Cotpersona cotpersona) throws Exception {
 		List<Cotpersona> lisCotpersona = null;
 		
@@ -253,7 +245,6 @@ public class CotpersonaDAO implements CotpersonaDAOInterface {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Cotpersona> lisCotpersonaBusquedaByPage(Session session, Cotpersona cotpersona, int pageSize, int pageNumber, int[] args) throws Exception {
 		List<Cotpersona> lisCotpersona = null;
 		

@@ -50,6 +50,7 @@ public class TipoServicioBean implements Serializable {
 				}
 			};
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -78,17 +79,9 @@ public class TipoServicioBean implements Serializable {
 					boolean ok = false;
 					
 					if(cottiposervicioItem.getIdtiposervicio() > 0){
-						try{
-							ok = cottiposervicioBO.updateCottiposervicio(cottiposervicioItem);
-						}catch(Exception re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						ok = cottiposervicioBO.updateCottiposervicio(cottiposervicioItem);
 					}else{
-						try{
-							ok = cottiposervicioBO.newCottiposervicio(cottiposervicioItem);
-						}catch(Exception re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						ok = cottiposervicioBO.newCottiposervicio(cottiposervicioItem);
 					}
 					
 					cottiposervicioItem = new Cottiposervicio(0, new Cotestado(), new Setusuario(), null, null, null, null);
@@ -103,6 +96,7 @@ public class TipoServicioBean implements Serializable {
 				new MessageUtil().showErrorMessage("Error!", "Datos incompletos!");
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -115,6 +109,7 @@ public class TipoServicioBean implements Serializable {
 			CottiposervicioBO cottiposervicioBO = new CottiposervicioBO();
 			cottiposervicioBO.updateCottiposervicio(cottiposervicioItem);
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}

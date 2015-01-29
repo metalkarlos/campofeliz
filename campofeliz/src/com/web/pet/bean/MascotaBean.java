@@ -26,6 +26,7 @@ import com.web.pet.pojo.annotations.Petmascotacolor;
 import com.web.pet.pojo.annotations.Petraza;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.FacesUtil;
+import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
@@ -50,6 +51,7 @@ public class MascotaBean implements Serializable {
 	private Cotpersona cotpersonaselected;
 	private Cottipoidentificacion cottipoidentificacionselected;
 	private Petfoto petfoto;
+	private String rutaImagenes;
 
 	public MascotaBean() {
 		petmascota = new Petmascota(0, new Petestado(), null, new Petraza(), new Setusuario(), new Petespecie(), new Cotpersona(), null, null, null, null, null, null, null, null, false, false, null);
@@ -62,6 +64,8 @@ public class MascotaBean implements Serializable {
 		llenarLisColor();
 		lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 		//lisColor = ColorConverter.lisColorDB;//Programación ubicada en ColorConverter
+		
+		cargarRutaImagenes();
 	}
 	
 	private void llenarLisTipoidentificacion(){
@@ -81,6 +85,7 @@ public class MascotaBean implements Serializable {
 				lisCottipoidentificacion.addAll(lisTmp);
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -101,6 +106,7 @@ public class MascotaBean implements Serializable {
 				lisRaza.addAll(lisTmp);
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -121,7 +127,17 @@ public class MascotaBean implements Serializable {
 				lisColor.addAll(lisTmp);
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+		}
+	}
+	
+	private void cargarRutaImagenes(){
+		try {
+			rutaImagenes = new FileUtil().getPropertyValue("rutaImagen");
+		} catch (Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Error!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
 	
@@ -165,6 +181,7 @@ public class MascotaBean implements Serializable {
 					}
 				}*/
 			}catch(Exception re){
+				re.printStackTrace();
 				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 			}
 		}
@@ -187,6 +204,7 @@ public class MascotaBean implements Serializable {
 				new MessageUtil().showFatalMessage("Cédula no Existe!", "Cédula no existe, verifique e intente nuevamente!");
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -316,24 +334,16 @@ public class MascotaBean implements Serializable {
 				}
 				
 				if(idmascota > 0){
-					try{
-						ok = petmascotaBO.updatePet(petmascota, lisPetmascotacolorOld, lisPetmascotacolor);
-						lisPetmascotacolorOld = new ArrayList<Petmascotacolor>(lisPetmascotacolor);
-					}catch(RuntimeException re){
-						new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-					}
+					ok = petmascotaBO.updatePet(petmascota, lisPetmascotacolorOld, lisPetmascotacolor);
+					lisPetmascotacolorOld = new ArrayList<Petmascotacolor>(lisPetmascotacolor);
 				}else{
 					if(especie > 0){
 						//petmascota.getPetespecie().setIdespecie(especie);
-						try{
-							ok = petmascotaBO.newPet(petmascota, lisPetmascotacolor);
-							idmascota = petmascota.getIdmascota();
-							lisPetmascotacolorOld = new ArrayList<Petmascotacolor>(lisPetmascotacolor);
-							/*FacesUtil facesUtil = new FacesUtil();
-							facesUtil.redirect("mascota.jsf?faces-redirect=true&idmascota="+idmascota+"&tipo="+especie+"&iditem=2");*/
-						}catch(RuntimeException re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						ok = petmascotaBO.newPet(petmascota, lisPetmascotacolor);
+						idmascota = petmascota.getIdmascota();
+						lisPetmascotacolorOld = new ArrayList<Petmascotacolor>(lisPetmascotacolor);
+						/*FacesUtil facesUtil = new FacesUtil();
+						facesUtil.redirect("mascota.jsf?faces-redirect=true&idmascota="+idmascota+"&tipo="+especie+"&iditem=2");*/
 					}else{
 						new MessageUtil().showFatalMessage("Oops!", "Tipo de mascota no definido, verifique e intente nuevamente!");
 					}
@@ -344,6 +354,7 @@ public class MascotaBean implements Serializable {
 				}
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 		
@@ -360,6 +371,7 @@ public class MascotaBean implements Serializable {
 			FacesUtil facesUtil = new FacesUtil();
 			facesUtil.redirect("../pages/mascotas.jsf?iditem=2");
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -425,6 +437,7 @@ public class MascotaBean implements Serializable {
 				lisPetmascotacolor.remove(i);
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -438,8 +451,17 @@ public class MascotaBean implements Serializable {
 				lisPetmascotacolor.add(petmascotacolor);
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
+	}
+
+	public String getRutaImagenes() {
+		return rutaImagenes;
+	}
+
+	public void setRutaImagenes(String rutaImagenes) {
+		this.rutaImagenes = rutaImagenes;
 	}
 	
 }

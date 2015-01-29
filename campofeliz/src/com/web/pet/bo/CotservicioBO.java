@@ -6,22 +6,12 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.daointerface.CotservicioDAOInterface;
+import com.web.pet.dao.CotservicioDAO;
 import com.web.pet.pojo.annotations.Cotservicio;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class CotservicioBO {
-	
-	private CotservicioDAOInterface cotservicioDAOInterface;
-
-	public CotservicioBO() throws RuntimeException {
-		try {
-			cotservicioDAOInterface = (CotservicioDAOInterface) CotservicioBO.class.getClassLoader().loadClass("com.web.pet.dao.CotservicioDAO").newInstance();
-		} catch(Exception e) {
-			throw new RuntimeException("Problemas al cargar la interfaz CotservicioDAOInterface");
-		}
-	}
 	
 	public List<Cotservicio> lisCotservicio() throws Exception {
 		List<Cotservicio> lisCotservicio = null;
@@ -29,7 +19,10 @@ public class CotservicioBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisCotservicio = cotservicioDAOInterface.lisCotservicio(session);
+			
+			CotservicioDAO cotservicioDAO = new CotservicioDAO();
+			
+			lisCotservicio = cotservicioDAO.lisCotservicio(session);
 		}catch(Exception he){
 			throw new Exception();
 		}finally{
@@ -45,7 +38,10 @@ public class CotservicioBO {
 		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			cotservicio = cotservicioDAOInterface.getCotservicioById(session, id);
+			
+			CotservicioDAO cotservicioDAO = new CotservicioDAO();
+			
+			cotservicio = cotservicioDAO.getCotservicioById(session, id);
 		} catch(Exception e){
 			throw new Exception();
 		} finally {
@@ -61,7 +57,10 @@ public class CotservicioBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisCotservicio = cotservicioDAOInterface.lisCotservicioByPage(session, pageSize, pageNumber, args);
+			
+			CotservicioDAO cotservicioDAO = new CotservicioDAO();
+			
+			lisCotservicio = cotservicioDAO.lisCotservicioByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
 			throw new RuntimeException();
 		}finally{
@@ -79,7 +78,9 @@ public class CotservicioBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			int maxid = cotservicioDAOInterface.maxIdCotservicio(session)+1;
+			CotservicioDAO cotservicioDAO = new CotservicioDAO();
+			
+			int maxid = cotservicioDAO.maxIdCotservicio(session)+1;
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
@@ -89,7 +90,7 @@ public class CotservicioBO {
 			cotservicio.getCotestado().setIdestado(1);
 			cotservicio.setSetusuario(usuarioBean.getSetUsuario());
 	
-			cotservicioDAOInterface.saveCotservicio(session, cotservicio);
+			cotservicioDAO.saveCotservicio(session, cotservicio);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -110,6 +111,8 @@ public class CotservicioBO {
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
+			
+			CotservicioDAO cotservicioDAO = new CotservicioDAO();
 		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
@@ -117,7 +120,7 @@ public class CotservicioBO {
 			cotservicio.setFecharegistro(fecharegistro);
 			cotservicio.setIplog(usuarioBean.getIp());
 			cotservicio.setSetusuario(usuarioBean.getSetUsuario());
-			cotservicioDAOInterface.updateCotservicio(session, cotservicio);
+			cotservicioDAO.updateCotservicio(session, cotservicio);
 			
 			session.getTransaction().commit();
 			ok = true;

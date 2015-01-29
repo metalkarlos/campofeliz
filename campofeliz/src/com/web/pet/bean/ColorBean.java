@@ -50,6 +50,7 @@ public class ColorBean implements Serializable {
 				}
 			};
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -78,17 +79,9 @@ public class ColorBean implements Serializable {
 					boolean ok = false;
 					
 					if(cotcolorItem.getIdcolor() > 0){
-						try{
-							ok = cotcolorBO.updateCotcolor(cotcolorItem);
-						}catch(Exception re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						ok = cotcolorBO.updateCotcolor(cotcolorItem);
 					}else{
-						try{
-							ok = cotcolorBO.newCotcolor(cotcolorItem);
-						}catch(Exception re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						ok = cotcolorBO.newCotcolor(cotcolorItem);
 					}
 					
 					cotcolorItem = new Cotcolor(0, new Cotestado(), new Setusuario(), null, null, null, null, null);
@@ -103,6 +96,7 @@ public class ColorBean implements Serializable {
 				new MessageUtil().showErrorMessage("Error!", "Datos incompletos!");
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -115,6 +109,7 @@ public class ColorBean implements Serializable {
 			CotcolorBO cotcolorBO = new CotcolorBO();
 			cotcolorBO.updateCotcolor(cotcolorItem);
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}

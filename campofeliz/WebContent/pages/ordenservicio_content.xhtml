@@ -32,7 +32,7 @@
 					<f:facet name="itemtip">  
                     <h:panelGrid  columns="2" cellpadding="5" width="350px">  
                         <f:facet name="header">  
-                            <center><p:graphicImage value="#{m.petfoto.ruta}" style="max-height: 100px"/></center>
+                            <center><p:graphicImage value="#{ordenServicioBean.rutaImagenes}#{m.petfoto.ruta}?w=150" style="max-height: 100px"/></center>
                         </f:facet>  
   
   						<h:outputText value="Código: " style="font-weight: bold;" />
@@ -58,7 +58,7 @@
 						<br />
 						</p:column>
 						<p:column rowspan="8">
-							<p:graphicImage id="idfotox" value="#{ordenServicioBean.mascotasselected.petfoto.ruta}" style="max-height: 150px" />
+							<p:graphicImage id="idfotox" value="#{ordenServicioBean.rutaImagenes}#{ordenServicioBean.mascotasselected.petfoto.ruta}?w=150" style="max-height: 150px" />
 						</p:column>
 					</p:row>
 

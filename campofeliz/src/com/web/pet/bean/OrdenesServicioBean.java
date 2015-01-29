@@ -58,6 +58,7 @@ public class OrdenesServicioBean implements Serializable {
 				}
 			};
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -91,6 +92,7 @@ public class OrdenesServicioBean implements Serializable {
 			FacesUtil facesUtil = new FacesUtil();
 			facesUtil.redirect("../pages/ordenservicio.jsf?faces-redirect=true&idordenservicio="+petordenservicioSelected.getIdordenservicio()+"&iditem=40");
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}

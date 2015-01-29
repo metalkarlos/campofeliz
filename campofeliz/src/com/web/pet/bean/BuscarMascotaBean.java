@@ -21,6 +21,7 @@ import com.web.pet.pojo.annotations.Petestado;
 import com.web.pet.pojo.annotations.Petmascota;
 import com.web.pet.pojo.annotations.Petraza;
 import com.web.pet.pojo.annotations.Setusuario;
+import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
@@ -35,6 +36,7 @@ public class BuscarMascotaBean implements Serializable {
 	private boolean renderGrid;//Para evitar consultar al inicio y sólo al presionar botón
 	private int columnsGrid;
 	private int rowsGrid;
+	private String rutaImagenes;
 
 	public BuscarMascotaBean() {
 		petmascota = new Petmascota(0, new Petestado(), new Cottipoidentificacion(), new Petraza(), new Setusuario(), new Petespecie(), null, null, null, null, null, null, null, null, null, false, false, null);
@@ -45,6 +47,7 @@ public class BuscarMascotaBean implements Serializable {
 		setRowsGrid(4);
 		
 		consultarMascotas();
+		cargarRutaImagenes();
 	}
 
 	@SuppressWarnings("serial")
@@ -72,9 +75,20 @@ public class BuscarMascotaBean implements Serializable {
 				}
 			};
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
+	
+	private void cargarRutaImagenes(){
+		try {
+			rutaImagenes = new FileUtil().getPropertyValue("rutaImagen");
+		} catch (Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Error!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+		}
+	}
+	
 	public Petmascota getPetmascota() {
 		return petmascota;
 	}
@@ -144,6 +158,7 @@ public class BuscarMascotaBean implements Serializable {
 			PetespecieBO pettipoBO = new PetespecieBO();
 			setLisPetespecie(pettipoBO.lisPetespecie());
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", re.getMessage());
 		}
 	}
@@ -153,12 +168,21 @@ public class BuscarMascotaBean implements Serializable {
 			PetrazaBO petrazaBO = new PetrazaBO();
 			setLisPetraza(petrazaBO.lisRazas());
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", re.getMessage());
 		}
 	}
 	
 	public void buscarMascotas(){
 		setRenderGrid(true);
+	}
+
+	public String getRutaImagenes() {
+		return rutaImagenes;
+	}
+
+	public void setRutaImagenes(String rutaImagenes) {
+		this.rutaImagenes = rutaImagenes;
 	}
 
 }

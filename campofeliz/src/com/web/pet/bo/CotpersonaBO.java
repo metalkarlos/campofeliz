@@ -7,22 +7,12 @@ import org.hibernate.Session;
 
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.daointerface.CotpersonaDAOInterface;
+import com.web.pet.dao.CotpersonaDAO;
 import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class CotpersonaBO {
-	
-	private CotpersonaDAOInterface cotpersonaDAOInterface;
-	
-	public CotpersonaBO() {
-		try{
-			cotpersonaDAOInterface = (CotpersonaDAOInterface) CotpersonaBO.class.getClassLoader().loadClass("com.web.pet.dao.CotpersonaDAO").newInstance();
-		} catch (Exception e) {
-			throw new RuntimeException("Problemas al cargar la interfaz CotpersonaDAOInterface");
-		}
-	}
 	
 	public Cotpersona getCotpersonaById(int idpersona) throws Exception{
 		Cotpersona cotpersona = null;
@@ -30,7 +20,10 @@ public class CotpersonaBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			cotpersona = cotpersonaDAOInterface.getCotpersonaById(session, idpersona);
+			
+			CotpersonaDAO cotpersonaDAO = new CotpersonaDAO();
+			
+			cotpersona = cotpersonaDAO.getCotpersonaById(session, idpersona);
 		}catch(Exception e){
 			throw new Exception();
 		}finally{
@@ -46,17 +39,10 @@ public class CotpersonaBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisCotpersona = cotpersonaDAOInterface.lisCotpersonaByPage(session, nombres, pageSize, pageNumber, args);
 			
-			//TODO foto
-			/*for(Cotpersona cotpersona : lisCotpersona){
-				FileUtil fileUtil = new FileUtil();
-				String realpath = new FacesUtil().getRealPath("");
-				if(cotpersona.getRuta() == null || !fileUtil.existFile(realpath+cotpersona.getRuta()))
-				{
-					cotpersona.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}
-			}*/
+			CotpersonaDAO cotpersonaDAO = new CotpersonaDAO();
+			
+			lisCotpersona = cotpersonaDAO.lisCotpersonaByPage(session, nombres, pageSize, pageNumber, args);
 		}catch(Exception e){
 			throw new RuntimeException();
 		}finally{
@@ -72,17 +58,10 @@ public class CotpersonaBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisCotpersona = cotpersonaDAOInterface.lisCotpersonaPetmascotaByPage(session, nombres, pageSize, pageNumber, args);
 			
-			//TODO foto
-			/*for(Cotpersona cotpersona : lisCotpersona){
-				FileUtil fileUtil = new FileUtil();
-				String realpath = new FacesUtil().getRealPath("");
-				if(cotpersona.getRuta() == null || !fileUtil.existFile(realpath+cotpersona.getRuta()))
-				{
-					cotpersona.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}
-			}*/
+			CotpersonaDAO cotpersonaDAO = new CotpersonaDAO();
+			
+			lisCotpersona = cotpersonaDAO.lisCotpersonaPetmascotaByPage(session, nombres, pageSize, pageNumber, args);
 		}catch(Exception e){
 			throw new RuntimeException();
 		}finally{
@@ -98,17 +77,10 @@ public class CotpersonaBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisCotpersona = cotpersonaDAOInterface.lisCotpersonaBusqueda(session, cotpersona);
 			
-			//TODO foto
-			/*for(Cotpersona persona : lisCotpersona){
-				FileUtil fileUtil = new FileUtil();
-				String realpath = new FacesUtil().getRealPath("");
-				if(persona.getRuta() == null || !fileUtil.existFile(realpath+persona.getRuta()))
-				{
-					persona.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}
-			}*/
+			CotpersonaDAO cotpersonaDAO = new CotpersonaDAO();
+			
+			lisCotpersona = cotpersonaDAO.lisCotpersonaBusqueda(session, cotpersona);
 		}catch(Exception e){
 			throw new Exception();
 		}finally{
@@ -124,17 +96,10 @@ public class CotpersonaBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisCotpersona = cotpersonaDAOInterface.lisCotpersonaBusquedaByPage(session, cotpersona, pageSize, pageNumber, args);
 			
-			//TODO foto
-			/*for(Cotpersona persona : lisCotpersona){
-				FileUtil fileUtil = new FileUtil();
-				String realpath = new FacesUtil().getRealPath("");
-				if(persona.getRuta() == null || !fileUtil.existFile(realpath+persona.getRuta()))
-				{
-					persona.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}
-			}*/
+			CotpersonaDAO cotpersonaDAO = new CotpersonaDAO();
+			
+			lisCotpersona = cotpersonaDAO.lisCotpersonaBusquedaByPage(session, cotpersona, pageSize, pageNumber, args);
 		}catch(Exception e){
 			throw new Exception();
 		}finally{
@@ -152,7 +117,9 @@ public class CotpersonaBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			int max = cotpersonaDAOInterface.maxIdCotpersona(session)+1;
+			CotpersonaDAO cotpersonaDAO = new CotpersonaDAO();
+			
+			int max = cotpersonaDAO.maxIdCotpersona(session)+1;
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
@@ -163,7 +130,7 @@ public class CotpersonaBO {
 			cotpersona.setSetusuario(usuarioBean.getSetUsuario());
 			
 			cotpersona.setObjeto(null);
-			cotpersonaDAOInterface.saveCotpersona(session, cotpersona);
+			cotpersonaDAO.saveCotpersona(session, cotpersona);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -185,6 +152,8 @@ public class CotpersonaBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
+			CotpersonaDAO cotpersonaDAO = new CotpersonaDAO();
+			
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
@@ -193,7 +162,7 @@ public class CotpersonaBO {
 			cotpersona.setSetusuario(usuarioBean.getSetUsuario());
 			
 			cotpersona.setObjeto(null);
-			cotpersonaDAOInterface.updateCotpersona(session, cotpersona);
+			cotpersonaDAO.updateCotpersona(session, cotpersona);
 			
 			session.getTransaction().commit();
 			ok = true;

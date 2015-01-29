@@ -50,6 +50,7 @@ public class EspecieBean implements Serializable {
 				}
 			};
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -78,17 +79,9 @@ public class EspecieBean implements Serializable {
 					boolean ok = false;
 					
 					if(petespecieItem.getIdespecie() > 0){
-						try{
-							ok = petespecieBO.updatePetespecie(petespecieItem);
-						}catch(Exception re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						ok = petespecieBO.updatePetespecie(petespecieItem);
 					}else{
-						try{
-							ok = petespecieBO.newPetespecie(petespecieItem);
-						}catch(Exception re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						ok = petespecieBO.newPetespecie(petespecieItem);
 					}
 					
 					petespecieItem = new Petespecie(0, new Petestado(), new Setusuario(), null, null, null, null);
@@ -103,6 +96,7 @@ public class EspecieBean implements Serializable {
 				new MessageUtil().showErrorMessage("Error!", "Datos incompletos!");
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -115,6 +109,7 @@ public class EspecieBean implements Serializable {
 			PetespecieBO petespecieBO = new PetespecieBO();
 			petespecieBO.updatePetespecie(petespecieItem);
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}

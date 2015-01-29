@@ -7,14 +7,11 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.PetordenserviciodetalleDAOInterface;
 import com.web.pet.pojo.annotations.Petordenserviciodetalle;
 import com.web.pet.pojo.annotations.PetordenserviciodetalleId;
 
-public class PetordenserviciodetalleDAO implements
-		PetordenserviciodetalleDAOInterface {
+public class PetordenserviciodetalleDAO {
 
-	@Override
 	public int maxIdPetordenserviciodetalleByParent(Session session,
 			int idordenservicio) throws Exception {
 		int max = 0;
@@ -29,7 +26,6 @@ public class PetordenserviciodetalleDAO implements
 		return max;
 	}
 
-	@Override
 	public Petordenserviciodetalle getPetordenserviciodetalleById(
 			Session session,
 			PetordenserviciodetalleId petordenserviciodetalleId)
@@ -47,7 +43,6 @@ public class PetordenserviciodetalleDAO implements
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Petordenserviciodetalle> lisPethistoriaclinicadetalleByPage(
 			Session session, int pageSize, int pageNumber, int[] args,
 			int idordenservicio) throws Exception {
@@ -79,21 +74,18 @@ public class PetordenserviciodetalleDAO implements
 		return lisPetordenserviciodetalle;
 	}
 
-	@Override
 	public void savePetordenserviciodetalle(Session session,
 			Petordenserviciodetalle petordenserviciodetalle)
 			throws Exception {
 		session.save(petordenserviciodetalle);
 	}
 
-	@Override
 	public void updatePetordenserviciodetalle(Session session,
 			Petordenserviciodetalle petordenserviciodetalle)
 			throws Exception {
 		session.update(petordenserviciodetalle);
 	}
 
-	@Override
 	public void deletePetordenserviciodetalle(Session session,
 			PetordenserviciodetalleId petordenserviciodetalleId)
 			throws Exception {

@@ -105,6 +105,7 @@ public class UsuarioBean implements Serializable{
 			String strLogin = fileUtil.getPropertyValue("login");
 			facesUtil.redirect("../pages/"+strLogin);
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 		return "";
@@ -116,6 +117,7 @@ public class UsuarioBean implements Serializable{
 			String strnotlogged = fileUtil.getPropertyValue("notlogged");
 			new FacesUtil().redirect("../pages/"+strnotlogged);
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 		return "";

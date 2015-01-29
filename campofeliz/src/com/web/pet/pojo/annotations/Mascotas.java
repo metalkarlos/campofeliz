@@ -1,7 +1,11 @@
 package com.web.pet.pojo.annotations;
 
 
-public class Mascotas {
+public class Mascotas implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5961378667932487034L;
 	Petfoto petfoto;
 	Petmascota petmascota;
 	

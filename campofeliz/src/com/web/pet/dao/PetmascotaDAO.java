@@ -8,10 +8,9 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.PetmascotaDAOInterface;
 import com.web.pet.pojo.annotations.Petmascota;
 
-public class PetmascotaDAO implements PetmascotaDAOInterface {
+public class PetmascotaDAO {
 	
 	public int maxIdPetmascota(Session session) throws Exception {
 		int max=0;
@@ -124,7 +123,6 @@ public class PetmascotaDAO implements PetmascotaDAOInterface {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Petmascota> lisPetmascotaBusqueda(Session session, Petmascota petmascota, String[] caracteristicas)
 			throws Exception {
 		List<Petmascota> lisPetmascota = null;

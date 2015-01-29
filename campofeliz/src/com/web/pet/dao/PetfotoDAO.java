@@ -7,10 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.PetfotoDAOInterface;
 import com.web.pet.pojo.annotations.Petfoto;
 
-public class PetfotoDAO implements PetfotoDAOInterface {
+public class PetfotoDAO {
 	
 	public int maxIdPetfoto(Session session) throws Exception {
 		int max = 0;
@@ -81,13 +80,11 @@ public class PetfotoDAO implements PetfotoDAOInterface {
 		session.save(petfoto);
 	}
 
-	@Override
 	public void updatePetfoto(Session session, Petfoto petfoto)
 			throws Exception {
 		session.update(petfoto);
 	}
 
-	@Override
 	public void resetPetfotoPerfilByPetId(Session session, int idmascota)
 			throws Exception {
 		String hqlUpdate = "update Petfoto foto set foto.mostrar = 0 where foto.petmascota.idmascota = :idmascota";
@@ -96,7 +93,6 @@ public class PetfotoDAO implements PetfotoDAOInterface {
 		.executeUpdate();
 	}
 	
-	@Override
 	public void setPetfotoPerfil(Session session, int idfoto) throws Exception {
 		String hqlUpdate = "update Petfoto foto set foto.mostrar = 1 where foto.idfoto = :idfoto";
 		session.createQuery( hqlUpdate )
@@ -104,7 +100,6 @@ public class PetfotoDAO implements PetfotoDAOInterface {
 		.executeUpdate();
 	}
 
-	@Override
 	public void deletePetfoto(Session session, int idfoto)
 			throws Exception {
 		String hqlUpdate = "delete Petfoto foto where foto.idfoto = :idfoto";

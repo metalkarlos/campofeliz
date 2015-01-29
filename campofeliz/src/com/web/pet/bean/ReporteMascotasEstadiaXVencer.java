@@ -1,5 +1,6 @@
 package com.web.pet.bean;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 import com.web.util.Utilities;
 
@@ -33,13 +35,18 @@ public class ReporteMascotasEstadiaXVencer implements Serializable {
 	}
 	
 	public void imprimir(){
+		InputStream inputStream = null;
+		
 		try {
 			if (validarCampos()) {
 				String nombreReporte = "MascotasEstadiaxVencer";
-				String rutaLogo = "logo_empresa.jpg";//TODO foto
 				Map<String, Object> parametros = new HashMap<String, Object>();
 				
-				parametros.put("P_LOGO", rutaLogo);
+				FileUtil fileUtil = new FileUtil();
+				inputStream = fileUtil.getLogoEmpresaAsStream();
+				if(inputStream != null){
+					parametros.put("P_LOGO", inputStream);
+				}
 				
 				if(anio >=0 ){
 				  parametros.put("P_ANIOS", anio);
@@ -47,6 +54,7 @@ public class ReporteMascotasEstadiaXVencer implements Serializable {
 				new Utilities().imprimirJasperPdf(nombreReporte, parametros);
 			}
 		}catch (Exception e) {
+			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}

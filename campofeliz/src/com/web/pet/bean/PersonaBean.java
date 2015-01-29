@@ -56,6 +56,7 @@ public class PersonaBean implements Serializable {
 				lisCottipoidentificacion.addAll(lisTmp);
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -90,6 +91,7 @@ public class PersonaBean implements Serializable {
 					setCottipoidentificacionselected(cotpersona.getCottipoidentificacion());
 				}
 			}catch(Exception e){
+				e.printStackTrace();
 				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 			}
 		}
@@ -173,33 +175,30 @@ public class PersonaBean implements Serializable {
 	}
 
 	public void grabar(){
-		if(validarCampos()){
-			CotpersonaBO cotpersonaBO = new CotpersonaBO();
-			boolean ok = false;
-			
-			if(cottipoidentificacionselected != null && cottipoidentificacionselected.getIdtipoidentificacion() > 0){
-				cotpersona.setCottipoidentificacion(cottipoidentificacionselected);
-			}else{
-				cotpersona.setCottipoidentificacion(null);
-			}
-			
-			if(idpersona > 0){
-				try{
+		try{
+			if(validarCampos()){
+				CotpersonaBO cotpersonaBO = new CotpersonaBO();
+				boolean ok = false;
+				
+				if(cottipoidentificacionselected != null && cottipoidentificacionselected.getIdtipoidentificacion() > 0){
+					cotpersona.setCottipoidentificacion(cottipoidentificacionselected);
+				}else{
+					cotpersona.setCottipoidentificacion(null);
+				}
+				
+				if(idpersona > 0){
 					ok = cotpersonaBO.updateCotpersona(cotpersona);
-				}catch(Exception re){
-					new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-				}
-			}else{
-				try{
+				}else{
 					ok = cotpersonaBO.newCotpersona(cotpersona);
-				}catch(Exception re){
-					new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+				}
+				
+				if(ok){
+					new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
 				}
 			}
-			
-			if(ok){
-				new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
-			}
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
 	
@@ -257,6 +256,7 @@ public class PersonaBean implements Serializable {
 			FacesUtil facesUtil = new FacesUtil();
 			facesUtil.redirect("../pages/personas.jsf?iditem=36");
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}

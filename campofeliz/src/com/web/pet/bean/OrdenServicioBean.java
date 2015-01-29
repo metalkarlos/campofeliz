@@ -1,5 +1,6 @@
 package com.web.pet.bean;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +22,6 @@ import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetmascotacolorBO;
 import com.web.pet.bo.PetordenservicioBO;
 import com.web.pet.bo.PetordenserviciodetalleBO;
-import com.web.pet.global.Parametro;
 import com.web.pet.pojo.annotations.Cotestado;
 import com.web.pet.pojo.annotations.Cotlugar;
 import com.web.pet.pojo.annotations.Cotpersona;
@@ -36,6 +36,7 @@ import com.web.pet.pojo.annotations.Petordenserviciodetalle;
 import com.web.pet.pojo.annotations.PetordenserviciodetalleId;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.FacesUtil;
+import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 import com.web.util.Utilities;
 
@@ -56,6 +57,7 @@ public class OrdenServicioBean implements Serializable {
 	private List<Cotlugar> lisCotlugar;
 	private List<Petmascotacolor> lisPetmascotacolor;
 	private List<Cotservicio> lisCotservicio;
+	private String rutaImagenes;
 
 	public OrdenServicioBean() {
 		petordenservicio = new Petordenservicio(0, new Petmascota(), new Petestado(), new Cotlugar(), null, null, null, null, null, null, null);
@@ -64,6 +66,7 @@ public class OrdenServicioBean implements Serializable {
 		llenarListaLugar();
 		llenarListaServicio();
 		consultarDetalle();
+		cargarRutaImagenes();
 	}
 	
 	private void llenarListaLugar(){
@@ -76,6 +79,7 @@ public class OrdenServicioBean implements Serializable {
 				lisCotlugar.addAll(lisTmp);
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -97,6 +101,7 @@ public class OrdenServicioBean implements Serializable {
 				lisCotservicio.addAll(lisTmp);
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -118,7 +123,17 @@ public class OrdenServicioBean implements Serializable {
 				}
 			});
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+		}
+	}
+	
+	private void cargarRutaImagenes(){
+		try {
+			rutaImagenes = new FileUtil().getPropertyValue("rutaImagen");
+		} catch (Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Error!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
 	
@@ -153,6 +168,7 @@ public class OrdenServicioBean implements Serializable {
 					lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 				}
 			}catch(Exception re){
+				re.printStackTrace();
 				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 			}
 		}
@@ -255,6 +271,7 @@ public class OrdenServicioBean implements Serializable {
 			}
 		}
 		catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -270,20 +287,12 @@ public class OrdenServicioBean implements Serializable {
 				boolean ok = false;
 				
 				if(petordenserviciodetalleItem.getId().getIdordenserviciodetalle() > 0){
-					try{
-						ok = petordenserviciodetalleBO.updatePetordenserviciodetalle(petordenserviciodetalleItem);
-					}catch(RuntimeException re){
-						new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-					}
+					ok = petordenserviciodetalleBO.updatePetordenserviciodetalle(petordenserviciodetalleItem);
 				}else{
-					try{
-						PetordenserviciodetalleId petordenserviciodetalleId = new PetordenserviciodetalleId();
-						petordenserviciodetalleId.setIdordenservicio(petordenservicio.getIdordenservicio());
-						petordenserviciodetalleItem.setId(petordenserviciodetalleId);
-						ok = petordenserviciodetalleBO.newPetordenserviciodetalle(petordenserviciodetalleItem);
-					}catch(RuntimeException re){
-						new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-					}
+					PetordenserviciodetalleId petordenserviciodetalleId = new PetordenserviciodetalleId();
+					petordenserviciodetalleId.setIdordenservicio(petordenservicio.getIdordenservicio());
+					petordenserviciodetalleItem.setId(petordenserviciodetalleId);
+					ok = petordenserviciodetalleBO.newPetordenserviciodetalle(petordenserviciodetalleItem);
 				}
 				
 				petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Petestado(), new Setusuario(), new Cotservicio(), new Petordenservicio(), null, null);
@@ -293,6 +302,7 @@ public class OrdenServicioBean implements Serializable {
 				}
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -317,22 +327,15 @@ public class OrdenServicioBean implements Serializable {
 				petordenservicio.setPetmascota(mascotasselected.getPetmascota());
 				
 				if(petordenservicio.getIdordenservicio() > 0){
-					try{
-						petordenservicioBO.updatePetordenservicio(petordenservicio);
-						new MessageUtil().showInfoMessage("Exito!", "Datos actualizados!");
-					}catch(RuntimeException re){
-						new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-					}
+					petordenservicioBO.updatePetordenservicio(petordenservicio);
+					new MessageUtil().showInfoMessage("Exito!", "Datos actualizados!");
 				}else{
-					try{
-						petordenservicioBO.newPetordenservicio(petordenservicio);
-						new MessageUtil().showInfoMessage("Exito!", "Orden de Servicio creada!");
-					}catch(RuntimeException re){
-						new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-					}
+					petordenservicioBO.newPetordenservicio(petordenservicio);
+					new MessageUtil().showInfoMessage("Exito!", "Orden de Servicio creada!");
 				}
 				
 			}catch(Exception re){
+				re.printStackTrace();
 				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 			}
 		}
@@ -362,6 +365,7 @@ public class OrdenServicioBean implements Serializable {
 			FacesUtil facesUtil = new FacesUtil();
 			facesUtil.redirect("../pages/ordenesservicio.jsf?iditem=40");
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -379,22 +383,39 @@ public class OrdenServicioBean implements Serializable {
 			
 			new MessageUtil().showInfoMessage("Exito!", "Registro Eliminado!");
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
 	
 	public void imprimir(){
+		InputStream inputStream = null;
+		
 		try {
 			String nombreReporte = "OrdenServicio";
 
-			String rutaLogo = "logo_empresa.jpg";//TODO logo
 			Map<String, Object> parametros = new HashMap<String, Object>();
-			parametros.put("P_LOGO", rutaLogo);
+			
+			FileUtil fileUtil = new FileUtil();
+			inputStream = fileUtil.getLogoEmpresaAsStream();
+			if(inputStream != null){
+				parametros.put("P_LOGO", inputStream);
+			}
+			
 			parametros.put("P_IDORDENSERVICIO", petordenservicio.getIdordenservicio());
 			
 			new Utilities().imprimirJasperPdf(nombreReporte, parametros);
 		}catch (Exception e) {
+			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
+	}
+
+	public String getRutaImagenes() {
+		return rutaImagenes;
+	}
+
+	public void setRutaImagenes(String rutaImagenes) {
+		this.rutaImagenes = rutaImagenes;
 	}
 }

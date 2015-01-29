@@ -3,18 +3,18 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="P_LOGO" class="java.lang.String"/>
+	<parameter name="P_LOGO" class="java.io.InputStream"/>
 	<queryString>
 		<![CDATA[select count(m.idmascota) as count,(extract(year from s.fechaentierro)) as date_part
-  from pets.petordenservicio s,
-       pets.petmascota m
+  from petordenservicio s,
+       petmascota m
  where s.idestado   = 1
    and m.idestado   = 1
    and s.idmascota  = m.idmascota
    group by (extract(year from s.fechaentierro))
    order by (extract(year from s.fechaentierro))]]>
 	</queryString>
-	<field name="count" class="java.lang.Integer"/>
+	<field name="count" class="java.lang.Long"/>
 	<field name="date_part" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>

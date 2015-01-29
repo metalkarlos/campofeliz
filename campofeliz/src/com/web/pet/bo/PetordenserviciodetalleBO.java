@@ -6,22 +6,13 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.daointerface.PetordenserviciodetalleDAOInterface;
+import com.web.pet.dao.PetordenserviciodetalleDAO;
 import com.web.pet.pojo.annotations.Petordenserviciodetalle;
 import com.web.pet.pojo.annotations.PetordenserviciodetalleId;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class PetordenserviciodetalleBO {
-	private PetordenserviciodetalleDAOInterface petordenserviciodetalleDAOInterface;
-	
-	public PetordenserviciodetalleBO() {
-		try{
-			petordenserviciodetalleDAOInterface = (PetordenserviciodetalleDAOInterface) PetordenserviciodetalleBO.class.getClassLoader().loadClass("com.web.pet.dao.PetordenserviciodetalleDAO").newInstance();
-        }catch(Exception ex){
-            throw new RuntimeException("Problemas al cargar la interfaz PetordenserviciodetalleDAOInterface");
-        }
-	}
 	
 	public Petordenserviciodetalle getPetordenserviciodetalleById(PetordenserviciodetalleId petordenserviciodetalleId) throws Exception {
 		Petordenserviciodetalle petordenserviciodetalle = null;
@@ -29,7 +20,10 @@ public class PetordenserviciodetalleBO {
 		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			petordenserviciodetalle = petordenserviciodetalleDAOInterface.getPetordenserviciodetalleById(session, petordenserviciodetalleId);
+			
+			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
+			
+			petordenserviciodetalle = petordenserviciodetalleDAO.getPetordenserviciodetalleById(session, petordenserviciodetalleId);
 		} catch(Exception he) {
 			throw new Exception();
 		} finally {
@@ -45,7 +39,10 @@ public class PetordenserviciodetalleBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisPetordenserviciodetalle = petordenserviciodetalleDAOInterface.lisPethistoriaclinicadetalleByPage(session, pageSize, pageNumber, args, idordenservicio);
+			
+			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
+			
+			lisPetordenserviciodetalle = petordenserviciodetalleDAO.lisPethistoriaclinicadetalleByPage(session, pageSize, pageNumber, args, idordenservicio);
 		}catch(Exception e){
 			throw new RuntimeException();
 		}finally{
@@ -63,7 +60,9 @@ public class PetordenserviciodetalleBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			int maxid = petordenserviciodetalleDAOInterface.maxIdPetordenserviciodetalleByParent(session, petordenserviciodetalle.getId().getIdordenservicio())+1;
+			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
+			
+			int maxid = petordenserviciodetalleDAO.maxIdPetordenserviciodetalleByParent(session, petordenserviciodetalle.getId().getIdordenservicio())+1;
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
@@ -73,7 +72,7 @@ public class PetordenserviciodetalleBO {
 			petordenserviciodetalle.getPetestado().setIdestado(1);
 			petordenserviciodetalle.setSetusuario(usuarioBean.getSetUsuario());
 	
-			petordenserviciodetalleDAOInterface.savePetordenserviciodetalle(session, petordenserviciodetalle);
+			petordenserviciodetalleDAO.savePetordenserviciodetalle(session, petordenserviciodetalle);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -94,6 +93,8 @@ public class PetordenserviciodetalleBO {
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
+			
+			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
 		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
@@ -101,7 +102,7 @@ public class PetordenserviciodetalleBO {
 			petordenserviciodetalle.setFecharegistro(fecharegistro);
 			petordenserviciodetalle.setIplog(usuarioBean.getIp());
 			petordenserviciodetalle.setSetusuario(usuarioBean.getSetUsuario());
-			petordenserviciodetalleDAOInterface.updatePetordenserviciodetalle(session, petordenserviciodetalle);
+			petordenserviciodetalleDAO.updatePetordenserviciodetalle(session, petordenserviciodetalle);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -123,7 +124,9 @@ public class PetordenserviciodetalleBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			petordenserviciodetalleDAOInterface.deletePetordenserviciodetalle(session, petordenserviciodetalleId);
+			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
+			
+			petordenserviciodetalleDAO.deletePetordenserviciodetalle(session, petordenserviciodetalleId);
 			
 			session.getTransaction().commit();
 			ok = true;

@@ -50,6 +50,7 @@ public class RazaBean implements Serializable {
 				}
 			};
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -78,17 +79,9 @@ public class RazaBean implements Serializable {
 					boolean ok = false;
 					
 					if(petrazaItem.getIdraza() > 0){
-						try{
-							ok = petrazaBO.updatePetraza(petrazaItem);
-						}catch(Exception re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						ok = petrazaBO.updatePetraza(petrazaItem);
 					}else{
-						try{
-							ok = petrazaBO.newPetraza(petrazaItem);
-						}catch(Exception re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						ok = petrazaBO.newPetraza(petrazaItem);
 					}
 					
 					petrazaItem = new Petraza(0, new Petestado(), new Setusuario(), null, null, null, null, null, null);
@@ -103,6 +96,7 @@ public class RazaBean implements Serializable {
 				new MessageUtil().showErrorMessage("Error!", "Datos incompletos!");
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -115,6 +109,7 @@ public class RazaBean implements Serializable {
 			PetrazaBO petrazaBO = new PetrazaBO();
 			petrazaBO.updatePetraza(petrazaItem);
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}

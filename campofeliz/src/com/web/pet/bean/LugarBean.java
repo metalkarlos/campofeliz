@@ -51,6 +51,7 @@ public class LugarBean implements Serializable {
 				}
 			});
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -79,17 +80,9 @@ public class LugarBean implements Serializable {
 					boolean ok = false;
 					
 					if(cotlugarItem.getIdlugar() > 0){
-						try{
-							ok = cotlugarBO.updateCotlugar(cotlugarItem);
-						}catch(Exception re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						ok = cotlugarBO.updateCotlugar(cotlugarItem);
 					}else{
-						try{
-							ok = cotlugarBO.newCotlugar(cotlugarItem);
-						}catch(Exception re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						ok = cotlugarBO.newCotlugar(cotlugarItem);
 					}
 					
 					cotlugarItem = new Cotlugar(0, new Cotestado(), new Setusuario(), null, null, null, null);
@@ -104,6 +97,7 @@ public class LugarBean implements Serializable {
 				new MessageUtil().showErrorMessage("Error!", "Datos incompletos!");
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -116,6 +110,7 @@ public class LugarBean implements Serializable {
 			CotlugarBO cotlugarBO = new CotlugarBO();
 			cotlugarBO.updateCotlugar(cotlugarItem);
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}

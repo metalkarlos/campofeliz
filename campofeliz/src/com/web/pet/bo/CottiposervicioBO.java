@@ -6,30 +6,23 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.daointerface.CottiposervicioDAOInterface;
+import com.web.pet.dao.CottiposervicioDAO;
 import com.web.pet.pojo.annotations.Cottiposervicio;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class CottiposervicioBO {
-	
-	private CottiposervicioDAOInterface cottiposervicioDAOInterface;
 
-	public CottiposervicioBO() throws RuntimeException {
-		try {
-			cottiposervicioDAOInterface = (CottiposervicioDAOInterface) CottiposervicioBO.class.getClassLoader().loadClass("com.web.pet.dao.CottiposervicioDAO").newInstance();
-		} catch(Exception e) {
-			throw new RuntimeException("Problemas al cargar la interfaz CottiposervicioDAOInterface");
-		}
-	}
-	
 	public Cottiposervicio getCottiposervicioById(int id) throws Exception {
 		Cottiposervicio cottiposervicio = null;
 		Session session = null;
 		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			cottiposervicio = cottiposervicioDAOInterface.getCottiposervicioById(session, id);
+			
+			CottiposervicioDAO cottiposervicioDAO = new CottiposervicioDAO();
+			
+			cottiposervicio = cottiposervicioDAO.getCottiposervicioById(session, id);
 		} catch(Exception e){
 			throw new Exception();
 		} finally {
@@ -45,7 +38,10 @@ public class CottiposervicioBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisCottiposervicio = cottiposervicioDAOInterface.lisCottiposervicioByPage(session, pageSize, pageNumber, args);
+			
+			CottiposervicioDAO cottiposervicioDAO = new CottiposervicioDAO();
+			
+			lisCottiposervicio = cottiposervicioDAO.lisCottiposervicioByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
 			throw new RuntimeException();
 		}finally{
@@ -63,7 +59,9 @@ public class CottiposervicioBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			int maxid = cottiposervicioDAOInterface.maxIdCottiposervicio(session)+1;
+			CottiposervicioDAO cottiposervicioDAO = new CottiposervicioDAO();
+			
+			int maxid = cottiposervicioDAO.maxIdCottiposervicio(session)+1;
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
@@ -73,7 +71,7 @@ public class CottiposervicioBO {
 			cottiposervicio.getCotestado().setIdestado(1);
 			cottiposervicio.setSetusuario(usuarioBean.getSetUsuario());
 	
-			cottiposervicioDAOInterface.saveCottiposervicio(session, cottiposervicio);
+			cottiposervicioDAO.saveCottiposervicio(session, cottiposervicio);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -94,6 +92,8 @@ public class CottiposervicioBO {
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
+			
+			CottiposervicioDAO cottiposervicioDAO = new CottiposervicioDAO();
 		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
@@ -101,7 +101,7 @@ public class CottiposervicioBO {
 			cottiposervicio.setFecharegistro(fecharegistro);
 			cottiposervicio.setIplog(usuarioBean.getIp());
 			cottiposervicio.setSetusuario(usuarioBean.getSetUsuario());
-			cottiposervicioDAOInterface.updateCottiposervicio(session, cottiposervicio);
+			cottiposervicioDAO.updateCottiposervicio(session, cottiposervicio);
 			
 			session.getTransaction().commit();
 			ok = true;

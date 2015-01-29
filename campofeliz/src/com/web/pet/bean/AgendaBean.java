@@ -38,7 +38,6 @@ public class AgendaBean implements Serializable{
     private ScheduleEvent event = new DefaultScheduleEvent();
     private String theme;
     private TimeZone timezone = TimeZone.getDefault();
-    private CoteventoBO coteventoBO = new CoteventoBO();
     private List<Cotevento> lisCotevento;
     private Cotevento cotevento;
 
@@ -54,6 +53,7 @@ public class AgendaBean implements Serializable{
 			lazyEventModel = new LazyScheduleModel() {
 				public void loadEvents(Date start, Date end) {
 	                clear();
+	                CoteventoBO coteventoBO = new CoteventoBO();
 	                lisCotevento = coteventoBO.lisCotevento(start, end);
 	                for(Cotevento evento : lisCotevento){
 	                	long diff = (evento.getFechahasta().getTime()-evento.getFechadesde().getTime());
@@ -65,6 +65,7 @@ public class AgendaBean implements Serializable{
 	            }
 	    	};
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -111,6 +112,8 @@ public class AgendaBean implements Serializable{
     
     private void grabarEvento(){
     	try{
+    		CoteventoBO coteventoBO = new CoteventoBO();
+    		
     		Calendar endDate = Calendar.getInstance();
     		endDate.setTime(event.getEndDate());
     		if(event.isAllDay()){
@@ -134,6 +137,7 @@ public class AgendaBean implements Serializable{
     		event = new DefaultScheduleEvent();
     		new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
     	}catch(Exception e){
+    		e.printStackTrace();
     		new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
     	}
     }
@@ -143,9 +147,11 @@ public class AgendaBean implements Serializable{
     		try {
 	            lazyEventModel.updateEvent(event);
 	            Cotevento cotevento = (Cotevento)event.getData();
+	            CoteventoBO coteventoBO = new CoteventoBO();
 	            coteventoBO.deleteCotevento(cotevento.getIdevento());
 	            new MessageUtil().showInfoMessage("Exito!", "Registro eliminado!");
     		} catch(Exception e){
+    			e.printStackTrace();
     			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
     		}
         }

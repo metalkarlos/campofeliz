@@ -3,7 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="P_LOGO" class="java.lang.String">
+	<parameter name="P_LOGO" class="java.io.InputStream">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="P_FECHA_DESDE" class="java.util.Date">
@@ -22,13 +22,13 @@
        p.nombre1||' '||p.nombre2||' '||
        p.apellido1||' '||p.apellido2 as propietario,
        p.telefono,p.email,p.direccion,
-       pets.detalle_servicio(s.idordenservicio) detalleservicio
+       detalle_servicio(s.idordenservicio) detalleservicio
 
-  from pets.petordenservicio s,
-       pets.petmascota m,
-       comun.cotpersona p,
-       pets.petraza r,
-       pets.petespecie e
+  from petordenservicio s,
+       petmascota m,
+       cotpersona p,
+       petraza r,
+       petespecie e
 
  where s.idestado   = 1
    and m.idestado   = 1
@@ -44,27 +44,31 @@
 
    order by s.fechaentierro asc, p.apellido1 desc]]>
 	</queryString>
-	<field name="idmascota" class="java.lang.Integer"/>
+	<field name="idmascota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="nombremascota" class="java.lang.String"/>
-	<field name="pesokg" class="java.math.BigDecimal"/>
+	<field name="pesokg" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="raza" class="java.lang.String"/>
 	<field name="genero" class="java.lang.String"/>
 	<field name="especie" class="java.lang.String"/>
 	<field name="fechaentierro" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[fecha en la cual se entierra al animalito]]></fieldDescription>
+		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="numeroidentificacion" class="java.lang.String">
-		<fieldDescription><![CDATA[numero de identificacion]]></fieldDescription>
+		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="propietario" class="java.lang.String"/>
+	<field name="propietario" class="java.lang.Integer"/>
 	<field name="telefono" class="java.lang.String">
-		<fieldDescription><![CDATA[numero del telefono convencional o celular]]></fieldDescription>
+		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="email" class="java.lang.String">
-		<fieldDescription><![CDATA[cuenta de correo electronico]]></fieldDescription>
+		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="direccion" class="java.lang.String">
-		<fieldDescription><![CDATA[direccion de domicilio]]></fieldDescription>
+		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="detalleservicio" class="java.lang.String"/>
 	<variable name="nombremascota_1" class="java.lang.Integer" calculation="Count">

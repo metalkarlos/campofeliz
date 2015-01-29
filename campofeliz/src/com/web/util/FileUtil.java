@@ -106,4 +106,11 @@ public class FileUtil {
 		
 		return fileExtention;
 	}
+	
+	public InputStream getLogoEmpresaAsStream() throws Exception{
+		String rutaLogo = getPropertyValue("logo-empresa");
+		InputStream inputStream = new FacesUtil().getResourceAsStream("/resources/images/miscellaneous/"+rutaLogo);
+		
+		return inputStream;
+	}
 }

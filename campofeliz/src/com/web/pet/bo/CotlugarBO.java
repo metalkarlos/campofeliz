@@ -6,22 +6,12 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.daointerface.CotlugarDAOInterface;
+import com.web.pet.dao.CotlugarDAO;
 import com.web.pet.pojo.annotations.Cotlugar;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class CotlugarBO {
-	
-	private CotlugarDAOInterface cotlugarDAOInterface;
-
-	public CotlugarBO() throws RuntimeException {
-		try {
-			cotlugarDAOInterface = (CotlugarDAOInterface) CotlugarBO.class.getClassLoader().loadClass("com.web.pet.dao.CotlugarDAO").newInstance();
-		} catch(Exception e) {
-			throw new RuntimeException("Problemas al cargar la interfaz CotlugarDAOInterface");
-		}
-	}
 	
 	public List<Cotlugar> lisCotlugar() throws Exception {
 		List<Cotlugar> lisCotlugar = null;
@@ -29,7 +19,10 @@ public class CotlugarBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisCotlugar = cotlugarDAOInterface.lisCotlugar(session);
+			
+			CotlugarDAO cotlugarDAO = new CotlugarDAO();
+			
+			lisCotlugar = cotlugarDAO.lisCotlugar(session);
 		}catch(Exception he){
 			throw new Exception();
 		}finally{
@@ -45,7 +38,10 @@ public class CotlugarBO {
 		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			cotlugar = cotlugarDAOInterface.getCotlugarById(session, id);
+			
+			CotlugarDAO cotlugarDAO = new CotlugarDAO();
+			
+			cotlugar = cotlugarDAO.getCotlugarById(session, id);
 		} catch(Exception e){
 			throw new Exception();
 		} finally {
@@ -61,7 +57,10 @@ public class CotlugarBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisCotlugar = cotlugarDAOInterface.lisCotlugarByPage(session, pageSize, pageNumber, args);
+			
+			CotlugarDAO cotlugarDAO = new CotlugarDAO();
+			
+			lisCotlugar = cotlugarDAO.lisCotlugarByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
 			throw new RuntimeException();
 		}finally{
@@ -78,8 +77,10 @@ public class CotlugarBO {
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
+
+			CotlugarDAO cotlugarDAO = new CotlugarDAO();
 			
-			int maxid = cotlugarDAOInterface.maxIdCotlugar(session)+1;
+			int maxid = cotlugarDAO.maxIdCotlugar(session)+1;
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
@@ -89,7 +90,7 @@ public class CotlugarBO {
 			cotlugar.getCotestado().setIdestado(1);
 			cotlugar.setSetusuario(usuarioBean.getSetUsuario());
 	
-			cotlugarDAOInterface.saveCotlugar(session, cotlugar);
+			cotlugarDAO.saveCotlugar(session, cotlugar);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -110,6 +111,8 @@ public class CotlugarBO {
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
+			
+			CotlugarDAO cotlugarDAO = new CotlugarDAO();
 		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
@@ -117,7 +120,7 @@ public class CotlugarBO {
 			cotlugar.setFecharegistro(fecharegistro);
 			cotlugar.setIplog(usuarioBean.getIp());
 			cotlugar.setSetusuario(usuarioBean.getSetUsuario());
-			cotlugarDAOInterface.updateCotlugar(session, cotlugar);
+			cotlugarDAO.updateCotlugar(session, cotlugar);
 			
 			session.getTransaction().commit();
 			ok = true;

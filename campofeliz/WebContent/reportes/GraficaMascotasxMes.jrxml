@@ -3,26 +3,26 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="P_LOGO" class="java.lang.String"/>
+	<parameter name="P_LOGO" class="java.io.InputStream"/>
 	<parameter name="P_ANIO" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[select count(m.idmascota),
+		<![CDATA[select count(m.idmascota) as cant,
        case when (extract(month from s.fechaentierro)) =1 then 'Enero'  when (extract(month from s.fechaentierro)) =2 then 'Febrero'
             when (extract(month from s.fechaentierro)) =3 then 'Marzo'  when (extract(month from s.fechaentierro)) =4 then 'Abril'
 	    when (extract(month from s.fechaentierro)) =5 then 'Mayo'  when (extract(month from s.fechaentierro)) =6 then 'Junio'
             when (extract(month from s.fechaentierro)) =7 then 'Julio'  when (extract(month from s.fechaentierro)) =8 then 'Agosto'
             when (extract(month from s.fechaentierro)) =9 then 'Septiembre'  when (extract(month from s.fechaentierro)) =10 then 'Octubre'
-            when (extract(month from s.fechaentierro)) =11 then 'Noviembre'  when (extract(month from s.fechaentierro)) =12 then 'Diciembre' end
-  from pets.petordenservicio s,
-       pets.petmascota m
+            when (extract(month from s.fechaentierro)) =11 then 'Noviembre'  when (extract(month from s.fechaentierro)) =12 then 'Diciembre' end as mes
+  from petordenservicio s,
+       petmascota m
  where s.idestado   = 1
    and m.idestado   = 1
    and s.idmascota  = m.idmascota
    and extract(year from s.fechaentierro) = $P{P_ANIO}   group by (extract(month from s.fechaentierro))
    order by extract(month from s.fechaentierro) asc]]>
 	</queryString>
-	<field name="case" class="java.lang.String"/>
-	<field name="count" class="java.lang.Long"/>
+	<field name="cant" class="java.lang.Long"/>
+	<field name="mes" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -114,8 +114,8 @@ Consultas: Lunes - Domingo 7:30am - 22:00pm
 				<categoryDataset>
 					<categorySeries>
 						<seriesExpression><![CDATA["Mascotas Sepultadas/Cremadas"]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{case}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{count}]]></valueExpression>
+						<categoryExpression><![CDATA[$F{mes}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cant}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
 				<barPlot>

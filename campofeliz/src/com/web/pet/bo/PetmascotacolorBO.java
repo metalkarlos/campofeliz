@@ -6,29 +6,23 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.daointerface.PetmascotacolorDAOInterface;
+import com.web.pet.dao.PetmascotacolorDAO;
 import com.web.pet.pojo.annotations.Petmascotacolor;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class PetmascotacolorBO {
-	private PetmascotacolorDAOInterface petmascotacolorDAOInterface;
 
-	public PetmascotacolorBO() throws Exception {
-		try{
-			petmascotacolorDAOInterface = (PetmascotacolorDAOInterface)PetmascotacolorBO.class.getClassLoader().loadClass("com.web.pet.dao.PetmascotacolorDAO").newInstance();
-		}catch(Exception ex){
-			throw new Exception("Problemas al cargar la interfaz PetmascotacolorDAOInterface");
-		}
-	}
-	
 	public List<Petmascotacolor> lisPetmascotacolor(int idmascota) throws Exception{
 		List<Petmascotacolor> lisPetmascotacolor = null;
 		Session session = null;
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisPetmascotacolor = petmascotacolorDAOInterface.lisPetmascotacolor(session, idmascota);
+			
+			PetmascotacolorDAO petmascotacolorDAO = new PetmascotacolorDAO();
+			
+			lisPetmascotacolor = petmascotacolorDAO.lisPetmascotacolor(session, idmascota);
 		}catch(Exception e){
 			throw new Exception();
 		}finally{
@@ -46,7 +40,9 @@ public class PetmascotacolorBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			int maxid = petmascotacolorDAOInterface.maxIdPetmascotacolor(session);
+			PetmascotacolorDAO petmascotacolorDAO = new PetmascotacolorDAO();
+			
+			int maxid = petmascotacolorDAO.maxIdPetmascotacolor(session);
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
@@ -56,7 +52,7 @@ public class PetmascotacolorBO {
 			petmascotacolor.getPetestado().setIdestado(1);
 			petmascotacolor.setSetusuario(usuarioBean.getSetUsuario());
 			
-			petmascotacolorDAOInterface.savePetmascotacolor(session, petmascotacolor);
+			petmascotacolorDAO.savePetmascotacolor(session, petmascotacolor);
 			
 			session.getTransaction().commit();
 			ok = true;

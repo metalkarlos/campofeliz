@@ -4,10 +4,9 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.SetusuarioDAOInterface;
 import com.web.pet.pojo.annotations.Setusuario;
 
-public class SetusuarioDAO implements SetusuarioDAOInterface {
+public class SetusuarioDAO {
 	
 	public Setusuario getByUserPasswd(Session session, String nombre, String clave) throws Exception {
 		Setusuario setusuario = null;

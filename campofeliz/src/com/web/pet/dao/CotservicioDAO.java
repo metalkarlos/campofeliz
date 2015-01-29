@@ -8,12 +8,10 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.CotservicioDAOInterface;
 import com.web.pet.pojo.annotations.Cotservicio;
 
-public class CotservicioDAO implements CotservicioDAOInterface {
+public class CotservicioDAO {
 
-	@Override
 	public int maxIdCotservicio(Session session) throws Exception {
 		int max = 0;
 
@@ -26,20 +24,17 @@ public class CotservicioDAO implements CotservicioDAOInterface {
 		return max;
 	}
 
-	@Override
 	public void saveCotservicio(Session session, Cotservicio cotservicio)
 			throws Exception {
 		session.save(cotservicio);
 	}
 
-	@Override
 	public void updateCotservicio(Session session, Cotservicio cotservicio)
 			throws Exception {
 		session.update(cotservicio);
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Cotservicio> lisCotservicio(Session session) throws Exception {
 		List<Cotservicio> arraydatos = null;
 		
@@ -53,7 +48,6 @@ public class CotservicioDAO implements CotservicioDAOInterface {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Cotservicio> lisCotservicioByPage(Session session,
 			int pageSize, int pageNumber, int[] args) throws Exception {
 		List<Cotservicio> lisCotservicio = null;
@@ -84,7 +78,6 @@ public class CotservicioDAO implements CotservicioDAOInterface {
 		return lisCotservicio;
 	}
 
-	@Override
 	public Cotservicio getCotservicioById(Session session, int id)
 			throws Exception {
 		Cotservicio cotservicio = null;

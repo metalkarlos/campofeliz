@@ -7,7 +7,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -31,13 +34,15 @@ public class Sevmenu implements java.io.Serializable {
 	private Integer orden;
 	private Date fecharegistro;
 	private String iplog;
+	private Petestado petestado;
 
 	public Sevmenu() {
 	}
 
 	public Sevmenu(Integer idmenu, String nombre, String descripcion,
 			Integer idmenupadre, Integer nivel, String iconourl,
-			String paginaurl, Integer orden, Date fecharegistro, String iplog) {
+			String paginaurl, Integer orden, Date fecharegistro, String iplog, 
+			Petestado petestado) {
 		this.idmenu = idmenu;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -48,6 +53,7 @@ public class Sevmenu implements java.io.Serializable {
 		this.orden = orden;
 		this.fecharegistro = fecharegistro;
 		this.iplog = iplog;
+		this.petestado = petestado;
 	}
 	
 	@Id
@@ -139,6 +145,16 @@ public class Sevmenu implements java.io.Serializable {
 
 	public void setIplog(String iplog) {
 		this.iplog = iplog;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idestado")
+	public Petestado getPetestado() {
+		return this.petestado;
+	}
+
+	public void setPetestado(Petestado petestado) {
+		this.petestado = petestado;
 	}
 
 }

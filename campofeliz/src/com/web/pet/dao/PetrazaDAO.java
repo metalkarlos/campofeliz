@@ -8,12 +8,10 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.PetrazaDAOInterface;
 import com.web.pet.pojo.annotations.Petraza;
 
-public class PetrazaDAO implements PetrazaDAOInterface {
+public class PetrazaDAO {
 
-	@Override
 	public int maxIdPetraza(Session session) throws Exception {
 		int max = 0;
 
@@ -26,12 +24,10 @@ public class PetrazaDAO implements PetrazaDAOInterface {
 		return max;
 	}
 
-	@Override
 	public void savePetraza(Session session, Petraza petraza) throws Exception {
 		session.save(petraza);
 	}
 
-	@Override
 	public void updatePetraza(Session session, Petraza petraza) throws Exception {
 		session.update(petraza);
 	}
@@ -60,7 +56,6 @@ public class PetrazaDAO implements PetrazaDAOInterface {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Petraza> lisPetrazaByPage(Session session, int pageSize, int pageNumber, int[] args) throws Exception {
 		List<Petraza> lisPetraza = null;
 		

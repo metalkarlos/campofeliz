@@ -102,7 +102,7 @@
 						<h:link title="Ver Informaci&oacute;n" outcome="mascota.jsf">
 							<f:param name="idmascota" value="#{pet.petmascota.idmascota}" /> 
 							<f:param name="tipo" value="#{pet.petmascota.petespecie.idespecie}" />
-							<p:graphicImage id="idfoto" value="#{pet.petfoto.ruta}" style="max-height: 100px" />
+							<p:graphicImage id="idfoto" value="#{buscarMascotaBean.rutaImagenes}#{pet.petfoto.ruta}?w=150" style="max-height: 100px" />
 						</h:link>
 						</td>
 						<td>

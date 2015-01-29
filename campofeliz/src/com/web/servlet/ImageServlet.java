@@ -66,7 +66,7 @@ public class ImageServlet extends HttpServlet implements Serializable{
             // Throw an exception, or send 404, or show default/warning image, or just ignore it.
             //response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404.
             //return;
-        	image = new File(getServletContext().getRealPath("/resources/images/huella.jpg"));
+        	image = new File(getServletContext().getRealPath("/resources/images/miscellaneous/blank.jpg"));
         }else{
 	        // Decode the file name (might contain spaces and on) and prepare file object.
 	        image = new File(imagePath, URLDecoder.decode(requestedImage, "UTF-8"));
@@ -78,7 +78,7 @@ public class ImageServlet extends HttpServlet implements Serializable{
             // Throw an exception, or send 404, or show default/warning image, or just ignore it.
             //response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404.
             //return;
-        	image = new File(getServletContext().getRealPath("/resources/images/huella.jpg"));
+        	image = new File(getServletContext().getRealPath("/resources/images/miscellaneous/blank.jpg"));
         }
 
         // Get content type by filename.

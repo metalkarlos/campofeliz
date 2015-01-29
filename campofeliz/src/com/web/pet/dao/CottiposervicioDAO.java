@@ -8,12 +8,10 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.CottiposervicioDAOInterface;
 import com.web.pet.pojo.annotations.Cottiposervicio;
 
-public class CottiposervicioDAO implements CottiposervicioDAOInterface {
+public class CottiposervicioDAO {
 
-	@Override
 	public int maxIdCottiposervicio(Session session) throws Exception {
 		int max = 0;
 
@@ -26,20 +24,17 @@ public class CottiposervicioDAO implements CottiposervicioDAOInterface {
 		return max;
 	}
 
-	@Override
 	public void saveCottiposervicio(Session session,
 			Cottiposervicio cottiposervicio) throws Exception {
 		session.save(cottiposervicio);
 	}
 
-	@Override
 	public void updateCottiposervicio(Session session,
 			Cottiposervicio cottiposervicio) throws Exception {
 		session.update(cottiposervicio);
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Cottiposervicio> lisCottiposervicioByPage(Session session,
 			int pageSize, int pageNumber, int[] args) throws Exception {
 		List<Cottiposervicio> lisCottiposervicio = null;
@@ -70,7 +65,6 @@ public class CottiposervicioDAO implements CottiposervicioDAOInterface {
 		return lisCottiposervicio;
 	}
 
-	@Override
 	public Cottiposervicio getCottiposervicioById(Session session, int id)
 			throws Exception {
 		Cottiposervicio cottiposervicio = null;

@@ -7,10 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.CotcolorDAOInterface;
 import com.web.pet.pojo.annotations.Cotcolor;
 
-public class CotcolorDAO implements CotcolorDAOInterface {
+public class CotcolorDAO {
 
 	public int maxIdCotcolor(Session session) throws Exception {
 		int max=0;

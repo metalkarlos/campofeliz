@@ -7,23 +7,13 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.daointerface.PetfotoDAOInterface;
+import com.web.pet.dao.PetfotoDAO;
 import com.web.pet.pojo.annotations.Petfoto;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 import com.web.util.FileUtil;
 
 public class PetfotoBO {
-	
-	private PetfotoDAOInterface petfotoDAOInterface;
-	
-	public PetfotoBO() throws RuntimeException {
-		try{
-			petfotoDAOInterface = (PetfotoDAOInterface) PetfotoBO.class.getClassLoader().loadClass("com.web.pet.dao.PetfotoDAO").newInstance();
-        }catch(Exception e){
-            throw new RuntimeException("Problemas al cargar la interfaz PetfotoDAOInterface");
-        }
-	}
 
 	public List<Petfoto> lisPetfotoByPetId(int idmascota) throws Exception {
 		List<Petfoto> lisPetfoto = null;
@@ -31,7 +21,10 @@ public class PetfotoBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisPetfoto = petfotoDAOInterface.lisPetfotoByPetId(session, idmascota);
+			
+			PetfotoDAO petfotoDAO = new PetfotoDAO();
+			
+			lisPetfoto = petfotoDAO.lisPetfotoByPetId(session, idmascota);
 		}catch(Exception re){
 			throw new Exception();
 		}finally{
@@ -49,8 +42,10 @@ public class PetfotoBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
+			PetfotoDAO petfotoDAO = new PetfotoDAO();
+			
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
-			int maxid = petfotoDAOInterface.maxIdPetfoto(session)+1;
+			int maxid = petfotoDAO.maxIdPetfoto(session)+1;
 			Date fecharegistro = new Date();
 			String fileExtention = new FileUtil().getFileExtention(petfoto.getNombrearchivo());
 			String nombrearchivo = petfoto.getPetmascota().getPetespecie().getIdespecie()+"-"+petfoto.getPetmascota().getIdmascota()+"-"+maxid+"."+fileExtention.toLowerCase();
@@ -80,7 +75,7 @@ public class PetfotoBO {
 			}
 			
 			petfoto.setObjeto(null);
-			petfotoDAOInterface.savePetfoto(session, petfoto);
+			petfotoDAO.savePetfoto(session, petfoto);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -102,13 +97,15 @@ public class PetfotoBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
+			PetfotoDAO petfotoDAO = new PetfotoDAO();
+			
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
 			petfoto.setFecharegistro(fecharegistro);
 			petfoto.setIplog(usuarioBean.getIp());
 			petfoto.setSetusuario(usuarioBean.getSetUsuario());
-			petfotoDAOInterface.updatePetfoto(session, petfoto);
+			petfotoDAO.updatePetfoto(session, petfoto);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -128,7 +125,10 @@ public class PetfotoBO {
 		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			lispetfoto = petfotoDAOInterface.lisPetfotoPerfil(session, tipo);
+			
+			PetfotoDAO petfotoDAO = new PetfotoDAO();
+			
+			lispetfoto = petfotoDAO.lisPetfotoPerfil(session, tipo);
 		}catch(Exception re){
 			throw new Exception(); 
 		}finally{
@@ -144,7 +144,10 @@ public class PetfotoBO {
 		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			petfoto = petfotoDAOInterface.getPetfotoPerfilByPetId(session, idmascota);
+			
+			PetfotoDAO petfotoDAO = new PetfotoDAO();
+			
+			petfoto = petfotoDAO.getPetfotoPerfilByPetId(session, idmascota);
 		} catch(Exception he){
 			throw new Exception(); 
 		}finally{
@@ -162,7 +165,9 @@ public class PetfotoBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			petfotoDAOInterface.resetPetfotoPerfilByPetId(session, idmascota);
+			PetfotoDAO petfotoDAO = new PetfotoDAO();
+			
+			petfotoDAO.resetPetfotoPerfilByPetId(session, idmascota);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -184,11 +189,13 @@ public class PetfotoBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
+			PetfotoDAO petfotoDAO = new PetfotoDAO();
+			
 			//Primero se quita la imágen que está actualmente como perfil
-			petfotoDAOInterface.resetPetfotoPerfilByPetId(session, petfoto.getPetmascota().getIdmascota());
+			petfotoDAO.resetPetfotoPerfilByPetId(session, petfoto.getPetmascota().getIdmascota());
 			
 			//Luego se pone la imágen seleccionada como foto del perfil
-			petfotoDAOInterface.setPetfotoPerfil(session, petfoto.getIdfoto());
+			petfotoDAO.setPetfotoPerfil(session, petfoto.getIdfoto());
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -210,7 +217,9 @@ public class PetfotoBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			petfotoDAOInterface.deletePetfoto(session, idfoto);
+			PetfotoDAO petfotoDAO = new PetfotoDAO();
+			
+			petfotoDAO.deletePetfoto(session, idfoto);
 			
 			session.getTransaction().commit();
 			ok = true;

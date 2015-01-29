@@ -8,13 +8,10 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.PetordenservicioDAOInterface;
 import com.web.pet.pojo.annotations.Petordenservicio;
 
-public class PetordenservicioDAO implements
-		PetordenservicioDAOInterface {
+public class PetordenservicioDAO {
 
-	@Override
 	public int maxIdPetordenservicio(Session session) throws Exception {
 		int max = 0;
 		
@@ -27,7 +24,6 @@ public class PetordenservicioDAO implements
 		return max;
 	}
 
-	@Override
 	public Petordenservicio getPetordenservicioById(Session session,
 			int idordenservicio) throws Exception {
 		Petordenservicio petordenservicio = null;
@@ -44,7 +40,6 @@ public class PetordenservicioDAO implements
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Petordenservicio> lisPetordenservicioByPage(Session session,
 			String[] nombres, int pageSize, int pageNumber, int[] args)
 			throws Exception {
@@ -121,13 +116,11 @@ public class PetordenservicioDAO implements
 		return lisPetordenservicio;
 	}
 
-	@Override
 	public void savePetordenservicio(Session session,
 			Petordenservicio petordenservicio) throws Exception {
 		session.save(petordenservicio);
 	}
 
-	@Override
 	public void updatePetordenservicio(Session session,
 			Petordenservicio petordenservicio) throws Exception {
 		session.update(petordenservicio);

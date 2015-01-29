@@ -6,22 +6,12 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.daointerface.PetespecieDAOInterface;
+import com.web.pet.dao.PetespecieDAO;
 import com.web.pet.pojo.annotations.Petespecie;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class PetespecieBO {
-	
-	private PetespecieDAOInterface petespecieDAOInterface;
-
-	public PetespecieBO() throws RuntimeException {
-		try {
-			petespecieDAOInterface = (PetespecieDAOInterface) PetespecieBO.class.getClassLoader().loadClass("com.web.pet.dao.PetespecieDAO").newInstance();
-		} catch(Exception e) {
-			throw new RuntimeException("Problemas al cargar la interfaz PetespecieDAOInterface");
-		}
-	}
 	
 	public List<Petespecie> lisPetespecie() throws Exception {
 		List<Petespecie> lisPetespecie = null;
@@ -29,7 +19,10 @@ public class PetespecieBO {
 		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisPetespecie = petespecieDAOInterface.lisPetespecie(session);
+			
+			PetespecieDAO petespecieDAO = new PetespecieDAO();
+			
+			lisPetespecie = petespecieDAO.lisPetespecie(session);
 		} catch(Exception e) {
 			throw new Exception();
 		}finally {
@@ -45,7 +38,10 @@ public class PetespecieBO {
 		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			petespecie = petespecieDAOInterface.getPetespecieById(session, id);
+			
+			PetespecieDAO petespecieDAO = new PetespecieDAO();
+			
+			petespecie = petespecieDAO.getPetespecieById(session, id);
 		} catch(Exception e){
 			throw new Exception();
 		} finally {
@@ -61,7 +57,10 @@ public class PetespecieBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisPetespecie = petespecieDAOInterface.lisPetespecieByPage(session, pageSize, pageNumber, args);
+			
+			PetespecieDAO petespecieDAO = new PetespecieDAO();
+			
+			lisPetespecie = petespecieDAO.lisPetespecieByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
 			throw new RuntimeException();
 		}finally{
@@ -79,7 +78,9 @@ public class PetespecieBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			int maxid = petespecieDAOInterface.maxIdPetespecie(session)+1;
+			PetespecieDAO petespecieDAO = new PetespecieDAO();
+			
+			int maxid = petespecieDAO.maxIdPetespecie(session)+1;
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
@@ -89,7 +90,7 @@ public class PetespecieBO {
 			petespecie.getPetestado().setIdestado(1);
 			petespecie.setSetusuario(usuarioBean.getSetUsuario());
 	
-			petespecieDAOInterface.savePetespecie(session, petespecie);
+			petespecieDAO.savePetespecie(session, petespecie);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -110,6 +111,8 @@ public class PetespecieBO {
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
+			
+			PetespecieDAO petespecieDAO = new PetespecieDAO();
 		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
@@ -117,7 +120,7 @@ public class PetespecieBO {
 			petespecie.setFecharegistro(fecharegistro);
 			petespecie.setIplog(usuarioBean.getIp());
 			petespecie.setSetusuario(usuarioBean.getSetUsuario());
-			petespecieDAOInterface.updatePetespecie(session, petespecie);
+			petespecieDAO.updatePetespecie(session, petespecie);
 			
 			session.getTransaction().commit();
 			ok = true;

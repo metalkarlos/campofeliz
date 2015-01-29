@@ -52,6 +52,7 @@ public class ServicioBean implements Serializable {
 				}
 			});
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -80,20 +81,12 @@ public class ServicioBean implements Serializable {
 					boolean ok = false;
 					
 					if(cotservicioItem.getIdservicio() > 0){
-						try{
-							ok = cotservicioBO.updateCotservicio(cotservicioItem);
-						}catch(Exception re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						ok = cotservicioBO.updateCotservicio(cotservicioItem);
 					}else{
-						try{
-							Cottiposervicio cottiposervicio = new Cottiposervicio();
-							cottiposervicio.setIdtiposervicio(1);//servicio mortuorio
-							cotservicioItem.setCottiposervicio(cottiposervicio);
-							ok = cotservicioBO.newCotservicio(cotservicioItem);
-						}catch(Exception re){
-							new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-						}
+						Cottiposervicio cottiposervicio = new Cottiposervicio();
+						cottiposervicio.setIdtiposervicio(1);//servicio mortuorio
+						cotservicioItem.setCottiposervicio(cottiposervicio);
+						ok = cotservicioBO.newCotservicio(cotservicioItem);
 					}
 					
 					cotservicioItem = new Cotservicio(0, new Cotestado(), new Setusuario(), new Cottiposervicio(), null, null, null, null, new BigDecimal(0));
@@ -108,6 +101,7 @@ public class ServicioBean implements Serializable {
 				new MessageUtil().showErrorMessage("Error!", "Datos incompletos!");
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -120,6 +114,7 @@ public class ServicioBean implements Serializable {
 			CotservicioBO cotservicioBO = new CotservicioBO();
 			cotservicioBO.updateCotservicio(cotservicioItem);
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}

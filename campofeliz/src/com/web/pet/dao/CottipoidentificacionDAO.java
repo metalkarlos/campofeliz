@@ -7,13 +7,11 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.CottipoidentificacionDAOInterface;
 import com.web.pet.pojo.annotations.Cottipoidentificacion;
 
-public class CottipoidentificacionDAO implements CottipoidentificacionDAOInterface {
+public class CottipoidentificacionDAO {
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Cottipoidentificacion> lisCottipoidentificacion(Session session) throws Exception {
 		List<Cottipoidentificacion> lisCottipoidentificacion = null;
 		

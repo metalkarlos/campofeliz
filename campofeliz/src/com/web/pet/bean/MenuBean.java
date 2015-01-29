@@ -34,8 +34,9 @@ public class MenuBean implements Serializable {
 	
 	public void initializeMenu(){
 		try{
-			lisMenu = new SevmenuBO().lisCrearMenu();
+			lisMenu = new SevmenuBO().lisCrearMenuManual();
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
@@ -82,6 +83,7 @@ public class MenuBean implements Serializable {
 				new FacesUtil().redirect("../pages/"+menu.getPaginaurl()+"?iditem="+menu.getIdmenu());
 			}
 		}catch(Exception re){
+			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}

@@ -6,22 +6,12 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.daointerface.PetrazaDAOInterface;
+import com.web.pet.dao.PetrazaDAO;
 import com.web.pet.pojo.annotations.Petraza;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class PetrazaBO {
-	
-	private PetrazaDAOInterface petrazaDAOInterface;
-	
-	public PetrazaBO() throws RuntimeException {
-		try{
-			petrazaDAOInterface = (PetrazaDAOInterface) PetrazaBO.class.getClassLoader().loadClass("com.web.pet.dao.PetrazaDAO").newInstance();
-        }catch(Exception ex){
-            throw new RuntimeException("Problemas al cargar la interfaz PetrazaDAOInterface");
-        }
-	}
 	
 	public List<Petraza> lisRazas() throws Exception {
 		List<Petraza> lisPetraza = null;
@@ -29,7 +19,10 @@ public class PetrazaBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisPetraza = petrazaDAOInterface.lisPetraza(session);
+			
+			PetrazaDAO petrazaDAO = new PetrazaDAO();
+			
+			lisPetraza = petrazaDAO.lisPetraza(session);
 		}catch(Exception he){
 			throw new Exception();
 		}finally{
@@ -45,7 +38,10 @@ public class PetrazaBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			petraza = petrazaDAOInterface.getPetrazaById(session, id);
+			
+			PetrazaDAO petrazaDAO = new PetrazaDAO();
+			
+			petraza = petrazaDAO.getPetrazaById(session, id);
 		}catch(Exception he){
 			throw new Exception();
 		}finally{
@@ -61,7 +57,10 @@ public class PetrazaBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisPetraza = petrazaDAOInterface.lisPetrazaByPage(session, pageSize, pageNumber, args);
+			
+			PetrazaDAO petrazaDAO = new PetrazaDAO();
+			
+			lisPetraza = petrazaDAO.lisPetrazaByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
 			throw new RuntimeException();
 		}finally{
@@ -79,7 +78,9 @@ public class PetrazaBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			int maxid = petrazaDAOInterface.maxIdPetraza(session)+1;
+			PetrazaDAO petrazaDAO = new PetrazaDAO();
+			
+			int maxid = petrazaDAO.maxIdPetraza(session)+1;
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
@@ -89,7 +90,7 @@ public class PetrazaBO {
 			petraza.getPetestado().setIdestado(1);
 			petraza.setSetusuario(usuarioBean.getSetUsuario());
 	
-			petrazaDAOInterface.savePetraza(session, petraza);
+			petrazaDAO.savePetraza(session, petraza);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -110,6 +111,8 @@ public class PetrazaBO {
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
+			
+			PetrazaDAO petrazaDAO = new PetrazaDAO();
 		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
@@ -117,7 +120,7 @@ public class PetrazaBO {
 			petraza.setFecharegistro(fecharegistro);
 			petraza.setIplog(usuarioBean.getIp());
 			petraza.setSetusuario(usuarioBean.getSetUsuario());
-			petrazaDAOInterface.updatePetraza(session, petraza);
+			petrazaDAO.updatePetraza(session, petraza);
 			
 			session.getTransaction().commit();
 			ok = true;

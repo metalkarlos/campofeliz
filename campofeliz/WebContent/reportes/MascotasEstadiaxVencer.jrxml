@@ -17,34 +17,32 @@
 			<style backcolor="#FFFFCC"/>
 		</conditionalStyle>
 	</style>
-	<parameter name="P_LOGO" class="java.lang.String">
+	<parameter name="P_LOGO" class="java.io.InputStream">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="P_ANIOS" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select m.idmascota,InitCap(m.nombre) as nombremascota,
+		<![CDATA[select m.idmascota,CONCAT(UCASE(SUBSTRING(m.nombre, 1, 1)),LCASE(SUBSTRING(m.nombre, 2))) as nombremascota,
        m.pesokg,r.nombre as raza,
        case when m.sexo = 1 then 'Macho' else 'Hembra' end
        as genero,
        e.nombre as especie,
        s.fechaentierro,
-       (select extract ( year from age(s.fechaentierro))) as aniocumplido,
-       ((select extract ( year from age(s.fechaentierro))) || ' años, ' ||
-        (select extract ( month from age(s.fechaentierro))) || ' meses, ' ||
-        (select extract ( day from age(s.fechaentierro))) || ' días ') as tiempocumplido,
+       timestampdiff(year, s.fechaentierro, sysdate()) as aniocumplido,
+       restarFechas(s.fechaentierro, sysdate()) as tiempocumplido,
        p.numeroidentificacion,
        p.nombre1||' '||p.nombre2||' '||
        p.apellido1||' '||p.apellido2  as propietario,
        p.telefono,p.email,p.direccion,
-       pets.detalle_servicio(s.idordenservicio) detalleservicio
+       detalle_servicio(s.idordenservicio) detalleservicio
 
-  from pets.petordenservicio s,
-       pets.petmascota m,
-       comun.cotpersona p,
-       pets.petraza r,
-       pets.petespecie e
+  from petordenservicio s,
+       petmascota m,
+       cotpersona p,
+       petraza r,
+       petespecie e
 
  where s.idestado   = 1
    and m.idestado   = 1
@@ -55,32 +53,36 @@
    and m.idpersona  = p.idpersona
    and m.idraza     = r.idraza
    and m.idespecie  = e.idespecie
-   and ($P{P_ANIOS} = 0 or (select extract ( year from age(s.fechaentierro))) <= $P{P_ANIOS})
+   and ($P{P_ANIOS} = 0 or timestampdiff(year, s.fechaentierro, sysdate()) <= $P{P_ANIOS})
    order by s.fechaentierro asc, propietario desc]]>
 	</queryString>
-	<field name="idmascota" class="java.lang.Integer"/>
+	<field name="idmascota" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="nombremascota" class="java.lang.String"/>
-	<field name="pesokg" class="java.math.BigDecimal"/>
+	<field name="pesokg" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="raza" class="java.lang.String"/>
 	<field name="genero" class="java.lang.String"/>
 	<field name="especie" class="java.lang.String"/>
 	<field name="fechaentierro" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[fecha en la cual se entierra al animalito]]></fieldDescription>
+		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="aniocumplido" class="java.lang.Integer"/>
+	<field name="aniocumplido" class="java.lang.Long"/>
 	<field name="tiempocumplido" class="java.lang.String"/>
 	<field name="numeroidentificacion" class="java.lang.String">
-		<fieldDescription><![CDATA[numero de identificacion]]></fieldDescription>
+		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="propietario" class="java.lang.String"/>
+	<field name="propietario" class="java.lang.Integer"/>
 	<field name="telefono" class="java.lang.String">
-		<fieldDescription><![CDATA[numero del telefono convencional o celular]]></fieldDescription>
+		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="email" class="java.lang.String">
-		<fieldDescription><![CDATA[cuenta de correo electronico]]></fieldDescription>
+		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="direccion" class="java.lang.String">
-		<fieldDescription><![CDATA[direccion de domicilio]]></fieldDescription>
+		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="detalleservicio" class="java.lang.String"/>
 	<variable name="nombremascota_1" class="java.lang.Integer" calculation="Count">

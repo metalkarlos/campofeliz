@@ -26,7 +26,7 @@
 							<f:param name="idmascota" value="#{pet.petmascota.idmascota}" /> 
 							<f:param name="especie" value="#{mascotasBean.especie}" />
 							<f:param name="iditem" value="#{menuBean.activeIdItem}" />
-							<p:graphicImage id="idfoto" title="#{pet.petmascota.nombre}" value="#{pet.petfoto.ruta}" style="max-height: 100px" />
+							<p:graphicImage id="idfoto" title="#{pet.petmascota.nombre}" value="#{mascotasBean.rutaImagenes}#{pet.petfoto.ruta}?w=150" style="max-height: 100px" />
 						</h:link>
 						<h:link value="#{pet.petmascota.sexo==1?'Macho':'Hembra'}" outcome="mascota.hxtml" >
 							<f:param name="idmascota" value="#{pet.petmascota.idmascota}" /> 

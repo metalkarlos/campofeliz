@@ -6,21 +6,12 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.daointerface.CoteventoDAOInterface;
+import com.web.pet.dao.CoteventoDAO;
 import com.web.pet.pojo.annotations.Cotevento;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class CoteventoBO {
-	CoteventoDAOInterface coteventoDAOInterface;
-	
-	public CoteventoBO() throws RuntimeException {
-		try {
-			coteventoDAOInterface = (CoteventoDAOInterface) CoteventoBO.class.getClassLoader().loadClass("com.web.pet.dao.CoteventoDAO").newInstance();
-		} catch (Exception e) {
-			throw new RuntimeException("Problemas al cargar la interfaz CoteventoDAOInterface");
-		}
-	}
 	
 	public boolean newCotevento(Cotevento cotevento) throws Exception{
 		boolean ok = false;
@@ -30,7 +21,9 @@ public class CoteventoBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			int max = coteventoDAOInterface.maxIdCotevento(session)+1;
+			CoteventoDAO coteventoDAO = new CoteventoDAO();
+			
+			int max = coteventoDAO.maxIdCotevento(session)+1;
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
@@ -40,7 +33,7 @@ public class CoteventoBO {
 			cotevento.setIplog(usuarioBean.getIp());
 			cotevento.setSetusuario(usuarioBean.getSetUsuario());
 			
-			coteventoDAOInterface.saveCotevento(session, cotevento);
+			coteventoDAO.saveCotevento(session, cotevento);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -62,13 +55,15 @@ public class CoteventoBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
+			CoteventoDAO coteventoDAO = new CoteventoDAO();
+			
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
 			cotevento.setFecharegistro(fecharegistro);
 			cotevento.setIplog(usuarioBean.getIp());
 			cotevento.setSetusuario(usuarioBean.getSetUsuario());
-			coteventoDAOInterface.updateCotevento(session, cotevento);
+			coteventoDAO.updateCotevento(session, cotevento);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -90,7 +85,9 @@ public class CoteventoBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			coteventoDAOInterface.deleteCotevento(session, id);
+			CoteventoDAO coteventoDAO = new CoteventoDAO();
+			
+			coteventoDAO.deleteCotevento(session, id);
 			session.getTransaction().commit();
 			ok = true;
 		} catch(Exception e){
@@ -109,7 +106,10 @@ public class CoteventoBO {
 		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisCotevento = coteventoDAOInterface.lisCotevento(session, fechadesde, fechahasta);
+			
+			CoteventoDAO coteventoDAO = new CoteventoDAO();
+			
+			lisCotevento = coteventoDAO.lisCotevento(session, fechadesde, fechahasta);
 		} catch(Exception e){
 			throw new RuntimeException();
 		} finally {

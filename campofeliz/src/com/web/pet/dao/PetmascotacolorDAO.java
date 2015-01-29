@@ -7,12 +7,10 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.daointerface.PetmascotacolorDAOInterface;
 import com.web.pet.pojo.annotations.Petmascotacolor;
 
-public class PetmascotacolorDAO implements PetmascotacolorDAOInterface {
+public class PetmascotacolorDAO {
 
-	@Override
 	public int maxIdPetmascotacolor(Session session) throws Exception {
 		int max = 0;
 		
@@ -26,7 +24,6 @@ public class PetmascotacolorDAO implements PetmascotacolorDAOInterface {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<Petmascotacolor> lisPetmascotacolor(Session session, int idmascota) throws Exception {
 		List<Petmascotacolor> lisPetmascotacolor = null;
 		
@@ -40,12 +37,10 @@ public class PetmascotacolorDAO implements PetmascotacolorDAOInterface {
 		return lisPetmascotacolor;
 	}
 
-	@Override
 	public void savePetmascotacolor(Session session, Petmascotacolor petmascotacolor) throws Exception {
 		session.save(petmascotacolor);
 	}
 
-	@Override
 	public void updatePetmascotacolor(Session session, Petmascotacolor petmascotacolor) throws Exception {
 		session.update(petmascotacolor);
 	}

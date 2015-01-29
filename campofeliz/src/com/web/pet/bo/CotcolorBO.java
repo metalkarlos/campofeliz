@@ -6,30 +6,23 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.daointerface.CotcolorDAOInterface;
+import com.web.pet.dao.CotcolorDAO;
 import com.web.pet.pojo.annotations.Cotcolor;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class CotcolorBO {
 	
-	private CotcolorDAOInterface cotcolorDAOInterface;
-	
-	public CotcolorBO() throws RuntimeException {
-		try{
-			cotcolorDAOInterface = (CotcolorDAOInterface) CotcolorBO.class.getClassLoader().loadClass("com.web.pet.dao.CotcolorDAO").newInstance();
-        }catch(Exception ex){
-            throw new RuntimeException("Problemas al cargar la interfaz CotcolorDAOInterface");
-        }
-	}
-
 	public List<Cotcolor> lisCotcolor() throws Exception {
 		List<Cotcolor> lisCotcolor = null;
 		Session session = null;
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisCotcolor = cotcolorDAOInterface.lisCotcolor(session);
+			
+			CotcolorDAO cotcolorDAO = new CotcolorDAO();
+			
+			lisCotcolor = cotcolorDAO.lisCotcolor(session);
 		}catch(Exception he){
 			throw new Exception();
 		}finally{
@@ -45,7 +38,10 @@ public class CotcolorBO {
 		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			cotcolor = cotcolorDAOInterface.getCotcolorById(session, id);
+			
+			CotcolorDAO cotcolorDAO = new CotcolorDAO();
+			
+			cotcolor = cotcolorDAO.getCotcolorById(session, id);
 		} catch(Exception he) {
 			throw new Exception();
 		} finally {
@@ -61,7 +57,10 @@ public class CotcolorBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
-			lisCotcolor = cotcolorDAOInterface.lisCotcolorByPage(session, pageSize, pageNumber, args);
+			
+			CotcolorDAO cotcolorDAO = new CotcolorDAO();
+			
+			lisCotcolor = cotcolorDAO.lisCotcolorByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
 			throw new RuntimeException();
 		}finally{
@@ -79,7 +78,9 @@ public class CotcolorBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			int maxid = cotcolorDAOInterface.maxIdCotcolor(session)+1;
+			CotcolorDAO cotcolorDAO = new CotcolorDAO();
+			
+			int maxid = cotcolorDAO.maxIdCotcolor(session)+1;
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
@@ -89,7 +90,7 @@ public class CotcolorBO {
 			cotcolor.getCotestado().setIdestado(1);
 			cotcolor.setSetusuario(usuarioBean.getSetUsuario());
 	
-			cotcolorDAOInterface.saveCotcolor(session, cotcolor);
+			cotcolorDAO.saveCotcolor(session, cotcolor);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -110,6 +111,8 @@ public class CotcolorBO {
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
+			
+			CotcolorDAO cotcolorDAO = new CotcolorDAO();
 		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
@@ -117,7 +120,7 @@ public class CotcolorBO {
 			cotcolor.setFecharegistro(fecharegistro);
 			cotcolor.setIplog(usuarioBean.getIp());
 			cotcolor.setSetusuario(usuarioBean.getSetUsuario());
-			cotcolorDAOInterface.updateCotcolor(session, cotcolor);
+			cotcolorDAO.updateCotcolor(session, cotcolor);
 			
 			session.getTransaction().commit();
 			ok = true;

@@ -49,6 +49,7 @@ public class ThemeBean implements Serializable {
 				defaultTheme = properties.getProperty(themeSelected);
 			}
 		}catch(Exception e){
+			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error al cargar los Temas. Comunicar al Webmaster!");
 		}
 	}
