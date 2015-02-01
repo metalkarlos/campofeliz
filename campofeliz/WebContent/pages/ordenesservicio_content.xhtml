@@ -15,6 +15,10 @@
 				<f:ajax event="keyup" render="idTablaOrdenes" />
 			</p:inputText>
 			<br /><br />
+			<h:link  class="link" value="[ Nueva Solicitud ]" outcome="ordenservicio.hxtml" >
+				<f:param name="idordenservicio" value="0" /> 
+			</h:link>
+			<br /><br />
 			<p:dataTable id="idTablaOrdenes" value="#{ordenesServicioBean.lisPetordenservicio}" var="orden" rowKey="#{orden.idordenservicio}" widgetVar="vartablaOrdenes"
 				paginator="true" rows="20" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				selection="#{ordenesServicioBean.petordenservicioSelected}" selectionMode="single">

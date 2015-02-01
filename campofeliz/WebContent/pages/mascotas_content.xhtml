@@ -14,8 +14,12 @@
 		<p:inputText id="idtxtnombre" value="#{mascotasBean.nombre}" style="width: 500px">
 			<f:ajax event="keyup" render="idGridMascotas"></f:ajax>
 		</p:inputText>
-		</p:panel>
-		<br />
+		<br /><br />
+		<h:link  class="link" value="[ Nueva Mascota ]" outcome="mascota.hxtml" rendered="#{mascotasBean.especie gt 0}" >
+			<f:param name="idmascota" value="0" /> 
+			<f:param name="especie" value="#{mascotasBean.especie}" />
+		</h:link>
+		<br /><br />
 		<p:dataGrid id="idGridMascotas" value="#{mascotasBean.lisMascotas}" var="pet" columns="#{mascotasBean.columnsGrid}" rows="#{mascotasBean.rowsGrid}" paginator="true" effect="true" 
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			emptyMessage="No se encontraron registros">
@@ -37,5 +41,6 @@
 				</p:panel>
 			</p:column>
 		</p:dataGrid>
+		</p:panel>
 	</h:form>
 </ui:composition>

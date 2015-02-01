@@ -15,6 +15,10 @@
 				<f:ajax event="keyup" render="idTablaPersonas" />
 			</p:inputText>
 			<br /><br />
+			<h:link class="link" value="[ Nueva Persona ]" outcome="persona.hxtml" >
+				<f:param name="idpersona" value="0" /> 
+			</h:link>
+			<br /><br />
 			<p:dataTable id="idTablaPersonas" value="#{personasBean.lisCotpersona}" var="persona" rowKey="#{persona.idpersona}" widgetVar="vartablaPersonas"
 				paginator="true" rows="20" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				selection="#{personasBean.cotpersonaSelected}" selectionMode="single"  emptyMessage="No se encontraron registros">

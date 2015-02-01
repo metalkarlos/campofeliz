@@ -14,11 +14,5 @@
 			<f:selectItem itemLabel="Seleccione" itemValue="0"/>
 			<f:selectItems value="#{mascotasBean.lisPetespecie}" var="especie" itemLabel="#{especie.nombre}" itemValue="#{especie.idespecie}"></f:selectItems>
 		</p:selectOneMenu>
-		<br />
-		<br />
-		<h:link  class="link" value="[ Nueva Mascota ]" outcome="mascota.hxtml" rendered="#{mascotasBean.especie gt 0}" >
-			<f:param name="idmascota" value="0" /> 
-			<f:param name="especie" value="#{mascotasBean.especie}" />
-		</h:link>
 	</h:form>
 </ui:composition>
