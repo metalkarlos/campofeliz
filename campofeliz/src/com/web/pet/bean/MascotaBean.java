@@ -388,31 +388,31 @@ public class MascotaBean implements Serializable {
 		boolean ok = true;
 		
 		if(petmascota.getNombre() == null || petmascota.getNombre().trim().length() == 0){
-			new MessageUtil().showErrorMessage("Datos incompletos!", "El Nombre es obligatorio!");
+			new MessageUtil().showWarnMessage("Datos incompletos!", "El Nombre es obligatorio!");
 			ok = false;
 		}else{
 			/*if(petmascota.getCaracteristicas() == null || petmascota.getCaracteristicas().trim().length() == 0){
 				ok = false;
 			}*/
 			if(petmascota.getCotpersona() == null || petmascota.getCotpersona().getIdpersona() == 0 ){
-				new MessageUtil().showErrorMessage("Datos incompletos!", "El Propietarios es obligatorio!");
+				new MessageUtil().showWarnMessage("Datos incompletos!", "El Propietarios es obligatorio!");
 				ok = false;
 			}else{
 				if(petmascota.getPetraza() == null || petmascota.getPetraza().getIdraza() == 0 ){
-					new MessageUtil().showErrorMessage("Datos incompletos!", "La Raza es obligatoria!");
+					new MessageUtil().showWarnMessage("Datos incompletos!", "La Raza es obligatoria!");
 					ok = false;
 				}else{
 					if(cottipoidentificacionselected != null && cottipoidentificacionselected.getIdtipoidentificacion() > 0 && (petmascota.getNumeroidentificacion() == null || petmascota.getNumeroidentificacion().trim().length() == 0)){
-						new MessageUtil().showErrorMessage("Datos incompletos!", "Si selecciona el Tipo de Identificación tambien debe ingresar el Número de Identificación!");
+						new MessageUtil().showWarnMessage("Datos incompletos!", "Si selecciona el Tipo de Identificación tambien debe ingresar el Número de Identificación!");
 						ok = false;
 					}else{
 						if(petmascota.getNumeroidentificacion() != null && petmascota.getNumeroidentificacion().trim().length() > 0 && (cottipoidentificacionselected == null || cottipoidentificacionselected.getIdtipoidentificacion() == 0)){
-							new MessageUtil().showErrorMessage("Datos incompletos!", "Si ingresa el Número de Identificación también debe seleccionar el Tipo de Identificación!");
+							new MessageUtil().showWarnMessage("Datos incompletos!", "Si ingresa el Número de Identificación también debe seleccionar el Tipo de Identificación!");
 							ok = false;
 						}
 						else{ 
 							if(petmascota.getFechafallecimiento() != null && petmascota.getFechanacimiento() != null && (petmascota.getFechafallecimiento().before(petmascota.getFechanacimiento()) )){
-								new MessageUtil().showErrorMessage("Datos incompletos!", "Fecha de Fallecimiento debe ser mayor a Fecha de Nacimiento!");
+								new MessageUtil().showWarnMessage("Datos incompletos!", "Fecha de Fallecimiento debe ser mayor a Fecha de Nacimiento!");
 								ok = false;
 							}	
 						}	

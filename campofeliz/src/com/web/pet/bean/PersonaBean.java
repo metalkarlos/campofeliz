@@ -224,19 +224,19 @@ public class PersonaBean implements Serializable {
 		boolean ok = true;
 		
 		if(cotpersona.getApellido1() == null || cotpersona.getApellido1().trim().length() == 0){
-			new MessageUtil().showErrorMessage("Datos incompletos!", "El Primer Apellido es obligatorio!");
+			new MessageUtil().showWarnMessage("Datos incompletos!", "El Primer Apellido es obligatorio!");
 			ok = false;
 		}else{
 			if(cotpersona.getNombre1() == null || cotpersona.getNombre1().trim().length() == 0){
-				new MessageUtil().showErrorMessage("Datos incompletos!", "El Primer Nombre es obligatorio!");
+				new MessageUtil().showWarnMessage("Datos incompletos!", "El Primer Nombre es obligatorio!");
 				ok = false;
 			}else{
 				if(cottipoidentificacionselected != null && cottipoidentificacionselected.getIdtipoidentificacion() > 0 && (cotpersona.getNumeroidentificacion() == null || cotpersona.getNumeroidentificacion().trim().length() == 0)){
-					new MessageUtil().showErrorMessage("Datos incompletos!", "Si selecciona el Tipo de Identificación tambien debe ingresar el Número de Identificación!");
+					new MessageUtil().showWarnMessage("Datos incompletos!", "Si selecciona el Tipo de Identificación tambien debe ingresar el Número de Identificación!");
 					ok = false;
 				}else{
 					if(cotpersona.getNumeroidentificacion() != null && cotpersona.getNumeroidentificacion().trim().length() > 0 && (cottipoidentificacionselected == null || cottipoidentificacionselected.getIdtipoidentificacion() == 0)){
-						new MessageUtil().showErrorMessage("Datos incompletos!", "Si ingresa El Número de Identificación tambien debe seleccionar el Tipo de Identificación!");
+						new MessageUtil().showWarnMessage("Datos incompletos!", "Si ingresa El Número de Identificación tambien debe seleccionar el Tipo de Identificación!");
 						ok = false;
 					}
 				}

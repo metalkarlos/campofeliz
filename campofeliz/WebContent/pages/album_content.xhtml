@@ -8,7 +8,9 @@
       
 	<h:form id="form-contentpage" enctype="multipart/form-data">
 		<p:growl id="mensajes" showDetail="true" />
-		<p:panel id="panel-albumcontent" style="padding: 0  0 0 140px;">
+		<p:panel id="panel-albumcontent" >
+		<center>
+			<h1 >Album #{albumBean.petmascota.nombre}</h1>
 			<p:galleria id="idgalleria" value="#{albumBean.lispetfoto}" var="item" transitionInterval="0" panelWidth="500" panelHeight="320" styleClass="ui-widget-content ui-corner-all">
 		        <p:graphicImage id="idfotos" value="#{albumBean.rutaImagenes}#{item.ruta}?w=150" style="max-height: 50px" />
 		        <p:galleriaContent>  
@@ -38,6 +40,7 @@
 		    <br />
 			<p:commandButton id="idverinformacion" title="Ver Informaci&oacute;n" value="Ver Registro de la Mascota" action="#{albumBean.verInformacion()}" immediate="true" />
 			<br /><br />
+		</center>
 		</p:panel>
 		<p:dialog id="iddialogupload" closable="true" widgetVar="vardialogupload" modal="true" showEffect="bounce" hideEffect="explode" width="600" height="150" resizable="true">
 			<p:fileUpload id="idfileupload" fileUploadListener="#{albumBean.handleFileUpload}"  

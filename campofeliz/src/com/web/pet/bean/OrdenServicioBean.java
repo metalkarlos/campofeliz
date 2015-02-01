@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -67,6 +68,35 @@ public class OrdenServicioBean implements Serializable {
 		llenarListaServicio();
 		consultarDetalle();
 		cargarRutaImagenes();
+	}
+	
+	@PostConstruct
+	public void PostOrdenServicioBean(){
+		FacesUtil facesUtil = new FacesUtil();
+		idordenservicio = Integer.parseInt(facesUtil.getParametroUrl("idordenservicio") != null ? facesUtil
+						.getParametroUrl("idordenservicio").toString() : "0");
+		
+		if(idordenservicio > 0){
+			try{
+				petordenservicio = new PetordenservicioBO().getPetordenservicioById(idordenservicio);
+				if(petordenservicio.getCotlugar() == null){
+					petordenservicio.setCotlugar(new Cotlugar());
+				}
+				Mascotas mascotas = new Mascotas();
+				petmascotaselected = new PetmascotaBO().getPetmascotaById(petordenservicio.getPetmascota().getIdmascota());
+				Petfoto petfoto = new PetfotoBO().getPetfotoPerfilByPetId(petmascotaselected.getIdmascota());
+				mascotas.setPetmascota(petmascotaselected);
+				mascotas.setPetfoto(petfoto);
+				mascotasselected = mascotas;
+				lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(petmascotaselected.getIdmascota());
+				if(lisPetmascotacolor == null){
+					lisPetmascotacolor = new ArrayList<Petmascotacolor>();
+				}
+			}catch(Exception re){
+				re.printStackTrace();
+				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			}
+		}
 	}
 	
 	private void llenarListaLugar(){
@@ -151,27 +181,6 @@ public class OrdenServicioBean implements Serializable {
 
 	public void setIdordenservicio(int idordenservicio) {
 		this.idordenservicio = idordenservicio;
-		if(idordenservicio > 0){
-			try{
-				petordenservicio = new PetordenservicioBO().getPetordenservicioById(idordenservicio);
-				if(petordenservicio.getCotlugar() == null){
-					petordenservicio.setCotlugar(new Cotlugar());
-				}
-				Mascotas mascotas = new Mascotas();
-				petmascotaselected = new PetmascotaBO().getPetmascotaById(petordenservicio.getPetmascota().getIdmascota());
-				Petfoto petfoto = new PetfotoBO().getPetfotoPerfilByPetId(petmascotaselected.getIdmascota());
-				mascotas.setPetmascota(petmascotaselected);
-				mascotas.setPetfoto(petfoto);
-				mascotasselected = mascotas;
-				lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(petmascotaselected.getIdmascota());
-				if(lisPetmascotacolor == null){
-					lisPetmascotacolor = new ArrayList<Petmascotacolor>();
-				}
-			}catch(Exception re){
-				re.printStackTrace();
-				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-			}
-		}
 	}
 
 	public Petordenservicio getPetordenservicio() {
@@ -313,7 +322,7 @@ public class OrdenServicioBean implements Serializable {
 		
 		if(petordenserviciodetalleItem.getCotservicio() == null || petordenserviciodetalleItem.getCotservicio().getIdservicio() == 0){
 			ok = false;
-			new MessageUtil().showErrorMessage("Datos incompletos!", "El Servicio es obligatorio!");
+			new MessageUtil().showWarnMessage("Datos incompletos!", "El Servicio es obligatorio!");
 		}
 		
 		return ok;
@@ -325,6 +334,10 @@ public class OrdenServicioBean implements Serializable {
 			try{
 				PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
 				petordenservicio.setPetmascota(mascotasselected.getPetmascota());
+				
+				if(petordenservicio.getCotlugar() == null ||  petordenservicio.getCotlugar().getIdlugar() == 0){
+					petordenservicio.setCotlugar(null);
+				}
 				
 				if(petordenservicio.getIdordenservicio() > 0){
 					petordenservicioBO.updatePetordenservicio(petordenservicio);
@@ -347,7 +360,7 @@ public class OrdenServicioBean implements Serializable {
 		boolean ok = true;
 		
 		if(mascotasselected == null || mascotasselected.getPetmascota() == null || mascotasselected.getPetmascota().getIdmascota() == 0){
-			new MessageUtil().showErrorMessage("Datos incompletos!", "La Mascota es obligatoria!");
+			new MessageUtil().showWarnMessage("Datos incompletos!", "La Mascota es obligatoria!");
 			ok = false;
 		}
 		

@@ -90,10 +90,10 @@ public class EspecieBean implements Serializable {
 						new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
 					}
 				}else{
-					new MessageUtil().showErrorMessage("Ya Existe!", "Descripción duplicada. Corrija e intente nuevamente.");
+					new MessageUtil().showWarnMessage("Ya Existe!", "Descripción duplicada. Corrija e intente nuevamente.");
 				}
 			}else{
-				new MessageUtil().showErrorMessage("Error!", "Datos incompletos!");
+				new MessageUtil().showWarnMessage("Datos incompletos!", "Datos incompletos!");
 			}
 		}catch(Exception re){
 			re.printStackTrace();
