@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
+	
+	<h:form id="form-contentpage" enctype="multipart/form-data">
+		<p:growl id="mensajes" showDetail="true" />
+		<p:panel id="panel-personacontent">
+			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
+				<my:buttons renderedButtonAceptar="true" onclickButtonAceptar="vardialoggrabar.show()" 
+				renderedButtonEliminar="#{personaBean.idpersona > 0}" onclickButtonEliminar="vardialogdelete.show()"
+				renderedButtonCancelar="true" labelButtonCancelar="Ir a Personas" onclickButtonCancelar="redirect('personas.jsf?iditem=36');" 
+				renderedButtonNewItem="false" />
+			</h:panelGrid>
+			<h1 class="title ui-widget-header ui-corner-all">Nombres</h1>
+			<p:focus for="idnombre1"/>
+			<h:panelGrid id="idpanelnombres" columns="4">
+				<h:outputLabel id="idlblnombre1" value="Primer Nombre: " />
+				<p:inputText id="idnombre1" value="#{personaBean.cotpersona.nombre1}" size="30" required="true" requiredMessage="El campo 'Primer Nombre' es obligatorio." />
+				<h:outputLabel id="idlblnombre2" value="Segundo Nombre: " />
+				<p:inputText id="idnombre2" value="#{personaBean.cotpersona.nombre2}" size="30" />
+				<h:outputLabel id="idlblapellido1" value="Primer Apellido: " />
+				<p:inputText id="apellido1" value="#{personaBean.cotpersona.apellido1}" size="30" required="true" requiredMessage="El campo 'Primer Apellido' es obligatorio." />
+				<h:outputLabel id="idlblapellido2" value="Segundo Apellido: " />
+				<p:inputText id="apellido2" value="#{personaBean.cotpersona.apellido2}" size="30" />
+			</h:panelGrid>
+			<br /><br />
+			
+			<h1 class="title ui-widget-header ui-corner-all">Alias</h1>
+			<p:inputText id="idalias" value="#{personaBean.cotpersona.alias}" size="30"></p:inputText>
+			<br /><br />
+			
+			<h1 class="title ui-widget-header ui-corner-all">Número de Identificación</h1>
+			<p:selectOneMenu id="idtipoidentificacion" value="#{personaBean.cottipoidentificacionselected.idtipoidentificacion}">
+			    <f:selectItems value="#{personaBean.lisCottipoidentificacion}" var="i" itemLabel="#{i.nombre}" itemValue="#{i.idtipoidentificacion}" />
+			</p:selectOneMenu>
+			<p:inputText id="idnumeroidentificacion" style="vertical-align: top;" value="#{personaBean.cotpersona.numeroidentificacion}" size="15" />
+			<br /><br />
+			
+			<h1 class="title ui-widget-header ui-corner-all">Fecha de Nacimiento</h1>
+			<p:calendar id="idfechanacimiento" value="#{personaBean.cotpersona.fechanacimiento}" yearRange="c-110:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />
+			<br /><br />
+			
+			<h1 class="title ui-widget-header ui-corner-all">Sexo</h1>
+			<p:selectOneMenu id="idsexolist" value="#{personaBean.cotpersona.sexo}" >
+                <f:selectItem itemLabel="Hombre" itemValue="1" />
+                <f:selectItem itemLabel="Mujer" itemValue="2" />
+            </p:selectOneMenu>
+			<br /><br />
+			
+			<h1 class="title ui-widget-header ui-corner-all">Teléfono</h1>
+			<p:inputText id="idtelefono" value="#{personaBean.cotpersona.telefono}" size="50" required="true" requiredMessage="El campo 'Teléfono' es obligatorio."></p:inputText>
+			<br /><br />
+			
+			<h1 class="title ui-widget-header ui-corner-all">Dirección</h1>
+			<p:inputTextarea id="iddireccion" value="#{personaBean.cotpersona.direccion}" style="max-width: 760px; min-width: 760px; max-height: 25px; min-height: 25px; " maxlength="250" />
+			<br /><br />
+			
+			<h1 class="title ui-widget-header ui-corner-all" >Email</h1>
+			<p:inputText id="idemail" value="#{personaBean.cotpersona.email}" size="50"></p:inputText>
+			<br /><br />
+
+            <h:panelGrid id="panelgridbuttonsdown" columns="1" style="padding: 10px 10px 0 0;">
+				<my:buttons renderedButtonAceptar="true" onclickButtonAceptar="vardialoggrabar.show()" 
+				renderedButtonEliminar="#{personaBean.idpersona > 0}" onclickButtonEliminar="vardialogdelete.show()"
+				renderedButtonCancelar="true" labelButtonCancelar="Ir a Personas" onclickButtonCancelar="redirect('personas.jsf?iditem=36');" 
+				renderedButtonNewItem="false" />
+            </h:panelGrid>
+		</p:panel>
+		<p:dialog id="iddialoggrabar" header="Persona"  closable="true" widgetVar="vardialoggrabar" modal="true" showEffect="bounce" hideEffect="explode">
+			<h:panelGrid id="idpanelgrabar" columns="2">
+				<h:outputLabel id="idlabelgrabar" value="Confirme si desea grabar el registro" />
+				<h:panelGrid columns="2" >
+					<p:commandButton value="SI" style="width: 50px" actionListener="#{personaBean.grabar()}" oncomplete="vardialoggrabar.hide()" update=":form-contentpage:mensajes" />
+					<p:commandButton value="NO" style="width: 50px" onclick="vardialoggrabar.hide()" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</p:dialog>
+		<p:dialog id="iddialogdelete"  header="Persona" closable="true" widgetVar="vardialogdelete" modal="true" showEffect="bounce" hideEffect="explode">
+			<h:panelGrid id="idpaneldelete" columns="2">
+				<h:outputLabel id="idlabeldelete" value="Confirme si desea eliminar el registro" />
+				<h:panelGrid columns="2" >
+					<p:commandButton value="SI" style="width: 50px" actionListener="#{personaBean.eliminar()}" oncomplete="vardialogdelete.hide()" update=":form-contentpage:mensajes" />
+					<p:commandButton value="NO" style="width: 50px" onclick="vardialogdelete.hide()" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</ui:composition>

@@ -80,7 +80,7 @@ public class MenuBean implements Serializable {
 			setLogoMenu(menu.getIconourl());
 			
 			if(menu.getPaginaurl() != null){
-				new FacesUtil().redirect("../pages/"+menu.getPaginaurl()+"?iditem="+menu.getIdmenu());
+				new FacesUtil().redirect("../admin/"+menu.getPaginaurl()+"?iditem="+menu.getIdmenu());
 			}
 		}catch(Exception re){
 			re.printStackTrace();

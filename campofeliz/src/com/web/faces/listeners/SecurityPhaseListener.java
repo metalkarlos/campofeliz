@@ -34,10 +34,21 @@ public class SecurityPhaseListener implements PhaseListener {
 		if(phaseEvent.getPhaseId() == PhaseId.RESTORE_VIEW){
 			UsuarioBean usuarioBean = (UsuarioBean) new FacesUtil().getSessionBean("usuarioBean");
 			FacesContext facesContext = phaseEvent.getFacesContext();
+			
+			//si ingresa a login y ya esta logoneado redirecciona a home
+			String vista = facesContext.getViewRoot().getViewId();
+			boolean loginPage = vista != null && vista.equals("/pages/login.xhtml");
+			if(loginPage && usuarioBean != null && usuarioBean.isAutenticado()){
+				try{
+					facesContext.getExternalContext().redirect("home.jsf");
+					return;
+				}catch(Exception e){}
+			}
+			
 			/*HttpServletRequest requestTmp = (HttpServletRequest)facesContext.getExternalContext().getRequest();
 			System.out.println(requestTmp.getRequestURI());*/
 			//Verifica si la sesión ha caducado o si no está autenticado
-			if(usuarioBean==null || !usuarioBean.isAutenticado()){
+			/*if(usuarioBean==null || !usuarioBean.isAutenticado()){
 				boolean loginPage = facesContext.getViewRoot().getViewId().equals("/pages/login.xhtml");
 				boolean notloggedPage = facesContext.getViewRoot().getViewId().equals("/pages/not_logged.xhtml");
 				
@@ -71,7 +82,7 @@ public class SecurityPhaseListener implements PhaseListener {
 					NavigationHandler navigationHandler = facesContext.getApplication().getNavigationHandler();
 					navigationHandler.handleNavigation(facesContext, null, "not_logged?faces-redirect=true");
 				}
-			}else{
+			}else{*/
 				//Si está autenticado seteamos el menu de la página requerida 
 				FacesUtil facesUtil = new FacesUtil();
 				MenuBean menuBean = (MenuBean)facesUtil.getSessionBean("menuBean");
@@ -112,7 +123,7 @@ public class SecurityPhaseListener implements PhaseListener {
 						}
 					}
 				}
-			}
+			//}
 		}
 	}
 
