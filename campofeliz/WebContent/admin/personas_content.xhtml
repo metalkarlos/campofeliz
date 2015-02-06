@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
 
-	<h:form id="form-contentpage" prependId="false">
+	<h:form id="form-contentpage" enctype="multipart/form-data">
 		<p:growl id="mensajes" showDetail="true" />
 		<p:panel id="panel-personacontent">
 			<p:focus for="idtxtnombre" />
@@ -15,7 +15,7 @@
 				<f:ajax event="keyup" render="idTablaPersonas" />
 			</p:inputText>
 			<br /><br />
-			<h:link class="link" value="[ Nueva Persona ]" outcome="persona.hxtml" >
+			<h:link class="link" value="[ Nueva Persona ]" outcome="persona.xhtml" >
 				<f:param name="idpersona" value="0" /> 
 			</h:link>
 			<br /><br />

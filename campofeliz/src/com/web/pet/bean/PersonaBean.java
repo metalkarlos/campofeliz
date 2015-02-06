@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.bo.CottipoidentificacionBO;
 import com.web.pet.pojo.annotations.Cotestado;
+import com.web.pet.pojo.annotations.Cotfotopersona;
 import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.pet.pojo.annotations.Cottipoidentificacion;
 import com.web.pet.pojo.annotations.Setusuario;
@@ -32,12 +34,43 @@ public class PersonaBean implements Serializable {
 	//private String nombreFoto;
 	//private StreamedContent foto;
 	//private UploadedFile file;
+	private String rutaImagenes;
+	
+
+	private Cotfotopersona cotfotopersona;
 	
 	public PersonaBean() {
 		cotpersona = new Cotpersona(0, null, new Cotestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		cottipoidentificacionselected = new Cottipoidentificacion();
+		cotfotopersona = new Cotfotopersona();
+		//idpersona= 0;
 		llenarLisTipoidentificacion();
 	}
+	
+	@PostConstruct
+	public void initPersonaBean() {
+		FacesUtil facesUtil = new FacesUtil();
+		idpersona = Integer.parseInt(facesUtil.getParametroUrl("idpersona") != null ? facesUtil
+						.getParametroUrl("idpersona").toString() : "0");
+		
+		if(idpersona > 0){
+			
+		try{
+			
+			CotpersonaBO cotpersonaBO = new CotpersonaBO();
+			cotpersona = cotpersonaBO.getCotpersonaById(idpersona);
+
+            if(cotpersona != null && cotpersona.getCottipoidentificacion() != null && cotpersona.getCottipoidentificacion().getIdtipoidentificacion() > 0){
+				setCottipoidentificacionselected(cotpersona.getCottipoidentificacion());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showErrorMessage("Error", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+		}
+		}
+	}
+	
+	
 	
 	private void llenarLisTipoidentificacion(){
 		try{
@@ -74,27 +107,14 @@ public class PersonaBean implements Serializable {
 
 	public void setIdpersona(int idpersona) {
 		this.idpersona = idpersona;
-		
-		if(idpersona > 0){
-			try{
-				CotpersonaBO cotpersonaBO = new CotpersonaBO();
-				cotpersona = cotpersonaBO.getCotpersonaById(idpersona);
-				/*FileUtil fileUtil = new FileUtil();
-				String realpath = new FacesUtil().getRealPath("");*/
-				/*if(cotpersona.getRuta() == null || !fileUtil.existFile(realpath+cotpersona.getRuta())){
-					cotpersona.setRuta(Parametro.BLANK_IMAGE_PATH);
-				}*/
-				/*if(cotpersona.getRuta() == Parametro.BLANK_IMAGE_PATH && rutaFotoWar != null){
-					cotpersona.setRuta(rutaFotoWar);
-				}*/
-				if(cotpersona != null && cotpersona.getCottipoidentificacion() != null && cotpersona.getCottipoidentificacion().getIdtipoidentificacion() > 0){
-					setCottipoidentificacionselected(cotpersona.getCottipoidentificacion());
-				}
-			}catch(Exception e){
-				e.printStackTrace();
-				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-			}
-		}
+	}
+
+	public String getRutaImagenes() {
+		return rutaImagenes;
+	}
+
+	public void setRutaImagenes(String rutaImagenes) {
+		this.rutaImagenes = rutaImagenes;
 	}
 
 	public List<Cottipoidentificacion> getLisCottipoidentificacion() {
@@ -105,6 +125,13 @@ public class PersonaBean implements Serializable {
 		this.lisCottipoidentificacion = lisCottipoidentificacion;
 	}
 	
+	public Cotfotopersona getCotfotopersona() {
+		return cotfotopersona;
+	}
+
+	public void setCotfotopersona(Cotfotopersona cotfotopersona) {
+		this.cotfotopersona = cotfotopersona;
+	}
 	/*public UploadedFile getFile() {
 		return file;
 	}*/

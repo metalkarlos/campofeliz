@@ -80,6 +80,7 @@ public class PersonasBean implements Serializable {
 		}
 	}
 	
+	
 	public LazyDataModel<Cotpersona> getLisCotpersona() {
 		return lisCotpersona;
 	}
@@ -122,7 +123,7 @@ public class PersonasBean implements Serializable {
 	public void onRowSelect(SelectEvent event){
 		try{
 			FacesUtil facesUtil = new FacesUtil();
-			facesUtil.redirect("../pages/persona.jsf?faces-redirect=true&idpersona="+cotpersonaSelected.getIdpersona()+"&iditem=36");
+			facesUtil.redirect("../admin/persona.jsf?faces-redirect=true&idpersona="+cotpersonaSelected.getIdpersona()+"&iditem=36");
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");

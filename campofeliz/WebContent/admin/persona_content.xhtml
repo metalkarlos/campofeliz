@@ -17,16 +17,29 @@
 				renderedButtonCancelar="true" labelButtonCancelar="Ir a Personas" onclickButtonCancelar="redirect('personas.jsf?iditem=36');" 
 				renderedButtonNewItem="false" />
 			</h:panelGrid>
+			
+			<h1 class="title ui-widget-header ui-corner-all">Fotos del Propietario</h1>
+			<div style="padding-left: 5px">
+				<p:graphicImage id="idfoto" value="#{personaBean.rutaImagenes}#{personaBean.cotfotopersona.ruta}?w=150" style="max-height: 100px" />
+			</div>
+			<br />
+			<h:outputLabel value="&#8226; " rendered="#{personaBean.idpersona > 0}" />
+			<h:link id="idlinkalbum" value="Fotos" outcome="fotospersona.jsf" rendered="#{personaBean.idpersona gt 0}">
+				<f:param name="idpersona" value="#{personaBean.idpersona}"/>
+				<f:param name="iditem" value="#{menuBean.activeIdItem}"/>
+			</h:link>
+			
+			
 			<h1 class="title ui-widget-header ui-corner-all">Nombres</h1>
 			<p:focus for="idnombre1"/>
 			<h:panelGrid id="idpanelnombres" columns="4">
-				<h:outputLabel id="idlblnombre1" value="Primer Nombre: " />
+				<h:outputLabel id="idlblnombre1" value="Primer Nombre: " for="idnombre1" />
 				<p:inputText id="idnombre1" value="#{personaBean.cotpersona.nombre1}" size="30" required="true" requiredMessage="El campo 'Primer Nombre' es obligatorio." />
-				<h:outputLabel id="idlblnombre2" value="Segundo Nombre: " />
+				<h:outputLabel id="idlblnombre2" value="Segundo Nombre: " for="idnombre2"/>
 				<p:inputText id="idnombre2" value="#{personaBean.cotpersona.nombre2}" size="30" />
-				<h:outputLabel id="idlblapellido1" value="Primer Apellido: " />
+				<h:outputLabel id="idlblapellido1" value="Primer Apellido: " for="apellido1" />
 				<p:inputText id="apellido1" value="#{personaBean.cotpersona.apellido1}" size="30" required="true" requiredMessage="El campo 'Primer Apellido' es obligatorio." />
-				<h:outputLabel id="idlblapellido2" value="Segundo Apellido: " />
+				<h:outputLabel id="idlblapellido2" value="Segundo Apellido: "  for = "apellido2"/>
 				<p:inputText id="apellido2" value="#{personaBean.cotpersona.apellido2}" size="30" />
 			</h:panelGrid>
 			<br /><br />
@@ -74,7 +87,7 @@
 		</p:panel>
 		<p:dialog id="iddialoggrabar" header="Persona"  closable="true" widgetVar="vardialoggrabar" modal="true" showEffect="bounce" hideEffect="explode">
 			<h:panelGrid id="idpanelgrabar" columns="2">
-				<h:outputLabel id="idlabelgrabar" value="Confirme si desea grabar el registro" />
+				<h:outputText id="idlabelgrabar" value="Confirme si desea grabar el registro" />
 				<h:panelGrid columns="2" >
 					<p:commandButton value="SI" style="width: 50px" actionListener="#{personaBean.grabar()}" oncomplete="vardialoggrabar.hide()" update=":form-contentpage:mensajes" />
 					<p:commandButton value="NO" style="width: 50px" onclick="vardialoggrabar.hide()" />
@@ -83,7 +96,7 @@
 		</p:dialog>
 		<p:dialog id="iddialogdelete"  header="Persona" closable="true" widgetVar="vardialogdelete" modal="true" showEffect="bounce" hideEffect="explode">
 			<h:panelGrid id="idpaneldelete" columns="2">
-				<h:outputLabel id="idlabeldelete" value="Confirme si desea eliminar el registro" />
+				<h:outputText id="idlabeldelete" value="Confirme si desea eliminar el registro" />
 				<h:panelGrid columns="2" >
 					<p:commandButton value="SI" style="width: 50px" actionListener="#{personaBean.eliminar()}" oncomplete="vardialogdelete.hide()" update=":form-contentpage:mensajes" />
 					<p:commandButton value="NO" style="width: 50px" onclick="vardialogdelete.hide()" />
