@@ -133,7 +133,7 @@
 					
 					<p:row>
 						<p:column>
-						<h:outputLabel id="idlblcolor" value="Color: " />
+						<h:outputText id="idlblcolor" value="Color: " />
 						</p:column>
 						<p:column>
 						<ui:repeat var="color" value="#{ordenServicioBean.lisPetmascotacolor}">
@@ -243,7 +243,7 @@
         </p:panel>
 		<p:dialog id="iddialoggrabar" header="Orden de Servicio" closable="true" widgetVar="vardialoggrabar" modal="true" showEffect="bounce" hideEffect="explode">
 			<h:panelGrid id="idpanelgrabar" columns="2">
-				<h:outputLabel id="idlabelgrabar" value="¿Desea continuar?" />
+				<h:outputText id="idlabelgrabar" value="¿Desea continuar?" />
 				<h:panelGrid columns="2" >
 					<p:commandButton value="SI" style="width: 50px" actionListener="#{ordenServicioBean.guardar()}" oncomplete="vardialoggrabar.hide()" update=":form-contentpage:mensajes, :form-contentpage:idpaneldetalle, :form-contentpage:idbotongrabar, :form-contentpage:panelgridbuttonsup, :form-contentpage:panelgridbuttonsdown" />
 					<p:commandButton value="NO" style="width: 50px" onclick="vardialoggrabar.hide()" />
@@ -252,7 +252,7 @@
 		</p:dialog>
 		<p:dialog id="iddialogdelete"  header="Orden de Servicio" closable="true" widgetVar="vardialogdelete" modal="true" showEffect="bounce" hideEffect="explode">
 			<h:panelGrid id="idpaneldelete" columns="2">
-				<h:outputLabel id="idlabeldelete" value="Confirme si desea eliminar el registro" />
+				<h:outputText id="idlabeldelete" value="Confirme si desea eliminar el registro" />
 				<h:panelGrid columns="2" >
 					<p:commandButton value="SI" style="width: 50px" actionListener="#{ordenServicioBean.eliminar()}" oncomplete="vardialogdelete.hide()" update=":form-contentpage:mensajes" />
 					<p:commandButton value="NO" style="width: 50px" onclick="vardialogdelete.hide()" />
@@ -261,18 +261,23 @@
 		</p:dialog>
 		<p:dialog id="iddialogeditor" header="Editor" closable="true" onHide="vartablaServicios.unselectAllRows()" widgetVar="vardialogeditor" modal="true" showEffect="bounce" hideEffect="explode" height="150" width="400">
 			<p:focus for="idservicioEditor" />
-			<br /><br />
-			<h:panelGrid id="idpaneleditor" columns="2">
+			<br />
+			<h:panelGrid id="idpaneleditor" columns="2" style="width: 100%; height: 130px;">
 				<p:outputLabel value="Servicio: " for="idservicioEditor" />
 				<p:selectOneMenu id="idservicioEditor" value="#{ordenServicioBean.petordenserviciodetalleItem.cotservicio.idservicio}" style="width: 300px">
 				    <f:selectItems value="#{ordenServicioBean.lisCotservicio}" var="s" itemLabel="#{s.nombre}" itemValue="#{s.idservicio}" />
 				</p:selectOneMenu>
 				
-				<h:panelGrid id="idpanel2editor" columns="3" style="position: absolute;right: 0;bottom: 0;">
+				<h:outputText value="" /><h:outputText value="" />
+				
+				<h:outputText value="" />
+				<h:column>
+				<div align="right">
 					<p:commandButton id="idgrabareditor" value="Grabar" action="#{ordenServicioBean.guardarItem()}" oncomplete="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaDetalle" />
 					<p:commandButton id="ideliminareditor" value="Eliminar" action="#{ordenServicioBean.eliminarItem()}" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaDetalle" rendered="#{ordenServicioBean.petordenserviciodetalleItem.id.idordenserviciodetalle > 0}" />
 					<p:commandButton id="idcancelareditor" value="Cancelar" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes" />
-				</h:panelGrid>
+				</div>
+				</h:column>
 			</h:panelGrid>
 		</p:dialog>
 	</h:form>

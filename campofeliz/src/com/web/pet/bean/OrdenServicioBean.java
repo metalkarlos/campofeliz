@@ -390,7 +390,7 @@ public class OrdenServicioBean implements Serializable {
 			petordenservicioBO.updatePetordenservicio(petordenservicio);
 			
 			FacesUtil facesUtil = new FacesUtil();
-			facesUtil.redirect("../pages/ordenesservicio.jsf?iditem=40");
+			facesUtil.redirect("../admin/ordenesservicio.jsf?iditem=40");
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");

@@ -369,7 +369,7 @@ public class MascotaBean implements Serializable {
 			PetmascotaBO petmascotaBO = new PetmascotaBO();
 			petmascotaBO.updatePet(petmascota, lisPetmascotacolorOld, lisPetmascotacolor);
 			FacesUtil facesUtil = new FacesUtil();
-			facesUtil.redirect("../pages/mascotas.jsf?iditem=2");
+			facesUtil.redirect("../admin/mascotas.jsf?iditem=2");
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");

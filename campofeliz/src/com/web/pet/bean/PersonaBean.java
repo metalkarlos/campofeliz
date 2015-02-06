@@ -281,7 +281,7 @@ public class PersonaBean implements Serializable {
 			CotpersonaBO cotpersonaBO = new CotpersonaBO();
 			cotpersonaBO.updateCotpersona(cotpersona);
 			FacesUtil facesUtil = new FacesUtil();
-			facesUtil.redirect("../pages/personas.jsf?iditem=36");
+			facesUtil.redirect("../admin/personas.jsf?iditem=36");
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
