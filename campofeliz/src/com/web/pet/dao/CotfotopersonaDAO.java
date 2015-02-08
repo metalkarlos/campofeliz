@@ -27,8 +27,8 @@ public class CotfotopersonaDAO {
 			List<Cotfotopersona> arraydatos = null;
 			
 			Criteria criteria = session.createCriteria(Cotfotopersona.class)
-			.add( Restrictions.eq("cotfotopersona.idpersona", idpersona) )
-			.add( Restrictions.eq("cotfotopersona.idestado", 1));
+			.add( Restrictions.eq("cotpersona.idpersona", idpersona) )
+			.add( Restrictions.eq("cotestado.idestado", 1));
 				
 			arraydatos = (List<Cotfotopersona>) criteria.list();
 			

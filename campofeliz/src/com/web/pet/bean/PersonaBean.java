@@ -7,7 +7,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
+import com.web.pet.bo.CotfotopersonaBO;
 import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.bo.CottipoidentificacionBO;
 import com.web.pet.pojo.annotations.Cotestado;
@@ -16,6 +18,7 @@ import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.pet.pojo.annotations.Cottipoidentificacion;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.FacesUtil;
+import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
@@ -26,22 +29,21 @@ public class PersonaBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2947013478292278955L;
-	private Cotpersona cotpersona;
-	private int idpersona;
-	private List<Cottipoidentificacion> lisCottipoidentificacion;
-	private Cottipoidentificacion cottipoidentificacionselected;
-	//private String rutaFotoWar;
-	//private String nombreFoto;
-	//private StreamedContent foto;
-	//private UploadedFile file;
-	private String rutaImagenes;
 	
-
+	private String rutaImagenes;
+	private int idpersona;
 	private Cotfotopersona cotfotopersona;
+	private Cotpersona cotpersona;
+	private Cotfotopersona cotfotopersonaSelected;
+	private Cottipoidentificacion cottipoidentificacionselected;
+	private List<Cottipoidentificacion> lisCottipoidentificacion;
+	private List<Cotfotopersona> liscotfotopersona;	
+
 	
 	public PersonaBean() {
 		cotpersona = new Cotpersona(0, null, new Cotestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		cottipoidentificacionselected = new Cottipoidentificacion();
+		cotfotopersonaSelected = new Cotfotopersona();
 		cotfotopersona = new Cotfotopersona();
 		//idpersona= 0;
 		llenarLisTipoidentificacion();
@@ -50,23 +52,23 @@ public class PersonaBean implements Serializable {
 	@PostConstruct
 	public void initPersonaBean() {
 		FacesUtil facesUtil = new FacesUtil();
+		liscotfotopersona = new ArrayList<Cotfotopersona>();
 		idpersona = Integer.parseInt(facesUtil.getParametroUrl("idpersona") != null ? facesUtil
 						.getParametroUrl("idpersona").toString() : "0");
-		
 		if(idpersona > 0){
-			
-		try{
-			
-			CotpersonaBO cotpersonaBO = new CotpersonaBO();
-			cotpersona = cotpersonaBO.getCotpersonaById(idpersona);
-
-            if(cotpersona != null && cotpersona.getCottipoidentificacion() != null && cotpersona.getCottipoidentificacion().getIdtipoidentificacion() > 0){
-				setCottipoidentificacionselected(cotpersona.getCottipoidentificacion());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			new MessageUtil().showErrorMessage("Error", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-		}
+			try{
+				CotpersonaBO cotpersonaBO = new CotpersonaBO();
+				cotpersona = cotpersonaBO.getCotpersonaById(idpersona);
+	            if(cotpersona != null && cotpersona.getCottipoidentificacion() != null && cotpersona.getCottipoidentificacion().getIdtipoidentificacion() > 0){
+					setCottipoidentificacionselected(cotpersona.getCottipoidentificacion());
+				}
+	            //Consultar fotos
+				CotfotopersonaBO cotfotopersonaBO = new  CotfotopersonaBO();
+				liscotfotopersona = cotfotopersonaBO.lisCotfotopersonaByCotId(idpersona);
+			   } catch (Exception e) {
+				e.printStackTrace();
+				new MessageUtil().showErrorMessage("Error", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			  }
 		}
 	}
 	
@@ -93,6 +95,42 @@ public class PersonaBean implements Serializable {
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
+	
+	
+	public void ponerFotoPerfil(ActionEvent actionEvent)
+	{
+		try {
+			new CotfotopersonaBO().ponerFotoPerfil(cotfotopersonaSelected);
+			new MessageUtil().showInfoMessage("Exito!", "Imágen puesta como foto del perfil!");
+		} catch(Exception e){
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+		}
+	}
+	
+	public void eliminarFotoAlbum(ActionEvent actionEvent)
+	{
+		try {
+			//eliminar foto del disco
+			FileUtil fileUtil = new FileUtil();
+			FacesUtil facesUtil = new FacesUtil();
+			
+			String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
+			String rutaArchivo = rutaImagenes + cotfotopersonaSelected.getRuta();
+			
+			fileUtil.deleteFile(rutaArchivo);
+			
+			if(fileUtil.deleteFile(rutaArchivo)){
+				new CotfotopersonaBO().eliminarFotoAlbum(cotfotopersonaSelected.getIdfoto());
+				new MessageUtil().showInfoMessage("Exito!", " Foto eliminada!");
+				liscotfotopersona = new CotfotopersonaBO().lisCotfotopersonaByCotId(idpersona);
+			}
+		} catch(Exception re) {
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+		}
+	}
+	
 	
 	public Cotpersona getCotpersona() {
 		return cotpersona;
@@ -199,6 +237,22 @@ public class PersonaBean implements Serializable {
 	public void setCottipoidentificacionselected(
 			Cottipoidentificacion cottipoidentificacionselected) {
 		this.cottipoidentificacionselected = cottipoidentificacionselected;
+	}
+
+	public Cotfotopersona getCotfotopersonaSelected() {
+		return cotfotopersonaSelected;
+	}
+
+	public void setCotfotopersonaSelected(Cotfotopersona cotfotopersonaSelected) {
+		this.cotfotopersonaSelected = cotfotopersonaSelected;
+	}
+
+	public List<Cotfotopersona> getLiscotfotopersona() {
+		return liscotfotopersona;
+	}
+
+	public void setLiscotfotopersona(List<Cotfotopersona> liscotfotopersona) {
+		this.liscotfotopersona = liscotfotopersona;
 	}
 
 	public void grabar(){
