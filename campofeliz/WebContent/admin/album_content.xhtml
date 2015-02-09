@@ -21,9 +21,7 @@
 				        <p:commandButton id="idbuttonperfil" title="Colocar como foto del Perfil" icon="ui-icon ui-icon-person"  onclick="vardialogperfil.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:idpanelperfil" >
 				        	<f:setPropertyActionListener value="#{item}" target="#{albumBean.petfotoSelected}" />
 				        </p:commandButton>
-				        <p:commandButton id="idbuttondelete"  title="Eliminar foto permanentemente" icon="ui-icon ui-icon-trash" onclick="vardialogdelete.show()" style="position:absolute;right:0px;top:55px;" update=":form-contentpage:idpaneldelete">
-				        	<f:setPropertyActionListener value="#{item}" target="#{albumBean.petfotoSelected}" />
-				        </p:commandButton>
+				       
 				    </h:panelGrid>
 				</p:galleriaContent>
 			</p:galleria>
