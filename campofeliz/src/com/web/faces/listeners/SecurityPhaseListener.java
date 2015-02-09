@@ -1,14 +1,9 @@
 package com.web.faces.listeners;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
-import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.servlet.http.HttpServletRequest;
 
 import com.web.pet.bean.MenuBean;
 import com.web.pet.bean.UsuarioBean;
@@ -40,90 +35,50 @@ public class SecurityPhaseListener implements PhaseListener {
 			boolean loginPage = vista != null && vista.equals("/pages/login.xhtml");
 			if(loginPage && usuarioBean != null && usuarioBean.isAutenticado()){
 				try{
-					facesContext.getExternalContext().redirect("home.jsf");
+					facesContext.getExternalContext().redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
 					return;
 				}catch(Exception e){}
 			}
 			
-			/*HttpServletRequest requestTmp = (HttpServletRequest)facesContext.getExternalContext().getRequest();
-			System.out.println(requestTmp.getRequestURI());*/
-			//Verifica si la sesión ha caducado o si no está autenticado
-			/*if(usuarioBean==null || !usuarioBean.isAutenticado()){
-				boolean loginPage = facesContext.getViewRoot().getViewId().equals("/pages/login.xhtml");
-				boolean notloggedPage = facesContext.getViewRoot().getViewId().equals("/pages/not_logged.xhtml");
+			FacesUtil facesUtil = new FacesUtil();
+			MenuBean menuBean = (MenuBean)facesUtil.getSessionBean("menuBean");
+			
+			if(menuBean == null){
+				menuBean = new MenuBean();
+				facesUtil.setSessionBean("menuBean", menuBean);
+			}
+			
+			if(menuBean != null){
+				int ordenmenupadre = 0;
+				String iditem = facesContext.getExternalContext().getRequestParameterMap().get("iditem");
 				
-				//Si se quiere acceder a páginas no permitidas se guarda la url requerida y se redirecciona a not_logged.xhtml
-				if(!loginPage && !notloggedPage){
-					//Se arma la url requerida y se guarda en sesión
-					HttpServletRequest request = (HttpServletRequest)facesContext.getExternalContext().getRequest();
-					String[] urlarray = request.getRequestURI().split("/");
-					int x=-1;
-					for(int i=0;i<urlarray.length;i++){
-						if(urlarray[i].endsWith(".jsf")){
-							x=i;
+				if(iditem != null && Integer.parseInt(iditem) >= 0){
+					boolean existepagina = false;
+					for(Menu menupadre : menuBean.getLisMenu()){
+						//ordenmenupadre = menupadre.getOrden();
+						
+						if(Integer.parseInt(iditem) == menupadre.getIdmenu()){
+							existepagina = true;
 							break;
 						}
-					}
-					String urloriginal = urlarray[x];
-					String urlrequested = null;
-					try {
-						urlrequested = URLEncoder.encode(urloriginal, "UTF-8");
-						urlrequested += "?faces-redirect=true";
 						
-						if(request.getQueryString() != null){
-							urlrequested += "&"+request.getQueryString();
-						}
-					} catch (UnsupportedEncodingException e) {
-						e.printStackTrace();
-					}
-					request.getSession().setAttribute("urlrequested", urlrequested);
-					//throw new ViewExpiredException();
-					//Se redirecciona a not_logged.xhtml
-					NavigationHandler navigationHandler = facesContext.getApplication().getNavigationHandler();
-					navigationHandler.handleNavigation(facesContext, null, "not_logged?faces-redirect=true");
-				}
-			}else{*/
-				//Si está autenticado seteamos el menu de la página requerida 
-				FacesUtil facesUtil = new FacesUtil();
-				MenuBean menuBean = (MenuBean)facesUtil.getSessionBean("menuBean");
-				
-				if(menuBean == null){
-					menuBean = new MenuBean();
-					facesUtil.setSessionBean("menuBean", menuBean);
-				}
-				
-				if(menuBean != null){
-					int ordenmenupadre = 0;
-					String iditem = facesContext.getExternalContext().getRequestParameterMap().get("iditem");
-					
-					if(iditem != null && Integer.parseInt(iditem) >= 0){
-						boolean existepagina = false;
-						for(Menu menupadre : menuBean.getLisMenu()){
-							//ordenmenupadre = menupadre.getOrden();
-							
-							if(Integer.parseInt(iditem) == menupadre.getIdmenu()){
+						for(Sevmenu menuhijo : menupadre.getLisSevOpcionMenu()){
+							if(Integer.parseInt(iditem) == menuhijo.getIdmenu()){
 								existepagina = true;
 								break;
 							}
-							
-							for(Sevmenu menuhijo : menupadre.getLisSevOpcionMenu()){
-								if(Integer.parseInt(iditem) == menuhijo.getIdmenu()){
-									existepagina = true;
-									break;
-								}
-							}
-							if(existepagina){
-								break;
-							}
-							ordenmenupadre++;
 						}
 						if(existepagina){
-							menuBean.setActiveIndex(ordenmenupadre);
-							menuBean.setActiveIdItem(Integer.parseInt(iditem));
+							break;
 						}
+						ordenmenupadre++;
+					}
+					if(existepagina){
+						menuBean.setActiveIndex(ordenmenupadre);
+						menuBean.setActiveIdItem(Integer.parseInt(iditem));
 					}
 				}
-			//}
+			}
 		}
 	}
 

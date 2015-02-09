@@ -9,7 +9,8 @@
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
 	
 	<h:form id="form-contentpage" enctype="multipart/form-data">
-		<p:growl id="mensajes" showDetail="true" />
+		<p:messages id="mensajes" showDetail="true" />
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-ordencontent">
 			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
 				<my:buttons renderedButtonAceptar="false" onclickButtonAceptar="vardialoggrabar.show()" 
@@ -237,7 +238,7 @@
             <h:panelGrid id="panelgridbuttonsdown" columns="1" style="padding: 10px 10px 0 0;">
 				<my:buttons renderedButtonAceptar="false" onclickButtonAceptar="vardialoggrabar.show()" 
 				renderedButtonEliminar="#{ordenServicioBean.petordenservicio.idordenservicio > 0}" onclickButtonEliminar="vardialogdelete.show()" 
-				renderedButtonCancelar="true" labelButtonCancelar="Regresar" onclickButtonCancelar="paginaAnterior();"
+				renderedButtonCancelar="true" labelButtonCancelar="Regresar" onclickButtonCancelar="redirect('ordenesservicio.jsf?iditem='+#{menuBean.activeIdItem});"
 				renderedButtonImprimir="#{ordenServicioBean.petordenservicio.idordenservicio > 0}" actionButtonImprimir="#{ordenServicioBean.imprimir()}" />
             </h:panelGrid>
         </p:panel>
@@ -245,7 +246,7 @@
 			<h:panelGrid id="idpanelgrabar" columns="2">
 				<h:outputText id="idlabelgrabar" value="¿Desea continuar?" />
 				<h:panelGrid columns="2" >
-					<p:commandButton value="SI" style="width: 50px" actionListener="#{ordenServicioBean.guardar()}" oncomplete="vardialoggrabar.hide()" update=":form-contentpage:mensajes, :form-contentpage:idpaneldetalle, :form-contentpage:idbotongrabar, :form-contentpage:panelgridbuttonsup, :form-contentpage:panelgridbuttonsdown" />
+					<p:commandButton value="SI" style="width: 50px" actionListener="#{ordenServicioBean.guardar()}" oncomplete="vardialoggrabar.hide()" update=":form-contentpage:mensajes, :form-contentpage:idbotongrabar, :form-contentpage:idTablaDetalle, :form-contentpage:panelgridbuttonsup, :form-contentpage:panelgridbuttonsdown" />
 					<p:commandButton value="NO" style="width: 50px" onclick="vardialoggrabar.hide()" />
 				</h:panelGrid>
 			</h:panelGrid>
@@ -273,8 +274,8 @@
 				<h:outputText value="" />
 				<h:column>
 				<div align="right">
-					<p:commandButton id="idgrabareditor" value="Grabar" action="#{ordenServicioBean.guardarItem()}" oncomplete="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaDetalle" />
-					<p:commandButton id="ideliminareditor" value="Eliminar" action="#{ordenServicioBean.eliminarItem()}" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaDetalle" rendered="#{ordenServicioBean.petordenserviciodetalleItem.id.idordenserviciodetalle > 0}" />
+					<p:commandButton id="idgrabareditor" value="Grabar" actionListener="#{ordenServicioBean.guardarItem()}" oncomplete="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaDetalle" />
+					<p:commandButton id="ideliminareditor" value="Eliminar" actionListener="#{ordenServicioBean.eliminarItem()}" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaDetalle" rendered="#{ordenServicioBean.petordenserviciodetalleItem.id.idordenserviciodetalle > 0}" />
 					<p:commandButton id="idcancelareditor" value="Cancelar" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes" />
 				</div>
 				</h:column>

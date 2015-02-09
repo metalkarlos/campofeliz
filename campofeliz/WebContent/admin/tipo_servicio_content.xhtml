@@ -8,7 +8,8 @@
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
 	
 	<h:form id="form-contentpage">
-		<p:growl id="mensajes" showDetail="true" />
+		<p:messages id="mensajes" showDetail="true" />
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-content">
 			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
 				<my:buttons renderedButtonNewItem="true" actionButtonNewItem="#{tipoServicioBean.newItem()}" onclickButtonNewItem="vartablaTipos.unselectAllRows()" oncompleteButtonNewItem="vardialogeditor.show()" updateButtonNewItem=":form-contentpage:idpaneleditor" 
@@ -38,10 +39,10 @@
 			
 			<p:dialog id="iddialogeditor" header="Editor de Tipos de Servicios" closable="true" onHide="vartablaTipos.unselectAllRows()" widgetVar="vardialogeditor" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
 				<h:panelGrid id="idpaneleditor" columns="2">
-					<h:outputLabel id="ideditorlblnombre" value="Nombre" />
+					<h:outputLabel id="ideditorlblnombre" value="Nombre" for="ideditortxtnombre" />
 					<h:inputText id="ideditortxtnombre" value="#{tipoServicioBean.cottiposervicioItem.nombre}" style="width: 300px" />
 					
-					<h:outputLabel id="ideditorlbldescripcion" value="Descripción" />
+					<h:outputLabel id="ideditorlbldescripcion" value="Descripción" for="ideditortxtdescripcion" />
 					<h:inputText id="ideditortxtdescripcion" value="#{tipoServicioBean.cottiposervicioItem.descripcion}" style="width: 300px" />
 					
 					<h:panelGrid id="idpanel2editor" columns="3" style="position: absolute;right: 0;bottom: 0;">

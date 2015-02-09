@@ -7,7 +7,8 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="form-contentpage">
-		<p:growl id="mensajes" showDetail="true" />
+		<p:messages id="mensajes" showDetail="true" />
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:schedule id="idagenda" value="#{agendaBean.lazyEventModel}" widgetVar="miagenda" locale="es">
 			<p:ajax event="dateSelect" listener="#{agendaBean.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
 			<p:ajax event="eventSelect" listener="#{agendaBean.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />

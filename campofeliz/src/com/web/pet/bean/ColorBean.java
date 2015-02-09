@@ -174,7 +174,7 @@ public class ColorBean implements Serializable {
 	}
 	
 	public String cancelar(){
-		return "home.jsf?faces-redirect=true&iditem=35";
+		return "admin/home.jsf?faces-redirect=true&iditem=35";
 	}
 
 }

@@ -28,6 +28,7 @@ import com.web.pet.pojo.annotations.Cotlugar;
 import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.pet.pojo.annotations.Cotservicio;
 import com.web.pet.pojo.annotations.Mascotas;
+import com.web.pet.pojo.annotations.Petespecie;
 import com.web.pet.pojo.annotations.Petestado;
 import com.web.pet.pojo.annotations.Petfoto;
 import com.web.pet.pojo.annotations.Petmascota;
@@ -35,6 +36,7 @@ import com.web.pet.pojo.annotations.Petmascotacolor;
 import com.web.pet.pojo.annotations.Petordenservicio;
 import com.web.pet.pojo.annotations.Petordenserviciodetalle;
 import com.web.pet.pojo.annotations.PetordenserviciodetalleId;
+import com.web.pet.pojo.annotations.Petraza;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.FacesUtil;
 import com.web.util.FileUtil;
@@ -62,6 +64,7 @@ public class OrdenServicioBean implements Serializable {
 
 	public OrdenServicioBean() {
 		petordenservicio = new Petordenservicio(0, new Petmascota(), new Petestado(), new Cotlugar(), null, null, null, null, null, null, null);
+		mascotasselected = new Mascotas(new Petfoto(), new Petmascota(0,new Petraza(), new Petespecie(),new Cotpersona(),null,null)); 
 		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Petestado(), new Setusuario(), new Cotservicio(), new Petordenservicio(), null, null);
 		lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 		llenarListaLugar();
@@ -358,9 +361,9 @@ public class OrdenServicioBean implements Serializable {
 					new MessageUtil().showInfoMessage("Exito!", "Datos actualizados!");
 				}else{
 					petordenservicioBO.newPetordenservicio(petordenservicio);
-					new MessageUtil().showInfoMessage("Exito!", "Orden de Servicio creada!");
+					FacesUtil facesUtil = new FacesUtil();
+					facesUtil.redirect("../admin/ordenservicio.jsf?faces-redirect=true&idordenservicio="+petordenservicio.getIdordenservicio()+"&iditem=40");
 				}
-				
 			}catch(Exception re){
 				re.printStackTrace();
 				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
@@ -383,10 +386,16 @@ public class OrdenServicioBean implements Serializable {
 	
 	public void eliminar(){
 		try{
+			PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
+			
 			Petestado petestado = new Petestado();
 			petestado.setIdestado(2);//inactivo
 			petordenservicio.setPetestado(petestado);
-			PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
+			
+			if(petordenservicio.getCotlugar() == null ||  petordenservicio.getCotlugar().getIdlugar() == 0){
+				petordenservicio.setCotlugar(null);
+			}
+			
 			petordenservicioBO.updatePetordenservicio(petordenservicio);
 			
 			FacesUtil facesUtil = new FacesUtil();

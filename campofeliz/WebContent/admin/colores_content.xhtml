@@ -8,7 +8,8 @@
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
 	
 	<h:form id="form-contentpage">
-		<p:growl id="mensajes" showDetail="true" />
+		<p:messages id="mensajes" showDetail="true" />
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-colorcontent">
 			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
 				<my:buttons renderedButtonNewItem="true" actionButtonNewItem="#{colorBean.newItem()}" onclickButtonNewItem="vartablaColores.unselectAllRows()" oncompleteButtonNewItem="vardialogeditor.show()" updateButtonNewItem=":form-contentpage:idpaneleditor" 
@@ -40,22 +41,25 @@
 				</p:column>
 			</p:dataTable>
 			
-			<p:dialog id="iddialogeditor" header="Editor de colores" closable="true" onHide="vartablaColores.unselectAllRows()" widgetVar="vardialogeditor" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
+			<p:dialog id="iddialogeditor" header="Editor de colores" closable="true" onHide="vartablaColores.unselectAllRows()" widgetVar="vardialogeditor" modal="true" showEffect="bounce" hideEffect="explode" height="100" width="450">
 				<h:panelGrid id="idpaneleditor" columns="2">
-					<h:outputLabel id="ideditorlblnombre" value="Nombre" />
+					<h:outputLabel id="ideditorlblnombre" value="Nombre" for="ideditortxtnombre" />
 					<h:inputText id="ideditortxtnombre" value="#{colorBean.cotcolorItem.nombre}" />
 					
-					<h:outputLabel id="ideditorlbldescripcion" value="Descripción" />
+					<h:outputLabel id="ideditorlbldescripcion" value="Descripción" for="ideditortxtdescripcion" />
 					<h:inputText id="ideditortxtdescripcion" value="#{colorBean.cotcolorItem.descripcion}" style="width: 300px" />
 					
-					<h:outputLabel id="ideditorlblcolor" value="Color" />
+					<h:outputLabel id="ideditorlblcolor" value="Color" for="ideditorpikcolor" />
 					<p:colorPicker id="ideditorpikcolor" value="#{colorBean.cotcolorItem.hex}" />
 					
-					<h:panelGrid id="idpanel2editor" columns="3" style="position: absolute;right: 0;bottom: 0;">
+					<h:outputText value="" />
+					<h:column>
+					<div align="right">
 						<p:commandButton id="idgrabar" value="Grabar" action="#{colorBean.guardar()}" oncomplete="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaColores" />
 						<p:commandButton id="ideliminar" value="Eliminar" action="#{colorBean.eliminar()}" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaColores" rendered="#{colorBean.cotcolorItem.idcolor > 0}" />
 						<p:commandButton id="idcancelar" value="Cancelar" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes" />
-					</h:panelGrid>
+					</div>
+					</h:column>
 				</h:panelGrid>
 			</p:dialog>
 		

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -15,6 +16,7 @@ import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetespecieBO;
 import com.web.pet.pojo.annotations.Mascotas;
 import com.web.pet.pojo.annotations.Petespecie;
+import com.web.util.FacesUtil;
 import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 
@@ -27,7 +29,6 @@ public class MascotasBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -7416931331487760552L;
 	private int especie;
-	private String tipoNombre;
 	private LazyDataModel<Mascotas> lisMascotas;
 	private int columnsGrid;
 	private int rowsGrid;
@@ -47,6 +48,16 @@ public class MascotasBean implements Serializable {
 		
 		consultarMascotas();
 		cargarRutaImagenes();
+	}
+	
+	@PostConstruct
+	public void PostMascotasBean(){
+		FacesUtil facesUtil = new FacesUtil();
+		especie = Integer.parseInt(facesUtil.getParametroUrl("especie") != null ? facesUtil
+						.getParametroUrl("especie").toString() : "0");
+		
+		if(especie > 0){
+		}
 	}
 	
 	private void inicializarEspecieMascota(){
@@ -71,8 +82,6 @@ public class MascotasBean implements Serializable {
 					
 					if(especie > 0){
 						data = petmascotaBO.lisMascotasByEspecieByPage(especie, nombre, pageSize, first, args);
-					}else{
-						new MessageUtil().showFatalMessage("Oops!", "Tipo de mascota no definido, verifique e intente nuevamente!");
 					}
 					this.setRowCount(args[0]);
 	
@@ -114,20 +123,6 @@ public class MascotasBean implements Serializable {
 
 	public int getEspecie() {
 		return especie;
-	}
-
-	public String getTipoNombre() {
-		switch(especie) {
-		case 1:
-			tipoNombre = "Perros";
-			break;
-		case 2:
-			tipoNombre = "Gatos";
-			break;
-		default :
-			tipoNombre = "Mascotas";	
-		}
-		return tipoNombre;
 	}
 
 	public LazyDataModel<Mascotas> getLisMascotas() {

@@ -7,7 +7,8 @@
 	xmlns:p="http://primefaces.org/ui">
       
 	<h:form id="form-contentpage" prependId="false">
-		<p:growl id="mensajes" showDetail="true" />
+		<p:messages id="mensajes" showDetail="true" />
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-buscarmascota">
 			<h2>Búsqueda Avanzada</h2>
 			<hr noshade="noshade" />
@@ -16,7 +17,7 @@
 			<p:panelGrid id="panelgridcriterios" styleClass="gridcriterios">
 				<p:row>
 					<p:column style="width: 100px">
-						<h:outputLabel value="Nombre:" />
+						<h:outputLabel value="Nombre:" for="idnombre" />
 					</p:column>
 					<p:column>
 						<p:inputText id="idnombre" value="#{buscarMascotaBean.petmascota.nombre}" style="width: 400px" />
@@ -34,10 +35,10 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<h:outputLabel value="Características:" />
+						<h:outputLabel value="Características:" for="idcaracteristicas" />
 					</p:column>
 					<p:column>
-						<p:inputText value="#{buscarMascotaBean.caracteristicas}" style="width: 400px" />
+						<p:inputText id="idcaracteristicas" value="#{buscarMascotaBean.caracteristicas}" style="width: 400px" />
 					</p:column>
 					<p:column>
 						<h:outputText value="*Separe con espacios únicamente cada palabra" style="font-style: italic;" />
@@ -45,7 +46,7 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<h:outputLabel value="Especie:" />
+						<h:outputLabel value="Especie:" for="idtipolist" />
 					</p:column>
 					<p:column>
 						<p:selectOneMenu id="idtipolist" value="#{buscarMascotaBean.petmascota.petespecie.idespecie}" style="width: 400px">
@@ -59,7 +60,7 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<h:outputLabel value="Raza:" />
+						<h:outputLabel value="Raza:" for="idrazalist" />
 					</p:column>
 					<p:column>
 						<p:selectOneMenu id="idrazalist" value="#{buscarMascotaBean.petmascota.petraza.idraza}" style="width: 150px" >
@@ -73,7 +74,7 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<h:outputLabel value="Sexo:" />
+						<h:outputLabel value="Sexo:" for="idsexolist" />
 					</p:column>
 					<p:column>
 						<p:selectOneMenu id="idsexolist" value="#{buscarMascotaBean.petmascota.sexo}" >

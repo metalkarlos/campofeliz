@@ -46,21 +46,14 @@ public class CambiarClaveBean implements Serializable {
 				setpeticionclave = setpeticionclaveBO.getSetpeticionclaveByUid(uid);
 				
 				if(setpeticionclave == null || setpeticionclave.getIdpeticionclave() == 0){
-					redireccionar("home");
+					facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
 				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			redireccionar("home");
-		}
-	}
-	
-	private void redireccionar(String pagina){
-		try{
-			FacesUtil facesUtil = new FacesUtil();
-			facesUtil.redirectByPropertyFileKey(pagina);
-		}catch(Exception e){
-			e.printStackTrace();
+			try{
+				facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
+			}catch(Throwable th){}
 		}
 	}
 	
@@ -76,7 +69,8 @@ public class CambiarClaveBean implements Serializable {
 				ok = setusuarioBO.cambiarClave(setpeticionclave.getUsuario(), cifrado);
 				
 				if(ok){
-					redireccionar("login");
+					FacesUtil facesUtil = new FacesUtil();
+					facesUtil.redirect("../pages/login.jsf");
 				}else{
 					new MessageUtil().showInfoMessage("No se ha podido cambiar la clave", "");
 				}

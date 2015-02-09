@@ -5,7 +5,7 @@
 	<property name="ireport.y" value="0"/>
 	<parameter name="P_LOGO" class="java.io.InputStream"/>
 	<queryString>
-		<![CDATA[select count(m.idmascota) as count,(extract(year from s.fechaentierro)) as date_part
+		<![CDATA[select count(m.idmascota) as count,coalesce(extract(year from s.fechaentierro), 0) as date_part
   from petordenservicio s,
        petmascota m
  where s.idestado   = 1

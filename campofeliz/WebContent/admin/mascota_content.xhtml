@@ -9,7 +9,8 @@
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
 	
 	<h:form id="form-contentpage">
-		<p:growl id="mensajes" showDetail="true" />
+		<p:messages id="mensajes" showDetail="true" />
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-mascotacontent">
 			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
 				<my:buttons renderedButtonAceptar="true" onclickButtonAceptar="vardialoggrabar.show()" 
@@ -22,7 +23,7 @@
 				<p:graphicImage id="idfoto" value="#{mascotaBean.rutaImagenes}#{mascotaBean.petfoto.ruta}?w=150" style="max-height: 100px" />
 			</div>
 			<br />
-			<h:outputLabel value="&#8226; " rendered="#{mascotaBean.idmascota > 0}" />
+			<h:outputLabel value="&#8226; " rendered="#{mascotaBean.idmascota > 0}" for="idlinkalbum" />
 			<h:link id="idlinkalbum" value="Album" outcome="album.jsf" rendered="#{mascotaBean.idmascota gt 0}">
 				<f:param name="idmascota" value="#{mascotaBean.idmascota}"/>
 				<f:param name="iditem" value="#{menuBean.activeIdItem}"/>
@@ -147,7 +148,7 @@
 		</p:panel>
 		<p:dialog id="iddialoggrabar" header="Mascota" closable="true" widgetVar="vardialoggrabar" modal="true" showEffect="bounce" hideEffect="explode">
 			<h:panelGrid id="idpanelgrabar" columns="2" >
-				<h:outputLabel id="idlabelgrabar" value="Confirme si desea grabar el registro" />
+				<h:outputText id="idlabelgrabar" value="Confirme si desea grabar el registro" />
 				<h:panelGrid columns="2" >
 					<p:commandButton value="SI" style="width: 50px" actionListener="#{mascotaBean.grabar()}" oncomplete="vardialoggrabar.hide()" update=":form-contentpage:mensajes, :form-contentpage:panel-mascotacontent" />
 					<p:commandButton value="NO" style="width: 50px" onclick="vardialoggrabar.hide()" />
@@ -156,7 +157,7 @@
 		</p:dialog>
 		<p:dialog id="iddialogdelete" header="Mascota" closable="true" widgetVar="vardialogdelete" modal="true" showEffect="bounce" hideEffect="explode">
 			<h:panelGrid id="idpaneldelete" columns="2">
-				<h:outputLabel id="idlabeldelete" value="Confirme si desea eliminar el registro" />
+				<h:outputText id="idlabeldelete" value="Confirme si desea eliminar el registro" />
 				<h:panelGrid columns="2" >
 					<p:commandButton value="SI" style="width: 50px" actionListener="#{mascotaBean.eliminar()}" oncomplete="vardialogdelete.hide()" update=":form-contentpage:mensajes" />
 					<p:commandButton value="NO" style="width: 50px" onclick="vardialogdelete.hide()" />

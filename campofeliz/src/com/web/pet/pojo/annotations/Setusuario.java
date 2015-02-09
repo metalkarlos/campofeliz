@@ -135,7 +135,7 @@ public class Setusuario implements java.io.Serializable {
 		this.iplog = iplog;
 	}
 
-	@Column(name = "clave", length = 30)
+	@Column(name = "clave", length = 100)
 	public String getClave() {
 		return this.clave;
 	}

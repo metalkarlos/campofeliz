@@ -8,7 +8,8 @@
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
 	
 	<h:form id="form-contentpage">
-		<p:growl id="mensajes" showDetail="true" />
+		<p:messages id="mensajes" showDetail="true" />
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-content">
 			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
 				<my:buttons renderedButtonNewItem="true" actionButtonNewItem="#{lugarBean.newItem()}" onclickButtonNewItem="vartablaLugar.unselectAllRows()" oncompleteButtonNewItem="vardialogeditor.show()" updateButtonNewItem=":form-contentpage:idpaneleditor" 
@@ -38,17 +39,20 @@
 			
 			<p:dialog id="iddialogeditor" header="Editor de Lugares" closable="true" onHide="vartablaLugar.unselectAllRows()" widgetVar="vardialogeditor" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
 				<h:panelGrid id="idpaneleditor" columns="2">
-					<h:outputLabel id="ideditorlblnombre" value="Nombre" />
+					<h:outputLabel id="ideditorlblnombre" value="Nombre" for="ideditortxtnombre" />
 					<h:inputText id="ideditortxtnombre" value="#{lugarBean.cotlugarItem.nombre}" style="width: 300px" />
 					
-					<h:outputLabel id="ideditorlbldescripcion" value="Descripción" />
+					<h:outputLabel id="ideditorlbldescripcion" value="Descripción" for="ideditortxtdescripcion" />
 					<h:inputText id="ideditortxtdescripcion" value="#{lugarBean.cotlugarItem.descripcion}" style="width: 300px" />
 					
-					<h:panelGrid id="idpanel2editor" columns="3" style="position: absolute;right: 0;bottom: 0;">
+					<h:outputText value="" />
+					<h:column>
+					<div align="right">
 						<p:commandButton id="idgrabar" value="Grabar" action="#{lugarBean.guardar()}" oncomplete="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaLugar" />
 						<p:commandButton id="ideliminar" value="Eliminar" action="#{lugarBean.eliminar()}" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaLugar" rendered="#{lugarBean.cotlugarItem.idlugar > 0}" />
 						<p:commandButton id="idcancelar" value="Cancelar" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes" />
-					</h:panelGrid>
+					</div>
+					</h:column>
 				</h:panelGrid>
 			</p:dialog>
 		

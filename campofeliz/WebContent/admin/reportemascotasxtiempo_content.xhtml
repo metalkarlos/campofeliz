@@ -7,7 +7,8 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
 	<h:form id="form-contentpage">
-		<p:growl id="mensajes" showDetail="true" />
+		<p:messages id="mensajes" showDetail="true" />
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-reportemascotaxtiempocontent">
         	<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
 				<my:buttons renderedButtonImprimir="true" renderedButtonAceptar="false" actionButtonImprimir="#{reporteMascotasxTiempoBean.imprimir()}" 
@@ -20,11 +21,11 @@
 			<br />
 			Seleccione el Rango de Fechas:
 			<h:panelGrid columns="3" cellpadding="5">
-				<h:outputLabel value="Fecha Desde:" />
+				<h:outputLabel value="Fecha Desde:" for="idfechanadesde" />
 				<p:calendar  id="idfechanadesde" value="#{reporteMascotasxTiempoBean.fechadesde}" yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />	
 				<h:outputText value="*Seleccione la Fecha Desde a consultar" style="font-style: italic;" />		
 			
-				<h:outputLabel value="Fecha Hasta:" />
+				<h:outputLabel value="Fecha Hasta:" for="idfechanahasta" />
 				<p:calendar id="idfechanahasta" value="#{reporteMascotasxTiempoBean.fechahasta}" yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true"  />	
 				<h:outputText value="*Seleccione la Fecha Hasta a consultar" style="font-style: italic;" />		
 			</h:panelGrid>

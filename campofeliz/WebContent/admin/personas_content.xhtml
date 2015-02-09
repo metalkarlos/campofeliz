@@ -7,7 +7,8 @@
     xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="form-contentpage" enctype="multipart/form-data">
-		<p:growl id="mensajes" showDetail="true" />
+		<p:messages id="mensajes" showDetail="true" />
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-personacontent">
 			<p:focus for="idtxtnombre" />
 			<p:outputLabel id="idlblnombre" value="Buscar por Nombre: " for="idtxtnombre" />

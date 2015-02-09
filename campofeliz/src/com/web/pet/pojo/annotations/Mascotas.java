@@ -9,6 +9,14 @@ public class Mascotas implements java.io.Serializable {
 	Petfoto petfoto;
 	Petmascota petmascota;
 	
+	public Mascotas() {
+	}
+
+	public Mascotas(Petfoto petfoto, Petmascota petmascota) {
+		this.petfoto = petfoto;
+		this.petmascota = petmascota;
+	}
+	
 	public Petfoto getPetfoto() {
 		return petfoto;
 	}

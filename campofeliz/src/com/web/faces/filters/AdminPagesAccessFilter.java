@@ -25,6 +25,16 @@ public class AdminPagesAccessFilter implements Filter {
 		UsuarioBean usuarioBean = (UsuarioBean)((HttpServletRequest)servletRequest).getSession().getAttribute("usuarioBean");
         
         if (usuarioBean == null || !usuarioBean.isAutenticado()) {
+        	//Se guarda la pagina que se quiere visitar
+        	HttpServletRequest request = (HttpServletRequest)servletRequest;
+        	String pagina = request.getServletPath();
+        	if(pagina != null) {
+        		String parametros = request.getQueryString();
+	        	String urlrequested = pagina + "?faces-redirect=true" + (parametros != null ? "&" + parametros : "");
+	        	request.getSession().setAttribute("urlrequested", urlrequested);
+        	}
+        	
+        	//Si no esta logoneado redirecciona a login
             String contextPath = ((HttpServletRequest)servletRequest).getContextPath();
             ((HttpServletResponse)servletResponse).sendRedirect(contextPath + "/pages/login.jsf");
         }else{

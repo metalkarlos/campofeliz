@@ -8,7 +8,8 @@
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
 	
 	<h:form id="form-contentpage">
-		<p:growl id="mensajes" showDetail="true" />
+		<p:messages id="mensajes" showDetail="true" />
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-especiecontent">
 			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
 				<my:buttons renderedButtonNewItem="true" actionButtonNewItem="#{especieBean.newItem()}" onclickButtonNewItem="vartablaEspecies.unselectAllRows()" oncompleteButtonNewItem="vardialogeditor.show()" updateButtonNewItem=":form-contentpage:idpaneleditor" 
@@ -37,18 +38,23 @@
 			</p:dataTable>
 			
 			<p:dialog id="iddialogeditor" header="Editor de especies" closable="true" onHide="vartablaEspecies.unselectAllRows()" widgetVar="vardialogeditor" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
-				<h:panelGrid id="idpaneleditor" columns="2">
-					<h:outputLabel id="ideditorlblnombre" value="Nombre" />
+				<h:panelGrid id="idpaneleditor" columns="2" style="width: 100%;">
+					<h:outputLabel id="ideditorlblnombre" value="Nombre" for="ideditortxtnombre" />
 					<h:inputText id="ideditortxtnombre" value="#{especieBean.petespecieItem.nombre}" />
 					
-					<h:outputLabel id="ideditorlbldescripcion" value="Descripción" />
+					<h:outputLabel id="ideditorlbldescripcion" value="Descripción" for="ideditortxtdescripcion" />
 					<h:inputText id="ideditortxtdescripcion" value="#{especieBean.petespecieItem.descripcion}" style="width: 300px" />
 					
-					<h:panelGrid id="idpanel2editor" columns="3" style="position: absolute;right: 0;bottom: 0;">
-						<p:commandButton id="idgrabar" value="Grabar" action="#{especieBean.guardar()}" oncomplete="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaEspecies" />
-						<p:commandButton id="ideliminar" value="Eliminar" action="#{especieBean.eliminar()}" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaEspecies" rendered="#{especieBean.petespecieItem.idespecie > 0}" />
-						<p:commandButton id="idcancelar" value="Cancelar" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes" />
-					</h:panelGrid>
+					<h:outputText value="" /><h:outputText value="" />
+				
+					<h:outputText value="" />
+					<h:column>
+						<div align="right">
+							<p:commandButton id="idgrabar" value="Grabar" action="#{especieBean.guardar()}" oncomplete="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaEspecies" />
+							<p:commandButton id="ideliminar" value="Eliminar" action="#{especieBean.eliminar()}" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaEspecies" rendered="#{especieBean.petespecieItem.idespecie > 0}" />
+							<p:commandButton id="idcancelar" value="Cancelar" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes" />
+						</div>
+					</h:column>
 				</h:panelGrid>
 			</p:dialog>
 		

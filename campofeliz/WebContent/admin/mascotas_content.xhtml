@@ -7,7 +7,8 @@
     xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="form-contentpage" prependId="false">
-		<p:growl id="mensajes" showDetail="true" />
+		<p:messages id="mensajes" showDetail="true" />
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-ordencontent">
 		<p:focus for="idtxtnombre" />
 		<h:outputLabel id="idlblnombre"  value="Buscar por Nombre de Mascota: " for="idtxtnombre" />

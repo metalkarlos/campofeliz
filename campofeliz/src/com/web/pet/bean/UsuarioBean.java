@@ -14,6 +14,7 @@ import com.web.util.FacesUtil;
 import com.web.util.FileUtil;
 import com.web.util.MailUtil;
 import com.web.util.MessageUtil;
+import com.web.util.Utilities;
 
 @ManagedBean
 @SessionScoped
@@ -75,29 +76,49 @@ public class UsuarioBean implements Serializable{
 	public String login(){
 		String strRedirect = null;
 		
-		try{
-			setUsuario = new SetusuarioBO().getByUserPasswd(username, password);
-			
-			if(setUsuario!=null && setUsuario.getIdusuario()>0){
-				autenticado = true;
-				FacesUtil facesUtil = new FacesUtil();
-				strRedirect = (String) facesUtil.getSessionBean("urlrequested");
+		if(validacionOk()){
+			try{
+				Utilities utilities = new Utilities();
+				String cifrado = utilities.cifrar(password);
+				setUsuario = new SetusuarioBO().getByUserPasswd(username, cifrado);
 				
-				if(strRedirect != null && !strRedirect.isEmpty()){
-					facesUtil.removeSessionBean("urlrequested");
+				if(setUsuario!=null && setUsuario.getIdusuario()>0){
+					autenticado = true;
+					FacesUtil facesUtil = new FacesUtil();
+					strRedirect = (String) facesUtil.getSessionBean("urlrequested");
+					
+					if(strRedirect != null && !strRedirect.isEmpty()){
+						facesUtil.removeSessionBean("urlrequested");
+					}else{
+						FileUtil fileUtil = new FileUtil();
+						strRedirect = "../admin/"+fileUtil.getPropertyValue("home");
+					}
 				}else{
-					FileUtil fileUtil = new FileUtil();
-					strRedirect = fileUtil.getPropertyValue("home");
+					new MessageUtil().showWarnMessage("Autenticación fallida","Usuario o Contraseña no existen.");
 				}
-			}else{
-				new MessageUtil().showWarnMessage("Autenticación fallida","Usuario o Contraseña no existen.");
+			}catch(Exception re){
+				re.printStackTrace();
+				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 			}
-		}catch(Exception re){
-			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 		
-		return "../admin/"+strRedirect;
+		return strRedirect;
+	}
+	
+	private boolean validacionOk(){
+		boolean ok = false;
+		
+		if(username != null && username.trim().length() > 0){
+			if(password != null && password.trim().length() > 0){
+				ok = true;
+			}else{
+				new MessageUtil().showWarnMessage("Ingrese la Clave", null);
+			}
+		}else{
+			new MessageUtil().showWarnMessage("Ingrese su Usuario", null);
+		}
+		
+		return ok;
 	}
 	
 	public String logout(){

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -57,6 +58,7 @@ public class MascotaBean implements Serializable {
 		petmascota = new Petmascota(0, new Petestado(), null, new Petraza(), new Setusuario(), new Petespecie(), new Cotpersona(), null, null, null, null, null, null, null, null, false, false, null);
 		cottipoidentificacionselected = new Cottipoidentificacion();
 		lisPetmascotacolorOld = new ArrayList<Petmascotacolor>();
+		cotpersonaselected = new Cotpersona(); 
 		petfoto = new Petfoto();
 
 		llenarLisTipoidentificacion();
@@ -66,6 +68,52 @@ public class MascotaBean implements Serializable {
 		//lisColor = ColorConverter.lisColorDB;//Programación ubicada en ColorConverter
 		
 		cargarRutaImagenes();
+	}
+	
+	@PostConstruct
+	public void PostMascotaBean() {
+		FacesUtil facesUtil = new FacesUtil();
+
+		especie  = Integer.parseInt(facesUtil.getParametroUrl("especie") != null ? facesUtil
+				.getParametroUrl("especie").toString() : "0");
+		
+		idmascota = Integer.parseInt(facesUtil.getParametroUrl("idmascota") != null ? facesUtil
+				.getParametroUrl("idmascota").toString() : "0");
+		
+		if(especie > 0){
+			petmascota.getPetespecie().setIdespecie(this.especie);
+		}
+		
+		if(idmascota > 0){
+			try{
+				petmascota = new PetmascotaBO().getPetmascotaById(idmascota);
+				cotpersonaselected = petmascota.getCotpersona();
+				if(petmascota != null && petmascota.getCottipoidentificacion() != null && petmascota.getCottipoidentificacion().getIdtipoidentificacion() > 0){
+					cottipoidentificacionselected = petmascota.getCottipoidentificacion();
+				}
+				petfoto = new PetfotoBO().getPetfotoPerfilByPetId(idmascota);
+				lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(idmascota);
+				if(lisPetmascotacolor == null){
+					lisPetmascotacolor = new ArrayList<Petmascotacolor>();
+				}
+				lisPetmascotacolorOld = new ArrayList<Petmascotacolor>(lisPetmascotacolor);
+				//foto = new PrimeUtil().getByteDefaultStreamedContent(petfoto.getFoto());
+				/*else{
+					try {
+						String imagePath = new FacesUtil().getRealPath("")+File.separator+"resources"+File.separator+"images"+File.separator+"miscellaneous"+File.separator+"blank.jpg";
+						File file = new File(imagePath);
+						InputStream inputStream = new FileInputStream(file);
+						foto = new DefaultStreamedContent(inputStream, "image/jpeg", "null_image");
+						uploaded = false;
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
+				}*/
+			}catch(Exception re){
+				re.printStackTrace();
+				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			}
+		}
 	}
 	
 	private void llenarLisTipoidentificacion(){
@@ -155,36 +203,6 @@ public class MascotaBean implements Serializable {
 
 	public void setIdmascota(int idmascota) {
 		this.idmascota = idmascota;
-		if(idmascota>0){
-			try{
-				petmascota = new PetmascotaBO().getPetmascotaById(idmascota);
-				cotpersonaselected = petmascota.getCotpersona();
-				if(petmascota != null && petmascota.getCottipoidentificacion() != null && petmascota.getCottipoidentificacion().getIdtipoidentificacion() > 0){
-					cottipoidentificacionselected = petmascota.getCottipoidentificacion();
-				}
-				petfoto = new PetfotoBO().getPetfotoPerfilByPetId(idmascota);
-				lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(idmascota);
-				if(lisPetmascotacolor == null){
-					lisPetmascotacolor = new ArrayList<Petmascotacolor>();
-				}
-				lisPetmascotacolorOld = new ArrayList<Petmascotacolor>(lisPetmascotacolor);
-				//foto = new PrimeUtil().getByteDefaultStreamedContent(petfoto.getFoto());
-				/*else{
-					try {
-						String imagePath = new FacesUtil().getRealPath("")+File.separator+"resources"+File.separator+"images"+File.separator+"miscellaneous"+File.separator+"blank.jpg";
-						File file = new File(imagePath);
-						InputStream inputStream = new FileInputStream(file);
-						foto = new DefaultStreamedContent(inputStream, "image/jpeg", "null_image");
-						uploaded = false;
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
-				}*/
-			}catch(Exception re){
-				re.printStackTrace();
-				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-			}
-		}
 	}
 	
 	public void verificarCedula(){
@@ -211,9 +229,6 @@ public class MascotaBean implements Serializable {
 
 	public void setEspecie(int especie) {
 		this.especie = especie;
-		if(this.especie > 0){
-			petmascota.getPetespecie().setIdespecie(this.especie);
-		}
 	}
 
 	public int getEspecie() {
@@ -345,7 +360,7 @@ public class MascotaBean implements Serializable {
 						/*FacesUtil facesUtil = new FacesUtil();
 						facesUtil.redirect("mascota.jsf?faces-redirect=true&idmascota="+idmascota+"&tipo="+especie+"&iditem=2");*/
 					}else{
-						new MessageUtil().showFatalMessage("Oops!", "Tipo de mascota no definido, verifique e intente nuevamente!");
+						new MessageUtil().showFatalMessage("Tipo de mascota no definido, verifique e intente nuevamente!", "Tipo de mascota no definido, verifique e intente nuevamente!");
 					}
 				}
 				
