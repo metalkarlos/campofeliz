@@ -39,11 +39,10 @@ h3 {
 	text-transform:capitalize;
 }
 .link{
-	font-family: Verdana,Lucida Grande,Lucida Sans,Arial,sans-serif;
+	font-family: Arial,sans-serif,Verdana,Lucida Grande,Lucida Sans;
 	font-size:13px;
-	text-transform:capitalize;
-	font-weight: bold;
-	
+	color:#e3980d;
+	text-align: justify;
 }
 
 .link2{
@@ -62,16 +61,16 @@ h3 {
 	margin-right: 50px
 }
 .texto2{
-	font-family: Verdana,Lucida Grande,Lucida Sans,Arial,sans-serif;
-	font-size:14px;
-	color:#a11e04;
+	font-family: Arial,sans-serif,Verdana,Lucida Grande,Lucida Sans;
+	font-size:16px;
+	color:#e3980d;
 	text-align: justify;
 
 }
 .texto3{
-	font-family: Verdana,Lucida Grande,Lucida Sans,Arial,sans-serif;
-	font-size:11px;
-	color:#2c6715;
+	font-family: Arial,sans-serif,Verdana,Lucida Grande,Lucida Sans;
+	font-size:12px;
+	color:#66ad23;;
 	text-align: left;
 	text-decoration: none;
 
@@ -84,6 +83,31 @@ h3 {
 	font-weight: bold;
 
 }
+.texto5{
+	font-family: Arial,sans-serif,Verdana,Lucida Grande,Lucida Sans;
+	font-size:12px;
+	color:#7B7B7B;;
+	text-align: left;
+	text-decoration: none;
+	border-radius : 6px;
+	border: 1px solid #CCC;
+}
+.ui-button{
+	font-family: Arial,sans-serif,Verdana,Lucida Grande,Lucida Sans;
+	font-size:14px;
+	font-weight: bold;
+	color: #7B7B7B;
+	background-color: #dddddd;
+	background-image: linear-gradient(#dddddd, #dddddd);
+	background-repeat: repeat-x;
+	border-color: #dddddd;
+	padding: 16px;
+	border-radius : 6px;
+	border: 1px solid #CCC;
+	outline: medium none;
+	
+}
+
 .sidepage{
 	font-size: 10px; 
 	font-family: Verdana,Lucida Grande,Lucida Sans,Arial,sans-serif;

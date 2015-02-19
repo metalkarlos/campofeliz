@@ -51,11 +51,11 @@
 								<br/>
 								<h:outputLabel value="Usuario:" for="txtusuario" styleClass="texto3" />
 								<br/><p:focus />
-								<p:inputText id="txtusuario" value="#{usuarioBean.username}" style="width: 100%; height: 30px; box-sizing: border-box;" required="true" requiredMessage="Ingrese Usuario" label="Usuario"></p:inputText>
+								<p:inputText styleClass="texto5"  id="txtusuario" value="#{usuarioBean.username}" style="width: 100%; height: 30px; box-sizing: border-box;" required="true" requiredMessage="Ingrese Usuario" label="Usuario"></p:inputText>
 								<br/>
 								<h:outputLabel value="Clave:" for="txtclave" styleClass="texto3" />
 								<br/>
-								<p:password id="txtclave" value="#{usuarioBean.password}" style="width: 100%; height: 30px; box-sizing: border-box;" required="true" requiredMessage="Ingrese Clave" label="Clave"></p:password>
+								<p:password styleClass="texto5" id="txtclave" value="#{usuarioBean.password}" style="width: 100%; height: 30px; box-sizing: border-box;" required="true" requiredMessage="Ingrese Clave" label="Clave"></p:password>
 								<br/><br/>
 								<p:commandButton id="idloginboton" value="Iniciar sesión" style="width: 100%;" action="#{usuarioBean.login()}" update="paneldatos" process=":form-content:txtusuario, :form-content:txtclave"></p:commandButton>
 								<div style="text-align: right;">
