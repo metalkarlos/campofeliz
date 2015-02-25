@@ -87,7 +87,7 @@ public class PetrazaBO {
 			petraza.setIdraza(maxid);
 			petraza.setFecharegistro(fecharegistro);
 			petraza.setIplog(usuarioBean.getIp());
-			petraza.getPetestado().setIdestado(1);
+			petraza.getSetestado().setIdestado(1);
 			petraza.setSetusuario(usuarioBean.getSetUsuario());
 	
 			petrazaDAO.savePetraza(session, petraza);

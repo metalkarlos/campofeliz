@@ -26,7 +26,7 @@ public class Pettipocomision implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -6044095616236288268L;
 	private int idtipocomision;
-	private Petestado petestado;
+	private Setestado setestado;
 	private Setusuario setusuario;
 	private String nombre;
 	private String descripcion;
@@ -43,11 +43,11 @@ public class Pettipocomision implements java.io.Serializable {
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Pettipocomision(int idtipocomision, Petestado petestado,
+	public Pettipocomision(int idtipocomision, Setestado setestado,
 			Setusuario setusuario, String nombre, String descripcion,
 			BigDecimal porcentaje, Date fecharegistro, String iplog) {
 		this.idtipocomision = idtipocomision;
-		this.petestado = petestado;
+		this.setestado = setestado;
 		this.setusuario = setusuario;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -68,12 +68,12 @@ public class Pettipocomision implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idestado")
-	public Petestado getPetestado() {
-		return this.petestado;
+	public Setestado getSetestado() {
+		return this.setestado;
 	}
 
-	public void setPetestado(Petestado petestado) {
-		this.petestado = petestado;
+	public void setSetestado(Setestado setestado) {
+		this.setestado = setestado;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

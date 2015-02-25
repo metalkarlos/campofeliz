@@ -25,8 +25,8 @@ public class Petmascotacolor implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -7967921817126534849L;
 	private int idmascotacolor;
-	private Petmascota petmascota;
-	private Petestado petestado;
+	private Petmascotahomenaje petmascotahomenaje;
+	private Setestado setestado;
 	private Cotcolor cotcolor;
 	private Setusuario setusuario;
 	private Date fecharegistro;
@@ -35,20 +35,20 @@ public class Petmascotacolor implements java.io.Serializable {
 	public Petmascotacolor() {
 	}
 
-	public Petmascotacolor(int idmascotacolor, Petmascota petmascota,
+	public Petmascotacolor(int idmascotacolor, Petmascotahomenaje petmascota,
 			Cotcolor cotcolor, Date fecharegistro) {
 		this.idmascotacolor = idmascotacolor;
-		this.petmascota = petmascota;
+		this.petmascotahomenaje = petmascota;
 		this.cotcolor = cotcolor;
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Petmascotacolor(int idmascotacolor, Petmascota petmascota,
-			Petestado petestado, Cotcolor cotcolor, Setusuario setusuario,
+	public Petmascotacolor(int idmascotacolor, Petmascotahomenaje petmascota,
+			Setestado setestado, Cotcolor cotcolor, Setusuario setusuario,
 			Date fecharegistro, String iplog) {
 		this.idmascotacolor = idmascotacolor;
-		this.petmascota = petmascota;
-		this.petestado = petestado;
+		this.petmascotahomenaje = petmascota;
+		this.setestado = setestado;
 		this.cotcolor = cotcolor;
 		this.setusuario = setusuario;
 		this.fecharegistro = fecharegistro;
@@ -67,22 +67,22 @@ public class Petmascotacolor implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idmascota", nullable = false)
-	public Petmascota getPetmascota() {
-		return this.petmascota;
+	public Petmascotahomenaje getPetmascotahomenaje() {
+		return this.petmascotahomenaje;
 	}
 
-	public void setPetmascota(Petmascota petmascota) {
-		this.petmascota = petmascota;
+	public void setPetmascotahomenaje(Petmascotahomenaje petmascotahomenaje) {
+		this.petmascotahomenaje = petmascotahomenaje;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idestado")
-	public Petestado getPetestado() {
-		return this.petestado;
+	public Setestado getSetestado() {
+		return this.setestado;
 	}
 
-	public void setPetestado(Petestado petestado) {
-		this.petestado = petestado;
+	public void setSetestado(Setestado setestado) {
+		this.setestado = setestado;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

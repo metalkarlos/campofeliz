@@ -25,7 +25,7 @@ public class Cottipoidentificacion implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 3310080115681633960L;
 	private int idtipoidentificacion;
-	private Cotestado cotestado;
+	private Setestado setestado;
 	private Setusuario setusuario;
 	private String nombre;
 	private String descripcion;
@@ -44,11 +44,11 @@ public class Cottipoidentificacion implements java.io.Serializable {
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Cottipoidentificacion(int idtipoidentificacion, Cotestado cotestado,
+	public Cottipoidentificacion(int idtipoidentificacion, Setestado setestado,
 			Setusuario setusuario, String nombre, String descripcion,
 			Date fecharegistro, String iplog/*, Set<Cotpersona> cotpersonas, Set<Petmascota> petmascotas*/) {
 		this.idtipoidentificacion = idtipoidentificacion;
-		this.cotestado = cotestado;
+		this.setestado = setestado;
 		this.setusuario = setusuario;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -70,12 +70,12 @@ public class Cottipoidentificacion implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idestado")
-	public Cotestado getCotestado() {
-		return this.cotestado;
+	public Setestado getSetestado() {
+		return this.setestado;
 	}
 
-	public void setCotestado(Cotestado cotestado) {
-		this.cotestado = cotestado;
+	public void setSetestado(Setestado setestado) {
+		this.setestado = setestado;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

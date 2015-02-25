@@ -8,15 +8,15 @@ import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
 import com.web.pet.dao.PetfotoDAO;
-import com.web.pet.pojo.annotations.Petfoto;
+import com.web.pet.pojo.annotations.Petfotomascota;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 import com.web.util.FileUtil;
 
 public class PetfotoBO {
 
-	public List<Petfoto> lisPetfotoByPetId(int idmascota) throws Exception {
-		List<Petfoto> lisPetfoto = null;
+	public List<Petfotomascota> lisPetfotoByPetId(int idmascota) throws Exception {
+		List<Petfotomascota> lisPetfoto = null;
 		Session session = null;
 		
 		try{
@@ -34,7 +34,7 @@ public class PetfotoBO {
 		return lisPetfoto;
 	}
 	
-	public boolean newPetfoto(Petfoto petfoto) throws Exception {
+	public boolean newPetfoto(Petfotomascota petfotomascota) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
@@ -47,10 +47,10 @@ public class PetfotoBO {
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			int maxid = petfotoDAO.maxIdPetfoto(session)+1;
 			Date fecharegistro = new Date();
-			String fileExtention = new FileUtil().getFileExtention(petfoto.getNombrearchivo());
-			String nombrearchivo = petfoto.getPetmascota().getPetespecie().getIdespecie()+"-"+petfoto.getPetmascota().getIdmascota()+"-"+maxid+"."+fileExtention.toLowerCase();
+			String fileExtention = new FileUtil().getFileExtention(petfotomascota.getNombrearchivo());
+			String nombrearchivo = petfotomascota.getPetmascotahomenaje().getPetespecie().getIdespecie()+"-"+petfotomascota.getPetmascotahomenaje().getIdmascota()+"-"+maxid+"."+fileExtention.toLowerCase();
 			
-			petfoto.setIdfoto(maxid);
+			petfotomascota.setIdfotomascota(maxid);
 			
 			FileUtil fileUtil = new FileUtil();
 			FacesUtil facesUtil = new FacesUtil();
@@ -61,21 +61,21 @@ public class PetfotoBO {
 			String rutaCompleta = rutaImagenes + rutaMascota;
 			
 			//asignar ruta y nombre de archivo en objeto
-			petfoto.setNombrearchivo(nombrearchivo);
-			petfoto.setRuta(rutaMascota+"/"+nombrearchivo);
-			petfoto.setFecharegistro(fecharegistro);
-			petfoto.setIplog(usuarioBean.getIp());
-			petfoto.getPetestado().setIdestado(1);
-			petfoto.setSetusuario(usuarioBean.getSetUsuario());
+			petfotomascota.setNombrearchivo(nombrearchivo);
+			petfotomascota.setRuta(rutaMascota+"/"+nombrearchivo);
+			petfotomascota.setFecharegistro(fecharegistro);
+			petfotomascota.setIplog(usuarioBean.getIp());
+			petfotomascota.getSetestado().setIdestado(1);
+			petfotomascota.setSetusuario(usuarioBean.getSetUsuario());
 	
 			if(fileUtil.createDir(rutaCompleta)){
 				//crear foto en disco
 				String rutaArchivo = rutaCompleta + "/" + nombrearchivo;
-				fileUtil.createFile(rutaArchivo,petfoto.getObjeto());
+				fileUtil.createFile(rutaArchivo,petfotomascota.getObjeto());
 			}
 			
-			petfoto.setObjeto(null);
-			petfotoDAO.savePetfoto(session, petfoto);
+			petfotomascota.setObjeto(null);
+			petfotoDAO.savePetfoto(session, petfotomascota);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -89,7 +89,7 @@ public class PetfotoBO {
 		return ok;
 	}
 	
-	public boolean updatePetfoto(Petfoto petfoto) throws Exception {
+	public boolean updatePetfoto(Petfotomascota petfotomascota) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
@@ -102,10 +102,10 @@ public class PetfotoBO {
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
-			petfoto.setFecharegistro(fecharegistro);
-			petfoto.setIplog(usuarioBean.getIp());
-			petfoto.setSetusuario(usuarioBean.getSetUsuario());
-			petfotoDAO.updatePetfoto(session, petfoto);
+			petfotomascota.setFecharegistro(fecharegistro);
+			petfotomascota.setIplog(usuarioBean.getIp());
+			petfotomascota.setSetusuario(usuarioBean.getSetUsuario());
+			petfotoDAO.updatePetfoto(session, petfotomascota);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -119,8 +119,8 @@ public class PetfotoBO {
 		return ok;
 	}
 	
-	public List<Petfoto> lisPetfotoPerfil(int tipo) throws Exception {
-		List<Petfoto> lispetfoto = null;
+	public Petfotomascota getPetfotoPerfilByPetId(int idmascota) throws Exception{
+		Petfotomascota petfotomascota = null;
 		Session session = null;
 		
 		try {
@@ -128,33 +128,14 @@ public class PetfotoBO {
 			
 			PetfotoDAO petfotoDAO = new PetfotoDAO();
 			
-			lispetfoto = petfotoDAO.lisPetfotoPerfil(session, tipo);
-		}catch(Exception re){
-			throw new Exception(); 
-		}finally{
-			session.close();
-		}
-		
-		return lispetfoto;
-	}
-	
-	public Petfoto getPetfotoPerfilByPetId(int idmascota) throws Exception{
-		Petfoto petfoto = null;
-		Session session = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			
-			PetfotoDAO petfotoDAO = new PetfotoDAO();
-			
-			petfoto = petfotoDAO.getPetfotoPerfilByPetId(session, idmascota);
+			petfotomascota = petfotoDAO.getPetfotoPerfilByPetId(session, idmascota);
 		} catch(Exception he){
 			throw new Exception(); 
 		}finally{
 			session.close();
 		}
 		
-		return petfoto;
+		return petfotomascota;
 	}
 	
 	public boolean resetPetfotoPerfilByPetId(int idmascota) throws Exception {
@@ -181,7 +162,7 @@ public class PetfotoBO {
 		return ok;
 	}
 	
-	public boolean ponerFotoPerfil(Petfoto petfoto) throws Exception {
+	public boolean ponerFotoPerfil(Petfotomascota petfotomascota) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
@@ -192,10 +173,10 @@ public class PetfotoBO {
 			PetfotoDAO petfotoDAO = new PetfotoDAO();
 			
 			//Primero se quita la imágen que está actualmente como perfil
-			petfotoDAO.resetPetfotoPerfilByPetId(session, petfoto.getPetmascota().getIdmascota());
+			petfotoDAO.resetPetfotoPerfilByPetId(session, petfotomascota.getPetmascotahomenaje().getIdmascota());
 			
 			//Luego se pone la imágen seleccionada como foto del perfil
-			petfotoDAO.setPetfotoPerfil(session, petfoto.getIdfoto());
+			petfotoDAO.setPetfotoPerfil(session, petfotomascota.getIdfotomascota());
 			
 			session.getTransaction().commit();
 			ok = true;

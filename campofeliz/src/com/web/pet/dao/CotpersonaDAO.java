@@ -29,7 +29,7 @@ public class CotpersonaDAO {
 		
 		Criteria criteria = session.createCriteria(Cotpersona.class)
 		.add( Restrictions.eq("idpersona", idpersona) )
-		.add( Restrictions.eq("cotestado.idestado", 1) )
+		.add( Restrictions.eq("setestado.idestado", 1) )
 		.createAlias("cottipoidentificacion", "tipoidentificacion", Criteria.LEFT_JOIN);
 		
 		cotpersona = (Cotpersona)criteria.uniqueResult();
@@ -42,7 +42,7 @@ public class CotpersonaDAO {
 		List<Cotpersona> lisCotpersona = null;
 		
 		Criteria criteria = session.createCriteria(Cotpersona.class)
-		.add( Restrictions.eq("cotestado.idestado", 1));
+		.add( Restrictions.eq("setestado.idestado", 1));
 		
 		if(nombres != null && nombres.length > 0){
 			String query = "(";
@@ -73,7 +73,7 @@ public class CotpersonaDAO {
 		if(lisCotpersona != null && lisCotpersona.size() > 0){
 			Criteria criteriaCount = session.createCriteria(Cotpersona.class)
 			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("cotestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1));
 			
 			if(nombres != null && nombres.length > 0){
 				String query = "(";
@@ -102,75 +102,6 @@ public class CotpersonaDAO {
 		return lisCotpersona;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<Cotpersona> lisCotpersonaPetmascotaByPage(Session session, String[] nombres, int pageSize, int pageNumber, int[] args) throws Exception {
-		List<Cotpersona> lisCotpersona = null;
-		
-		Criteria criteria = session.createCriteria(Cotpersona.class)
-		.add( Restrictions.eq("cotestado.idestado", 1))
-		.add( Restrictions.eq("m.petestado.idestado", 1))
-		.createCriteria("petmascota","m");
-		
-		if(nombres != null && nombres.length > 0){
-			String query = "(";
-			for(int i=0;i<nombres.length;i++)
-			{
-				query += "(lower({alias}.apellido1) like lower('%"+nombres[i]+"%') or ";
-				query += "lower({alias}.apellido2) like lower('%"+nombres[i]+"%') or ";
-				query += "lower({alias}.nombre1) like lower('%"+nombres[i]+"%') or ";
-				query += "lower({alias}.nombre2) like lower('%"+nombres[i]+"%')) ";
-				if(i<nombres.length-1){
-					query += "and ";
-				}
-			}
-			query += ")";
-			
-			criteria.add(Restrictions.sqlRestriction(query));
-		}
-		
-		criteria.addOrder(Order.asc("apellido1"))
-		.addOrder(Order.asc("apellido2"))
-		.addOrder(Order.asc("nombre1"))
-		.addOrder(Order.asc("nombre2"))
-		.setMaxResults(pageSize)
-		.setFirstResult(pageNumber);
-		
-		lisCotpersona = (List<Cotpersona>) criteria.list();
-		
-		if(lisCotpersona != null && lisCotpersona.size() > 0){
-			Criteria criteriaCount = session.createCriteria(Cotpersona.class)
-			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("cotestado.idestado", 1))
-			.add( Restrictions.eq("m.petestado.idestado", 1))
-			.createCriteria("petmascota","m");
-			
-			if(nombres != null && nombres.length > 0){
-				String query = "(";
-				for(int i=0;i<nombres.length;i++)
-				{
-					query += "(lower({alias}.apellido1) like lower('%"+nombres[i]+"%') or ";
-					query += "lower({alias}.apellido2) like lower('%"+nombres[i]+"%') or ";
-					query += "lower({alias}.nombre1) like lower('%"+nombres[i]+"%') or ";
-					query += "lower({alias}.nombre2) like lower('%"+nombres[i]+"%')) ";
-					if(i<nombres.length-1){
-						query += "and ";
-					}
-				}
-				query += ")";
-				
-				criteriaCount.add(Restrictions.sqlRestriction(query));
-			}
-			
-			Object object = criteriaCount.uniqueResult();
-			int count = (object==null?0:Integer.parseInt(object.toString()));
-			args[0] = count;
-		} else {
-			args[0] = 0;
-		}
-		
-		return lisCotpersona;
-	}
-
 	public void saveCotpersona(Session session, Cotpersona cotpersona) throws Exception {
 		session.save(cotpersona);
 	}
@@ -184,7 +115,7 @@ public class CotpersonaDAO {
 		List<Cotpersona> lisCotpersona = null;
 		
 		Criteria criteria = session.createCriteria(Cotpersona.class)
-		.add( Restrictions.eq("cotestado.idestado", 1));
+		.add( Restrictions.eq("setestado.idestado", 1));
 		
 		if(cotpersona.getApellido1() != null && cotpersona.getApellido1().trim().length() > 0){
 			criteria.add( Restrictions.like("apellido1", "%"+cotpersona.getApellido1()+"%").ignoreCase());
@@ -249,7 +180,7 @@ public class CotpersonaDAO {
 		List<Cotpersona> lisCotpersona = null;
 		
 		Criteria criteria = session.createCriteria(Cotpersona.class)
-		.add( Restrictions.eq("cotestado.idestado", 1));
+		.add( Restrictions.eq("setestado.idestado", 1));
 		
 		if(cotpersona.getApellido1() != null && cotpersona.getApellido1().trim().length() > 0){
 			criteria.add( Restrictions.like("apellido1", "%"+cotpersona.getApellido1()+"%").ignoreCase());
@@ -311,7 +242,7 @@ public class CotpersonaDAO {
 		if(lisCotpersona != null && lisCotpersona.size() > 0){
 			Criteria criteriaCount = session.createCriteria(Cotpersona.class)
 			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("cotestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1));
 			
 			if(cotpersona.getApellido1() != null && cotpersona.getApellido1().trim().length() > 0){
 				criteriaCount.add( Restrictions.like("apellido1", "%"+cotpersona.getApellido1()+"%").ignoreCase());

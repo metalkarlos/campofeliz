@@ -87,7 +87,7 @@ public class PetespecieBO {
 			petespecie.setIdespecie(maxid);
 			petespecie.setFecharegistro(fecharegistro);
 			petespecie.setIplog(usuarioBean.getIp());
-			petespecie.getPetestado().setIdestado(1);
+			petespecie.getSetestado().setIdestado(1);
 			petespecie.setSetusuario(usuarioBean.getSetUsuario());
 	
 			petespecieDAO.savePetespecie(session, petespecie);

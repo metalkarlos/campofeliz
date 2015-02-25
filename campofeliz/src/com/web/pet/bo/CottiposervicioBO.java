@@ -68,7 +68,7 @@ public class CottiposervicioBO {
 			cottiposervicio.setIdtiposervicio(maxid);
 			cottiposervicio.setFecharegistro(fecharegistro);
 			cottiposervicio.setIplog(usuarioBean.getIp());
-			cottiposervicio.getCotestado().setIdestado(1);
+			cottiposervicio.getSetestado().setIdestado(1);
 			cottiposervicio.setSetusuario(usuarioBean.getSetUsuario());
 	
 			cottiposervicioDAO.saveCottiposervicio(session, cottiposervicio);

@@ -25,7 +25,7 @@ public class Cotcolor implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -4747291859081418617L;
 	private int idcolor;
-	private Cotestado cotestado;
+	private Setestado setestado;
 	private Setusuario setusuario;
 	private String nombre;
 	private String descripcion;
@@ -44,11 +44,11 @@ public class Cotcolor implements java.io.Serializable {
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Cotcolor(int idcolor, Cotestado cotestado, Setusuario setusuario,
+	public Cotcolor(int idcolor, Setestado setestado, Setusuario setusuario,
 			String nombre, String descripcion, String hex, Date fecharegistro,
 			String iplog/*, Set<Petmascotacolor> petmascotacolors*/) {
 		this.idcolor = idcolor;
-		this.cotestado = cotestado;
+		this.setestado = setestado;
 		this.setusuario = setusuario;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -70,12 +70,12 @@ public class Cotcolor implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idestado")
-	public Cotestado getCotestado() {
-		return this.cotestado;
+	public Setestado getSetestado() {
+		return this.setestado;
 	}
 
-	public void setCotestado(Cotestado cotestado) {
-		this.cotestado = cotestado;
+	public void setSetestado(Setestado setestado) {
+		this.setestado = setestado;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -148,7 +148,7 @@ public class Cotcolor implements java.io.Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((cotestado == null) ? 0 : cotestado.getIdestado());
+				+ ((setestado == null) ? 0 : setestado.getIdestado());
 		result = prime * result
 				+ ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result
@@ -170,10 +170,10 @@ public class Cotcolor implements java.io.Serializable {
             return false;
 		
 		Cotcolor other = (Cotcolor) obj;
-		if (cotestado == null) {
-			if (other.cotestado != null)
+		if (setestado == null) {
+			if (other.setestado != null)
 				return false;
-		} else if (cotestado.getIdestado() != other.cotestado.getIdestado())
+		} else if (setestado.getIdestado() != other.setestado.getIdestado())
 			return false;
 		if (descripcion == null) {
 			if (other.descripcion != null)

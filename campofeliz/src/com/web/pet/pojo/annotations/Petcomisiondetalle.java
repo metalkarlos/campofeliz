@@ -28,7 +28,7 @@ public class Petcomisiondetalle implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 744845729626416132L;
 	private PetcomisiondetalleId id;
-	private Petmascota petmascota;
+	private Petmascotahomenaje petmascotahomenaje;
 	private Petcomision petcomision;
 	private Cotservicio cotservicio;
 	private BigDecimal valorservicio;
@@ -42,12 +42,12 @@ public class Petcomisiondetalle implements java.io.Serializable {
 	public Petcomisiondetalle() {
 	}
 
-	public Petcomisiondetalle(PetcomisiondetalleId id, Petmascota petmascota,
+	public Petcomisiondetalle(PetcomisiondetalleId id, Petmascotahomenaje petmascotahomenaje,
 			Petcomision petcomision, BigDecimal valorservicio,
 			BigDecimal porcentajecomision, BigDecimal valorcomision,
 			Date fecharegistro) {
 		this.id = id;
-		this.petmascota = petmascota;
+		this.petmascotahomenaje = petmascotahomenaje;
 		this.petcomision = petcomision;
 		this.valorservicio = valorservicio;
 		this.porcentajecomision = porcentajecomision;
@@ -55,13 +55,13 @@ public class Petcomisiondetalle implements java.io.Serializable {
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Petcomisiondetalle(PetcomisiondetalleId id, Petmascota petmascota,
+	public Petcomisiondetalle(PetcomisiondetalleId id, Petmascotahomenaje petmascotahomenaje,
 			Petcomision petcomision, Cotservicio cotservicio,
 			BigDecimal valorservicio, BigDecimal porcentajecomision,
 			BigDecimal valorcomision, Date fecharegistro, String iplog,
 			Integer idusuario, Integer idestado) {
 		this.id = id;
-		this.petmascota = petmascota;
+		this.petmascotahomenaje = petmascotahomenaje;
 		this.petcomision = petcomision;
 		this.cotservicio = cotservicio;
 		this.valorservicio = valorservicio;
@@ -87,12 +87,12 @@ public class Petcomisiondetalle implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idmascota", nullable = false)
-	public Petmascota getPetmascota() {
-		return this.petmascota;
+	public Petmascotahomenaje getPetmascotahomenaje() {
+		return this.petmascotahomenaje;
 	}
 
-	public void setPetmascota(Petmascota petmascota) {
-		this.petmascota = petmascota;
+	public void setPetmascotahomenaje(Petmascotahomenaje petmascotahomenaje) {
+		this.petmascotahomenaje = petmascotahomenaje;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

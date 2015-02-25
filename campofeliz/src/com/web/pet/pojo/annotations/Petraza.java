@@ -25,7 +25,7 @@ public class Petraza implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -5447534948211922819L;
 	private int idraza;
-	private Petestado petestado;
+	private Setestado setestado;
 	private Setusuario setusuario;
 	private String nombre;
 	private String descripcion;
@@ -44,11 +44,11 @@ public class Petraza implements java.io.Serializable {
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Petraza(int idraza, Petestado petestado, Setusuario setusuario,
+	public Petraza(int idraza, Setestado setestado, Setusuario setusuario,
 			String nombre, String descripcion, Date fecharegistro,
 			String iplog, byte[] objeto, String ruta/*, Set<Petmascota> petmascotas*/) {
 		this.idraza = idraza;
-		this.petestado = petestado;
+		this.setestado = setestado;
 		this.setusuario = setusuario;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -71,12 +71,12 @@ public class Petraza implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idestado")
-	public Petestado getPetestado() {
-		return this.petestado;
+	public Setestado getSetestado() {
+		return this.setestado;
 	}
 
-	public void setPetestado(Petestado petestado) {
-		this.petestado = petestado;
+	public void setSetestado(Setestado setestado) {
+		this.setestado = setestado;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

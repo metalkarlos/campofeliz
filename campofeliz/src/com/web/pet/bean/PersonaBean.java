@@ -12,7 +12,7 @@ import javax.faces.event.ActionEvent;
 import com.web.pet.bo.CotfotopersonaBO;
 import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.bo.CottipoidentificacionBO;
-import com.web.pet.pojo.annotations.Cotestado;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Cotfotopersona;
 import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.pet.pojo.annotations.Cottipoidentificacion;
@@ -41,7 +41,7 @@ public class PersonaBean implements Serializable {
 
 	
 	public PersonaBean() {
-		cotpersona = new Cotpersona(0, null, new Cotestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		cotpersona = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		cottipoidentificacionselected = new Cottipoidentificacion();
 		cotfotopersonaSelected = new Cotfotopersona();
 		cotfotopersona = new Cotfotopersona();
@@ -79,7 +79,7 @@ public class PersonaBean implements Serializable {
 			Cottipoidentificacion cottipoidentificacion = new Cottipoidentificacion();
 			cottipoidentificacion.setIdtipoidentificacion(0);
 			cottipoidentificacion.setNombre("Seleccione");
-			cottipoidentificacion.setCotestado(new Cotestado());
+			cottipoidentificacion.setSetestado(new Setestado());
 			cottipoidentificacion.setSetusuario(new Setusuario());
 		
 			lisCottipoidentificacion = new ArrayList<Cottipoidentificacion>();
@@ -329,9 +329,9 @@ public class PersonaBean implements Serializable {
 	
 	public void eliminar(){
 		try{
-			Cotestado cotestado = new Cotestado();
-			cotestado.setIdestado(2);//inactivo
-			cotpersona.setCotestado(cotestado);
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(2);//inactivo
+			cotpersona.setSetestado(setestado);
 			CotpersonaBO cotpersonaBO = new CotpersonaBO();
 			cotpersonaBO.updateCotpersona(cotpersona);
 			FacesUtil facesUtil = new FacesUtil();

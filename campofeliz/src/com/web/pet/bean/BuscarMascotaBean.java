@@ -1,6 +1,7 @@
 package com.web.pet.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +15,12 @@ import org.primefaces.model.SortOrder;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetrazaBO;
 import com.web.pet.bo.PetespecieBO;
+import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.pet.pojo.annotations.Cottipoidentificacion;
 import com.web.pet.pojo.annotations.Mascotas;
 import com.web.pet.pojo.annotations.Petespecie;
-import com.web.pet.pojo.annotations.Petestado;
-import com.web.pet.pojo.annotations.Petmascota;
+import com.web.pet.pojo.annotations.Setestado;
+import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.pet.pojo.annotations.Petraza;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.FileUtil;
@@ -28,7 +30,7 @@ import com.web.util.MessageUtil;
 @ViewScoped
 public class BuscarMascotaBean implements Serializable {
 	private static final long serialVersionUID = -1838272166794983148L;
-	private Petmascota petmascota;
+	private Petmascotahomenaje petmascotahomenaje;
 	private String caracteristicas;
 	private List<Petespecie> lisPetespecie;
 	private List<Petraza> lisPetraza;
@@ -39,7 +41,7 @@ public class BuscarMascotaBean implements Serializable {
 	private String rutaImagenes;
 
 	public BuscarMascotaBean() {
-		petmascota = new Petmascota(0, new Petestado(), new Cottipoidentificacion(), new Petraza(), new Setusuario(), new Petespecie(), null, null, null, null, null, null, null, null, null, false, false, null);
+		petmascotahomenaje = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),0,new BigDecimal(0),null,false,false,null);
 		llenarPettipo();
 		llenarPetraza();
 		setRenderGrid(false);
@@ -67,7 +69,7 @@ public class BuscarMascotaBean implements Serializable {
 							caracteristicas = BuscarMascotaBean.this.caracteristicas.split(" ");
 						}
 						
-						data = petmascotaBO.lisMascotasBusquedaByPage(petmascota, caracteristicas, (pageSize * columnsGrid), (first * columnsGrid), args);
+						data = petmascotaBO.lisMascotasBusquedaByPage(petmascotahomenaje, caracteristicas, (pageSize * columnsGrid), (first * columnsGrid), args);
 						this.setRowCount(args[0]);
 					}
 					
@@ -103,12 +105,12 @@ public class BuscarMascotaBean implements Serializable {
 		}
 	}
 	
-	public Petmascota getPetmascota() {
-		return petmascota;
+	public Petmascotahomenaje getPetmascotahomenaje() {
+		return petmascotahomenaje;
 	}
 
-	public void setPetmascota(Petmascota petmascota) {
-		this.petmascota = petmascota;
+	public void setPetmascotahomenaje(Petmascotahomenaje petmascotahomenaje) {
+		this.petmascotahomenaje = petmascotahomenaje;
 	}
 
 	public String getCaracteristicas() {

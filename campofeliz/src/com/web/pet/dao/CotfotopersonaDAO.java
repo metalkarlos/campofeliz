@@ -28,7 +28,7 @@ public class CotfotopersonaDAO {
 			
 			Criteria criteria = session.createCriteria(Cotfotopersona.class)
 			.add( Restrictions.eq("cotpersona.idpersona", idpersona) )
-			.add( Restrictions.eq("cotestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1));
 				
 			arraydatos = (List<Cotfotopersona>) criteria.list();
 			
@@ -54,7 +54,7 @@ public class CotfotopersonaDAO {
 			Criteria criteria = session.createCriteria(Cotfotopersona.class)
 			.add( Restrictions.eq("cotfotopersona.idpersona", idpersona) )
 			.add( Restrictions.eq("mostrar", 1) )
-			.add( Restrictions.eq("cotestado.idestado", 1) );
+			.add( Restrictions.eq("setestado.idestado", 1) );
 			
 			cotfotopersona = (Cotfotopersona) criteria.uniqueResult();
 			

@@ -87,7 +87,7 @@ public class CotservicioBO {
 			cotservicio.setIdservicio(maxid);
 			cotservicio.setFecharegistro(fecharegistro);
 			cotservicio.setIplog(usuarioBean.getIp());
-			cotservicio.getCotestado().setIdestado(1);
+			cotservicio.getSetestado().setIdestado(1);
 			cotservicio.setSetusuario(usuarioBean.getSetUsuario());
 	
 			cotservicioDAO.saveCotservicio(session, cotservicio);

@@ -13,7 +13,7 @@ import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.PetespecieBO;
 import com.web.pet.pojo.annotations.Petespecie;
-import com.web.pet.pojo.annotations.Petestado;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.MessageUtil;
 
@@ -28,7 +28,7 @@ public class EspecieBean implements Serializable {
 	private LazyDataModel<Petespecie> lisPetespecie;
 	
 	public EspecieBean() {
-		petespecieItem = new Petespecie(0, new Petestado(), new Setusuario(), null, null, null, null);
+		petespecieItem = new Petespecie(0, new Setestado(), new Setusuario(), null, null, null, null,null);
 		consultarEspecies();
 		
 	}
@@ -74,7 +74,7 @@ public class EspecieBean implements Serializable {
 	}
 
 	public void setPetespecieItem(Petespecie petespecieItem) {
-		this.petespecieItem = petespecieItem == null ? new Petespecie(0, new Petestado(), new Setusuario(), null, null, null, null) : petespecieItem;
+		this.petespecieItem = petespecieItem == null ? new Petespecie(0, new Setestado(), new Setusuario(), null, null, null, null,null) : petespecieItem;
 	}
 
 	public LazyDataModel<Petespecie> getLisPetespecie() {
@@ -98,7 +98,7 @@ public class EspecieBean implements Serializable {
 						ok = petespecieBO.newPetespecie(petespecieItem);
 					}
 					
-					petespecieItem = new Petespecie(0, new Petestado(), new Setusuario(), null, null, null, null);
+					petespecieItem = new Petespecie(0, new Setestado(), new Setusuario(), null, null, null, null, null);
 					
 					if(ok){
 						new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
@@ -117,9 +117,9 @@ public class EspecieBean implements Serializable {
 	
 	public void eliminar(){
 		try{
-			Petestado petestado = new Petestado();
-			petestado.setIdestado(2);//inactivo
-			petespecieItem.setPetestado(petestado);
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(2);//inactivo
+			petespecieItem.setSetestado(setestado);
 			PetespecieBO petespecieBO = new PetespecieBO();
 			petespecieBO.updatePetespecie(petespecieItem);
 		}catch(Exception re){
@@ -146,7 +146,7 @@ public class EspecieBean implements Serializable {
 
 	public void newItem()
 	{
-		petespecieItem = new Petespecie(0, new Petestado(), new Setusuario(), null, null, null, null);
+		petespecieItem = new Petespecie(0, new Setestado(), new Setusuario(), null, null, null, null, null);
 	}
 	
 	public String cancelar(){

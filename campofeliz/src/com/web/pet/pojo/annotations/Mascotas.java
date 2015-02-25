@@ -6,28 +6,28 @@ public class Mascotas implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5961378667932487034L;
-	Petfoto petfoto;
-	Petmascota petmascota;
+	Petfotomascota petfotomascota;
+	Petmascotahomenaje petmascotahomenaje;
 	
 	public Mascotas() {
 	}
 
-	public Mascotas(Petfoto petfoto, Petmascota petmascota) {
-		this.petfoto = petfoto;
-		this.petmascota = petmascota;
+	public Mascotas(Petfotomascota petfoto, Petmascotahomenaje petmascotahomenaje) {
+		this.petfotomascota = petfoto;
+		this.petmascotahomenaje = petmascotahomenaje;
 	}
 	
-	public Petfoto getPetfoto() {
-		return petfoto;
+	public Petfotomascota getPetfotomascota() {
+		return petfotomascota;
 	}
-	public void setPetfoto(Petfoto petfoto) {
-		this.petfoto = petfoto;
+	public void setPetfotomascota(Petfotomascota petfotomascota) {
+		this.petfotomascota = petfotomascota;
 	}
-	public Petmascota getPetmascota() {
-		return petmascota;
+	public Petmascotahomenaje getPetmascotahomenaje() {
+		return petmascotahomenaje;
 	}
-	public void setPetmascota(Petmascota petmascota) {
-		this.petmascota = petmascota;
+	public void setPetmascotahomenaje(Petmascotahomenaje petmascotahomenaje) {
+		this.petmascotahomenaje = petmascotahomenaje;
 	}
 
 }

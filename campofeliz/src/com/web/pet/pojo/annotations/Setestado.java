@@ -1,17 +1,14 @@
 package com.web.pet.pojo.annotations;
 
-// Generated 26/07/2012 03:22:37 PM by Hibernate Tools 3.4.0.CR1
+// Generated 05/03/2014 11:20:16 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
-//import java.util.HashSet;
-//import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-//import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,16 +23,13 @@ public class Setestado implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4377027854631494747L;
+	private static final long serialVersionUID = -7130236856934629631L;
 	private int idestado;
 	private Setusuario setusuario;
 	private String nombre;
 	private String descripcion;
 	private Date fecharegistro;
 	private String iplog;
-//	private Set<Setusuario> setusuarios = new HashSet<Setusuario>(0);
-//	private Set<Setmenu> setmenus = new HashSet<Setmenu>(0);
-//	private Set<Setperfil> setperfils = new HashSet<Setperfil>(0);
 
 	public Setestado() {
 	}
@@ -46,17 +40,13 @@ public class Setestado implements java.io.Serializable {
 	}
 
 	public Setestado(int idestado, Setusuario setusuario, String nombre,
-			String descripcion, Date fecharegistro, String iplog/*,
-			Set<Setusuario> setusuarios, Set<Setmenu> setmenus, Set<Setperfil> setperfils*/) {
+			String descripcion, Date fecharegistro, String iplog) {
 		this.idestado = idestado;
 		this.setusuario = setusuario;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.fecharegistro = fecharegistro;
 		this.iplog = iplog;
-//		this.setusuarios = setusuarios;
-//		this.setmenus = setmenus;
-//		this.setperfils = setperfils;
 	}
 
 	@Id
@@ -115,32 +105,62 @@ public class Setestado implements java.io.Serializable {
 	public void setIplog(String iplog) {
 		this.iplog = iplog;
 	}
-/*
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "setestado", targetEntity = Setusuario.class)
-	public Set<Setusuario> getSetusuarios() {
-		return this.setusuarios;
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((descripcion == null) ? 0 : descripcion.hashCode());
+		result = prime * result
+				+ ((fecharegistro == null) ? 0 : fecharegistro.hashCode());
+		result = prime * result + idestado;
+		result = prime * result + ((iplog == null) ? 0 : iplog.hashCode());
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result
+				+ ((setusuario == null) ? 0 : setusuario.getIdusuario());
+		return result;
 	}
 
-	public void setSetusuarios(Set<Setusuario> setusuarios) {
-		this.setusuarios = setusuarios;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Setestado other = (Setestado) obj;
+		if (descripcion == null) {
+			if (other.descripcion != null)
+				return false;
+		} else if (!descripcion.equals(other.descripcion))
+			return false;
+		if (fecharegistro == null) {
+			if (other.fecharegistro != null)
+				return false;
+		} else if (!fecharegistro.equals(other.fecharegistro))
+			return false;
+		if (idestado != other.idestado)
+			return false;
+		if (iplog == null) {
+			if (other.iplog != null)
+				return false;
+		} else if (!iplog.equals(other.iplog))
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (setusuario == null) {
+			if (other.setusuario != null)
+				return false;
+		} else if (setusuario.getIdusuario() != other.setusuario.getIdusuario())
+			return false;
+		return true;
 	}
+	
+	
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "setestado", targetEntity = Setmenu.class)
-	public Set<Setmenu> getSetmenus() {
-		return this.setmenus;
-	}
-
-	public void setSetmenus(Set<Setmenu> setmenus) {
-		this.setmenus = setmenus;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "setestado", targetEntity = Setperfil.class)
-	public Set<Setperfil> getSetperfils() {
-		return this.setperfils;
-	}
-
-	public void setSetperfils(Set<Setperfil> setperfils) {
-		this.setperfils = setperfils;
-	}
-*/
 }

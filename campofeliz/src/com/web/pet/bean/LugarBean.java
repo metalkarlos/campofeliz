@@ -12,7 +12,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.CotlugarBO;
-import com.web.pet.pojo.annotations.Cotestado;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Cotlugar;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.MessageUtil;
@@ -29,7 +29,7 @@ public class LugarBean implements Serializable {
 	private LazyDataModel<Cotlugar> lisCotlugar;
 	
 	public LugarBean() {
-		cotlugarItem =  new Cotlugar(0, new Cotestado(), new Setusuario(), null, null, null, null);
+		cotlugarItem =  new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
 		consultarLugar();
 		
 	}
@@ -75,7 +75,7 @@ public class LugarBean implements Serializable {
 	}
 
 	public void setCotlugarItem(Cotlugar cotlugarItem) {
-		this.cotlugarItem = cotlugarItem == null ? new Cotlugar(0, new Cotestado(), new Setusuario(), null, null, null, null) : cotlugarItem;
+		this.cotlugarItem = cotlugarItem == null ? new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null) : cotlugarItem;
 	}
 
 	public LazyDataModel<Cotlugar> getLisCotlugar() {
@@ -99,7 +99,7 @@ public class LugarBean implements Serializable {
 						ok = cotlugarBO.newCotlugar(cotlugarItem);
 					}
 					
-					cotlugarItem = new Cotlugar(0, new Cotestado(), new Setusuario(), null, null, null, null);
+					cotlugarItem = new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
 					
 					if(ok){
 						new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
@@ -118,9 +118,9 @@ public class LugarBean implements Serializable {
 	
 	public void eliminar(){
 		try{
-			Cotestado cotestado = new Cotestado();
-			cotestado.setIdestado(2);//inactivo
-			cotlugarItem.setCotestado(cotestado);
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(2);//inactivo
+			cotlugarItem.setSetestado(setestado);
 			CotlugarBO cotlugarBO = new CotlugarBO();
 			cotlugarBO.updateCotlugar(cotlugarItem);
 		}catch(Exception re){
@@ -147,7 +147,7 @@ public class LugarBean implements Serializable {
 
 	public void newItem()
 	{
-		cotlugarItem = new Cotlugar(0, new Cotestado(), new Setusuario(), null, null, null, null);
+		cotlugarItem = new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
 	}
 	
 	public String cancelar(){

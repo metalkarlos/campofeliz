@@ -40,7 +40,7 @@ public class CottiposervicioDAO {
 		List<Cottiposervicio> lisCottiposervicio = null;
 		
 		Criteria criteria = session.createCriteria(Cottiposervicio.class)
-		.add( Restrictions.eq("cotestado.idestado", 1))
+		.add( Restrictions.eq("setestado.idestado", 1))
 		.addOrder(Order.asc("nombre"))
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
@@ -51,7 +51,7 @@ public class CottiposervicioDAO {
 		{
 			Criteria criteriaCount = session.createCriteria( Cottiposervicio.class)
 			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("cotestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1));
 			
 			Object object = criteriaCount.uniqueResult();
 			int count = (object==null?0:Integer.parseInt(object.toString()));
@@ -70,7 +70,7 @@ public class CottiposervicioDAO {
 		Cottiposervicio cottiposervicio = null;
 		
 		Criteria criteria = session.createCriteria(Cottiposervicio.class)
-		.add( Restrictions.eq("cotestado.idestado", 1) )
+		.add( Restrictions.eq("setestado.idestado", 1) )
 		.add( Restrictions.eq("idtiposervicio", id));
 		
 		cottiposervicio = (Cottiposervicio) criteria.uniqueResult();

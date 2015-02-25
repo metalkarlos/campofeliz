@@ -87,7 +87,7 @@ public class CotlugarBO {
 			cotlugar.setIdlugar(maxid);
 			cotlugar.setFecharegistro(fecharegistro);
 			cotlugar.setIplog(usuarioBean.getIp());
-			cotlugar.getCotestado().setIdestado(1);
+			cotlugar.getSetestado().setIdestado(1);
 			cotlugar.setSetusuario(usuarioBean.getSetUsuario());
 	
 			cotlugarDAO.saveCotlugar(session, cotlugar);

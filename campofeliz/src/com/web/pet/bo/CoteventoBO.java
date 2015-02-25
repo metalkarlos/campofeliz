@@ -29,7 +29,7 @@ public class CoteventoBO {
 			
 			cotevento.setIdevento(max);
 			cotevento.setFecharegistro(fecharegistro);
-			cotevento.getCotestado().setIdestado(1);
+			cotevento.getSetestado().setIdestado(1);
 			cotevento.setIplog(usuarioBean.getIp());
 			cotevento.setSetusuario(usuarioBean.getSetUsuario());
 			

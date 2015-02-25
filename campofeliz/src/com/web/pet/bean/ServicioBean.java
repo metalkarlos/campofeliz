@@ -13,7 +13,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.CotservicioBO;
-import com.web.pet.pojo.annotations.Cotestado;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Cotservicio;
 import com.web.pet.pojo.annotations.Cottiposervicio;
 import com.web.pet.pojo.annotations.Setusuario;
@@ -31,7 +31,7 @@ public class ServicioBean implements Serializable {
 	private LazyDataModel<Cotservicio> lisCotservicio;
 	
 	public ServicioBean() {
-		cotservicioItem = new Cotservicio(0, new Cotestado(), new Setusuario(), new Cottiposervicio(), null, null, null, null, new BigDecimal(0));
+		cotservicioItem = new Cotservicio(0, new Setestado(), new Setusuario(), new Cottiposervicio(), null, null, null, null, new BigDecimal(0));
 		consultarServicio();
 	}
 	
@@ -76,7 +76,7 @@ public class ServicioBean implements Serializable {
 	}
 
 	public void setCotservicioItem(Cotservicio cotservicioItem) {
-		this.cotservicioItem = cotservicioItem == null ? new Cotservicio(0, new Cotestado(), new Setusuario(), new Cottiposervicio(), null, null, null, null, new BigDecimal(0)) : cotservicioItem;
+		this.cotservicioItem = cotservicioItem == null ? new Cotservicio(0, new Setestado(), new Setusuario(), new Cottiposervicio(), null, null, null, null, new BigDecimal(0)) : cotservicioItem;
 	}
 
 	public LazyDataModel<Cotservicio> getLisCotservicio() {
@@ -103,7 +103,7 @@ public class ServicioBean implements Serializable {
 						ok = cotservicioBO.newCotservicio(cotservicioItem);
 					}
 					
-					cotservicioItem = new Cotservicio(0, new Cotestado(), new Setusuario(), new Cottiposervicio(), null, null, null, null, new BigDecimal(0));
+					cotservicioItem = new Cotservicio(0, new Setestado(), new Setusuario(), new Cottiposervicio(), null, null, null, null, new BigDecimal(0));
 					
 					if(ok){
 						new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
@@ -122,9 +122,9 @@ public class ServicioBean implements Serializable {
 	
 	public void eliminar(){
 		try{
-			Cotestado cotestado = new Cotestado();
-			cotestado.setIdestado(2);//inactivo
-			cotservicioItem.setCotestado(cotestado);
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(2);//inactivo
+			cotservicioItem.setSetestado(setestado);
 			CotservicioBO cotservicioBO = new CotservicioBO();
 			cotservicioBO.updateCotservicio(cotservicioItem);
 		}catch(Exception re){
@@ -151,7 +151,7 @@ public class ServicioBean implements Serializable {
 
 	public void newItem()
 	{
-		cotservicioItem = new Cotservicio(0, new Cotestado(), new Setusuario(), new Cottiposervicio(), null, null, null, null, new BigDecimal(0));
+		cotservicioItem = new Cotservicio(0, new Setestado(), new Setusuario(), new Cottiposervicio(), null, null, null, null, new BigDecimal(0));
 	}
 	
 	public String cancelar(){

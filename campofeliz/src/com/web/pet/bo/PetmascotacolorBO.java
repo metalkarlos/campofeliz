@@ -49,7 +49,7 @@ public class PetmascotacolorBO {
 			petmascotacolor.setIdmascotacolor(maxid);
 			petmascotacolor.setFecharegistro(fecharegistro);
 			petmascotacolor.setIplog(usuarioBean.getIp());
-			petmascotacolor.getPetestado().setIdestado(1);
+			petmascotacolor.getSetestado().setIdestado(1);
 			petmascotacolor.setSetusuario(usuarioBean.getSetUsuario());
 			
 			petmascotacolorDAO.savePetmascotacolor(session, petmascotacolor);

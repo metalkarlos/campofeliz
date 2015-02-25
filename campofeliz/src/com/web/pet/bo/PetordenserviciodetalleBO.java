@@ -69,7 +69,7 @@ public class PetordenserviciodetalleBO {
 			petordenserviciodetalle.getId().setIdordenserviciodetalle(maxid);
 			petordenserviciodetalle.setFecharegistro(fecharegistro);
 			petordenserviciodetalle.setIplog(usuarioBean.getIp());
-			petordenserviciodetalle.getPetestado().setIdestado(1);
+			petordenserviciodetalle.getSetestado().setIdestado(1);
 			petordenserviciodetalle.setSetusuario(usuarioBean.getSetUsuario());
 	
 			petordenserviciodetalleDAO.savePetordenserviciodetalle(session, petordenserviciodetalle);

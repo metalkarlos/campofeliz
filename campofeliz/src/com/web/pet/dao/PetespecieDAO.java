@@ -37,7 +37,7 @@ public class PetespecieDAO {
 		List<Petespecie> lisPettipo = null;
 		
 		Criteria criteria = session.createCriteria(Petespecie.class)
-		.add( Restrictions.eq("petestado.idestado", 1) );
+		.add( Restrictions.eq("setestado.idestado", 1) );
 		
 		lisPettipo = (List<Petespecie>) criteria.list();
 		
@@ -48,7 +48,7 @@ public class PetespecieDAO {
 		Petespecie pettipo = null;
 		
 		Criteria criteria = session.createCriteria(Petespecie.class)
-		.add( Restrictions.eq("petestado.idestado", 1) )
+		.add( Restrictions.eq("setestado.idestado", 1) )
 		.add( Restrictions.eq("idtipo", id));
 		
 		pettipo = (Petespecie) criteria.uniqueResult();
@@ -61,7 +61,7 @@ public class PetespecieDAO {
 		List<Petespecie> lisPetespecie = null;
 		
 		Criteria criteria = session.createCriteria(Petespecie.class)
-		.add( Restrictions.eq("petestado.idestado", 1))
+		.add( Restrictions.eq("setestado.idestado", 1))
 		.addOrder(Order.asc("nombre"))
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
@@ -72,7 +72,7 @@ public class PetespecieDAO {
 		{
 			Criteria criteriaCount = session.createCriteria( Petespecie.class)
 			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("petestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1));
 			
 			Object object = criteriaCount.uniqueResult();
 			int count = (object==null?0:Integer.parseInt(object.toString()));

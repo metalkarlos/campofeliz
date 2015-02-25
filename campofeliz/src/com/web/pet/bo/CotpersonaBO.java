@@ -52,25 +52,6 @@ public class CotpersonaBO {
 		return lisCotpersona;
 	}
 	
-	public List<Cotpersona> lisCotpersonaPetmascotaByPage(String[] nombres, int pageSize, int pageNumber, int args[]) throws RuntimeException{
-		List<Cotpersona> lisCotpersona = null;
-		Session session = null;
-		
-		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			
-			CotpersonaDAO cotpersonaDAO = new CotpersonaDAO();
-			
-			lisCotpersona = cotpersonaDAO.lisCotpersonaPetmascotaByPage(session, nombres, pageSize, pageNumber, args);
-		}catch(Exception e){
-			throw new RuntimeException();
-		}finally{
-			session.close();
-		}
-		
-		return lisCotpersona;
-	}
-	
 	public List<Cotpersona> lisCotpersonaBusqueda(Cotpersona cotpersona) throws Exception{
 		List<Cotpersona> lisCotpersona = null;
 		Session session = null;
@@ -126,7 +107,7 @@ public class CotpersonaBO {
 			cotpersona.setIdpersona(max);
 			cotpersona.setFecharegistro(fecharegistro);
 			cotpersona.setIplog(usuarioBean.getIp());
-			cotpersona.getCotestado().setIdestado(1);
+			cotpersona.getSetestado().setIdestado(1);
 			cotpersona.setSetusuario(usuarioBean.getSetUsuario());
 			
 			cotpersona.setObjeto(null);

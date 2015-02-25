@@ -39,7 +39,7 @@ public class CotlugarDAO {
 		List<Cotlugar> arraydatos = null;
 		
 		Criteria criteria = session.createCriteria(Cotlugar.class)
-		.add( Restrictions.eq("cotestado.idestado", 1))
+		.add( Restrictions.eq("setestado.idestado", 1))
 		.addOrder(Order.asc("nombre"));
 			
 		arraydatos = (List<Cotlugar>) criteria.list();
@@ -53,7 +53,7 @@ public class CotlugarDAO {
 		List<Cotlugar> lisCotlugar = null;
 		
 		Criteria criteria = session.createCriteria(Cotlugar.class)
-		.add( Restrictions.eq("cotestado.idestado", 1))
+		.add( Restrictions.eq("setestado.idestado", 1))
 		.addOrder(Order.asc("nombre"))
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
@@ -64,7 +64,7 @@ public class CotlugarDAO {
 		{
 			Criteria criteriaCount = session.createCriteria( Cotlugar.class)
 			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("cotestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1));
 			
 			Object object = criteriaCount.uniqueResult();
 			int count = (object==null?0:Integer.parseInt(object.toString()));
@@ -82,7 +82,7 @@ public class CotlugarDAO {
 		Cotlugar cotlugar = null;
 		
 		Criteria criteria = session.createCriteria(Cotlugar.class)
-		.add( Restrictions.eq("cotestado.idestado", 1) )
+		.add( Restrictions.eq("setestado.idestado", 1) )
 		.add( Restrictions.eq("idlugar", id));
 		
 		cotlugar = (Cotlugar) criteria.uniqueResult();

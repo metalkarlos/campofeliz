@@ -12,7 +12,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.PetrazaBO;
-import com.web.pet.pojo.annotations.Petestado;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Petraza;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.MessageUtil;
@@ -28,7 +28,7 @@ public class RazaBean implements Serializable {
 	private LazyDataModel<Petraza> lisPetraza;
 	
 	public RazaBean() {
-		petrazaItem = new Petraza(0, new Petestado(), new Setusuario(), null, null, null, null, null, null);
+		petrazaItem = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null);
 		consultarRazas();
 		
 	}
@@ -74,7 +74,7 @@ public class RazaBean implements Serializable {
 	}
 
 	public void setPetrazaItem(Petraza petrazaItem) {
-		this.petrazaItem = petrazaItem == null ? new Petraza(0, new Petestado(), new Setusuario(), null, null, null, null, null, null) : petrazaItem;
+		this.petrazaItem = petrazaItem == null ? new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null) : petrazaItem;
 	}
 
 	public LazyDataModel<Petraza> getLisPetraza() {
@@ -98,7 +98,7 @@ public class RazaBean implements Serializable {
 						ok = petrazaBO.newPetraza(petrazaItem);
 					}
 					
-					petrazaItem = new Petraza(0, new Petestado(), new Setusuario(), null, null, null, null, null, null);
+					petrazaItem = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null);
 					
 					if(ok){
 						new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
@@ -117,9 +117,9 @@ public class RazaBean implements Serializable {
 	
 	public void eliminar(){
 		try{
-			Petestado petestado = new Petestado();
-			petestado.setIdestado(2);//inactivo
-			petrazaItem.setPetestado(petestado);
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(2);//inactivo
+			petrazaItem.setSetestado(setestado);
 			PetrazaBO petrazaBO = new PetrazaBO();
 			petrazaBO.updatePetraza(petrazaItem);
 		}catch(Exception re){
@@ -146,7 +146,7 @@ public class RazaBean implements Serializable {
 
 	public void newItem()
 	{
-		petrazaItem = new Petraza(0, new Petestado(), new Setusuario(), null, null, null, null, null, null);
+		petrazaItem = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null);
 	}
 	
 	public String cancelar(){

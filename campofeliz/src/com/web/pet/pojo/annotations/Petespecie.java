@@ -1,14 +1,17 @@
 package com.web.pet.pojo.annotations;
 
-// Generated 26/07/2012 03:22:37 PM by Hibernate Tools 3.4.0.CR1
+// Generated 05/03/2014 11:20:16 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,20 +21,20 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "petespecie")
-public class Petespecie implements java.io.Serializable {
+public class Petespecie implements java.io.Serializable, Cloneable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1265654006613027492L;
+	private static final long serialVersionUID = 1310385051898237908L;
 	private int idespecie;
-	private Petestado petestado;
+	private Setestado setestado;
 	private Setusuario setusuario;
 	private String nombre;
 	private String descripcion;
 	private Date fecharegistro;
 	private String iplog;
-//	private Set<Petmascota> petmascotas = new HashSet<Petmascota>(0);
+	private Set<?> petmascotahomenajes = new HashSet<Object>(0);
 
 	public Petespecie() {
 	}
@@ -42,17 +45,17 @@ public class Petespecie implements java.io.Serializable {
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Petespecie(int idespecie, Petestado petestado,
+	public Petespecie(int idespecie, Setestado setestado,
 			Setusuario setusuario, String nombre, String descripcion,
-			Date fecharegistro, String iplog/*, Set<Petmascota> petmascotas*/) {
+			Date fecharegistro, String iplog, Set<?> petmascotahomenajes) {
 		this.idespecie = idespecie;
-		this.petestado = petestado;
+		this.setestado = setestado;
 		this.setusuario = setusuario;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.fecharegistro = fecharegistro;
 		this.iplog = iplog;
-//		this.petmascotas = petmascotas;
+		this.petmascotahomenajes = petmascotahomenajes;
 	}
 
 	@Id
@@ -67,12 +70,12 @@ public class Petespecie implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idestado")
-	public Petestado getPetestado() {
-		return this.petestado;
+	public Setestado getSetestado() {
+		return this.setestado;
 	}
 
-	public void setPetestado(Petestado petestado) {
-		this.petestado = petestado;
+	public void setSetestado(Setestado setestado) {
+		this.setestado = setestado;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -121,14 +124,22 @@ public class Petespecie implements java.io.Serializable {
 	public void setIplog(String iplog) {
 		this.iplog = iplog;
 	}
-/*
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "petespecie", targetEntity = Petmascota.class)
-	public Set<Petmascota> getPetmascotas() {
-		return this.petmascotas;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "petespecie", targetEntity=Petmascotahomenaje.class)
+	public Set<?> getPetmascotahomenajes() {
+		return this.petmascotahomenajes;
 	}
 
-	public void setPetmascotas(Set<Petmascota> petmascotas) {
-		this.petmascotas = petmascotas;
+	public void setPetmascotahomenajes(Set<?> petmascotahomenajes) {
+		this.petmascotahomenajes = petmascotahomenajes;
 	}
-*/
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException{
+		Petespecie petespecie = (Petespecie)super.clone();
+		return petespecie;
+	}
+	public Petespecie clonar() throws Exception{
+		return (Petespecie)this.clone();
+	}
 }

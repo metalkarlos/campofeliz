@@ -30,7 +30,7 @@ public class CoteventoDAO {
 		List<Cotevento> lisCotevento = null;
 		
 		Criteria criteria = session.createCriteria(Cotcolor.class)
-		.add( Restrictions.eq("cotestado.idestado", 1) );
+		.add( Restrictions.eq("setestado.idestado", 1) );
 		
 		lisCotevento = (List<Cotevento>) criteria.list();
 		
@@ -41,7 +41,7 @@ public class CoteventoDAO {
 		Cotevento cotevento = null;
 		
 		Criteria criteria = session.createCriteria(Cotevento.class)
-		.add(Restrictions.eq("cotestado.idestado", 1))
+		.add(Restrictions.eq("setestado.idestado", 1))
 		.add(Restrictions.eq("idevento", id));
 		
 		cotevento = (Cotevento) criteria.uniqueResult();
@@ -62,7 +62,7 @@ public class CoteventoDAO {
 		List<Cotevento> lisCotevento = null;
 		
 		Criteria criteria = session.createCriteria(Cotevento.class)
-		.add(Restrictions.eq("cotestado.idestado", 1))
+		.add(Restrictions.eq("setestado.idestado", 1))
 		.add(Restrictions.between("fechadesde", fechadesde, fechahasta))
 		.add(Restrictions.between("fechahasta", fechadesde, fechahasta));
 		

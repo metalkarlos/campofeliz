@@ -33,7 +33,7 @@ public class CotcolorDAO {
 		List<Cotcolor> arraydatos = null;
 		
 		Criteria criteria = session.createCriteria(Cotcolor.class)
-		.add( Restrictions.eq("cotestado.idestado", 1))
+		.add( Restrictions.eq("setestado.idestado", 1))
 		.addOrder(Order.asc("nombre"));
 			
 		arraydatos = (List<Cotcolor>) criteria.list();
@@ -46,7 +46,7 @@ public class CotcolorDAO {
 		List<Cotcolor> arraydatos = null;
 		
 		Criteria criteria = session.createCriteria(Cotcolor.class)
-		.add( Restrictions.eq("cotestado.idestado", 1))
+		.add( Restrictions.eq("setestado.idestado", 1))
 		.addOrder(Order.asc("nombre"))
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
@@ -56,7 +56,7 @@ public class CotcolorDAO {
 		if(arraydatos != null && arraydatos.size() > 0)
 		{
 			int max = 0;
-			Object object = session.createQuery("select count(*) from Cotcolor where cotestado.idestado = 1").uniqueResult();
+			Object object = session.createQuery("select count(*) from Cotcolor where setestado.idestado = 1").uniqueResult();
 			max = (object==null?0:Integer.parseInt(object.toString()));
 			args[0] = max;
 		}
@@ -73,7 +73,7 @@ public class CotcolorDAO {
 		
 		Criteria criteria = session.createCriteria(Cotcolor.class)
 		.add( Restrictions.eq("idcolor", id) )
-		.add( Restrictions.eq("cotestado.idestado", 1));
+		.add( Restrictions.eq("setestado.idestado", 1));
 			
 		cotcolor = (Cotcolor) criteria.uniqueResult();
 		

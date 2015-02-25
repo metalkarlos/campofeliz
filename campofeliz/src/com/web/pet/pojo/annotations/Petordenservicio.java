@@ -30,8 +30,8 @@ public class Petordenservicio implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 4645223024729017391L;
 	private int idordenservicio;
-	private Petmascota petmascota;
-	private Petestado petestado;
+	private Petmascotahomenaje petmascotahomenaje;
+	private Setestado setestado;
 	private Cotlugar cotlugar;
 	private Setusuario setusuario;
 	private Date fechaentierro;
@@ -44,20 +44,20 @@ public class Petordenservicio implements java.io.Serializable {
 	public Petordenservicio() {
 	}
 
-	public Petordenservicio(int idordenservicio, Petmascota petmascota,
+	public Petordenservicio(int idordenservicio, Petmascotahomenaje petmascotahomenaje,
 			Date fecharegistro) {
 		this.idordenservicio = idordenservicio;
-		this.petmascota = petmascota;
+		this.petmascotahomenaje = petmascotahomenaje;
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Petordenservicio(int idordenservicio, Petmascota petmascota,
-			Petestado petestado, Cotlugar cotlugar, Setusuario setusuario,
+	public Petordenservicio(int idordenservicio, Petmascotahomenaje petmascotahomenaje,
+			Setestado setestado, Cotlugar cotlugar, Setusuario setusuario,
 			Date fechaentierro, String dedicatoria, String observacion,
 			Date fecharegistro, String iplog, Set<Petordenserviciodetalle> petordenserviciodetalles) {
 		this.idordenservicio = idordenservicio;
-		this.petmascota = petmascota;
-		this.petestado = petestado;
+		this.petmascotahomenaje = petmascotahomenaje;
+		this.setestado = setestado;
 		this.cotlugar = cotlugar;
 		this.setusuario = setusuario;
 		this.fechaentierro = fechaentierro;
@@ -80,22 +80,22 @@ public class Petordenservicio implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idmascota", nullable = false)
-	public Petmascota getPetmascota() {
-		return this.petmascota;
+	public Petmascotahomenaje getPetmascotahomenaje() {
+		return this.petmascotahomenaje;
 	}
 
-	public void setPetmascota(Petmascota petmascota) {
-		this.petmascota = petmascota;
+	public void setPetmascotahomenaje(Petmascotahomenaje petmascotahomenaje) {
+		this.petmascotahomenaje = petmascotahomenaje;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idestado")
-	public Petestado getPetestado() {
-		return this.petestado;
+	public Setestado getSetestado() {
+		return this.setestado;
 	}
 
-	public void setPetestado(Petestado petestado) {
-		this.petestado = petestado;
+	public void setSetestado(Setestado setestado) {
+		this.setestado = setestado;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

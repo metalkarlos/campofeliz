@@ -28,8 +28,8 @@ public class PetmascotacolorDAO {
 		List<Petmascotacolor> lisPetmascotacolor = null;
 		
 		Criteria criteria = session.createCriteria(Petmascotacolor.class)
-		.add( Restrictions.eq("petmascota.idmascota", idmascota))
-		.add( Restrictions.eq("petestado.idestado", 1))
+		.add( Restrictions.eq("petmascotahomenaje.idmascota", idmascota))
+		.add( Restrictions.eq("setestado.idestado", 1))
 		.createAlias("cotcolor", "color");
 		
 		lisPetmascotacolor = (List<Petmascotacolor>)criteria.list();

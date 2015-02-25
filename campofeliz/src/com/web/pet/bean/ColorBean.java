@@ -13,7 +13,7 @@ import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.CotcolorBO;
 import com.web.pet.pojo.annotations.Cotcolor;
-import com.web.pet.pojo.annotations.Cotestado;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.MessageUtil;
 
@@ -28,7 +28,7 @@ public class ColorBean implements Serializable {
 	private LazyDataModel<Cotcolor> lisCotcolor;
 	
 	public ColorBean() {
-		cotcolorItem = new Cotcolor(0, new Cotestado(), new Setusuario(), null, null, null, null, null);
+		cotcolorItem = new Cotcolor(0, new Setestado(), new Setusuario(), null, null, null, null, null);
 		consultarColores();
 		
 	}
@@ -74,7 +74,7 @@ public class ColorBean implements Serializable {
 	}
 
 	public void setCotcolorItem(Cotcolor cotcolorItem) {
-		this.cotcolorItem = cotcolorItem == null ? new Cotcolor(0, new Cotestado(), new Setusuario(), null, null, null, null, null) : cotcolorItem;
+		this.cotcolorItem = cotcolorItem == null ? new Cotcolor(0, new Setestado(), new Setusuario(), null, null, null, null, null) : cotcolorItem;
 	}
 
 	public LazyDataModel<Cotcolor> getLisCotcolor() {
@@ -98,7 +98,7 @@ public class ColorBean implements Serializable {
 						ok = cotcolorBO.newCotcolor(cotcolorItem);
 					}
 					
-					cotcolorItem = new Cotcolor(0, new Cotestado(), new Setusuario(), null, null, null, null, null);
+					cotcolorItem = new Cotcolor(0, new Setestado(), new Setusuario(), null, null, null, null, null);
 					
 					if(ok){
 						new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
@@ -117,9 +117,9 @@ public class ColorBean implements Serializable {
 	
 	public void eliminar(){
 		try{
-			Cotestado cotestado = new Cotestado();
-			cotestado.setIdestado(2);//inactivo
-			cotcolorItem.setCotestado(cotestado);
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(2);//inactivo
+			cotcolorItem.setSetestado(setestado);
 			CotcolorBO cotcolorBO = new CotcolorBO();
 			cotcolorBO.updateCotcolor(cotcolorItem);
 		}catch(Exception re){
@@ -170,7 +170,7 @@ public class ColorBean implements Serializable {
 
 	public void newItem()
 	{
-		cotcolorItem = new Cotcolor(0, new Cotestado(), new Setusuario(), null, null, null, null, null);
+		cotcolorItem = new Cotcolor(0, new Setestado(), new Setusuario(), null, null, null, null, null);
 	}
 	
 	public String cancelar(){

@@ -25,7 +25,7 @@ public class Petcomision implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -9071281121928649519L;
 	private int idcomision;
-	private Petestado petestado;
+	private Setestado setestado;
 	private Setusuario setusuario;
 	private Cotpersona cotpersona;
 	private Date fecharegistro;
@@ -41,11 +41,11 @@ public class Petcomision implements java.io.Serializable {
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Petcomision(int idcomision, Petestado petestado,
+	public Petcomision(int idcomision, Setestado setestado,
 			Setusuario setusuario, Cotpersona cotpersona, Date fecharegistro,
 			String iplog/*, Set<Petcomisiondetalle> petcomisiondetalles*/) {
 		this.idcomision = idcomision;
-		this.petestado = petestado;
+		this.setestado = setestado;
 		this.setusuario = setusuario;
 		this.cotpersona = cotpersona;
 		this.fecharegistro = fecharegistro;
@@ -65,12 +65,12 @@ public class Petcomision implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idestado")
-	public Petestado getPetestado() {
-		return this.petestado;
+	public Setestado getSetestado() {
+		return this.setestado;
 	}
 
-	public void setPetestado(Petestado petestado) {
-		this.petestado = petestado;
+	public void setSetestado(Setestado setestado) {
+		this.setestado = setestado;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

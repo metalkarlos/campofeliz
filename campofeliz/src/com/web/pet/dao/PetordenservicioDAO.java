@@ -30,8 +30,8 @@ public class PetordenservicioDAO {
 		
 		Criteria criteria = session.createCriteria(Petordenservicio.class)
 		.add( Restrictions.eq("idordenservicio", idordenservicio))
-		.add( Restrictions.eq("petestado.idestado", 1))
-		.createAlias("petmascota", "mascota")
+		.add( Restrictions.eq("setestado.idestado", 1))
+		.createAlias("petmascotahomenaje", "mascota")
 		.createAlias("cotlugar", "lugar", Criteria.LEFT_JOIN);
 		
 		petordenservicio = (Petordenservicio) criteria.uniqueResult();
@@ -46,12 +46,12 @@ public class PetordenservicioDAO {
 		List<Petordenservicio> lisPetordenservicio = null;
 		
 		Criteria criteria = session.createCriteria(Petordenservicio.class)
-		.add( Restrictions.eq("petestado.idestado", 1))
-		.add( Restrictions.eq("m.petestado.idestado", 1))
-		.createCriteria("petmascota", "m");
+		.add( Restrictions.eq("setestado.idestado", 1))
+		.add( Restrictions.eq("m.setestado.idestado", 1))
+		.createCriteria("petmascotahomenaje", "m");
 		
 		Criteria secondCriteria = criteria.createCriteria("m.cotpersona", "p")
-		.add( Restrictions.eq("cotestado.idestado", 1));
+		.add( Restrictions.eq("setestado.idestado", 1));
 		
 		if(nombres != null && nombres.length > 0){
 			String query = "(";
@@ -82,12 +82,12 @@ public class PetordenservicioDAO {
 		if(lisPetordenservicio != null && lisPetordenservicio.size() > 0){
 			Criteria criteriaCount = session.createCriteria(Petordenservicio.class)
 			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("petestado.idestado", 1))
-			.add( Restrictions.eq("m.petestado.idestado", 1))
-			.createCriteria("petmascota", "m");
+			.add( Restrictions.eq("setestado.idestado", 1))
+			.add( Restrictions.eq("m.setestado.idestado", 1))
+			.createCriteria("petmascotahomenaje", "m");
 			
 			Criteria secondCriteriaCount = criteriaCount.createCriteria("m.cotpersona", "p")
-			.add( Restrictions.eq("cotestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1));
 			
 			if(nombres != null && nombres.length > 0){
 				String query = "(";

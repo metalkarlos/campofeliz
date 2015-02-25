@@ -25,7 +25,7 @@ public class Cotevento implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 3404931533921926058L;
 	private int idevento;
-	private Cotestado cotestado;
+	private Setestado setestado;
 	private Setusuario setusuario;
 	private String titulo;
 	private String descripcion;
@@ -46,11 +46,11 @@ public class Cotevento implements java.io.Serializable {
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Cotevento(int idevento, Cotestado cotestado, Setusuario setusuario,
+	public Cotevento(int idevento, Setestado setestado, Setusuario setusuario,
 			String titulo, String descripcion, Date fechadesde,
 			Date fechahasta, Date fecharegistro, String iplog) {
 		this.idevento = idevento;
-		this.cotestado = cotestado;
+		this.setestado = setestado;
 		this.setusuario = setusuario;
 		this.titulo = titulo;
 		this.descripcion = descripcion;
@@ -72,12 +72,12 @@ public class Cotevento implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idestado")
-	public Cotestado getCotestado() {
-		return this.cotestado;
+	public Setestado getSetestado() {
+		return this.setestado;
 	}
 
-	public void setCotestado(Cotestado cotestado) {
-		this.cotestado = cotestado;
+	public void setSetestado(Setestado setestado) {
+		this.setestado = setestado;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

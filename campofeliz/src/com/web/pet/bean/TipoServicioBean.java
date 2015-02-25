@@ -12,7 +12,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.CottiposervicioBO;
-import com.web.pet.pojo.annotations.Cotestado;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Cottiposervicio;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.MessageUtil;
@@ -28,7 +28,7 @@ public class TipoServicioBean implements Serializable {
 	private LazyDataModel<Cottiposervicio> lisCottiposervicio;
 	
 	public TipoServicioBean() {
-		cottiposervicioItem = new Cottiposervicio(0, new Cotestado(), new Setusuario(), null, null, null, null);
+		cottiposervicioItem = new Cottiposervicio(0, new Setestado(), new Setusuario(), null, null, null, null);
 		consultarTipoServicio();
 		
 	}
@@ -74,7 +74,7 @@ public class TipoServicioBean implements Serializable {
 	}
 
 	public void setCottiposervicioItem(Cottiposervicio cottiposervicioItem) {
-		this.cottiposervicioItem = cottiposervicioItem == null ? new Cottiposervicio(0, new Cotestado(), new Setusuario(), null, null, null, null) : cottiposervicioItem;
+		this.cottiposervicioItem = cottiposervicioItem == null ? new Cottiposervicio(0, new Setestado(), new Setusuario(), null, null, null, null) : cottiposervicioItem;
 	}
 
 	public LazyDataModel<Cottiposervicio> getLisCottiposervicio() {
@@ -98,7 +98,7 @@ public class TipoServicioBean implements Serializable {
 						ok = cottiposervicioBO.newCottiposervicio(cottiposervicioItem);
 					}
 					
-					cottiposervicioItem = new Cottiposervicio(0, new Cotestado(), new Setusuario(), null, null, null, null);
+					cottiposervicioItem = new Cottiposervicio(0, new Setestado(), new Setusuario(), null, null, null, null);
 					
 					if(ok){
 						new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
@@ -117,9 +117,9 @@ public class TipoServicioBean implements Serializable {
 	
 	public void eliminar(){
 		try{
-			Cotestado cotestado = new Cotestado();
-			cotestado.setIdestado(2);//inactivo
-			cottiposervicioItem.setCotestado(cotestado);
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(2);//inactivo
+			cottiposervicioItem.setSetestado(setestado);
 			CottiposervicioBO cottiposervicioBO = new CottiposervicioBO();
 			cottiposervicioBO.updateCottiposervicio(cottiposervicioItem);
 		}catch(Exception re){
@@ -146,7 +146,7 @@ public class TipoServicioBean implements Serializable {
 
 	public void newItem()
 	{
-		cottiposervicioItem = new Cottiposervicio(0, new Cotestado(), new Setusuario(), null, null, null, null);
+		cottiposervicioItem = new Cottiposervicio(0, new Setestado(), new Setusuario(), null, null, null, null);
 	}
 	
 	public String cancelar(){

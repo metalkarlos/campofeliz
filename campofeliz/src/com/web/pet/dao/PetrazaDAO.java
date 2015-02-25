@@ -36,7 +36,7 @@ public class PetrazaDAO {
 		List<Petraza> lisPetraza = null;
 		
 		Criteria criteria = session.createCriteria(Petraza.class)
-		.add( Restrictions.eq("petestado.idestado", 1));
+		.add( Restrictions.eq("setestado.idestado", 1));
 		
 		lisPetraza = (List<Petraza>) criteria.list();
 		
@@ -48,7 +48,7 @@ public class PetrazaDAO {
 		
 		Criteria criteria = session.createCriteria(Petraza.class)
 		.add( Restrictions.eq("idraza", id) )
-		.add( Restrictions.eq("petestado.idestado", 1));
+		.add( Restrictions.eq("setestado.idestado", 1));
 		
 		petraza = (Petraza) criteria.uniqueResult();
 		
@@ -60,7 +60,7 @@ public class PetrazaDAO {
 		List<Petraza> lisPetraza = null;
 		
 		Criteria criteria = session.createCriteria(Petraza.class)
-		.add( Restrictions.eq("petestado.idestado", 1))
+		.add( Restrictions.eq("setestado.idestado", 1))
 		.addOrder(Order.asc("nombre"))
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
@@ -71,7 +71,7 @@ public class PetrazaDAO {
 		{
 			Criteria criteriaCount = session.createCriteria( Petraza.class)
 			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("petestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1));
 			
 			Object object = criteriaCount.uniqueResult();
 			int count = (object==null?0:Integer.parseInt(object.toString()));

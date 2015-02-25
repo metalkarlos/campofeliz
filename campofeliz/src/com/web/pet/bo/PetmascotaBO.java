@@ -11,52 +11,16 @@ import com.web.pet.dao.PetfotoDAO;
 import com.web.pet.dao.PetmascotaDAO;
 import com.web.pet.dao.PetmascotacolorDAO;
 import com.web.pet.pojo.annotations.Mascotas;
-import com.web.pet.pojo.annotations.Petestado;
-import com.web.pet.pojo.annotations.Petfoto;
-import com.web.pet.pojo.annotations.Petmascota;
+import com.web.pet.pojo.annotations.Setestado;
+import com.web.pet.pojo.annotations.Petfotomascota;
+import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.pet.pojo.annotations.Petmascotacolor;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class PetmascotaBO {
 
-	public List<Petmascota> lisPetMascotaTipo(int tipo) throws Exception {
-		List<Petmascota> dataset = null;
-		Session session = null;
-		
-		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			
-			PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
-			
-			dataset = petmascotaDAO.lisPetmascota(session, tipo);
-		}catch(Exception he){
-			throw new RuntimeException();
-		}finally{
-			session.close();
-		}
-		
-		return dataset;
-	}
-	
-	/*public Petmascota getById(int id) throws Exception {
-		Petmascota petmascota = new Petmascota();
-		Session session = null;
-
-		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			petmascota = petmascotaDAOInterface.getPetmascotaById(session, id);
-		}catch(Exception he){
-			he.printStackTrace();
-			throw new Exception();
-		}finally{
-			session.close();
-		}
-		
-		return petmascota;
-	}*/
-	
-	public boolean updatePet(Petmascota petmascota, List<Petmascotacolor> lisPetmascotacolorOld, List<Petmascotacolor> lisPetmascotacolor) throws Exception{
+	public boolean updatePet(Petmascotahomenaje petmascotahomenaje, List<Petmascotacolor> lisPetmascotacolorOld, List<Petmascotacolor> lisPetmascotacolor) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -70,10 +34,10 @@ public class PetmascotaBO {
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
-			petmascota.setFecharegistro(fecharegistro);
-			petmascota.setIplog(usuarioBean.getIp());
-			petmascota.setSetusuario(usuarioBean.getSetUsuario());
-			petmascotaDAO.updatePetmascota(session, petmascota);
+			petmascotahomenaje.setFecharegistro(fecharegistro);
+			petmascotahomenaje.setIplog(usuarioBean.getIp());
+			petmascotahomenaje.setSetusuario(usuarioBean.getSetUsuario());
+			petmascotaDAO.updatePetmascota(session, petmascotahomenaje);
 			
 			//ingresar colores nuevos
 			boolean isnew = true;
@@ -91,7 +55,7 @@ public class PetmascotaBO {
 					petmascotacolor.setIdmascotacolor(maxid);
 					petmascotacolor.setFecharegistro(fecharegistro);
 					petmascotacolor.setIplog(usuarioBean.getIp());
-					petmascotacolor.getPetestado().setIdestado(1);
+					petmascotacolor.getSetestado().setIdestado(1);
 					petmascotacolor.setSetusuario(usuarioBean.getSetUsuario());
 					
 					petmascotacolorDAO.savePetmascotacolor(session, petmascotacolor);
@@ -110,9 +74,9 @@ public class PetmascotaBO {
 				if(isremoved){
 					petmascotacolorOld.setFecharegistro(fecharegistro);
 					petmascotacolorOld.setIplog(usuarioBean.getIp());
-					Petestado petestado = new Petestado();
-					petestado.setIdestado(2);//inactivo
-					petmascotacolorOld.setPetestado(petestado);
+					Setestado setestado = new Setestado();
+					setestado.setIdestado(2);//inactivo
+					petmascotacolorOld.setSetestado(setestado);
 					petmascotacolorOld.setSetusuario(usuarioBean.getSetUsuario());
 					
 					petmascotacolorDAO.updatePetmascotacolor(session, petmascotacolorOld);
@@ -131,7 +95,7 @@ public class PetmascotaBO {
 		return ok;
 	}
 	
-	public boolean newPet(Petmascota petmascota, List<Petmascotacolor> lisPetmascotacolor) throws Exception {
+	public boolean newPet(Petmascotahomenaje petmascotahomenaje, List<Petmascotacolor> lisPetmascotacolor) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
@@ -146,24 +110,24 @@ public class PetmascotaBO {
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
-			petmascota.setIdmascota(maxid);
-			petmascota.setFecharegistro(fecharegistro);
-			petmascota.setIplog(usuarioBean.getIp());
-			petmascota.getPetestado().setIdestado(1);
-			petmascota.setSetusuario(usuarioBean.getSetUsuario());
+			petmascotahomenaje.setIdmascota(maxid);
+			petmascotahomenaje.setFecharegistro(fecharegistro);
+			petmascotahomenaje.setIplog(usuarioBean.getIp());
+			petmascotahomenaje.getSetestado().setIdestado(1);
+			petmascotahomenaje.setSetusuario(usuarioBean.getSetUsuario());
 	
-			petmascotaDAO.savePetmascota(session, petmascota);
+			petmascotaDAO.savePetmascota(session, petmascotahomenaje);
 			
 			//ingresar colores nuevos
 			for(Petmascotacolor petmascotacolor : lisPetmascotacolor){
 				int maxidPetmascotacolor = petmascotacolorDAO.maxIdPetmascotacolor(session)+1;
 				
 				//petmascotacolor.getPetmascota().setIdmascota(maxid);
-				petmascotacolor.setPetmascota(petmascota);
+				petmascotacolor.setPetmascotahomenaje(petmascotahomenaje);
 				petmascotacolor.setIdmascotacolor(maxidPetmascotacolor);
 				petmascotacolor.setFecharegistro(fecharegistro);
 				petmascotacolor.setIplog(usuarioBean.getIp());
-				petmascotacolor.getPetestado().setIdestado(1);
+				petmascotacolor.getSetestado().setIdestado(1);
 				petmascotacolor.getSetusuario().setIdusuario(usuarioBean.getSetUsuario().getIdusuario());
 				
 				petmascotacolorDAO.savePetmascotacolor(session, petmascotacolor);
@@ -181,8 +145,8 @@ public class PetmascotaBO {
 		return ok;
 	}
 	
-	public Petmascota getPetmascotaById(int idmascota) throws Exception {
-		Petmascota petmascota = null;
+	public Petmascotahomenaje getPetmascotaById(int idmascota) throws Exception {
+		Petmascotahomenaje petmascotahomenaje = null;
 		Session session = null;
 		
 		try{
@@ -190,45 +154,14 @@ public class PetmascotaBO {
 			
 			PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
 			
-			petmascota = petmascotaDAO.getPetmascotaById(session, idmascota);
+			petmascotahomenaje = petmascotaDAO.getPetmascotaById(session, idmascota);
 		}catch(Exception he){
 			throw new Exception();
 		}finally{
 			session.close();
 		}
 		
-		return petmascota;
-	}
-	
-	public List<Mascotas> lisMascotas(int tipo) throws Exception {
-		List<Mascotas> lisMascotas = null;
-		Session session = null;
-		
-		try{
-			lisMascotas = new ArrayList<Mascotas>();
-			session = HibernateUtil.getSessionFactory().openSession();
-			
-			PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
-			PetfotoDAO petfotoDAO = new PetfotoDAO();
-			
-			List<Petmascota> lisPetmascota = petmascotaDAO.lisPetmascota(session, tipo);
-			
-			for(Petmascota petmascota : lisPetmascota){
-				Petfoto petfoto = petfotoDAO.getPetfotoPerfilByPetId(session, petmascota.getIdmascota());
-				
-				Mascotas mascotas = new Mascotas();
-				mascotas.setPetfoto(petfoto);
-				mascotas.setPetmascota(petmascota);
-				lisMascotas.add(mascotas);
-			}
-			
-		}catch(Exception he){
-			throw new Exception();
-		}finally{
-			session.close();
-		}
-		
-		return lisMascotas;
+		return petmascotahomenaje;
 	}
 	
 	public List<Mascotas> lisMascotasByEspecieByPage(int especie, String nombre, int pageSize, int pageNumber, int args[]) throws RuntimeException {
@@ -242,14 +175,14 @@ public class PetmascotaBO {
 			PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
 			PetfotoDAO petfotoDAO = new PetfotoDAO();
 			
-			List<Petmascota> lisPetmascota = petmascotaDAO.lisPetmascotaByEspecieByPage(session, especie, nombre, pageSize, pageNumber, args);
+			List<Petmascotahomenaje> lisPetmascotahomenaje = petmascotaDAO.lisPetmascotaByEspecieByPage(session, especie, nombre, pageSize, pageNumber, args);
 			
-			for(Petmascota petmascota : lisPetmascota){
-				Petfoto petfoto = petfotoDAO.getPetfotoPerfilByPetId(session, petmascota.getIdmascota());
+			for(Petmascotahomenaje petmascotahomenaje : lisPetmascotahomenaje){
+				Petfotomascota petfotomascota = petfotoDAO.getPetfotoPerfilByPetId(session, petmascotahomenaje.getIdmascota());
 				
 				Mascotas mascotas = new Mascotas();
-				mascotas.setPetfoto(petfoto);
-				mascotas.setPetmascota(petmascota);
+				mascotas.setPetfotomascota(petfotomascota);
+				mascotas.setPetmascotahomenaje(petmascotahomenaje);
 				lisMascotas.add(mascotas);
 			}
 			
@@ -273,14 +206,14 @@ public class PetmascotaBO {
 			PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
 			PetfotoDAO petfotoDAO = new PetfotoDAO();
 			
-			List<Petmascota> lisPetmascota = petmascotaDAO.lisPetmascotaByPage(session, nombre, pageSize, pageNumber, args);
+			List<Petmascotahomenaje> lisPetmascotahomenaje = petmascotaDAO.lisPetmascotaByPage(session, nombre, pageSize, pageNumber, args);
 			
-			for(Petmascota petmascota : lisPetmascota){
-				Petfoto petfoto = petfotoDAO.getPetfotoPerfilByPetId(session, petmascota.getIdmascota());
+			for(Petmascotahomenaje petmascotahomenaje : lisPetmascotahomenaje){
+				Petfotomascota petfotomascota = petfotoDAO.getPetfotoPerfilByPetId(session, petmascotahomenaje.getIdmascota());
 
 				Mascotas mascotas = new Mascotas();
-				mascotas.setPetfoto(petfoto);
-				mascotas.setPetmascota(petmascota);
+				mascotas.setPetfotomascota(petfotomascota);
+				mascotas.setPetmascotahomenaje(petmascotahomenaje);
 				lisMascotas.add(mascotas);
 			}
 			
@@ -293,7 +226,7 @@ public class PetmascotaBO {
 		return lisMascotas;
 	}
 	
-	public List<Mascotas> lisMascotasBusqueda(Petmascota petmascota, String[] caracteristicas) throws Exception{
+	public List<Mascotas> lisMascotasBusquedaByPage(Petmascotahomenaje petmascotahomenaje, String[] caracteristicas, int pageSize, int pageNumber, int args[]) throws RuntimeException{
 		List<Mascotas> lisMascotas = null;
 		Session session = null;
 		
@@ -304,45 +237,14 @@ public class PetmascotaBO {
 			PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
 			PetfotoDAO petfotoDAO = new PetfotoDAO();
 			
-			List<Petmascota> lisPetmascota = petmascotaDAO.lisPetmascotaBusqueda(session, petmascota, caracteristicas);
+			List<Petmascotahomenaje> lisPetmascotahomenaje = petmascotaDAO.lisPetmascotaBusquedaByPage(session, petmascotahomenaje, caracteristicas, pageSize, pageNumber, args);
 			
-			for(Petmascota petmascota1 : lisPetmascota){
-				Petfoto petfoto = petfotoDAO.getPetfotoPerfilByPetId(session, petmascota1.getIdmascota());
+			for(Petmascotahomenaje petmascotahomenaje1 : lisPetmascotahomenaje){
+				Petfotomascota petfotomascota = petfotoDAO.getPetfotoPerfilByPetId(session, petmascotahomenaje1.getIdmascota());
 				
 				Mascotas mascotas = new Mascotas();
-				mascotas.setPetfoto(petfoto);
-				mascotas.setPetmascota(petmascota1);
-				lisMascotas.add(mascotas);
-			}
-		} catch(Exception e){
-			throw new Exception();
-		} finally {
-			session.close();
-		}
-		
-		
-		return lisMascotas;
-	}
-	
-	public List<Mascotas> lisMascotasBusquedaByPage(Petmascota petmascota, String[] caracteristicas, int pageSize, int pageNumber, int args[]) throws RuntimeException{
-		List<Mascotas> lisMascotas = null;
-		Session session = null;
-		
-		try {
-			lisMascotas = new ArrayList<Mascotas>();
-			session = HibernateUtil.getSessionFactory().openSession();
-			
-			PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
-			PetfotoDAO petfotoDAO = new PetfotoDAO();
-			
-			List<Petmascota> lisPetmascota = petmascotaDAO.lisPetmascotaBusquedaByPage(session, petmascota, caracteristicas, pageSize, pageNumber, args);
-			
-			for(Petmascota petmascota1 : lisPetmascota){
-				Petfoto petfoto = petfotoDAO.getPetfotoPerfilByPetId(session, petmascota1.getIdmascota());
-				
-				Mascotas mascotas = new Mascotas();
-				mascotas.setPetfoto(petfoto);
-				mascotas.setPetmascota(petmascota1);
+				mascotas.setPetfotomascota(petfotomascota);
+				mascotas.setPetmascotahomenaje(petmascotahomenaje1);
 				lisMascotas.add(mascotas);
 			}
 		} catch(Exception e){

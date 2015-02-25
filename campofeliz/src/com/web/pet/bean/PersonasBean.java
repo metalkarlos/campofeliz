@@ -13,7 +13,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.CotpersonaBO;
-import com.web.pet.pojo.annotations.Cotestado;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.pet.pojo.annotations.Cottipoidentificacion;
 import com.web.pet.pojo.annotations.Setusuario;
@@ -35,7 +35,7 @@ public class PersonasBean implements Serializable {
 	private String nombre;
 	
 	public PersonasBean() {
-		cotpersonaSelected = new Cotpersona(0, new Cottipoidentificacion(), new Cotestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		cotpersonaSelected = new Cotpersona(0, new Cottipoidentificacion(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		//setColumnsGrid(4);
 		//setRowsGrid(4);
 		consultarPersonas();
@@ -109,7 +109,7 @@ public class PersonasBean implements Serializable {
 	}
 
 	public void setCotpersonaSelected(Cotpersona cotpersonaSelected) {
-		this.cotpersonaSelected = cotpersonaSelected == null ? new Cotpersona(0, new Cottipoidentificacion(), new Cotestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null) : cotpersonaSelected;
+		this.cotpersonaSelected = cotpersonaSelected == null ? new Cotpersona(0, new Cottipoidentificacion(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null) : cotpersonaSelected;
 	}
 	
 	public String getNombre() {

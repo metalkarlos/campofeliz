@@ -4,107 +4,76 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.pojo.annotations.Petfoto;
+import com.web.pet.pojo.annotations.Petfotomascota;
 
 public class PetfotoDAO {
 	
 	public int maxIdPetfoto(Session session) throws Exception {
 		int max = 0;
 		
-		Object object = session.createQuery("select max(idfoto) as max from Petfoto").uniqueResult();
+		Object object = session.createQuery("select max(idfotomascota) as max from Petfotomascota").uniqueResult();
 		max = (object==null?0:Integer.parseInt(object.toString()));
 		
 		return max;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Petfoto> lisPetfotoByPetId(Session session, int idmascota) throws Exception {
-		List<Petfoto> arraydatos = null;
+	public List<Petfotomascota> lisPetfotoByPetId(Session session, int idmascota) throws Exception {
+		List<Petfotomascota> lisPetfotomascota = null;
 		
-		Criteria criteria = session.createCriteria(Petfoto.class)
-		.add( Restrictions.eq("petmascota.idmascota", idmascota) )
-		.add( Restrictions.eq("petestado.idestado", 1));
+		Criteria criteria = session.createCriteria(Petfotomascota.class)
+		.add( Restrictions.eq("petmascotahomenaje.idmascota", idmascota) )
+		.add( Restrictions.eq("setestado.idestado", 1));
 			
-		arraydatos = (List<Petfoto>) criteria.list();
+		lisPetfotomascota = (List<Petfotomascota>) criteria.list();
 		
-		return arraydatos;
+		return lisPetfotomascota;
 	}
 
-	public Petfoto getPetfotoById(Session session, int id) throws Exception {
-		Petfoto petfoto = new Petfoto();
+	public Petfotomascota getPetfotoPerfilByPetId(Session session, int idmascota) throws Exception {
+		Petfotomascota petfotomascota = new Petfotomascota();
 		
-		Criteria criteria = session.createCriteria(Petfoto.class)
-		.add( Restrictions.eq("id.idfoto", id) )
-		.add( Restrictions.eqProperty("id.fecharegistro", "pk.fecharegistro"))
-		.createCriteria("petfotopk","pk");
-		
-		petfoto = (Petfoto) criteria.uniqueResult();
-		
-		return petfoto;
-	}
-	
-	public Petfoto getPetfotoPerfilByPetId(Session session, int idmascota) throws Exception {
-		Petfoto petfoto = new Petfoto();
-		
-		Criteria criteria = session.createCriteria(Petfoto.class)
-		.add( Restrictions.eq("petmascota.idmascota", idmascota) )
+		Criteria criteria = session.createCriteria(Petfotomascota.class)
+		.add( Restrictions.eq("petmascotahomenaje.idmascota", idmascota) )
 		.add( Restrictions.eq("mostrar", 1) )
-		.add( Restrictions.eq("petestado.idestado", 1) );
+		.add( Restrictions.eq("setestado.idestado", 1) );
 		
-		petfoto = (Petfoto) criteria.uniqueResult();
+		petfotomascota = (Petfotomascota) criteria.uniqueResult();
 		
-		return petfoto;
+		return petfotomascota;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<Petfoto> lisPetfotoPerfil(Session session, int tipo) throws Exception {
-		List<Petfoto> arraydatos = null;
-		
-		Criteria criteria = session
-		.createCriteria(Petfoto.class)
-		.add( Restrictions.eq("mostrar", 1) )
-		.add( Restrictions.eqProperty("m.idmascota", "petmascota.idmascota") )
-		.add( Restrictions.eq("m.pettipo.idtipo", tipo) )
-		.createCriteria("petmascota","m")
-		.addOrder(Order.asc("nombre"));
-			
-		arraydatos = (List<Petfoto>) criteria.list();
-		
-		return arraydatos;
-	}
-	
-	public void savePetfoto(Session session, Petfoto petfoto) throws Exception {
-		session.save(petfoto);
+	public void savePetfoto(Session session, Petfotomascota petfotomascota) throws Exception {
+		session.save(petfotomascota);
 	}
 
-	public void updatePetfoto(Session session, Petfoto petfoto)
+	public void updatePetfoto(Session session, Petfotomascota petfotomascota)
 			throws Exception {
-		session.update(petfoto);
+		session.update(petfotomascota);
 	}
 
 	public void resetPetfotoPerfilByPetId(Session session, int idmascota)
 			throws Exception {
-		String hqlUpdate = "update Petfoto foto set foto.mostrar = 0 where foto.petmascota.idmascota = :idmascota";
+		String hqlUpdate = "update Petfotomascota foto set foto.mostrar = 0 where foto.petmascotahomenaje.idmascota = :idmascota";
 		session.createQuery( hqlUpdate )
 		.setInteger( "idmascota", idmascota )
 		.executeUpdate();
 	}
 	
-	public void setPetfotoPerfil(Session session, int idfoto) throws Exception {
-		String hqlUpdate = "update Petfoto foto set foto.mostrar = 1 where foto.idfoto = :idfoto";
+	public void setPetfotoPerfil(Session session, int idfotomascota) throws Exception {
+		String hqlUpdate = "update Petfotomascota foto set foto.mostrar = 1 where foto.idfotomascota = :idfotomascota";
 		session.createQuery( hqlUpdate )
-		.setInteger( "idfoto", idfoto )
+		.setInteger( "idfotomascota", idfotomascota )
 		.executeUpdate();
 	}
 
-	public void deletePetfoto(Session session, int idfoto)
+	public void deletePetfoto(Session session, int idfotomascota)
 			throws Exception {
-		String hqlUpdate = "delete Petfoto foto where foto.idfoto = :idfoto";
+		String hqlUpdate = "delete Petfotomascota foto where foto.idfotomascota = :idfotomascota";
 		session.createQuery( hqlUpdate )
-		.setInteger( "idfoto", idfoto )
+		.setInteger( "idfotomascota", idfotomascota )
 		.executeUpdate();
 	}
 

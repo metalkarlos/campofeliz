@@ -35,7 +35,7 @@ public class PetordenserviciodetalleDAO {
 		Criteria criteria = session.createCriteria(Petordenserviciodetalle.class)
 		.add( Restrictions.eq("id.idordenservicio", petordenserviciodetalleId.getIdordenservicio()))
 		.add( Restrictions.eq("id.idordenserviciodetalle", petordenserviciodetalleId.getIdordenserviciodetalle()))
-		.add( Restrictions.eq("petestado.idestado", 1));
+		.add( Restrictions.eq("setestado.idestado", 1));
 		
 		petordenserviciodetalle = (Petordenserviciodetalle) criteria.uniqueResult();
 		
@@ -50,7 +50,7 @@ public class PetordenserviciodetalleDAO {
 		
 		Criteria criteria = session.createCriteria(Petordenserviciodetalle.class)
 		.add( Restrictions.eq("petordenservicio.idordenservicio", idordenservicio))
-		.add( Restrictions.eq("petestado.idestado", 1))
+		.add( Restrictions.eq("setestado.idestado", 1))
 		.createAlias("cotservicio", "s")
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
@@ -62,7 +62,7 @@ public class PetordenserviciodetalleDAO {
 			Criteria criteriaCount = session.createCriteria( Petordenserviciodetalle.class)
 			.setProjection( Projections.rowCount())
 			.add( Restrictions.eq("petordenservicio.idordenservicio", idordenservicio))
-			.add( Restrictions.eq("petestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1));
 			
 			Object object = criteriaCount.uniqueResult();
 			int count = (object==null?0:Integer.parseInt(object.toString()));

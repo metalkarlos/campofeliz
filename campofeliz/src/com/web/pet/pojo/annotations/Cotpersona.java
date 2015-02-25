@@ -27,7 +27,7 @@ public class Cotpersona implements java.io.Serializable {
 	private static final long serialVersionUID = 2069293345548166597L;
 	private int idpersona;
 	private Cottipoidentificacion cottipoidentificacion;
-	private Cotestado cotestado;
+	private Setestado setestado;
 	private Setusuario setusuario;
 	private String apellido1;
 	private String apellido2;
@@ -61,7 +61,7 @@ public class Cotpersona implements java.io.Serializable {
 	}
 
 	public Cotpersona(int idpersona,
-			Cottipoidentificacion cottipoidentificacion, Cotestado cotestado,
+			Cottipoidentificacion cottipoidentificacion, Setestado setestado,
 			Setusuario setusuario, String apellido1, String apellido2,
 			String nombre1, String nombre2, String alias, Date fecharegistro,
 			String iplog, String numeroidentificacion, Date fechanacimiento,
@@ -69,7 +69,7 @@ public class Cotpersona implements java.io.Serializable {
 			Set<Petmascota> petmascotas, Set<Petcomision> petcomisions*/) {
 		this.idpersona = idpersona;
 		this.cottipoidentificacion = cottipoidentificacion;
-		this.cotestado = cotestado;
+		this.setestado = setestado;
 		this.setusuario = setusuario;
 		this.apellido1 = apellido1;
 		this.apellido2 = apellido2;
@@ -114,12 +114,12 @@ public class Cotpersona implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idestado")
-	public Cotestado getCotestado() {
-		return this.cotestado;
+	public Setestado getSetestado() {
+		return this.setestado;
 	}
 
-	public void setCotestado(Cotestado cotestado) {
-		this.cotestado = cotestado;
+	public void setSetestado(Setestado setestado) {
+		this.setestado = setestado;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -14,7 +14,7 @@ import org.primefaces.model.UploadedFile;
 import com.web.pet.bo.CotfotopersonaBO;
 import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.global.Parametro;
-import com.web.pet.pojo.annotations.Cotestado;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Cotfotopersona;
 import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.pet.pojo.annotations.Setusuario;
@@ -128,7 +128,7 @@ import com.web.util.MessageUtil;
 		public void handleFileUpload(FileUploadEvent event) {
 			try {
 				if(idpersona > 0){
-					Cotfotopersona cotfotopersona = new Cotfotopersona(0, new Cotpersona(), new Cotestado(), new Setusuario(), null, null, null, null, null, null, null);
+					Cotfotopersona cotfotopersona = new Cotfotopersona(0, new Cotpersona(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null);
 					cotfotopersona.setCotpersona(cotpersona);
 					cotfotopersona.setMostrar(0);
 					cotfotopersona.setNombrearchivo(event.getFile().getFileName());
@@ -150,7 +150,7 @@ import com.web.util.MessageUtil;
 			try {
 				if(uploadedFile != null){
 					if(idpersona > 0){
-						Cotfotopersona cotfotopersona = new Cotfotopersona(0, new Cotpersona(), new Cotestado(), new Setusuario(), null, null, null, null, null, null, null);
+						Cotfotopersona cotfotopersona = new Cotfotopersona(0, new Cotpersona(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null);
 						cotfotopersona.setCotpersona(cotpersona);
 						cotfotopersona.setMostrar(0);
 						cotfotopersona.setNombrearchivo(uploadedFile.getFileName());

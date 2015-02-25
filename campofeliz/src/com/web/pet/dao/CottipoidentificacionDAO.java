@@ -16,7 +16,7 @@ public class CottipoidentificacionDAO {
 		List<Cottipoidentificacion> lisCottipoidentificacion = null;
 		
 		Criteria criteria = session.createCriteria(Cottipoidentificacion.class)
-		.add( Restrictions.eq("cotestado.idestado", 1))
+		.add( Restrictions.eq("setestado.idestado", 1))
 		.addOrder( Order.asc("idtipoidentificacion"));
 		
 		lisCottipoidentificacion = (List<Cottipoidentificacion>)criteria.list();

@@ -67,7 +67,7 @@ package com.web.pet.bo;
 				cotfotopersona.setRuta(rutaMascota+"/"+nombrearchivo);
 				cotfotopersona.setFecharegistro(fecharegistro);
 				cotfotopersona.setIplog(usuarioBean.getIp());
-				cotfotopersona.getCotestado().setIdestado(1);
+				cotfotopersona.getSetestado().setIdestado(1);
 				cotfotopersona.setSetusuario(usuarioBean.getSetUsuario());
 		
 				if(fileUtil.createDir(rutaCompleta)){

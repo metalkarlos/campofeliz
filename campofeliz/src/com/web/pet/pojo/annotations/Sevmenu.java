@@ -34,7 +34,7 @@ public class Sevmenu implements java.io.Serializable {
 	private Integer orden;
 	private Date fecharegistro;
 	private String iplog;
-	private Petestado petestado;
+	private Setestado setestado;
 
 	public Sevmenu() {
 	}
@@ -42,7 +42,7 @@ public class Sevmenu implements java.io.Serializable {
 	public Sevmenu(Integer idmenu, String nombre, String descripcion,
 			Integer idmenupadre, Integer nivel, String iconourl,
 			String paginaurl, Integer orden, Date fecharegistro, String iplog, 
-			Petestado petestado) {
+			Setestado setestado) {
 		this.idmenu = idmenu;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -53,7 +53,7 @@ public class Sevmenu implements java.io.Serializable {
 		this.orden = orden;
 		this.fecharegistro = fecharegistro;
 		this.iplog = iplog;
-		this.petestado = petestado;
+		this.setestado = setestado;
 	}
 	
 	@Id
@@ -149,12 +149,12 @@ public class Sevmenu implements java.io.Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idestado")
-	public Petestado getPetestado() {
-		return this.petestado;
+	public Setestado getSetestado() {
+		return this.setestado;
 	}
 
-	public void setPetestado(Petestado petestado) {
-		this.petestado = petestado;
+	public void setSetestado(Setestado setestado) {
+		this.setestado = setestado;
 	}
 
 }

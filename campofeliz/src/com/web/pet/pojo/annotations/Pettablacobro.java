@@ -26,7 +26,7 @@ public class Pettablacobro implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1352745549346386834L;
 	private int idtablacobro;
-	private Petestado petestado;
+	private Setestado setestado;
 	private Setusuario setusuario;
 	private BigDecimal pesodesdekg;
 	private BigDecimal pesohastakg;
@@ -47,12 +47,12 @@ public class Pettablacobro implements java.io.Serializable {
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Pettablacobro(int idtablacobro, Petestado petestado,
+	public Pettablacobro(int idtablacobro, Setestado setestado,
 			Setusuario setusuario, BigDecimal pesodesdekg,
 			BigDecimal pesohastakg, BigDecimal valor, String descripcion,
 			Date fecharegistro, String iplog) {
 		this.idtablacobro = idtablacobro;
-		this.petestado = petestado;
+		this.setestado = setestado;
 		this.setusuario = setusuario;
 		this.pesodesdekg = pesodesdekg;
 		this.pesohastakg = pesohastakg;
@@ -74,12 +74,12 @@ public class Pettablacobro implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idestado")
-	public Petestado getPetestado() {
-		return this.petestado;
+	public Setestado getSetestado() {
+		return this.setestado;
 	}
 
-	public void setPetestado(Petestado petestado) {
-		this.petestado = petestado;
+	public void setSetestado(Setestado setestado) {
+		this.setestado = setestado;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

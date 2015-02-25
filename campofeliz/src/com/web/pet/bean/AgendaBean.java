@@ -21,7 +21,7 @@ import org.primefaces.model.LazyScheduleModel;
 
 import com.web.pet.bo.CoteventoBO;
 import com.web.pet.global.Parametro;
-import com.web.pet.pojo.annotations.Cotestado;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Cotevento;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.MessageUtil;
@@ -122,7 +122,7 @@ public class AgendaBean implements Serializable{
     			endDate.set(Calendar.MILLISECOND, endDate.get(Calendar.MILLISECOND)-1);
     		}
     		
-    		Cotevento coteventoTmp = (event.getData()==null)?new Cotevento(0,new Cotestado(),new Setusuario(),null,null,null,null,null,null):(Cotevento)event.getData();
+    		Cotevento coteventoTmp = (event.getData()==null)?new Cotevento(0,new Setestado(),new Setusuario(),null,null,null,null,null,null):(Cotevento)event.getData();
     		coteventoTmp.setTitulo(event.getTitle());
     		coteventoTmp.setDescripcion(cotevento.getDescripcion());
     		coteventoTmp.setFechadesde(event.getStartDate());

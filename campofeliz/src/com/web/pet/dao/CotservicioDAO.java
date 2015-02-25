@@ -39,7 +39,7 @@ public class CotservicioDAO {
 		List<Cotservicio> arraydatos = null;
 		
 		Criteria criteria = session.createCriteria(Cotservicio.class)
-		.add( Restrictions.eq("cotestado.idestado", 1))
+		.add( Restrictions.eq("setestado.idestado", 1))
 		.addOrder(Order.asc("nombre"));
 			
 		arraydatos = (List<Cotservicio>) criteria.list();
@@ -53,7 +53,7 @@ public class CotservicioDAO {
 		List<Cotservicio> lisCotservicio = null;
 		
 		Criteria criteria = session.createCriteria(Cotservicio.class)
-		.add( Restrictions.eq("cotestado.idestado", 1))
+		.add( Restrictions.eq("setestado.idestado", 1))
 		.addOrder(Order.asc("nombre"))
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
@@ -64,7 +64,7 @@ public class CotservicioDAO {
 		{
 			Criteria criteriaCount = session.createCriteria( Cotservicio.class)
 			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("cotestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1));
 			
 			Object object = criteriaCount.uniqueResult();
 			int count = (object==null?0:Integer.parseInt(object.toString()));
@@ -83,7 +83,7 @@ public class CotservicioDAO {
 		Cotservicio cotservicio = null;
 		
 		Criteria criteria = session.createCriteria(Cotservicio.class)
-		.add( Restrictions.eq("cotestado.idestado", 1) )
+		.add( Restrictions.eq("setestado.idestado", 1) )
 		.add( Restrictions.eq("idservicio", id));
 		
 		cotservicio = (Cotservicio) criteria.uniqueResult();

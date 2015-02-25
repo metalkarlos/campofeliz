@@ -17,7 +17,7 @@ public class SevmenuDAO {
 		
 		Criteria criteria = session.createCriteria(Sevmenu.class)
 				.add(Restrictions.eq("nivel", 0))
-				.add(Restrictions.eq("petestado.idestado", 1))
+				.add(Restrictions.eq("setestado.idestado", 1))
 				.addOrder(Order.asc("orden"));
 		lisSetmenu = (List<Sevmenu>)criteria.list();
 		
@@ -30,7 +30,7 @@ public class SevmenuDAO {
 		
 		Criteria criteria = session.createCriteria(Sevmenu.class)
 				.add(Restrictions.eq("idmenupadre", idmenupadre))
-				.add(Restrictions.eq("petestado.idestado", 1))
+				.add(Restrictions.eq("setestado.idestado", 1))
 				.addOrder(Order.asc("orden"));
 		lisSetmenu = (List<Sevmenu>)criteria.list();
 		
@@ -42,7 +42,7 @@ public class SevmenuDAO {
 		List<Sevmenu> arraydatos = null;
 		
 		Criteria criteria = session.createCriteria(Sevmenu.class)
-				.add(Restrictions.eq("petestado.idestado", 1))
+				.add(Restrictions.eq("setestado.idestado", 1))
 				.addOrder(Order.asc("orden"));
 		arraydatos = (List<Sevmenu>)criteria.list();
 		

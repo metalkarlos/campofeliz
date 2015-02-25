@@ -14,8 +14,8 @@ import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.PetordenservicioBO;
 import com.web.pet.pojo.annotations.Cotlugar;
-import com.web.pet.pojo.annotations.Petestado;
-import com.web.pet.pojo.annotations.Petmascota;
+import com.web.pet.pojo.annotations.Setestado;
+import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.pet.pojo.annotations.Petordenservicio;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.FacesUtil;
@@ -34,7 +34,7 @@ public class OrdenesServicioBean implements Serializable {
 	private String nombre;
 	
 	public OrdenesServicioBean() {
-		petordenservicioSelected = new Petordenservicio(0, new Petmascota(), new Petestado(), new Cotlugar(), new Setusuario(), null, null, null, null, null, null);
+		petordenservicioSelected = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), new Setusuario(), null, null, null, null, null, null);
 		consultarOrdenes();
 	}
 	

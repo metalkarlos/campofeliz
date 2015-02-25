@@ -7,8 +7,8 @@ import javax.faces.convert.Converter;
 import com.web.pet.bo.PetfotoBO;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.pojo.annotations.Mascotas;
-import com.web.pet.pojo.annotations.Petfoto;
-import com.web.pet.pojo.annotations.Petmascota;
+import com.web.pet.pojo.annotations.Petfotomascota;
+import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.util.MessageUtil;
 
 public class MascotaConverter implements Converter {
@@ -23,10 +23,10 @@ public class MascotaConverter implements Converter {
                 
                 
                 Mascotas mascotas = new Mascotas();
-                Petmascota petmascota = new PetmascotaBO().getPetmascotaById(id);
-				Petfoto petfoto = new PetfotoBO().getPetfotoPerfilByPetId(petmascota.getIdmascota());
-				mascotas.setPetmascota(petmascota);
-				mascotas.setPetfoto(petfoto);
+                Petmascotahomenaje petmascotahomenaje = new PetmascotaBO().getPetmascotaById(id);
+				Petfotomascota petfotomascota = new PetfotoBO().getPetfotoPerfilByPetId(petmascotahomenaje.getIdmascota());
+				mascotas.setPetmascotahomenaje(petmascotahomenaje);
+				mascotas.setPetfotomascota(petfotomascota);
                 
                 return mascotas;
             } catch(Exception ex) {
@@ -41,7 +41,7 @@ public class MascotaConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent component, Object value) {
 		if (value instanceof Mascotas){
-			return String.valueOf(((Mascotas) value).getPetmascota().getIdmascota());
+			return String.valueOf(((Mascotas) value).getPetmascotahomenaje().getIdmascota());
 		} else {
 			return "";
 		}

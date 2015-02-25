@@ -87,7 +87,7 @@ public class CotcolorBO {
 			cotcolor.setIdcolor(maxid);
 			cotcolor.setFecharegistro(fecharegistro);
 			cotcolor.setIplog(usuarioBean.getIp());
-			cotcolor.getCotestado().setIdestado(1);
+			cotcolor.getSetestado().setIdestado(1);
 			cotcolor.setSetusuario(usuarioBean.getSetUsuario());
 	
 			cotcolorDAO.saveCotcolor(session, cotcolor);

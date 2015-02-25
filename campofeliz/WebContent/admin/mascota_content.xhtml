@@ -20,7 +20,7 @@
 			</h:panelGrid>
 			<h1 class="title ui-widget-header ui-corner-all">Foto/Album</h1>
 			<div style="padding-left: 5px">
-				<p:graphicImage id="idfoto" value="#{mascotaBean.rutaImagenes}#{mascotaBean.petfoto.ruta}?w=150" style="max-height: 100px" />
+				<p:graphicImage id="idfoto" value="#{mascotaBean.rutaImagenes}#{mascotaBean.petfotomascota.ruta}?w=150" style="max-height: 100px" />
 			</div>
 			<br />
 			<h:outputLabel value="&#8226; " rendered="#{mascotaBean.idmascota > 0}" for="idlinkalbum" />
@@ -30,19 +30,19 @@
 			</h:link>
 			
 			<h1 class="title ui-widget-header ui-corner-all">Código</h1>
-			<h:outputText value="#{mascotaBean.petmascota.idmascota}" />
+			<h:outputText value="#{mascotaBean.petmascotahomenaje.idmascota}" />
 			<br /><br />
 			
 			<h1 class="title ui-widget-header ui-corner-all">Nombre</h1>
 			<p:focus for="idnombre"/>
-			<p:inputText id="idnombre" value="#{mascotaBean.petmascota.nombre}" size="200" style="max-width: 760px" required="true" requiredMessage="El Nombre es obligatorio." />
+			<p:inputText id="idnombre" value="#{mascotaBean.petmascotahomenaje.nombre}" size="200" style="max-width: 760px" required="true" requiredMessage="El Nombre es obligatorio." />
 			<br /><br />
 			
 			<h1 class="title ui-widget-header ui-corner-all">Número de Identificación</h1>
 			<p:selectOneMenu id="idtipoidentificacion" value="#{mascotaBean.cottipoidentificacionselected.idtipoidentificacion}">
 			    <f:selectItems value="#{mascotaBean.lisCottipoidentificacion}" var="i" itemLabel="#{i.nombre}" itemValue="#{i.idtipoidentificacion}" />
 			</p:selectOneMenu>
-			<p:inputText id="idnumeroidentificacion" style="vertical-align: top;" value="#{mascotaBean.petmascota.numeroidentificacion}" size="15" />
+			<p:inputText id="idnumeroidentificacion" style="vertical-align: top;" value="#{mascotaBean.petmascotahomenaje.numeroidentificacion}" size="15" />
 			<br /><br />
 			
 			<h1 class="title ui-widget-header ui-corner-all">Propietario</h1>
@@ -76,18 +76,18 @@
 			</h:panelGrid>
 			<br /><br />
 			<h1 class="title ui-widget-header ui-corner-all">Especie</h1>
-			<p:selectOneMenu id="idespeciemascota" style="width: 145px; align: center;" value="#{mascotaBean.petmascota.petespecie.idespecie}" >
+			<p:selectOneMenu id="idespeciemascota" style="width: 145px; align: center;" value="#{mascotaBean.petmascotahomenaje.petespecie.idespecie}" >
 				<f:selectItem itemLabel="Seleccione" itemValue="0"/>
 				<f:selectItems value="#{mascotasBean.lisPetespecie}" var="especie" itemLabel="#{especie.nombre}" itemValue="#{especie.idespecie}"></f:selectItems>
 			</p:selectOneMenu>
 			<br /><br />
 			<h1 class="title ui-widget-header ui-corner-all">Raza</h1>
-            <p:selectOneMenu id="idrazalist" value="#{mascotaBean.petmascota.petraza.idraza}" style="width: 150px" required="false">
+            <p:selectOneMenu id="idrazalist" value="#{mascotaBean.petmascotahomenaje.petraza.idraza}" style="width: 150px" required="false">
 			    <f:selectItems value="#{mascotaBean.lisRaza}" var="raza" itemLabel="#{raza.nombre}" itemValue="#{raza.idraza}"/>
 			</p:selectOneMenu>
 			<br /><br />
 			<h1 class="title ui-widget-header ui-corner-all">Sexo</h1>
-			<p:selectOneMenu id="idsexolist" value="#{mascotaBean.petmascota.sexo}" >
+			<p:selectOneMenu id="idsexolist" value="#{mascotaBean.petmascotahomenaje.sexo}" >
                 <f:selectItem itemLabel="Macho" itemValue="1" />
                 <f:selectItem itemLabel="Hembra" itemValue="2" />
             </p:selectOneMenu>
@@ -96,22 +96,22 @@
 			
 			
 			<h1 class="title ui-widget-header ui-corner-all">Características</h1>
-			<p:inputTextarea id="idCaracteristicas" value="#{mascotaBean.petmascota.caracteristicas}" style="max-width: 760px; min-width: 760px; max-height: 25px; min-height: 25px; " required="false" requiredMessage="El campo 'Características' es obligatorio." maxlength="300" />
+			<p:inputTextarea id="idCaracteristicas" value="#{mascotaBean.petmascotahomenaje.caracteristicas}" style="max-width: 760px; min-width: 760px; max-height: 25px; min-height: 25px; " required="false" requiredMessage="El campo 'Características' es obligatorio." maxlength="300" />
 			<br /><br />
-			<p:selectBooleanCheckbox itemLabel="Pedigree" value="#{mascotaBean.petmascota.pedigree}"></p:selectBooleanCheckbox>
-			&nbsp;<p:selectBooleanCheckbox itemLabel="Microchip" value="#{mascotaBean.petmascota.microchip}"></p:selectBooleanCheckbox>
+			<p:selectBooleanCheckbox itemLabel="Pedigree" value="#{mascotaBean.petmascotahomenaje.pedigree}"></p:selectBooleanCheckbox>
+			&nbsp;<p:selectBooleanCheckbox itemLabel="Microchip" value="#{mascotaBean.petmascotahomenaje.microchip}"></p:selectBooleanCheckbox>
 			<br /><br />
 			
 			<h1 class="title ui-widget-header ui-corner-all">Peso</h1>
-			<p:inputText id="idpeso" value="#{mascotaBean.petmascota.pesokg}" required="false" requiredMessage="El Peso es obligatorio." />kg
+			<p:inputText id="idpeso" value="#{mascotaBean.petmascotahomenaje.pesokg}" required="false" requiredMessage="El Peso es obligatorio." />kg
 			<br /><br />
 			
 			<h1 class="title ui-widget-header ui-corner-all">Fecha de Nacimiento</h1>
-			<p:calendar id="idfechanacimiento" value="#{mascotaBean.petmascota.fechanacimiento}" yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />
+			<p:calendar id="idfechanacimiento" value="#{mascotaBean.petmascotahomenaje.fechanacimiento}" yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />
 			<br /><br />
 			
 			<h1 class="title ui-widget-header ui-corner-all">Fecha de Fallecimiento</h1>
-			<p:calendar id="idfechanfallecimiento" value="#{mascotaBean.petmascota.fechafallecimiento}" yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />
+			<p:calendar id="idfechanfallecimiento" value="#{mascotaBean.petmascotahomenaje.fechafallecimiento}" yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />
 			<br /><br />
 			<h1 class="title ui-widget-header ui-corner-all">Colores</h1>
 			<p:selectOneMenu id="idcolorlist" value="#{mascotaBean.cotcolorselected}" var="c" converter="color">
