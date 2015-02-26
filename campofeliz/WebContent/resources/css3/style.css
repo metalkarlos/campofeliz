@@ -189,7 +189,7 @@ h3 {
 }
 
 #principal {
-	min-width:1050px;
+	min-width: 1090px;/*1050px;*/
 	min-height: 600px;
 	position: absolute;
 	/*margin:auto;*/
@@ -242,7 +242,7 @@ h3 {
 }
 
 #principal .body .content .left {
-	width:200px;
+	min-width:200px;/*se cambia a min, para q se acople al tamaño del contenido*/
 	clear:left;
 	float:left;
 	text-align:center;

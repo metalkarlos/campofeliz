@@ -330,7 +330,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 		this.caracteristicas = caracteristicas;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "petmascota", targetEntity = Petmascotacolor.class)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "petmascotahomenaje", targetEntity = Petmascotacolor.class)
 	public Set<Petmascotacolor> getPetmascotacolors() {
 		return this.petmascotacolors;
 	}

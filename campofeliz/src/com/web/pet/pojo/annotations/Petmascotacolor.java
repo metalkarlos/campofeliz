@@ -35,19 +35,19 @@ public class Petmascotacolor implements java.io.Serializable {
 	public Petmascotacolor() {
 	}
 
-	public Petmascotacolor(int idmascotacolor, Petmascotahomenaje petmascota,
+	public Petmascotacolor(int idmascotacolor, Petmascotahomenaje petmascotahomenaje,
 			Cotcolor cotcolor, Date fecharegistro) {
 		this.idmascotacolor = idmascotacolor;
-		this.petmascotahomenaje = petmascota;
+		this.petmascotahomenaje = petmascotahomenaje;
 		this.cotcolor = cotcolor;
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Petmascotacolor(int idmascotacolor, Petmascotahomenaje petmascota,
+	public Petmascotacolor(int idmascotacolor, Petmascotahomenaje petmascotahomenaje,
 			Setestado setestado, Cotcolor cotcolor, Setusuario setusuario,
 			Date fecharegistro, String iplog) {
 		this.idmascotacolor = idmascotacolor;
-		this.petmascotahomenaje = petmascota;
+		this.petmascotahomenaje = petmascotahomenaje;
 		this.setestado = setestado;
 		this.cotcolor = cotcolor;
 		this.setusuario = setusuario;
