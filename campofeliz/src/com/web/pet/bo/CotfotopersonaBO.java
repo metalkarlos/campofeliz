@@ -59,7 +59,7 @@ package com.web.pet.bo;
 				Calendar fecha = Calendar.getInstance();
 				
 				String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
-				String rutaMascota =  "/personas/" + fecha.get(Calendar.YEAR);
+				String rutaMascota =  fileUtil.getPropertyValue("repositorio-personas") + fecha.get(Calendar.YEAR);
 				String rutaCompleta = rutaImagenes + rutaMascota;
 				
 				//asignar ruta y nombre de archivo en objeto

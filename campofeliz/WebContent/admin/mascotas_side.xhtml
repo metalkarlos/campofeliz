@@ -9,7 +9,8 @@
 	<h:form id="form-sidepage">
 	    <h1>Mascotas</h1>
 	    <hr noshade="noshade" />
-		<label>Seleccione la Especie:</label>
+		<label for="idespeciemascota">Seleccione la Especie:</label>
+		<br />
 		<p:selectOneMenu id="idespeciemascota" style="width: 145px; align: center;" value="#{mascotasBean.especie}" onchange="redirect('mascotas.jsf?especie='+this.options[this.selectedIndex].value+'&amp;iditem='+#{menuBean.activeIndex})">
 			<f:selectItem itemLabel="Seleccione" itemValue="0"/>
 			<f:selectItems value="#{mascotasBean.lisPetespecie}" var="especie" itemLabel="#{especie.nombre}" itemValue="#{especie.idespecie}"></f:selectItems>

@@ -30,7 +30,6 @@ public class PersonaBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -2947013478292278955L;
 	
-	private String rutaImagenes;
 	private int idpersona;
 	private Cotfotopersona cotfotopersona;
 	private Cotpersona cotpersona;
@@ -145,14 +144,6 @@ public class PersonaBean implements Serializable {
 
 	public void setIdpersona(int idpersona) {
 		this.idpersona = idpersona;
-	}
-
-	public String getRutaImagenes() {
-		return rutaImagenes;
-	}
-
-	public void setRutaImagenes(String rutaImagenes) {
-		this.rutaImagenes = rutaImagenes;
 	}
 
 	public List<Cottipoidentificacion> getLisCottipoidentificacion() {

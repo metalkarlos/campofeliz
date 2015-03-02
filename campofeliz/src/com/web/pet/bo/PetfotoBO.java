@@ -57,7 +57,7 @@ public class PetfotoBO {
 			Calendar fecha = Calendar.getInstance();
 			
 			String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
-			String rutaMascota =  "/mascotas/" + fecha.get(Calendar.YEAR);
+			String rutaMascota =  fileUtil.getPropertyValue("repositorio-mascota") + fecha.get(Calendar.YEAR);
 			String rutaCompleta = rutaImagenes + rutaMascota;
 			
 			//asignar ruta y nombre de archivo en objeto

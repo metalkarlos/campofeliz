@@ -23,7 +23,6 @@ import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.pet.pojo.annotations.Petraza;
 import com.web.pet.pojo.annotations.Setusuario;
-import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
@@ -38,7 +37,6 @@ public class BuscarMascotaBean implements Serializable {
 	private boolean renderGrid;//Para evitar consultar al inicio y sólo al presionar botón
 	private int columnsGrid;
 	private int rowsGrid;
-	private String rutaImagenes;
 
 	public BuscarMascotaBean() {
 		petmascotahomenaje = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),0,new BigDecimal(0),null,false,false,null);
@@ -49,7 +47,6 @@ public class BuscarMascotaBean implements Serializable {
 		setRowsGrid(4);
 		
 		consultarMascotas();
-		cargarRutaImagenes();
 	}
 
 	@SuppressWarnings("serial")
@@ -93,15 +90,6 @@ public class BuscarMascotaBean implements Serializable {
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-		}
-	}
-	
-	private void cargarRutaImagenes(){
-		try {
-			rutaImagenes = new FileUtil().getPropertyValue("rutaImagen");
-		} catch (Exception e) {
-			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Error!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
 	
@@ -191,14 +179,6 @@ public class BuscarMascotaBean implements Serializable {
 	
 	public void buscarMascotas(){
 		setRenderGrid(true);
-	}
-
-	public String getRutaImagenes() {
-		return rutaImagenes;
-	}
-
-	public void setRutaImagenes(String rutaImagenes) {
-		this.rutaImagenes = rutaImagenes;
 	}
 
 }

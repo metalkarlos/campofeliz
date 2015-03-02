@@ -17,7 +17,6 @@ import com.web.pet.bo.PetespecieBO;
 import com.web.pet.pojo.annotations.Mascotas;
 import com.web.pet.pojo.annotations.Petespecie;
 import com.web.util.FacesUtil;
-import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
@@ -34,7 +33,6 @@ public class MascotasBean implements Serializable {
 	private int rowsGrid;
 	private List<Petespecie> lisPetespecie;
 	private String nombre;
-	private String rutaImagenes;
 
 	public MascotasBean() {
 		setColumnsGrid(4);
@@ -47,7 +45,6 @@ public class MascotasBean implements Serializable {
 		}
 		
 		consultarMascotas();
-		cargarRutaImagenes();
 	}
 	
 	@PostConstruct
@@ -108,15 +105,6 @@ public class MascotasBean implements Serializable {
 		}
 	}
 	
-	private void cargarRutaImagenes(){
-		try {
-			rutaImagenes = new FileUtil().getPropertyValue("rutaImagen");
-		} catch (Exception e) {
-			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Error!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-		}
-	}
-	
 	public void setEspecie(int especie) {
 		this.especie = especie;
 	}
@@ -163,14 +151,6 @@ public class MascotasBean implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getRutaImagenes() {
-		return rutaImagenes;
-	}
-
-	public void setRutaImagenes(String rutaImagenes) {
-		this.rutaImagenes = rutaImagenes;
 	}
 
 }

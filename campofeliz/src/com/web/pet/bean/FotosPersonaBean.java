@@ -36,14 +36,11 @@ import com.web.util.MessageUtil;
 		private Cotfotopersona cotfotopersonaSelected;
 		private String fileSeparator;
 		private UploadedFile uploadedFile;
-		private String rutaImagenes;
 		
 		public FotosPersonaBean(){
 			liscotfotopersona = new ArrayList<Cotfotopersona>();
 			cotpersona = new Cotpersona(0, null, null, null, null);
 			setFileSeparator(Parametro.FILE_SEPARATOR);
-			
-			cargarRutaImagenes();
 		}
 		
 		@PostConstruct
@@ -62,15 +59,6 @@ import com.web.util.MessageUtil;
 					e.printStackTrace();
 					new MessageUtil().showErrorMessage("Error", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 				}
-			}
-		}
-		
-		private void cargarRutaImagenes(){
-			try {
-				rutaImagenes = new FileUtil().getPropertyValue("rutaImagen");
-			} catch (Exception e) {
-				e.printStackTrace();
-				new MessageUtil().showFatalMessage("Error!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 			}
 		}
 		
@@ -211,13 +199,6 @@ import com.web.util.MessageUtil;
 			return url;
 		}
 
-		public String getRutaImagenes() {
-			return rutaImagenes;
-		}
-
-		public void setRutaImagenes(String rutaImagenes) {
-			this.rutaImagenes = rutaImagenes;
-		}
 	}
 
 	

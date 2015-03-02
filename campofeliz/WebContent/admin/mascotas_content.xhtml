@@ -10,6 +10,7 @@
 		<p:messages id="mensajes" showDetail="true" />
 		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-ordencontent">
+		<br />
 		<p:focus for="idtxtnombre" />
 		<h:outputLabel id="idlblnombre"  value="Buscar por Nombre de Mascota: " for="idtxtnombre" />
 		<p:inputText id="idtxtnombre" value="#{mascotasBean.nombre}" style="width: 500px">
@@ -25,18 +26,25 @@
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			emptyMessage="No se encontraron registros">
 			<p:column>
-				<p:panel header="#{pet.petmascotahomenaje.nombre}" style="text-align:center; text-transform: capitalize;">
-					<h:panelGrid columns="1" style="width:100%;">
+				<p:panel style="text-align:center; text-transform: capitalize; height: 185px; width: 180px;">
+					<f:facet name="header">
+						<h:link value="#{pet.petmascotahomenaje.nombre}" outcome="mascota.hxtml" >
+							<f:param name="idmascota" value="#{pet.petmascotahomenaje.idmascota}" /> 
+							<f:param name="especie" value="#{mascotasBean.especie}" />
+							<f:param name="iditem" value="#{menuBean.activeIdItem}" />
+						</h:link>
+					</f:facet>
+					<f:facet name="footer">
+						<center>
+						<h:outputText value="#{pet.petmascotahomenaje.sexo==1?'Macho':'Hembra'}" />
+						</center>
+					</f:facet>
+					<h:panelGrid columns="1" style="width:100%;height: 110px;">
 						<h:link outcome="mascota.hxtml" >
 							<f:param name="idmascota" value="#{pet.petmascotahomenaje.idmascota}" /> 
 							<f:param name="especie" value="#{mascotasBean.especie}" />
 							<f:param name="iditem" value="#{menuBean.activeIdItem}" />
-							<p:graphicImage id="idfoto" title="#{pet.petmascotahomenaje.nombre}" value="#{mascotasBean.rutaImagenes}#{pet.petfotomascota.ruta}?w=150" style="max-height: 100px" />
-						</h:link>
-						<h:link value="#{pet.petmascotahomenaje.sexo==1?'Macho':'Hembra'}" outcome="mascota.hxtml" >
-							<f:param name="idmascota" value="#{pet.petmascotahomenaje.idmascota}" /> 
-							<f:param name="especie" value="#{mascotasBean.especie}" />
-							<f:param name="iditem" value="#{menuBean.activeIdItem}" />
+							<p:graphicImage id="idfoto" title="#{pet.petmascotahomenaje.nombre}" value="#{parametro.servletImagenes}#{pet.petfotomascota.ruta}?w=100" style="max-height: 100px" />
 						</h:link>
 					</h:panelGrid>
 				</p:panel>

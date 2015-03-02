@@ -69,7 +69,7 @@ public class CotfotopersonaDAO {
 			.createCriteria(Cotfotopersona.class)
 			.add( Restrictions.eq("mostrar", 1) )
 			.add( Restrictions.eqProperty("m.idpersona", "cotpersona.idpersona") )
-			.createCriteria("cotpersona","m")
+			.createCriteria("cotpersona","m", Criteria.LEFT_JOIN)
 			.addOrder(Order.asc("nombre"));
 				
 			arraydatos = (List<Cotfotopersona>) criteria.list();

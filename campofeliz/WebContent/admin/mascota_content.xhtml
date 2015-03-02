@@ -20,7 +20,7 @@
 			</h:panelGrid>
 			<h1 class="title ui-widget-header ui-corner-all">Foto/Album</h1>
 			<div style="padding-left: 5px">
-				<p:graphicImage id="idfoto" value="#{mascotaBean.rutaImagenes}#{mascotaBean.petfotomascota.ruta}?w=150" style="max-height: 100px" />
+				<p:graphicImage id="idfoto" value="#{parametro.servletImagenes}#{mascotaBean.petfotomascota.ruta}?w=150" style="max-height: 100px" />
 			</div>
 			<br />
 			<h:outputLabel value="&#8226; " rendered="#{mascotaBean.idmascota > 0}" for="idlinkalbum" />

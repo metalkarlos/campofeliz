@@ -42,24 +42,12 @@ public class AlbumBean implements Serializable {
 	private Petfotomascota petfotomascotaSelected;
 	private String fileSeparator;
 	private UploadedFile uploadedFile;
-	private String rutaImagenes;
 	
 	public AlbumBean(){
 		lispetfotomascota = new ArrayList<Petfotomascota>();
 		petmascotahomenaje = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),0,new BigDecimal(0),null,false,false,null);
 		petfotomascotaSelected = new Petfotomascota();
 		setFileSeparator(Parametro.FILE_SEPARATOR);
-		
-		cargarRutaImagenes();
-	}
-	
-	private void cargarRutaImagenes(){
-		try {
-			rutaImagenes = new FileUtil().getPropertyValue("rutaImagen");
-		} catch (Exception e) {
-			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Error!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-		}
 	}
 	
 	public void setIdmascota(int idmascota) {
@@ -217,11 +205,4 @@ public class AlbumBean implements Serializable {
 		return url;
 	}
 
-	public String getRutaImagenes() {
-		return rutaImagenes;
-	}
-
-	public void setRutaImagenes(String rutaImagenes) {
-		this.rutaImagenes = rutaImagenes;
-	}
 }

@@ -60,7 +60,6 @@ public class OrdenServicioBean implements Serializable {
 	private List<Cotlugar> lisCotlugar;
 	private List<Petmascotacolor> lisPetmascotacolor;
 	private List<Cotservicio> lisCotservicio;
-	private String rutaImagenes;
 
 	public OrdenServicioBean() {
 		petordenservicio = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null);
@@ -70,7 +69,6 @@ public class OrdenServicioBean implements Serializable {
 		llenarListaLugar();
 		llenarListaServicio();
 		consultarDetalle();
-		cargarRutaImagenes();
 	}
 	
 	@PostConstruct
@@ -172,15 +170,6 @@ public class OrdenServicioBean implements Serializable {
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-		}
-	}
-	
-	private void cargarRutaImagenes(){
-		try {
-			rutaImagenes = new FileUtil().getPropertyValue("rutaImagen");
-		} catch (Exception e) {
-			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Error!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
 	
@@ -426,11 +415,4 @@ public class OrdenServicioBean implements Serializable {
 		}
 	}
 
-	public String getRutaImagenes() {
-		return rutaImagenes;
-	}
-
-	public void setRutaImagenes(String rutaImagenes) {
-		this.rutaImagenes = rutaImagenes;
-	}
 }

@@ -50,7 +50,7 @@ public class PetordenservicioDAO {
 		.add( Restrictions.eq("m.setestado.idestado", 1))
 		.createCriteria("petmascotahomenaje", "m");
 		
-		Criteria secondCriteria = criteria.createCriteria("m.cotpersona", "p")
+		Criteria secondCriteria = criteria.createCriteria("m.cotpersona", "p", Criteria.LEFT_JOIN)
 		.add( Restrictions.eq("setestado.idestado", 1));
 		
 		if(nombres != null && nombres.length > 0){
@@ -86,7 +86,7 @@ public class PetordenservicioDAO {
 			.add( Restrictions.eq("m.setestado.idestado", 1))
 			.createCriteria("petmascotahomenaje", "m");
 			
-			Criteria secondCriteriaCount = criteriaCount.createCriteria("m.cotpersona", "p")
+			Criteria secondCriteriaCount = criteriaCount.createCriteria("m.cotpersona", "p", Criteria.LEFT_JOIN)
 			.add( Restrictions.eq("setestado.idestado", 1));
 			
 			if(nombres != null && nombres.length > 0){

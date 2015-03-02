@@ -42,8 +42,8 @@ public class PetmascotaDAO {
 		Criteria criteria = session.createCriteria(Petmascotahomenaje.class)
 		.add( Restrictions.eq("petespecie.idespecie", especie) )
 		.add( Restrictions.eq("setestado.idestado", 1) )
-		.createAlias("petraza", "raza")
-		.createAlias("cotpersona", "persona");
+		.createAlias("petraza", "raza", Criteria.LEFT_JOIN)
+		.createAlias("cotpersona", "persona", Criteria.LEFT_JOIN);
 		
 		if(nombre != null && nombre.trim().length() > 0){
 			criteria.add( Restrictions.like("nombre", "%"+nombre.replaceAll(" ", "%")+"%").ignoreCase());
@@ -61,8 +61,8 @@ public class PetmascotaDAO {
 			.setProjection( Projections.rowCount())
 			.add( Restrictions.eq("petespecie.idespecie", especie))
 			.add( Restrictions.eq("setestado.idestado", 1))
-			.createAlias("petraza", "raza")
-			.createAlias("cotpersona", "persona");
+			.createAlias("petraza", "raza", Criteria.LEFT_JOIN)
+			.createAlias("cotpersona", "persona", Criteria.LEFT_JOIN);
 			
 			if(nombre != null && nombre.trim().length() > 0){
 				criteriaCount.add( Restrictions.like("nombre", "%"+nombre.replaceAll(" ", "%")+"%").ignoreCase());
@@ -84,8 +84,8 @@ public class PetmascotaDAO {
 		
 		Criteria criteria = session.createCriteria(Petmascotahomenaje.class, "m")
 		.add( Restrictions.eq("setestado.idestado", 1) )
-		.createAlias("petraza", "r")
-		.createAlias("cotpersona", "p")
+		.createAlias("petraza", "r", Criteria.LEFT_JOIN)
+		.createAlias("cotpersona", "p", Criteria.LEFT_JOIN)
 		.createAlias("petespecie", "e");
 		
 		if(nombre != null && nombre.trim().length() > 0){
@@ -103,8 +103,8 @@ public class PetmascotaDAO {
 			Criteria criteriaCount = session.createCriteria( Petmascotahomenaje.class)
 			.setProjection( Projections.rowCount())
 			.add( Restrictions.eq("setestado.idestado", 1))
-			.createAlias("petraza", "r")
-			.createAlias("cotpersona", "p")
+			.createAlias("petraza", "r", Criteria.LEFT_JOIN)
+			.createAlias("cotpersona", "p", Criteria.LEFT_JOIN)
 			.createAlias("petespecie", "e");
 			
 			if(nombre != null && nombre.trim().length() > 0){
@@ -259,8 +259,8 @@ public class PetmascotaDAO {
 		Criteria criteria = session.createCriteria(Petmascotahomenaje.class)
 		.add( Restrictions.eq("idmascota", id) )
 		.add( Restrictions.eq("setestado.idestado", 1))
-		.createAlias("cotpersona","persona")
-		.createAlias("petraza","raza")
+		.createAlias("cotpersona","persona", Criteria.LEFT_JOIN)
+		.createAlias("petraza","raza", Criteria.LEFT_JOIN)
 		.createAlias("petespecie", "especie")
 		.createAlias("cottipoidentificacion", "tipoidentificacion", Criteria.LEFT_JOIN)
 		;

@@ -13,11 +13,11 @@
 		<center>
 			<h1 >Fotos del Propietario: #{fotosPersonaBean.cotpersona.nombre1} #{fotosPersonaBean.cotpersona.nombre2}</h1>
 			<p:galleria id="idgalleria" value="#{fotosPersonaBean.liscotfotopersona}" var="item" transitionInterval="0" panelWidth="500" panelHeight="320" styleClass="ui-widget-content ui-corner-all">
-		        <p:graphicImage id="idfotos" value="#{fotosPersonaBean.rutaImagenes}#{item.ruta}?w=150" style="max-height: 50px" />
+		        <p:graphicImage id="idfotos" value="#{parametro.servletImagenes}#{item.ruta}?w=150" style="max-height: 50px" />
 		        <p:galleriaContent>  
 		            <h:panelGrid columns="1" style="background-color: #eaeaea;height: 100%; width: 100%;" >  
 				        <f:facet name="header">
-			            	<p:graphicImage id="idfoto" value="#{fotosPersonaBean.rutaImagenes}#{item.ruta}?w=150" style="max-height: 300px" />
+			            	<p:graphicImage id="idfoto" value="#{parametro.servletImagenes}#{item.ruta}?w=150" style="max-height: 300px" />
 				        </f:facet>
 				        <p:commandButton id="idbuttonperfil" title="Colocar como foto del Perfil" icon="ui-icon ui-icon-person"  onclick="vardialogperfil.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:idpanelperfil" >
 				        	<f:setPropertyActionListener value="#{item}" target="#{fotosPersonaBean.cotfotopersonaSelected}" />
@@ -52,7 +52,7 @@
 		</p:dialog>
 		<p:dialog id="iddialogperfil" header="Foto de Perfil" closable="true" widgetVar="vardialogperfil" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
 			<h:panelGrid id="idpanelperfil" columns="2">
-				<p:graphicImage value="#{fotosPersonaBean.rutaImagenes}#{fotosPersonaBean.cotfotopersonaSelected.ruta}?w=150" style="max-height: 50px" />
+				<p:graphicImage value="#{parametro.servletImagenes}#{fotosPersonaBean.cotfotopersonaSelected.ruta}?w=150" style="max-height: 50px" />
 				<h:outputLabel id="idlabelperfil" value="¿Poner imágen como foto del Perfil?" />
 				<h:outputText value="" />
 				<h:panelGrid id="idpanel2perfil" columns="2" style="position: absolute;right: 0;bottom: 0;">
@@ -63,7 +63,7 @@
 		</p:dialog>
 		<p:dialog id="iddialogdelete"  header="Eliminar Foto" closable="true" widgetVar="vardialogdelete" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
 			<h:panelGrid id="idpaneldelete" columns="2">
-				<p:graphicImage value="#{fotosPersonaBean.rutaImagenes}#{fotosPersonaBean.cotfotopersonaSelected.ruta}?w=150" style="max-height: 50px" />
+				<p:graphicImage value="#{parametro.servletImagenes}#{fotosPersonaBean.cotfotopersonaSelected.ruta}?w=150" style="max-height: 50px" />
 				<h:outputLabel id="idlabeldelete" value="¿Eliminar Permanentemente la imágen del álbum? Esta acción no podrá deshacerse" />
 				<h:outputText value="" />
 				<h:panelGrid id="idpanel2delete" columns="2" style="position: absolute;right: 0;bottom: 0;">
