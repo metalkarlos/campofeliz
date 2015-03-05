@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 import com.web.pet.bo.CotcolorBO;
 import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.bo.CottipoidentificacionBO;
+import com.web.pet.bo.PetespecieBO;
 import com.web.pet.bo.PetfotoBO;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetmascotacolorBO;
@@ -45,6 +46,7 @@ public class MascotaBean implements Serializable {
 	private List<Cotcolor> lisColor;
 	private List<Petmascotacolor> lisPetmascotacolorOld;
 	private List<Petmascotacolor> lisPetmascotacolor;
+	private List<Petespecie> lisPetespecie;
 	//private static StreamedContent foto;
 	private int idcolorselected;
 	private Cotcolor cotcolorselected;
@@ -62,6 +64,7 @@ public class MascotaBean implements Serializable {
 		llenarLisTipoidentificacion();
 		llenarLisRaza();
 		llenarLisColor();
+		inicializarEspecieMascota();
 		lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 		//lisColor = ColorConverter.lisColorDB;//Programación ubicada en ColorConverter
 	}
@@ -83,10 +86,21 @@ public class MascotaBean implements Serializable {
 		if(idmascota > 0){
 			try{
 				petmascotahomenaje = new PetmascotaBO().getPetmascotaById(idmascota);
-				cotpersonaselected = petmascotahomenaje.getCotpersona();
-				if(petmascotahomenaje != null && petmascotahomenaje.getCottipoidentificacion() != null && petmascotahomenaje.getCottipoidentificacion().getIdtipoidentificacion() > 0){
-					cottipoidentificacionselected = petmascotahomenaje.getCottipoidentificacion();
+				if(petmascotahomenaje == null){
+					petmascotahomenaje = new Petmascotahomenaje(0, null, new Petraza(), new Cotpersona());
 				}
+				if(petmascotahomenaje.getCotpersona() == null){
+					petmascotahomenaje.setCotpersona(new Cotpersona());
+				}
+				if(petmascotahomenaje.getCottipoidentificacion() == null){
+					petmascotahomenaje.setCottipoidentificacion(new Cottipoidentificacion());
+				}
+				if(petmascotahomenaje.getPetraza() == null){
+					petmascotahomenaje.setPetraza(new Petraza());
+				}
+				cotpersonaselected = petmascotahomenaje.getCotpersona();
+				cottipoidentificacionselected = petmascotahomenaje.getCottipoidentificacion();
+				
 				petfotomascota = new PetfotoBO().getPetfotoPerfilByPetId(idmascota);
 				lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(idmascota);
 				if(lisPetmascotacolor == null){
@@ -109,6 +123,16 @@ public class MascotaBean implements Serializable {
 				re.printStackTrace();
 				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 			}
+		}
+	}
+	
+	private void inicializarEspecieMascota(){
+		try
+		{
+			lisPetespecie = new PetespecieBO().lisPetespecie();
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 	}
 	
@@ -458,4 +482,11 @@ public class MascotaBean implements Serializable {
 		}
 	}
 
+	public List<Petespecie> getLisPetespecie() {
+		return lisPetespecie;
+	}
+
+	public void setLisPetespecie(List<Petespecie> lisPetespecie) {
+		this.lisPetespecie = lisPetespecie;
+	}
 }

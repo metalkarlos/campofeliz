@@ -34,30 +34,30 @@
 	s.dedicatoria,
 	d.idordenserviciodetalle,
 	se.nombre as servicio
-  from petordenservicio s,
-       petordenserviciodetalle d,
-       cotservicio se,
-       petmascota m,
-       cotpersona p,
-       petraza r,
-       cotlugar l,
-       petespecie e
+  from petordenservicio s
+       inner join petordenserviciodetalle d
+       on d.idordenservicio = s.idordenservicio/*detalle*/
+	   and d.idestado = 1
+       inner join cotservicio se
+       on se.idservicio = d.idservicio/*servicios*/
+	   and se.idestado = 1
+       inner join petmascotahomenaje m
+       on m.idmascota = s.idmascota/*mascota*/
+	   and m.idestado = 1
+       left outer join cotpersona p
+       on p.idpersona = m.idpersona/*propietario*/
+	   and p.idestado = 1
+       left outer join petraza r
+       on r.idraza = m.idraza/*raza*/
+	   and r.idestado = 1
+       left outer join cotlugar l
+	   on l.idlugar = s.idlugar/*lugar fallecido*/
+	   and l.idestado = 1
+       left outer join petespecie e
+	   on e.idespecie = m.idespecie/*especie*/
+	   and e.idestado = 1
  where s.idordenservicio = $P{P_IDORDENSERVICIO}/*cabecera*/
 	and s.idestado   = 1
-	and l.idlugar    = s.idlugar/*lugar fallecido*/
-	and l.idestado   = 1
-	and m.idmascota  = s.idmascota/*mascota*/
-	and m.idestado   = 1
-	and r.idraza     = m.idraza/*raza*/
-	and r.idestado   = 1
-	and e.idespecie  = m.idespecie/*especie*/
-	and e.idestado   = 1
-	and p.idpersona  = m.idpersona/*propietario*/
-	and p.idestado   = 1
-	and d.idordenservicio = s.idordenservicio/*detalle*/
-	and d.idestado   = 1
-	and se.idservicio = d.idservicio/*servicios*/
-	and se.idestado  = 1
    order by se.nombre asc]]>
 	</queryString>
 	<field name="idsolicitud" class="java.lang.Integer"/>

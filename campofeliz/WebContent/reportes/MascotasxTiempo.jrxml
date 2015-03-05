@@ -24,21 +24,21 @@
        p.telefono,p.email,p.direccion,
        detalle_servicio(s.idordenservicio) detalleservicio
 
-  from petordenservicio s,
-       petmascota m,
-       cotpersona p,
-       petraza r,
-       petespecie e
+  from petordenservicio s
+       inner join petmascotahomenaje m
+       on m.idmascota = s.idmascota
+       and m.idestado = 1
+       left outer join cotpersona p
+       on p.idpersona = m.idpersona
+       and p.idestado = 1
+       left outer join petraza r
+       on r.idraza = m.idraza
+       and r.idestado = 1
+       left outer join petespecie e
+       on e.idespecie = m.idespecie
+       and e.idestado   = 1
 
  where s.idestado   = 1
-   and m.idestado   = 1
-   and p.idestado   = 1
-   and r.idestado   = 1
-   and e.idestado   = 1
-   and s.idmascota  = m.idmascota
-   and m.idpersona  = p.idpersona
-   and m.idraza     = r.idraza
-   and m.idespecie  = e.idespecie
    and (s.fechaentierro >= coalesce($P{P_FECHA_DESDE},s.fechaentierro)
         and s.fechaentierro <= coalesce($P{P_FECHA_HASTA},s.fechaentierro))
 

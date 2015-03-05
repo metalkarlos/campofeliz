@@ -189,7 +189,7 @@ h3 {
 }
 
 #principal {
-	min-width: 1090px;/*1050px;*/
+	min-width: 1140px;/*1050px;*/
 	min-height: 600px;
 	position: absolute;
 	/*margin:auto;*/
@@ -247,6 +247,7 @@ h3 {
 	float:left;
 	text-align:center;
 	margin: 0px 10px 0px 10px;
+	max-width: 243px;
 }
 
 #principal .body .content .right {

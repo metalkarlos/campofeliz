@@ -7,7 +7,7 @@
 	<queryString>
 		<![CDATA[select count(m.idmascota) as count,coalesce(extract(year from s.fechaentierro), 0) as date_part
   from petordenservicio s,
-       petmascota m
+       petmascotahomenaje m
  where s.idestado   = 1
    and m.idestado   = 1
    and s.idmascota  = m.idmascota

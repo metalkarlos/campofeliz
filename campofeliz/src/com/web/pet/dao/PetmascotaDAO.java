@@ -82,7 +82,7 @@ public class PetmascotaDAO {
 	public List<Petmascotahomenaje> lisPetmascotaByPage(Session session, String nombre, int pageSize, int pageNumber, int[] args) throws Exception {
 		List<Petmascotahomenaje> lisPetmascotahomenaje = null;
 		
-		Criteria criteria = session.createCriteria(Petmascotahomenaje.class, "m")
+		Criteria criteria = session.createCriteria(Petmascotahomenaje.class)
 		.add( Restrictions.eq("setestado.idestado", 1) )
 		.createAlias("petraza", "r", Criteria.LEFT_JOIN)
 		.createAlias("cotpersona", "p", Criteria.LEFT_JOIN)

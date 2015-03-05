@@ -27,7 +27,7 @@
 				<h:outputLabel id="idlblmascota" value="Buscar por Nombre de Mascota: " for="idmascota" />
 				<p:autoComplete id="idmascota" size="60" value="#{ordenServicioBean.mascotasselected}" completeMethod="#{ordenServicioBean.buscarMascotas}" 
 				var="m" itemLabel="#{m.petmascotahomenaje.nombre}" itemValue="#{m}" converter="mascota" minQueryLength="1"  
-				forceSelection="true" required="true" requiredMessage="La Mascota es obligatoria">
+				forceSelection="true" requiredMessage="La Mascota es obligatoria">
 					<p:ajax event="itemSelect" listener="#{ordenServicioBean.itemSelectMascota}" update=":form-contentpage:panelgridmascota, :form-contentpage:panelgridpropietario, :form-contentpage:mensajes"></p:ajax>
 					
 					<f:facet name="itemtip">  

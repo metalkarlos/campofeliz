@@ -12,8 +12,8 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
-import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetespecieBO;
+import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.pojo.annotations.Mascotas;
 import com.web.pet.pojo.annotations.Petespecie;
 import com.web.util.FacesUtil;
@@ -40,9 +40,9 @@ public class MascotasBean implements Serializable {
 		
 		inicializarEspecieMascota();
 		
-		if(especie <= 0 && lisPetespecie != null && lisPetespecie.size() > 0){
+		/*if(especie <= 0 && lisPetespecie != null && lisPetespecie.size() > 0){
 			especie = lisPetespecie.get(0).getIdespecie();
-		}
+		}*/
 		
 		consultarMascotas();
 	}

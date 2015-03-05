@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
@@ -50,11 +51,26 @@ public class AlbumBean implements Serializable {
 		setFileSeparator(Parametro.FILE_SEPARATOR);
 	}
 	
+	@PostConstruct
+	public void PostAlbumBean() {
+		FacesUtil facesUtil = new FacesUtil();
+
+		idmascota = Integer.parseInt(facesUtil.getParametroUrl("idmascota") != null ? facesUtil
+				.getParametroUrl("idmascota").toString() : "0");
+		
+		if(idmascota > 0){
+			try{
+				petmascotahomenaje = new PetmascotaBO().getPetmascotaById(idmascota);//Usado en página side
+				lispetfotomascota = new PetfotoBO().lisPetfotoByPetId(idmascota);
+			}catch(Exception re){
+				re.printStackTrace();
+				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			}
+		}
+	}
+	
 	public void setIdmascota(int idmascota) {
 		this.idmascota = idmascota;
-		if(idmascota>0){
-			consultarmascota();
-		}
 	}
 	
 	public int getIdmascota() {
@@ -107,16 +123,6 @@ public class AlbumBean implements Serializable {
 
 	public void setUploadedFile(UploadedFile uploadedFile) {
 		this.uploadedFile = uploadedFile;
-	}
-
-	private void consultarmascota(){
-		try{
-			petmascotahomenaje = new PetmascotaBO().getPetmascotaById(idmascota);//Usado en página side
-			lispetfotomascota = new PetfotoBO().lisPetfotoByPetId(idmascota);
-		}catch(Exception re){
-			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-		}
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {

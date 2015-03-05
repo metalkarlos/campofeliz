@@ -14,7 +14,7 @@
             when (extract(month from s.fechaentierro)) =9 then 'Septiembre'  when (extract(month from s.fechaentierro)) =10 then 'Octubre'
             when (extract(month from s.fechaentierro)) =11 then 'Noviembre'  when (extract(month from s.fechaentierro)) =12 then 'Diciembre' end as mes
   from petordenservicio s,
-       petmascota m
+       petmascotahomenaje m
  where s.idestado   = 1
    and m.idestado   = 1
    and s.idmascota  = m.idmascota
