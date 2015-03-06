@@ -33,10 +33,14 @@ public class MascotasBean implements Serializable {
 	private int rowsGrid;
 	private List<Petespecie> lisPetespecie;
 	private String nombre;
+	private String textoBusqueda;
 
 	public MascotasBean() {
 		setColumnsGrid(4);
 		setRowsGrid(4);
+		
+		nombre = "buscar por nombre de mascota";
+		textoBusqueda="buscar por nombre de mascota";
 		
 		inicializarEspecieMascota();
 		
@@ -77,9 +81,11 @@ public class MascotasBean implements Serializable {
 					PetmascotaBO petmascotaBO = new PetmascotaBO();
 					int args[] = {0};
 					
-					if(especie > 0){
-						data = petmascotaBO.lisMascotasByEspecieByPage(especie, nombre, pageSize, first, args);
+					String nombreParam = nombre.equals(textoBusqueda)?null:nombre;
+					if(especie > 0 || nombreParam != null){
+						data = petmascotaBO.lisMascotasByEspecieByPage(especie, nombreParam, pageSize, first, args);
 					}
+
 					this.setRowCount(args[0]);
 	
 			        return data;
@@ -151,6 +157,14 @@ public class MascotasBean implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getTextoBusqueda() {
+		return textoBusqueda;
+	}
+
+	public void setTextoBusqueda(String textoBusqueda) {
+		this.textoBusqueda = textoBusqueda;
 	}
 
 }

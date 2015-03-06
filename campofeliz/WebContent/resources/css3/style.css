@@ -114,6 +114,45 @@ h3 {
 	padding: 0px 5px 0px 5px;
 }
 
+#search-form {
+	display:inline-block;
+	position:relative;
+	width:271px;
+	height:31px;
+	margin:6px 0 0 0;
+	border: 1px solid #cccccc;
+	border-radius: 7px;
+	box-shadow: 1px 0 5px #aaaaaa;
+}
+
+#search-form input {
+	outline:none;
+	margin:0 0 0 15px;
+	color:#c2c2c2;
+	border:none;
+	font-size:12px;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	background:none;
+	text-transform:uppercase;
+	height:18px;
+	padding:7px 0 5px;
+	width:225px;
+}
+
+.search-form-submit {
+	position:absolute;
+	display:block;
+	width:20px;
+	height:23px;
+	background:url(../resources/images/header-search-submit.gif) no-repeat 0 0;
+	right:6px;
+	top:4px;
+}
+
+.search-form-submit:hover {
+	background:url(../resources/images/header-search-submit.gif) no-repeat 0 bottom;
+}
+
 /************************************** Login Settings **************************************/
 .centrar-body {
 	background-color:#ffffff;

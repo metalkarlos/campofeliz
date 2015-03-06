@@ -40,10 +40,13 @@ public class PetmascotaDAO {
 		List<Petmascotahomenaje> lisPetmascotahomenaje = null;
 		
 		Criteria criteria = session.createCriteria(Petmascotahomenaje.class)
-		.add( Restrictions.eq("petespecie.idespecie", especie) )
 		.add( Restrictions.eq("setestado.idestado", 1) )
 		.createAlias("petraza", "raza", Criteria.LEFT_JOIN)
 		.createAlias("cotpersona", "persona", Criteria.LEFT_JOIN);
+		
+		if(especie > 0){
+			criteria.add( Restrictions.eq("petespecie.idespecie", especie) );
+		}
 		
 		if(nombre != null && nombre.trim().length() > 0){
 			criteria.add( Restrictions.like("nombre", "%"+nombre.replaceAll(" ", "%")+"%").ignoreCase());
@@ -59,10 +62,13 @@ public class PetmascotaDAO {
 		{
 			Criteria criteriaCount = session.createCriteria( Petmascotahomenaje.class)
 			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("petespecie.idespecie", especie))
 			.add( Restrictions.eq("setestado.idestado", 1))
 			.createAlias("petraza", "raza", Criteria.LEFT_JOIN)
 			.createAlias("cotpersona", "persona", Criteria.LEFT_JOIN);
+			
+			if(especie > 0){
+				criteria.add( Restrictions.eq("petespecie.idespecie", especie) );
+			}
 			
 			if(nombre != null && nombre.trim().length() > 0){
 				criteriaCount.add( Restrictions.like("nombre", "%"+nombre.replaceAll(" ", "%")+"%").ignoreCase());

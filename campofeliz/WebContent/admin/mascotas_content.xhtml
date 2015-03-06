@@ -11,11 +11,14 @@
 		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-ordencontent">
 		<br />
-		<p:focus for="idtxtnombre" />
-		<h:outputLabel id="idlblnombre"  value="Buscar por Nombre de Mascota: " for="idtxtnombre" />
-		<p:inputText id="idtxtnombre" value="#{mascotasBean.nombre}" style="width: 500px">
-			<f:ajax event="keyup" render="idGridMascotas"></f:ajax>
-		</p:inputText>
+		<div style="float: right;margin: 10px 15px 0 0;">
+		  <div id="search-form" >
+			<h:inputText id="txtbusqueda"  value="#{mascotasBean.nombre}" onblur="if(this.value==''){this.value='#{mascotasBean.textoBusqueda}'}" onfocus="if(this.value=='#{mascotasBean.textoBusqueda}'){this.value=''}" />
+			<h:commandLink styleClass="search-form-submit" >
+				<f:ajax render="idGridMascotas" execute="txtbusqueda"></f:ajax>
+			</h:commandLink>
+		  </div>
+		</div>
 		<br /><br />
 		<h:link  class="link" value="[ Nueva Mascota ]" outcome="mascota.hxtml" rendered="#{mascotasBean.especie gt 0}" >
 			<f:param name="idmascota" value="0" /> 
