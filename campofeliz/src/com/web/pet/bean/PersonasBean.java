@@ -33,11 +33,14 @@ public class PersonasBean implements Serializable {
 	private int rowsGrid;*/
 	private Cotpersona cotpersonaSelected;
 	private String nombre;
+	private String textoBusqueda;
 	
 	public PersonasBean() {
 		cotpersonaSelected = new Cotpersona(0, new Cottipoidentificacion(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-		//setColumnsGrid(4);
-		//setRowsGrid(4);
+		
+		nombre = "buscar por nombre de persona";
+		textoBusqueda="buscar por nombre de persona";
+		
 		consultarPersonas();
 	}
 	
@@ -50,9 +53,11 @@ public class PersonasBean implements Serializable {
 					List<Cotpersona> lisCotpersona = new ArrayList<Cotpersona>();
 					CotpersonaBO cotpersonaBO = new CotpersonaBO();
 					int args[] = {0};
+					
+					String nombreParam = nombre.equals(textoBusqueda)?null:nombre;
 					String[] nombres = null;
-					if(nombre != null && nombre.trim().length() > 0){
-						nombres = nombre.split(" ");
+					if(nombreParam != null && nombreParam.trim().length() > 0){
+						nombres = nombreParam.split(" ");
 					}
 					lisCotpersona = cotpersonaBO.lisCotpersonaByPage(nombres, pageSize, first, args);
 					this.setRowCount(args[0]);
@@ -128,5 +133,13 @@ public class PersonasBean implements Serializable {
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
+	}
+
+	public String getTextoBusqueda() {
+		return textoBusqueda;
+	}
+
+	public void setTextoBusqueda(String textoBusqueda) {
+		this.textoBusqueda = textoBusqueda;
 	}
 }

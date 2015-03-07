@@ -10,11 +10,14 @@
 		<p:messages id="mensajes" showDetail="true" />
 		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-content">
-			<p:focus for="idtxtnombre" />
-			<p:outputLabel id="idlblnombre" value="Buscar por Nombre de Propietario: " for="idtxtnombre" />
-			<p:inputText id="idtxtnombre" value="#{ordenesServicioBean.nombre}" style="width: 500px" >
-				<f:ajax event="keyup" render="idTablaOrdenes" />
-			</p:inputText>
+			<div style="float: right;margin: 10px 15px 0 0;">
+			  <div id="search-form" >
+				<h:inputText id="txtbusqueda"  value="#{ordenesServicioBean.nombre}" onblur="if(this.value==''){this.value='#{ordenesServicioBean.textoBusqueda}'}" onfocus="if(this.value=='#{ordenesServicioBean.textoBusqueda}'){this.value=''}" />
+				<h:commandLink styleClass="search-form-submit" >
+					<f:ajax render="idTablaOrdenes" execute="txtbusqueda"></f:ajax>
+				</h:commandLink>
+			  </div>
+			</div>
 			<br /><br />
 			<h:link  class="link" value="[ Nueva Solicitud ]" outcome="ordenservicio.hxtml" >
 				<f:param name="idordenservicio" value="0" /> 

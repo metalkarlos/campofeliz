@@ -10,11 +10,14 @@
 		<p:messages id="mensajes" showDetail="true" />
 		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
 		<p:panel id="panel-personacontent">
-			<p:focus for="idtxtnombre" />
-			<p:outputLabel id="idlblnombre" value="Buscar por Nombre: " for="idtxtnombre" />
-			<p:inputText id="idtxtnombre" value="#{personasBean.nombre}" style="width: 500px" >
-				<f:ajax event="keyup" render="idTablaPersonas" />
-			</p:inputText>
+			<div style="float: right;margin: 10px 15px 0 0;">
+			  <div id="search-form" >
+				<h:inputText id="txtbusqueda"  value="#{personasBean.nombre}" onblur="if(this.value==''){this.value='#{personasBean.textoBusqueda}'}" onfocus="if(this.value=='#{personasBean.textoBusqueda}'){this.value=''}" />
+				<h:commandLink styleClass="search-form-submit" >
+					<f:ajax render="idTablaPersonas" execute="txtbusqueda"></f:ajax>
+				</h:commandLink>
+			  </div>
+			</div>
 			<br /><br />
 			<h:link class="link" value="[ Nueva Persona ]" outcome="persona.xhtml" >
 				<f:param name="idpersona" value="0" /> 

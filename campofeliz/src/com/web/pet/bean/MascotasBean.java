@@ -43,11 +43,6 @@ public class MascotasBean implements Serializable {
 		textoBusqueda="buscar por nombre de mascota";
 		
 		inicializarEspecieMascota();
-		
-		/*if(especie <= 0 && lisPetespecie != null && lisPetespecie.size() > 0){
-			especie = lisPetespecie.get(0).getIdespecie();
-		}*/
-		
 		consultarMascotas();
 	}
 	

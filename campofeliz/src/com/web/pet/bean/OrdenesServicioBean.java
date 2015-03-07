@@ -32,9 +32,14 @@ public class OrdenesServicioBean implements Serializable {
 	private LazyDataModel<Petordenservicio> lisPetordenservicio;
 	private Petordenservicio petordenservicioSelected;
 	private String nombre;
+	private String textoBusqueda;
 	
 	public OrdenesServicioBean() {
 		petordenservicioSelected = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), new Setusuario(), null, null, null, null, null, null);
+		
+		nombre = "buscar por nombre de propietario";
+		textoBusqueda="buscar por nombre de propietario";
+		
 		consultarOrdenes();
 	}
 	
@@ -47,9 +52,11 @@ public class OrdenesServicioBean implements Serializable {
 					List<Petordenservicio> lisPetordenservicio = new ArrayList<Petordenservicio>();
 					PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
 					int args[] = {0};
+					
+					String nombreParam = nombre.equals(textoBusqueda)?null:nombre;
 					String[] nombres = null;
-					if(nombre != null && nombre.trim().length() > 0){
-						nombres = nombre.split(" ");
+					if(nombreParam != null && nombreParam.trim().length() > 0){
+						nombres = nombreParam.split(" ");
 					}
 					lisPetordenservicio = petordenservicioBO.lisPetordenservicioByPage(nombres, pageSize, first, args);
 					this.setRowCount(args[0]);
@@ -109,6 +116,14 @@ public class OrdenesServicioBean implements Serializable {
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
+	}
+
+	public String getTextoBusqueda() {
+		return textoBusqueda;
+	}
+
+	public void setTextoBusqueda(String textoBusqueda) {
+		this.textoBusqueda = textoBusqueda;
 	}
 
 }
