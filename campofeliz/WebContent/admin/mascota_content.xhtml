@@ -33,8 +33,12 @@
 			<h:outputText value="#{mascotaBean.petmascotahomenaje.idmascota}" />
 			<br /><br />
 			
+			<h1 class="title ui-widget-header ui-corner-all">Código Veterinaria</h1>
+			<p:focus for="idmascotaveterinaria"/>
+			<p:inputText id="idmascotaveterinaria" value="#{mascotaBean.petmascotahomenaje.idmascotaveterinaria}" />
+			<br /><br />
+			
 			<h1 class="title ui-widget-header ui-corner-all">Nombre</h1>
-			<p:focus for="idnombre"/>
 			<p:inputText id="idnombre" value="#{mascotaBean.petmascotahomenaje.nombre}" size="200" style="max-width: 760px" required="true" requiredMessage="El Nombre es obligatorio." />
 			<br /><br />
 			

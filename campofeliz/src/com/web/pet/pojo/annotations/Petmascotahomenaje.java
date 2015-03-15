@@ -53,6 +53,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 	private boolean pedigree;
 	private boolean microchip;
 	private String numeroidentificacion;
+	private int idmascotaveterinaria;
 	private Set<Petfotomascota> petfotomascotas = new HashSet<Petfotomascota>(0);
 	private Set<Petmascotacolor> petmascotacolors = new HashSet<Petmascotacolor>(0);
 
@@ -364,6 +365,15 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 
 	public void setNumeroidentificacion(String numeroidentificacion) {
 		this.numeroidentificacion = numeroidentificacion;
+	}
+
+	@Column(name = "idmascotaveterinaria")
+	public int getIdmascotaveterinaria() {
+		return idmascotaveterinaria;
+	}
+
+	public void setIdmascotaveterinaria(int idmascotaveterinaria) {
+		this.idmascotaveterinaria = idmascotaveterinaria;
 	}
 
 	@Override
