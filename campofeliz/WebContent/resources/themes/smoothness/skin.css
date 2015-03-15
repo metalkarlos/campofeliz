@@ -893,6 +893,17 @@ body .ui-tooltip {
 	font-weight: normal;
 	color: #ffffff;
 }
+/*cajas de texto y combos sin hover*/
+.ui-widget-content input.ui-state-hover,
+.ui-widget-content input.ui-state-focus,
+.ui-widget-content textarea.ui-state-hover,
+.ui-widget-content textarea.ui-state-focus,
+.ui-widget-content .ui-selectonemenu,
+.ui-selectonemenu .ui-state-hover,
+.ui-selectonemenu .ui-state-focus {
+	background: #eaece8 url("../resources/themes/smoothness/images/ui-bg_glass_85_eaece8_1x400.png") 50% 50% repeat-x;
+	color: #7B7B7B;
+}
 .ui-state-hover a,
 .ui-state-hover a:hover,
 .ui-state-hover a:link,
@@ -994,6 +1005,11 @@ body .ui-tooltip {
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon {
 	background-image: url("../resources/themes/smoothness/images/ui-icons_ffffff_256x240.png");
+}
+/*flecha de combos sin hover*/
+.ui-widget-content .ui-selectonemenu .ui-state-hover .ui-icon, 
+.ui-widget-content .ui-selectonemenu .ui-state-focus .ui-icon {
+    background-image: url("../resources/themes/smoothness/images/ui-icons_9ddd63_256x240.png");
 }
 .ui-state-active .ui-icon {
 	background-image: url("../resources/themes/smoothness/images/ui-icons_f9bd01_256x240.png");
