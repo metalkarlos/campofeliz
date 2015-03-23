@@ -24,7 +24,7 @@
 				<br />
 				
 				<p:focus for="idmascota" /> 
-				<h:outputLabel id="idlblmascota" value="Buscar por Nombre de Mascota: " for="idmascota" />
+				<h:outputLabel id="idlblmascota" value="Nombre de Mascota: " for="idmascota" />
 				<p:autoComplete id="idmascota" size="60" value="#{ordenServicioBean.mascotasselected}" completeMethod="#{ordenServicioBean.buscarMascotas}" 
 				var="m" itemLabel="#{m.petmascotahomenaje.nombre}" itemValue="#{m}" converter="mascota" minQueryLength="1"  
 				forceSelection="true" requiredMessage="La Mascota es obligatoria">
@@ -47,6 +47,7 @@
                     </h:panelGrid>  
                 </f:facet>
 				</p:autoComplete>
+				[ <h:link class="link" id="idheadlink1" value="Nueva Mascota" onclick="vardialogeditormascota.show()" /> ]
 				<br /><br />
 				<h1 class="title ui-widget-header ui-corner-all" >Datos de la Mascota</h1>
 				<p:panelGrid id="panelgridmascota" styleClass="gridmascota" >
@@ -280,6 +281,60 @@
 				</div>
 				</h:column>
 			</h:panelGrid>
+		</p:dialog>
+		<p:dialog id="iddialogeditormascota" header="Registro de Mascotas Simplificado" closable="true" widgetVar="vardialogeditormascota" modal="true" height="550" width="600" >
+			<p:messages id="mensajeseditormascota" showDetail="true" />
+			<p:fieldset id="idpaneleditormascota" style="margin-top: 10px" legend="Datos de la Mascota">
+				<h:panelGrid id="idgrideditormascota" columns="2" styleClass="gridmascota" >
+					<h:outputLabel value="Código Veterinaria: " for="ideditormascotaveterinaria" />
+					<p:inputText id="ideditormascotaveterinaria" value="#{ordenServicioBean.petmascotahomenajenuevo.idmascotaveterinaria}" />
+					
+					<h:outputLabel value="Nombre: " for="ideditornombremascota" />
+					<p:inputText id="ideditornombremascota" value="#{ordenServicioBean.petmascotahomenajenuevo.nombre}"  />
+
+					<h:outputLabel value="Especie: " for="ideditorespeciemascota" />
+					<p:selectOneMenu id="ideditorespeciemascota" style="width: 145px; align: center;" value="#{ordenServicioBean.petmascotahomenajenuevo.petespecie.idespecie}" >
+						<f:selectItem itemLabel="Seleccione" itemValue="0"/>
+						<f:selectItems value="#{ordenServicioBean.lisPetespecie}" var="especie" itemLabel="#{especie.nombre}" itemValue="#{especie.idespecie}"></f:selectItems>
+					</p:selectOneMenu>
+					
+					<h:outputLabel value="Sexo: " for="ideditorsexolist" />
+					<p:selectOneMenu id="ideditorsexolist" value="#{ordenServicioBean.petmascotahomenajenuevo.sexo}" >
+		                <f:selectItem itemLabel="Macho" itemValue="1" />
+		                <f:selectItem itemLabel="Hembra" itemValue="2" />
+		            </p:selectOneMenu>
+		         </h:panelGrid>
+		     </p:fieldset>
+		     <p:fieldset id="idpaneleditorpropietario" style="margin-top: 10px" legend="Datos del Propietario">
+		         <h:panelGrid id="idgrideditorpropietario" columns="2" styleClass="gridmascota" >
+		            <h:outputLabel value="Primer Nombre: " for="ideditornombre1propietario" />
+					<p:inputText id="ideditornombre1propietario" value="#{ordenServicioBean.cotpersonanuevo.nombre1}"  />
+					
+					<h:outputLabel value="Segundo Nombre: " for="ideditornombre2propietario" />
+					<p:inputText id="ideditornombre2propietario" value="#{ordenServicioBean.cotpersonanuevo.nombre2}"  />
+					
+					<h:outputLabel value="Primer Apellido: " for="ideditorapellido1propietario" />
+					<p:inputText id="ideditorapellido1propietario" value="#{ordenServicioBean.cotpersonanuevo.apellido1}"  />
+					
+					<h:outputLabel value="Segundo Apellido: " for="ideditorapellido2propietario" />
+					<p:inputText id="ideditorapellido2propietario" value="#{ordenServicioBean.cotpersonanuevo.apellido2}"  />
+					
+					<h:outputLabel value="Sexo: " for="ideditorsexopropietario" />
+		            <p:selectOneMenu id="ideditorsexopropietario" value="#{ordenServicioBean.cotpersonanuevo.sexo}" >
+		                <f:selectItem itemLabel="Hombre" itemValue="1" />
+		                <f:selectItem itemLabel="Mujer" itemValue="2" />
+		            </p:selectOneMenu>
+		            
+		            <h:outputLabel value="Teléfono: " for="ideditortelefonopropietario" />
+					<p:inputText id="ideditortelefonopropietario" value="#{ordenServicioBean.cotpersonanuevo.telefono}" />
+			
+				</h:panelGrid>
+			</p:fieldset>
+			<br /><br />
+			<div align="right">
+				<p:commandButton id="idgrabarmascota" value="Grabar" action="#{ordenServicioBean.guardarMascotaResumido()}" oncomplete="vardialogeditormascota.hide()" update=":form-contentpage:mensajeseditormascota,:form-contentpage:iddialogeditormascota" />
+				<p:commandButton id="idcancelarmascota" value="Cancelar" onclick="vardialogeditormascota.hide()" />
+			</div>
 		</p:dialog>
 	</h:form>
 </ui:composition>

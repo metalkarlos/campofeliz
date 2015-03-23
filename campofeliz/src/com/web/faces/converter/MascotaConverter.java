@@ -21,12 +21,14 @@ public class MascotaConverter implements Converter {
             try {
                 int id = Integer.parseInt(submittedValue);
                 
-                
                 Mascotas mascotas = new Mascotas();
-                Petmascotahomenaje petmascotahomenaje = new PetmascotaBO().getPetmascotaById(id);
-				Petfotomascota petfotomascota = new PetfotoBO().getPetfotoPerfilByPetId(petmascotahomenaje.getIdmascota());
-				mascotas.setPetmascotahomenaje(petmascotahomenaje);
-				mascotas.setPetfotomascota(petfotomascota);
+                
+                if(id > 0){
+	                Petmascotahomenaje petmascotahomenaje = new PetmascotaBO().getPetmascotaById(id);
+					Petfotomascota petfotomascota = new PetfotoBO().getPetfotoPerfilByPetId(petmascotahomenaje.getIdmascota());
+					mascotas.setPetmascotahomenaje(petmascotahomenaje);
+					mascotas.setPetfotomascota(petfotomascota);
+                }
                 
                 return mascotas;
             } catch(Exception ex) {

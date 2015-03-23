@@ -257,4 +257,21 @@ public class PetmascotaBO {
 		return lisMascotas;
 	}
 
+	public void grabarMascotaBasico(Session session, Petmascotahomenaje petmascotahomenaje) throws Exception {
+		
+		PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
+		
+		int maxid = petmascotaDAO.maxIdPetmascota(session)+1;
+		Date fecharegistro = new Date();
+		UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+		
+		petmascotahomenaje.setIdmascota(maxid);
+		petmascotahomenaje.setFecharegistro(fecharegistro);
+		petmascotahomenaje.setIplog(usuarioBean.getIp());
+		petmascotahomenaje.getSetestado().setIdestado(1);
+		petmascotahomenaje.setSetusuario(usuarioBean.getSetUsuario());
+
+		petmascotaDAO.savePetmascota(session, petmascotahomenaje);
+		
+	}
 }

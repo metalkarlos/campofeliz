@@ -157,4 +157,22 @@ public class CotpersonaBO {
 		return ok;
 	}
 
+	public void grabarPersonaBasico(Session session, Cotpersona cotpersona) throws Exception{
+			
+		CotpersonaDAO cotpersonaDAO = new CotpersonaDAO();
+		
+		int max = cotpersonaDAO.maxIdCotpersona(session)+1;
+		Date fecharegistro = new Date();
+		UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+		
+		cotpersona.setIdpersona(max);
+		cotpersona.setFecharegistro(fecharegistro);
+		cotpersona.setIplog(usuarioBean.getIp());
+		cotpersona.getSetestado().setIdestado(1);
+		cotpersona.setSetusuario(usuarioBean.getSetUsuario());
+		
+		cotpersona.setObjeto(null);
+		cotpersonaDAO.saveCotpersona(session, cotpersona);
+			
+	}
 }

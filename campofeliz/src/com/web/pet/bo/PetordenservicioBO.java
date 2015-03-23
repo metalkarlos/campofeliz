@@ -7,6 +7,8 @@ import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
 import com.web.pet.dao.PetordenservicioDAO;
+import com.web.pet.pojo.annotations.Cotpersona;
+import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.pet.pojo.annotations.Petordenservicio;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
@@ -109,6 +111,33 @@ public class PetordenservicioBO {
 		}catch(Exception e){
 			session.getTransaction().rollback();
 			throw new Exception();
+		}finally{
+			session.close();
+		}
+		
+		return ok;
+	}
+
+	public boolean grabarMascotaBasico(Petmascotahomenaje petmascotahomenaje, Cotpersona cotpersona) throws Exception {
+		boolean ok = false;
+		Session session = null;
+		
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			CotpersonaBO cotpersonaBO = new CotpersonaBO();
+			cotpersonaBO.grabarPersonaBasico(session, cotpersona);
+			
+			PetmascotaBO petmascotaBO = new PetmascotaBO();
+			petmascotahomenaje.setCotpersona(cotpersona);
+			petmascotaBO.grabarMascotaBasico(session, petmascotahomenaje);
+			
+			session.getTransaction().commit();
+			ok = true;
+		}catch(Exception he){
+			session.getTransaction().rollback();
+			throw new Exception(); 
 		}finally{
 			session.close();
 		}

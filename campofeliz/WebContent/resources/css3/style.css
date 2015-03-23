@@ -230,11 +230,11 @@ h3 {
 #principal {
 	min-width: 1140px;/*1050px;*/
 	min-height: 600px;
-	position: absolute;
+	/*position: absolute;*/
 	/*margin:auto;*/
-	left: 10px; 
-	right: 10px; 
-	top: 40px; 
+	/*left: 10px; */
+	/*right: 10px;*/ 
+	/*top: 40px;/* 
 	/*bottom: 60px;*/
 	/*padding-top:1px;
 	padding-left:1px;
@@ -244,6 +244,7 @@ h3 {
 	border-radius:5px;
 	-moz-border-radius:5px;
 	/*overflow: auto;*/
+	margin: 40px 10px 0px 10px;
 }
 
 #principal .header {

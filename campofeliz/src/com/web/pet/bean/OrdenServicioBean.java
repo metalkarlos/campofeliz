@@ -18,6 +18,7 @@ import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.CotlugarBO;
 import com.web.pet.bo.CotservicioBO;
+import com.web.pet.bo.PetespecieBO;
 import com.web.pet.bo.PetfotoBO;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetmascotacolorBO;
@@ -60,14 +61,20 @@ public class OrdenServicioBean implements Serializable {
 	private List<Cotlugar> lisCotlugar;
 	private List<Petmascotacolor> lisPetmascotacolor;
 	private List<Cotservicio> lisCotservicio;
+	private Petmascotahomenaje petmascotahomenajenuevo; 
+	private Cotpersona cotpersonanuevo; 
+	private List<Petespecie> lisPetespecie;
 
 	public OrdenServicioBean() {
 		petordenservicio = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null);
 		mascotasselected = new Mascotas(new Petfotomascota(), new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),0,new BigDecimal(0),null,false,false,null)); 
 		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Cotservicio(), new Petordenservicio(), null, null);
 		lisPetmascotacolor = new ArrayList<Petmascotacolor>();
+		petmascotahomenajenuevo = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,null,new Cotpersona(),null,1,new BigDecimal(0),null,false,false,null);
+		cotpersonanuevo = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0);
 		llenarListaLugar();
 		llenarListaServicio();
+		inicializarEspecieMascota();
 		consultarDetalle();
 	}
 	
@@ -173,6 +180,16 @@ public class OrdenServicioBean implements Serializable {
 		}
 	}
 	
+	private void inicializarEspecieMascota(){
+		try
+		{
+			lisPetespecie = new PetespecieBO().lisPetespecie();
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+		}
+	}
+	
 	public Petmascotahomenaje getPetmascotahomenajeselected() {
 		return petmascotahomenajeselected;
 	}
@@ -245,6 +262,31 @@ public class OrdenServicioBean implements Serializable {
 
 	public void setLisCotservicio(List<Cotservicio> lisCotservicio) {
 		this.lisCotservicio = lisCotservicio;
+	}
+
+	public Petmascotahomenaje getPetmascotahomenajenuevo() {
+		return petmascotahomenajenuevo;
+	}
+
+	public void setPetmascotahomenajenuevo(
+			Petmascotahomenaje petmascotahomenajenuevo) {
+		this.petmascotahomenajenuevo = petmascotahomenajenuevo;
+	}
+
+	public List<Petespecie> getLisPetespecie() {
+		return lisPetespecie;
+	}
+
+	public void setLisPetespecie(List<Petespecie> lisPetespecie) {
+		this.lisPetespecie = lisPetespecie;
+	}
+
+	public Cotpersona getCotpersonanuevo() {
+		return cotpersonanuevo;
+	}
+
+	public void setCotpersonanuevo(Cotpersona cotpersonanuevo) {
+		this.cotpersonanuevo = cotpersonanuevo;
 	}
 
 	public List<Mascotas> buscarMascotas(String query) {
@@ -345,7 +387,7 @@ public class OrdenServicioBean implements Serializable {
 		boolean ok = true;
 		
 		if(mascotasselected == null || mascotasselected.getPetmascotahomenaje() == null || mascotasselected.getPetmascotahomenaje().getIdmascota() == 0){
-			new MessageUtil().showWarnMessage("Datos incompletos!", "La Mascota es obligatoria!");
+			new MessageUtil().showWarnMessage("Datos incompletos!", "Seleccione la Mascota!");
 			ok = false;
 		}
 		
@@ -413,6 +455,74 @@ public class OrdenServicioBean implements Serializable {
 			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
+	}
+	
+	public void guardarMascotaResumido(){
+		try{
+			if(validarCamposResumido()){
+				boolean ok = false;
+				PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
+				
+				ok = petordenservicioBO.grabarMascotaBasico(petmascotahomenajenuevo, cotpersonanuevo);
+				
+				if(ok){
+					new MessageUtil().showInfoMessage("Exito!", "Mascota Ingresada!");
+					petmascotahomenajenuevo = new Petmascotahomenaje(0, new Setestado(), new Setusuario(), new Petespecie(), null, null, null, null, null, null, null, null, null, null, null, null, new Petraza(), new Cotpersona(), new Cottipoidentificacion(), null, null, null, false, false, null);
+				}
+			}
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+		}
+	}
+	
+	private boolean validarCamposResumido()
+	{
+		boolean ok = true;
+		
+		if(petmascotahomenajenuevo.getIdmascotaveterinaria() == 0){
+			new MessageUtil().showWarnMessage("Datos incompletos!", "El código de la mascota es obligatorio!");
+			ok = false;
+		}else{
+			if(petmascotahomenajenuevo.getNombre() == null || petmascotahomenajenuevo.getNombre().trim().length() == 0){
+				new MessageUtil().showWarnMessage("Datos incompletos!", "El nombre de la mascota es obligatorio!");
+				ok = false;
+			}else{
+				if(petmascotahomenajenuevo.getPetespecie().getIdespecie() == 0){
+					new MessageUtil().showWarnMessage("Datos incompletos!", "La especie de la mascota es obligatorio!");
+					ok = false;
+				}else{
+					if(petmascotahomenajenuevo.getSexo() == 0){
+						new MessageUtil().showWarnMessage("Datos incompletos!", "El sexo de la mascota es obligatorio!");
+						ok = false;
+					}
+				}
+			}
+		}
+		
+		if(ok){
+			if(cotpersonanuevo.getNombre1() == null || cotpersonanuevo.getNombre1().trim().length() == 0){
+				new MessageUtil().showWarnMessage("Datos incompletos!", "El Primer Nombre del propietario es obligatorio!");
+				ok = false;
+			}else{
+				if(cotpersonanuevo.getApellido1() == null || cotpersonanuevo.getApellido1().trim().length() == 0){
+					new MessageUtil().showWarnMessage("Datos incompletos!", "El Primer Apellido del propietario es obligatorio!");
+					ok = false;
+				}else{
+					if(cotpersonanuevo.getSexo() == 0){
+						new MessageUtil().showWarnMessage("Datos incompletos!", "El sexo del propietario es obligatorio!");
+						ok = false;
+					}else{
+						if(cotpersonanuevo.getTelefono() == null || cotpersonanuevo.getTelefono().trim().length() == 0 ){
+							new MessageUtil().showWarnMessage("Datos incompletos!", "El telefono del propietario es obligatorio!");
+							ok = false;
+						}
+					}
+				}
+			}
+		}
+		
+		return ok;
 	}
 
 }

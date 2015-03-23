@@ -20,10 +20,10 @@
 		  </div>
 		</div>
 		<br /><br />
-		<h:link  class="link" value="[ Nueva Mascota ]" outcome="mascota.hxtml" rendered="#{mascotasBean.especie gt 0}" >
+		[ <h:link  class="link" value="Nueva Mascota" outcome="mascota.hxtml" rendered="#{mascotasBean.especie gt 0}" >
 			<f:param name="idmascota" value="0" /> 
 			<f:param name="especie" value="#{mascotasBean.especie}" />
-		</h:link>
+		</h:link> ]
 		<br /><br />
 		<p:dataGrid id="idGridMascotas" value="#{mascotasBean.lisMascotas}" var="pet" columns="#{mascotasBean.columnsGrid}" rows="#{mascotasBean.rowsGrid}" paginator="true" effect="true" 
 			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
