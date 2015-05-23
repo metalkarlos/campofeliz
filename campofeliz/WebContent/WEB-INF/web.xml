@@ -111,7 +111,7 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping> -->
 	<session-config>
-		<session-timeout>60</session-timeout>
+		<session-timeout>30</session-timeout>
 	</session-config>
 	<!-- <error-page> <exception-type>javax.faces.application.ViewExpiredException</exception-type> 
 		<location>/pages/not_logged.xhtml</location> </error-page> -->
