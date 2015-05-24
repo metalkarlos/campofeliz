@@ -291,10 +291,17 @@ public class OrdenServicioBean implements Serializable {
 
 	public List<Mascotas> buscarMascotas(String query) {
 		List<Mascotas> lisMascotas = new ArrayList<Mascotas>();
-		PetmascotaBO petmascotaBO = new PetmascotaBO();
-		int args[] = {0};
-		lisMascotas = petmascotaBO.lisMascotasByPage(query, 10, 0, args);
 		
+		try{
+			PetmascotaBO petmascotaBO = new PetmascotaBO();
+			int args[] = {0};
+			lisMascotas = petmascotaBO.lisMascotasByPage(query, 10, 0, args);
+			
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+		}
+			
 		return lisMascotas;
 	}
 	
@@ -480,7 +487,7 @@ public class OrdenServicioBean implements Serializable {
 	{
 		boolean ok = true;
 		
-		if(petmascotahomenajenuevo.getIdmascotaveterinaria() == 0){
+		if(petmascotahomenajenuevo.getIdmascotaveterinaria() == null || petmascotahomenajenuevo.getIdmascotaveterinaria().trim().length() == 0){
 			new MessageUtil().showWarnMessage("Datos incompletos!", "El código de la mascota es obligatorio!");
 			ok = false;
 		}else{
