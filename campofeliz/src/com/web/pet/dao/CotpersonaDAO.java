@@ -1,6 +1,8 @@
 package com.web.pet.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -8,6 +10,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import com.web.pet.pojo.annotations.Cotfotopersona;
 import com.web.pet.pojo.annotations.Cotpersona;
 
 public class CotpersonaDAO {
@@ -33,6 +36,32 @@ public class CotpersonaDAO {
 		.createAlias("cottipoidentificacion", "tipoidentificacion", Criteria.LEFT_JOIN);
 		
 		cotpersona = (Cotpersona)criteria.uniqueResult();
+		
+		return cotpersona;
+	}
+	
+	public Cotpersona getCotpersonaConObjetosById(Session session, int idpersona) throws Exception {
+		Cotpersona cotpersona = null;
+		
+		Criteria criteria = session.createCriteria(Cotpersona.class, "per")
+				.add( Restrictions.eq("per.idpersona", idpersona))
+				.add( Restrictions.eq("per.setestado.idestado", 1))
+				.createAlias("per.cotfotopersonas", "foto", Criteria.LEFT_JOIN)
+				.createAlias("per.cottipoidentificacion", "tid", Criteria.LEFT_JOIN);
+		
+		cotpersona = (Cotpersona) criteria.uniqueResult();
+		
+		if(cotpersona.getCotfotopersonas() != null && cotpersona.getCotfotopersonas().size() > 0){
+			
+				Set<Cotfotopersona> tmp = new HashSet<Cotfotopersona>();
+				for(Cotfotopersona foto : cotpersona.getCotfotopersonas()){
+					if(foto.getSetestado().getIdestado() == 1){
+						tmp.add(foto);
+					}
+				}
+				cotpersona.setCotfotopersonas(tmp);
+				
+		}
 		
 		return cotpersona;
 	}

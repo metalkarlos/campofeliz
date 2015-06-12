@@ -13,7 +13,7 @@ import javax.faces.event.ActionEvent;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-import com.web.pet.bo.PetfotoBO;
+import com.web.pet.bo.PetfotomascotaBO;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.global.Parametro;
 import com.web.pet.pojo.annotations.Cotpersona;
@@ -61,7 +61,7 @@ public class AlbumBean implements Serializable {
 		if(idmascota > 0){
 			try{
 				petmascotahomenaje = new PetmascotaBO().getPetmascotaById(idmascota);//Usado en página side
-				lispetfotomascota = new PetfotoBO().lisPetfotoByPetId(idmascota);
+				lispetfotomascota = new PetfotomascotaBO().lisPetfotomascotaByIdmascota(idmascota);
 			}catch(Exception re){
 				re.printStackTrace();
 				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
@@ -134,8 +134,8 @@ public class AlbumBean implements Serializable {
 				petfotomascota.setNombrearchivo(event.getFile().getFileName());
 				petfotomascota.setObjeto(event.getFile().getContents());
 				
-				new PetfotoBO().newPetfoto(petfotomascota);
-				lispetfotomascota = new PetfotoBO().lisPetfotoByPetId(idmascota);
+				new PetfotomascotaBO().newPetfotomascota(petfotomascota);
+				lispetfotomascota = new PetfotomascotaBO().lisPetfotomascotaByIdmascota(idmascota);
 				new MessageUtil().showInfoMessage("Exito!", " Foto registrada!");
 			}else{
 				new MessageUtil().showWarnMessage("No procede!", "Antes de subir la imágen debe consultar una mascota.");
@@ -156,8 +156,8 @@ public class AlbumBean implements Serializable {
 					petfotomascota.setNombrearchivo(uploadedFile.getFileName());
 					petfotomascota.setObjeto(uploadedFile.getContents());
 					
-					new PetfotoBO().newPetfoto(petfotomascota);
-					lispetfotomascota = new PetfotoBO().lisPetfotoByPetId(idmascota);
+					new PetfotomascotaBO().newPetfotomascota(petfotomascota);
+					lispetfotomascota = new PetfotomascotaBO().lisPetfotomascotaByIdmascota(idmascota);
 					new MessageUtil().showInfoMessage("Exito!", " Foto registrada!");
 				}else{
 					new MessageUtil().showWarnMessage("Aviso!", "Antes de subir la imágen debe consultar una mascota.");
@@ -174,7 +174,7 @@ public class AlbumBean implements Serializable {
 	public void ponerFotoPerfil(ActionEvent actionEvent)
 	{
 		try {
-			new PetfotoBO().ponerFotoPerfil(petfotomascotaSelected);
+			new PetfotomascotaBO().ponerFotoPerfil(petfotomascotaSelected);
 			new MessageUtil().showInfoMessage("Exito!", "Imágen puesta como foto del perfil!");
 		} catch(Exception e){
 			e.printStackTrace();
@@ -195,9 +195,9 @@ public class AlbumBean implements Serializable {
 			fileUtil.deleteFile(rutaArchivo);
 			
 			if(fileUtil.deleteFile(rutaArchivo)){
-				new PetfotoBO().eliminarFotoAlbum(petfotomascotaSelected.getIdfotomascota());
+				new PetfotomascotaBO().eliminarFotoAlbum(petfotomascotaSelected.getIdfotomascota());
 				new MessageUtil().showInfoMessage("Exito!", " Foto eliminada!");
-				lispetfotomascota = new PetfotoBO().lisPetfotoByPetId(idmascota);
+				lispetfotomascota = new PetfotomascotaBO().lisPetfotomascotaByIdmascota(idmascota);
 			}
 		} catch(Exception re) {
 			re.printStackTrace();

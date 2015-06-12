@@ -11,62 +11,64 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "cotfotopersona")
-public class Cotfotopersona implements java.io.Serializable {
+public class Cotfotopersona implements java.io.Serializable, Cloneable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 9184370414219295790L;
-	private int idfoto;
+	private static final long serialVersionUID = -5699866582026667408L;
+	private int idfotopersona;
 	private Cotpersona cotpersona;
 	private Setestado setestado;
 	private Setusuario setusuario;
 	private Date fecharegistro;
+	private Date fechamodificacion;
 	private Integer mostrar;
 	private String iplog;
-	private byte[] objeto;
 	private String ruta;
 	private String nombrearchivo;
 	private String descripcion;
+	private byte[] objeto;
 
 	
 	public Cotfotopersona() {
 	}
 
-	public Cotfotopersona(int idfoto, Cotpersona cotpersona, Date fecharegistro) {
-		this.idfoto = idfoto;
+	public Cotfotopersona(int idfotopersona, Cotpersona cotpersona, Date fecharegistro) {
+		this.idfotopersona = idfotopersona;
 		this.cotpersona = cotpersona;
 		this.fecharegistro = fecharegistro;
 	}
 
-	public Cotfotopersona(int idfoto, Cotpersona cotpersona, Setestado setestado,
-						  Setusuario setusuario, Date fecharegistro, Integer mostrar,
-						  String iplog, byte[] objeto, String ruta, String nombrearchivo,
+	public Cotfotopersona(int idfotopersona, Cotpersona cotpersona, Setestado setestado,
+						  Setusuario setusuario, Date fecharegistro, Date fechamodificacion, Integer mostrar,
+						  String iplog, String ruta, String nombrearchivo,
 						  String descripcion) {
-		this.idfoto = idfoto;
+		this.idfotopersona = idfotopersona;
 		this.cotpersona = cotpersona;
 		this.setestado = setestado;
 		this.setusuario = setusuario;
 		this.fecharegistro = fecharegistro;
+		this.fechamodificacion = fechamodificacion;
 		this.mostrar = mostrar;
 		this.iplog = iplog;
-		this.objeto = objeto;
 		this.ruta = ruta;
 		this.nombrearchivo = nombrearchivo;
 		this.descripcion = descripcion;
 	}
 
 	@Id
-	@Column(name = "idfoto", unique = true, nullable = false)
-	public int getIdfoto() {
-		return this.idfoto;
+	@Column(name = "idfotopersona", unique = true, nullable = false)
+	public int getIdfotopersona() {
+		return this.idfotopersona;
 	}
 
-	public void setIdfoto(int idfoto) {
-		this.idfoto = idfoto;
+	public void setIdfotopersona(int idfotopersona) {
+		this.idfotopersona = idfotopersona;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -108,7 +110,17 @@ public class Cotfotopersona implements java.io.Serializable {
 	public void setFecharegistro(Date fecharegistro) {
 		this.fecharegistro = fecharegistro;
 	}
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fechamodificacion",  length = 29)
+	public Date getFechamodificacion() {
+		return this.fechamodificacion;
+	}
 
+	public void setFechamodificacion(Date fechamodificacion) {
+		this.fechamodificacion = fechamodificacion;
+	}
+	
 	@Column(name = "mostrar")
 	public Integer getMostrar() {
 		return this.mostrar;
@@ -125,15 +137,6 @@ public class Cotfotopersona implements java.io.Serializable {
 
 	public void setIplog(String iplog) {
 		this.iplog = iplog;
-	}
-
-	@Column(name = "objeto")
-	public byte[] getObjeto() {
-		return this.objeto;
-	}
-
-	public void setObjeto(byte[] objeto) {
-		this.objeto = objeto;
 	}
 
 	@Column(name = "ruta", length = 100)
@@ -163,5 +166,23 @@ public class Cotfotopersona implements java.io.Serializable {
 		this.descripcion = descripcion;
 	}
 
+	@Transient
+	public byte[] getObjeto() {
+		return this.objeto;
+	}
+
+	public void setObjeto(byte[] objeto) {
+		this.objeto = objeto;
+	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		Cotfotopersona cotfotopersona = (Cotfotopersona)super.clone();
+		return cotfotopersona;
+	}
+	
+	public Cotfotopersona clonar() throws Exception {
+		return (Cotfotopersona)this.clone();
+	}
 
 }

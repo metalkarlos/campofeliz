@@ -54,7 +54,7 @@ import com.web.util.MessageUtil;
 					CotpersonaBO cotpersonaBO = new CotpersonaBO();
 					CotfotopersonaBO cotfotopersonaBO = new  CotfotopersonaBO();
 					cotpersona = cotpersonaBO.getCotpersonaById(idpersona);
-					liscotfotopersona = cotfotopersonaBO.lisCotfotopersonaByCotId(idpersona);
+					liscotfotopersona = cotfotopersonaBO.lisPetfotopersonaByIdpersona(idpersona);
 				} catch (Exception e) {
 					e.printStackTrace();
 					new MessageUtil().showErrorMessage("Error", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
@@ -123,7 +123,7 @@ import com.web.util.MessageUtil;
 					cotfotopersona.setObjeto(event.getFile().getContents());
 					
 					new CotfotopersonaBO().newCotfotopersona(cotfotopersona);
-					liscotfotopersona = new CotfotopersonaBO().lisCotfotopersonaByCotId(idpersona);
+					liscotfotopersona = new CotfotopersonaBO().lisPetfotopersonaByIdpersona(idpersona);
 					new MessageUtil().showInfoMessage("Exito!", " Foto registrada!");
 				}else{
 					new MessageUtil().showWarnMessage("No procede!", "Antes de subir la imágen debe consultar el propietario de la mascota.");
@@ -145,7 +145,7 @@ import com.web.util.MessageUtil;
 						cotfotopersona.setObjeto(uploadedFile.getContents());
 						
 						new CotfotopersonaBO().newCotfotopersona(cotfotopersona);
-						liscotfotopersona = new CotfotopersonaBO().lisCotfotopersonaByCotId(idpersona);
+						liscotfotopersona = new CotfotopersonaBO().lisPetfotopersonaByIdpersona(idpersona);
 						new MessageUtil().showInfoMessage("Exito!", " Foto registrada!");
 					}else{
 						new MessageUtil().showWarnMessage("Aviso!", "Antes de subir la imágen debe consultar el propietario de la mascota.");
@@ -183,9 +183,9 @@ import com.web.util.MessageUtil;
 				fileUtil.deleteFile(rutaArchivo);
 				
 				if(fileUtil.deleteFile(rutaArchivo)){
-					new CotfotopersonaBO().eliminarFotoAlbum(cotfotopersonaSelected.getIdfoto());
+					new CotfotopersonaBO().eliminarFotoAlbum(cotfotopersonaSelected.getIdfotopersona());
 					new MessageUtil().showInfoMessage("Exito!", " Foto eliminada!");
-					liscotfotopersona = new CotfotopersonaBO().lisCotfotopersonaByCotId(idpersona);
+					liscotfotopersona = new CotfotopersonaBO().lisPetfotopersonaByIdpersona(idpersona);
 				}
 			} catch(Exception re) {
 				re.printStackTrace();

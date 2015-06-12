@@ -6,6 +6,8 @@ import java.util.UUID;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.primefaces.model.StreamedContent;
+
 import com.web.pet.pojo.annotations.Setpeticionclave;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.pet.bo.SetpeticionclaveBO;
@@ -30,10 +32,12 @@ public class UsuarioBean implements Serializable{
 	private String ip;
 	private String sid;
 	private boolean autenticado;
+	private StreamedContent streamedContent;
 	
 	public UsuarioBean(){
-		ip = new FacesUtil().getIp();
-		sid = new FacesUtil().getSid();
+		FacesUtil facesUtil = new FacesUtil();  
+		ip = facesUtil.getClientIp();
+		sid = facesUtil.getSid();
 		setUsuario = new Setusuario();
 	}
 
@@ -263,6 +267,14 @@ public class UsuarioBean implements Serializable{
 			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
 		}
 		return "";
+	}
+	
+	public StreamedContent getStreamedContent() {
+		return streamedContent;
+	}
+
+	public void setStreamedContent(StreamedContent streamedContent) {
+		this.streamedContent = streamedContent;
 	}
 	
 }

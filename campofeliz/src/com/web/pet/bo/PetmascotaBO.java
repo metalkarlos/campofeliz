@@ -7,7 +7,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.dao.PetfotoDAO;
+import com.web.pet.dao.PetfotomascotaDAO;
 import com.web.pet.dao.PetmascotaDAO;
 import com.web.pet.dao.PetmascotacolorDAO;
 import com.web.pet.pojo.annotations.Mascotas;
@@ -173,12 +173,12 @@ public class PetmascotaBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			
 			PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
-			PetfotoDAO petfotoDAO = new PetfotoDAO();
+			PetfotomascotaDAO petfotoDAO = new PetfotomascotaDAO();
 			
 			List<Petmascotahomenaje> lisPetmascotahomenaje = petmascotaDAO.lisPetmascotaByEspecieByPage(session, especie, nombre, pageSize, pageNumber, args);
 			
 			for(Petmascotahomenaje petmascotahomenaje : lisPetmascotahomenaje){
-				Petfotomascota petfotomascota = petfotoDAO.getPetfotoPerfilByPetId(session, petmascotahomenaje.getIdmascota());
+				Petfotomascota petfotomascota = petfotoDAO.getPetfotomascotaPerfilByIdmascota(session, petmascotahomenaje.getIdmascota());
 				
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfotomascota(petfotomascota);
@@ -204,12 +204,12 @@ public class PetmascotaBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			
 			PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
-			PetfotoDAO petfotoDAO = new PetfotoDAO();
+			PetfotomascotaDAO petfotoDAO = new PetfotomascotaDAO();
 			
 			List<Petmascotahomenaje> lisPetmascotahomenaje = petmascotaDAO.lisPetmascotaByPage(session, nombre, pageSize, pageNumber, args);
 			
 			for(Petmascotahomenaje petmascotahomenaje : lisPetmascotahomenaje){
-				Petfotomascota petfotomascota = petfotoDAO.getPetfotoPerfilByPetId(session, petmascotahomenaje.getIdmascota());
+				Petfotomascota petfotomascota = petfotoDAO.getPetfotomascotaPerfilByIdmascota(session, petmascotahomenaje.getIdmascota());
 
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfotomascota(petfotomascota);
@@ -235,12 +235,12 @@ public class PetmascotaBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			
 			PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
-			PetfotoDAO petfotoDAO = new PetfotoDAO();
+			PetfotomascotaDAO petfotoDAO = new PetfotomascotaDAO();
 			
 			List<Petmascotahomenaje> lisPetmascotahomenaje = petmascotaDAO.lisPetmascotaBusquedaByPage(session, petmascotahomenaje, caracteristicas, pageSize, pageNumber, args);
 			
 			for(Petmascotahomenaje petmascotahomenaje1 : lisPetmascotahomenaje){
-				Petfotomascota petfotomascota = petfotoDAO.getPetfotoPerfilByPetId(session, petmascotahomenaje1.getIdmascota());
+				Petfotomascota petfotomascota = petfotoDAO.getPetfotomascotaPerfilByIdmascota(session, petmascotahomenaje1.getIdmascota());
 				
 				Mascotas mascotas = new Mascotas();
 				mascotas.setPetfotomascota(petfotomascota);

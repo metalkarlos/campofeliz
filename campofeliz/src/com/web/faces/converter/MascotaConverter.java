@@ -4,7 +4,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-import com.web.pet.bo.PetfotoBO;
+import com.web.pet.bo.PetfotomascotaBO;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.pojo.annotations.Mascotas;
 import com.web.pet.pojo.annotations.Petfotomascota;
@@ -25,7 +25,7 @@ public class MascotaConverter implements Converter {
                 
                 if(id > 0){
 	                Petmascotahomenaje petmascotahomenaje = new PetmascotaBO().getPetmascotaById(id);
-					Petfotomascota petfotomascota = new PetfotoBO().getPetfotoPerfilByPetId(petmascotahomenaje.getIdmascota());
+					Petfotomascota petfotomascota = new PetfotomascotaBO().getPetfotomascotaPerfilByIdmascota(petmascotahomenaje.getIdmascota());
 					mascotas.setPetmascotahomenaje(petmascotahomenaje);
 					mascotas.setPetfotomascota(petfotomascota);
                 }

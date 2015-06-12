@@ -24,7 +24,7 @@
 			</h:link> ]
 			<br /><br />
 			<p:dataTable id="idTablaPersonas" value="#{personasBean.lisCotpersona}" var="persona" rowKey="#{persona.idpersona}" widgetVar="vartablaPersonas"
-				paginator="true" rows="20" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginator="true" rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				selection="#{personasBean.cotpersonaSelected}" selectionMode="single"  emptyMessage="No se encontraron registros">
 				
 				<p:ajax event="rowSelect" listener="#{personasBean.onRowSelect}" />

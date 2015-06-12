@@ -13,11 +13,9 @@ package com.web.pet.bo;
 	import com.web.util.HibernateUtil;
 	import com.web.util.FileUtil;
 	
-	
 	public class CotfotopersonaBO {
 	
-
-		public List<Cotfotopersona> lisCotfotopersonaByCotId(int idpersona) throws Exception {
+		public List<Cotfotopersona> lisPetfotopersonaByIdpersona(int idpersona) throws Exception {
 			List<Cotfotopersona> lisCotfotopersona = null;
 			Session session = null;
 			
@@ -26,7 +24,7 @@ package com.web.pet.bo;
 				
 				CotfotopersonaDAO cotfotopersonaDAO = new CotfotopersonaDAO();
 				
-				lisCotfotopersona = cotfotopersonaDAO.lisCotfotopersonaByCotId(session, idpersona);
+				lisCotfotopersona = cotfotopersonaDAO.lisCotfotopersonaByIdpersona(session, idpersona);
 			}catch(Exception re){
 				throw new Exception();
 			}finally{
@@ -46,25 +44,29 @@ package com.web.pet.bo;
 				
 				CotfotopersonaDAO cotfotopersonaDAO = new CotfotopersonaDAO();
 				
-				UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
-				int maxid = cotfotopersonaDAO.maxIdCotfotopersona(session)+1;
 				Date fecharegistro = new Date();
-				String fileExtention = new FileUtil().getFileExtention(cotfotopersona.getNombrearchivo());
-				String nombrearchivo = cotfotopersona.getCotpersona().getIdpersona()+"-"+maxid+"."+fileExtention.toLowerCase();
+				UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 				
-				cotfotopersona.setIdfoto(maxid);
+				int maxid = cotfotopersonaDAO.maxIdCotfotopersona(session)+1;
+				cotfotopersona.setIdfotopersona(maxid);
+				int secuencia = cotfotopersonaDAO.getCantFotosPorPersona(session, cotfotopersona.getCotpersona().getIdpersona());
 				
+				//foto en disco
 				FileUtil fileUtil = new FileUtil();
 				FacesUtil facesUtil = new FacesUtil();
 				Calendar fecha = Calendar.getInstance();
 				
 				String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
 				String rutaMascota =  fileUtil.getPropertyValue("repositorio-personas") + fecha.get(Calendar.YEAR);
+				String nombrearchivo = fecha.get(Calendar.YEAR) + "-" + (fecha.get(Calendar.MONTH) + 1) + "-" + fecha.get(Calendar.DAY_OF_MONTH) + "-" + cotfotopersona.getCotpersona().getIdpersona()+"-"+secuencia+"."+fileUtil.getFileExtention(cotfotopersona.getNombrearchivo()).toLowerCase();
+				
 				String rutaCompleta = rutaImagenes + rutaMascota;
 				
 				//asignar ruta y nombre de archivo en objeto
 				cotfotopersona.setNombrearchivo(nombrearchivo);
 				cotfotopersona.setRuta(rutaMascota+"/"+nombrearchivo);
+				
+				//Auditoria
 				cotfotopersona.setFecharegistro(fecharegistro);
 				cotfotopersona.setIplog(usuarioBean.getIp());
 				cotfotopersona.getSetestado().setIdestado(1);
@@ -121,26 +123,7 @@ package com.web.pet.bo;
 			return ok;
 		}
 		
-		public List<Cotfotopersona> lisCotfotopersonaPerfil() throws Exception {
-			List<Cotfotopersona> liscotfotopersona = null;
-			Session session = null;
-			
-			try {
-				session = HibernateUtil.getSessionFactory().openSession();
-				
-				CotfotopersonaDAO cotfotopersonaDAO = new CotfotopersonaDAO();
-				
-				liscotfotopersona = cotfotopersonaDAO.lisCotfotopersonaPerfil(session);
-			}catch(Exception re){
-				throw new Exception(); 
-			}finally{
-				session.close();
-			}
-			
-			return liscotfotopersona;
-		}
-		
-		public Cotfotopersona getCotfotopersonaPerfilByCotId(int idpersona) throws Exception{
+		public Cotfotopersona getCotfotopersonaPerfilByIdpersona(int idpersona) throws Exception{
 			Cotfotopersona cotfotopersona = null;
 			Session session = null;
 			
@@ -149,7 +132,7 @@ package com.web.pet.bo;
 				
 				CotfotopersonaDAO cotfotopersonaDAO = new CotfotopersonaDAO();
 				
-				cotfotopersona = cotfotopersonaDAO.getCotfotopersonaPerfilByCotId(session, idpersona);
+				cotfotopersona = cotfotopersonaDAO.getCotfotopersonaPerfilByIdpersona(session, idpersona);
 			} catch(Exception he){
 				throw new Exception(); 
 			}finally{
@@ -159,7 +142,7 @@ package com.web.pet.bo;
 			return cotfotopersona;
 		}
 		
-		public boolean resetCotfotopersonaPerfilByCotId(int idpersona) throws Exception {
+		public boolean resetCotfotopersonaPerfilByIdpersona(int idpersona) throws Exception {
 			boolean ok = false;
 			Session session = null;
 			
@@ -169,7 +152,7 @@ package com.web.pet.bo;
 				
 				CotfotopersonaDAO cotfotopersonaDAO = new CotfotopersonaDAO();
 				
-				cotfotopersonaDAO.resetCotfotopersonaPerfilByCotId(session, idpersona);
+				cotfotopersonaDAO.resetCotfotopersonaPerfilByIdpersona(session, idpersona);
 				
 				session.getTransaction().commit();
 				ok = true;
@@ -194,10 +177,10 @@ package com.web.pet.bo;
 				CotfotopersonaDAO cotfotopersonaDAO = new CotfotopersonaDAO();
 				
 				//Primero se quita la imágen que está actualmente como perfil
-				cotfotopersonaDAO.resetCotfotopersonaPerfilByCotId(session, cotfotopersona.getCotpersona().getIdpersona());
+				cotfotopersonaDAO.resetCotfotopersonaPerfilByIdpersona(session, cotfotopersona.getCotpersona().getIdpersona());
 				
 				//Luego se pone la imágen seleccionada como foto del perfil
-				cotfotopersonaDAO.setCotfotopersonaPerfil(session, cotfotopersona.getIdfoto());
+				cotfotopersonaDAO.setCotfotopersonaPerfil(session, cotfotopersona.getIdfotopersona());
 				
 				session.getTransaction().commit();
 				ok = true;
@@ -211,7 +194,7 @@ package com.web.pet.bo;
 			return ok;
 		}
 		
-		public boolean eliminarFotoAlbum(int idfoto) throws Exception {
+		public boolean eliminarFotoAlbum(int idfotopersona) throws Exception {
 			boolean ok = false;
 			Session session = null;
 			
@@ -221,7 +204,7 @@ package com.web.pet.bo;
 				
 				CotfotopersonaDAO cotfotopersonaDAO = new CotfotopersonaDAO();
 				
-				cotfotopersonaDAO.deleteCotfotopersona(session, idfoto);
+				cotfotopersonaDAO.deletePetfoto(session, idfotopersona);
 				
 				session.getTransaction().commit();
 				ok = true;
@@ -236,5 +219,3 @@ package com.web.pet.bo;
 		}
 		
 	}
-
-

@@ -13,7 +13,7 @@ import com.web.pet.bo.CotcolorBO;
 import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.bo.CottipoidentificacionBO;
 import com.web.pet.bo.PetespecieBO;
-import com.web.pet.bo.PetfotoBO;
+import com.web.pet.bo.PetfotomascotaBO;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetmascotacolorBO;
 import com.web.pet.bo.PetrazaBO;
@@ -101,7 +101,7 @@ public class MascotaBean implements Serializable {
 				cotpersonaselected = petmascotahomenaje.getCotpersona();
 				cottipoidentificacionselected = petmascotahomenaje.getCottipoidentificacion();
 				
-				petfotomascota = new PetfotoBO().getPetfotoPerfilByPetId(idmascota);
+				petfotomascota = new PetfotomascotaBO().getPetfotomascotaPerfilByIdmascota(idmascota);
 				lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(idmascota);
 				if(lisPetmascotacolor == null){
 					lisPetmascotacolor = new ArrayList<Petmascotacolor>();
@@ -218,7 +218,7 @@ public class MascotaBean implements Serializable {
 	
 	public void verificarCedula(){
 		try{
-			Cotpersona cotpersona = new Cotpersona(0, new Cottipoidentificacion(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0);
+			Cotpersona cotpersona = new Cotpersona(0, new Cottipoidentificacion(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 			cotpersona.setNumeroidentificacion(petmascotahomenaje.getCotpersona().getNumeroidentificacion());
 			
 			List<Cotpersona> lisCotpersona = new ArrayList<Cotpersona>();

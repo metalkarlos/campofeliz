@@ -6,6 +6,36 @@
 	template="/WEB-INF/templates/default.xhtml">
 
 	<ui:define name="title">Campo Feliz - Persona</ui:define>
+	<ui:define name="head">
+		<style type="text/css">
+			.panel-previa .ui-panel-content {
+				padding: 0;
+			}
+			.panel-previa img {
+				max-height: 100px; 
+				border: 1px solid #d3d3d3;
+			}
+			textarea {
+				max-width: 600px; 
+				min-width: 600px; 
+				overflow-y: visible; 
+				min-height: 50px;
+			}
+			.ui-galleria textarea {
+				max-width: 400px;
+				min-width: 400px;
+				margin-top: 10px;
+			}
+			.fileupload .ui-widget .ui-widget-header {
+				border: none;
+				background: none;
+			}
+			.ui-panelgrid tr, .ui-panelgrid td {
+				border: none;
+				/*padding: 0 10px;*/
+			}
+		</style>
+	</ui:define>
 	<ui:define name="side_page">
 		<ui:include src="../admin/persona_side.xhtml"></ui:include>
 	</ui:define>

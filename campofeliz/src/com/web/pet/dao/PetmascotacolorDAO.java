@@ -30,7 +30,7 @@ public class PetmascotacolorDAO {
 		Criteria criteria = session.createCriteria(Petmascotacolor.class)
 		.add( Restrictions.eq("petmascotahomenaje.idmascota", idmascota))
 		.add( Restrictions.eq("setestado.idestado", 1))
-		.createAlias("cotcolor", "color");
+		.createAlias("cotcolor", "color", Criteria.LEFT_JOIN);
 		
 		lisPetmascotacolor = (List<Petmascotacolor>)criteria.list();
 		

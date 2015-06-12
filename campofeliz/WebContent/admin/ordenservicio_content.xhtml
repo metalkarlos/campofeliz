@@ -135,7 +135,7 @@
 					
 					<p:row>
 						<p:column>
-						<h:outputText id="idlblcolor" value="Color: " />
+						<h:outputLabel id="idlblcolor" value="Color: " for="idfechafallecimiento" />
 						</p:column>
 						<p:column>
 						<ui:repeat var="color" value="#{ordenServicioBean.lisPetmascotacolor}">
@@ -282,8 +282,8 @@
 				</h:column>
 			</h:panelGrid>
 		</p:dialog>
-		<p:dialog id="iddialogeditormascota" header="Registro de Mascotas Simplificado" closable="true" widgetVar="vardialogeditormascota" modal="true" height="550" width="600" >
-			<p:messages id="mensajeseditormascota" showDetail="true" />
+		<p:dialog id="iddialogeditormascota" header="Registro de Mascotas Simplificado" closable="false" widgetVar="vardialogeditormascota" modal="true" height="570" width="500" >
+			<p:messages id="mensajeseditormascota" showDetail="true" autoUpdate="true" />
 			<p:fieldset id="idpaneleditormascota" style="margin-top: 10px" legend="Datos de la Mascota">
 				<h:panelGrid id="idgrideditormascota" columns="2" styleClass="gridmascota" >
 					<h:outputLabel value="Código Veterinaria: " for="ideditormascotaveterinaria" />
@@ -297,6 +297,17 @@
 						<f:selectItem itemLabel="Seleccione" itemValue="0"/>
 						<f:selectItems value="#{ordenServicioBean.lisPetespecie}" var="especie" itemLabel="#{especie.nombre}" itemValue="#{especie.idespecie}"></f:selectItems>
 					</p:selectOneMenu>
+					
+					<h:outputLabel value="Raza: " for="ideditorrazalist" />
+		            <p:selectOneMenu id="ideditorrazalist" value="#{ordenServicioBean.petmascotahomenajenuevo.petraza.idraza}" style="width: 150px" required="false">
+					    <f:selectItems value="#{ordenServicioBean.lisRaza}" var="raza" itemLabel="#{raza.nombre}" itemValue="#{raza.idraza}"/>
+					</p:selectOneMenu>
+					
+					<h:outputLabel value="Fecha Nacimiento: " for="ideditorfechanacimiento" />
+					<p:calendar id="ideditorfechanacimiento" value="#{ordenServicioBean.petmascotahomenajenuevo.fechanacimiento}" yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />
+				
+					<h:outputLabel value="Fecha Fallecimiento: " for="ideditorfechafallecimiento" />
+					<p:calendar id="ideditorfechafallecimiento" value="#{ordenServicioBean.petmascotahomenajenuevo.fechafallecimiento}" yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />
 					
 					<h:outputLabel value="Sexo: " for="ideditorsexolist" />
 					<p:selectOneMenu id="ideditorsexolist" value="#{ordenServicioBean.petmascotahomenajenuevo.sexo}" >
@@ -330,10 +341,10 @@
 			
 				</h:panelGrid>
 			</p:fieldset>
-			<br /><br />
+			<br />
 			<div align="right">
-				<p:commandButton id="idgrabarmascota" value="Grabar" action="#{ordenServicioBean.guardarMascotaResumido()}" oncomplete="vardialogeditormascota.hide()" update=":form-contentpage:mensajeseditormascota,:form-contentpage:iddialogeditormascota" />
-				<p:commandButton id="idcancelarmascota" value="Cancelar" onclick="vardialogeditormascota.hide()" />
+				<p:commandButton id="idgrabarmascota" value="Grabar" action="#{ordenServicioBean.guardarMascotaResumido()}" />
+				<p:commandButton id="idcancelarmascota" value="Cerrar" action="#{ordenServicioBean.limpiarEditorMascotaResumido()}" update=":form-contentpage:iddialogeditormascota" oncomplete="vardialogeditormascota.hide()" />
 			</div>
 		</p:dialog>
 	</h:form>

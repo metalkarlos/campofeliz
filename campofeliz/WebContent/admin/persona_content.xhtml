@@ -18,50 +18,71 @@
 				renderedButtonNewItem="false" />
 			</h:panelGrid>
 			
-			<h1 class="title ui-widget-header ui-corner-all">Fotos</h1>
-			
-			<p:galleria id="idgalleria" value="#{personaBean.liscotfotopersona}" var="item" transitionInterval="0" panelWidth="500" panelHeight="320" styleClass="ui-widget-content ui-corner-all">
-		        <p:graphicImage id="idfotos" value="#{parametro.servletImagenes}#{item.ruta}?w=150" style="max-height: 150px" />
-		        <p:galleriaContent>  
-		            <h:panelGrid columns="1" style="background-color: #eaeaea;height: 100px; width: 100px;" >  
-				        <f:facet name="header">
-			            	<p:graphicImage id="idfoto" value="#{parametro.servletImagenes}#{item.ruta}?w=150" style="max-height: 50px" />
-				        </f:facet>
-				        <p:commandButton id="idbuttonperfil" title="Colocar como foto del Perfil" icon="ui-icon ui-icon-person"  onclick="vardialogperfil.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:idpanelperfil" >
-				        	<f:setPropertyActionListener value="#item" target="#{personaBean.cotfotopersonaSelected}" />
-				        </p:commandButton>
-				        <p:commandButton id="idbuttondelete"  title="Eliminar foto permanentemente" icon="ui-icon ui-icon-trash" onclick="vardialogdeletefoto.show()" style="position:absolute;right:0px;top:55px;" update=":form-contentpage:idpaneldeletefoto">
-				        	<f:setPropertyActionListener value="#item" target="#{personaBean.cotfotopersonaSelected}" />
-				        </p:commandButton>
-				    </h:panelGrid>
-				</p:galleriaContent>
-			</p:galleria>
-			<h:outputText value="No posee imágenes, puede empezar a subirlas dando clic en el botón 'Examinar', elija la imagen y luego de clic en el botón 'Subir Foto'" rendered="#{empty personaBean.liscotfotopersona}" />
-			<br />
-			<br />
-			
-			
 			<h1 class="title ui-widget-header ui-corner-all">Nombres</h1>
 			<p:focus for="idnombre1"/>
 			<h:panelGrid id="idpanelnombres" columns="4">
 				<h:outputLabel id="idlblnombre1" value="Primer Nombre: " for="idnombre1" />
-				<p:inputText id="idnombre1" value="#{personaBean.cotpersona.nombre1}" size="30" required="true" requiredMessage="El campo 'Primer Nombre' es obligatorio." />
+				<p:inputText id="idnombre1" value="#{personaBean.cotpersona.nombre1}" size="30" required="false" requiredMessage="El campo 'Primer Nombre' es obligatorio." />
 				<h:outputLabel id="idlblnombre2" value="Segundo Nombre: " for="idnombre2"/>
 				<p:inputText id="idnombre2" value="#{personaBean.cotpersona.nombre2}" size="30" />
 				<h:outputLabel id="idlblapellido1" value="Primer Apellido: " for="apellido1" />
-				<p:inputText id="apellido1" value="#{personaBean.cotpersona.apellido1}" size="30" required="true" requiredMessage="El campo 'Primer Apellido' es obligatorio." />
+				<p:inputText id="apellido1" value="#{personaBean.cotpersona.apellido1}" size="30" required="false" requiredMessage="El campo 'Primer Apellido' es obligatorio." />
 				<h:outputLabel id="idlblapellido2" value="Segundo Apellido: "  for = "apellido2"/>
 				<p:inputText id="apellido2" value="#{personaBean.cotpersona.apellido2}" size="30" />
 			</h:panelGrid>
-			<br /><br />
+			<br />
 			
+			<h:panelGroup id="idpanellabelgaleria" rendered="#{personaBean.lisCotfotopersona.size() > 0}">
+			    <h:outputLabel id="lblFotos" value="Fotos" for="idgalleria" rendered="#{personaBean.lisCotfotopersona.size() > 0}" />
+			</h:panelGroup>
+			<h:panelGroup id="idpanelgaleria" rendered="#{personaBean.lisCotfotopersona.size() > 0}">
+				<center>	
+				<p:galleria id="idgalleria" value="#{personaBean.lisCotfotopersona}" var="item" transitionInterval="0" panelWidth="500" panelHeight="400" rendered="#{personaBean.lisCotfotopersona.size() > 0}" >
+			        <p:graphicImage id="idfotos" value="#{parametro.servletImagenes}#{item.ruta}?w=60" style="max-height: 58px;" />
+			        <p:galleriaContent>  
+			            <h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1" style="background-color: #eaeaea;" >  
+					        <f:facet name="header">
+				            	<p:graphicImage id="idfoto" value="#{parametro.servletImagenes}#{item.ruta}?w=400" style="max-height: 300px; padding-top: 10px" />
+				            	
+				            	<p:commandButton id="idbuttonprincipal" title="Colocar como foto principal" icon="ui-icon ui-icon-person"  onclick="vardialogprincipal.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:idpanelprincipal" >
+						        	<f:setPropertyActionListener value="#{item}" target="#{personaBean.cotfotopersonaSelected}" />
+						        </p:commandButton>
+						        <p:commandButton id="idbuttondelete"  title="Eliminar foto permanentemente" icon="ui-icon ui-icon-trash" onclick="vardialogdeletefoto.show()" style="position:absolute;right:0px;top:60px;" update=":form-contentpage:idpaneldelete">
+						        	<f:setPropertyActionListener value="#{item}" target="#{personaBean.cotfotopersonaSelected}" />
+						        </p:commandButton>
+					        </f:facet>
+					    </h:panelGrid>
+					    <p:inputTextarea id="txtObservacionFoto" value="#{item.descripcion}" />
+					</p:galleriaContent>
+				</p:galleria>
+				</center>
+			</h:panelGroup>
+			
+			<p:panel id="pnlPrevia" styleClass="panel-previa" style="border: none;">
+				<p:graphicImage id="idfotoseleccionada" value="#{usuarioBean.streamedContent}" rendered="#{personaBean.fotoSubida}" />
+				<p:commandButton id="btnBorraFoto" icon="ui-icon ui-icon-trash" action="#{personaBean.borrarFotoSubida()}" update=":form-contentpage:pnlPrevia, :form-contentpage:idpaneltextdescfoto" rendered="#{personaBean.fotoSubida}" />
+			</p:panel>
+			<p:fileUpload id="idSubeFotos" fileUploadListener="#{personaBean.handleFileUpload}" mode="advanced" style="width: 100%;"
+			cancelLabel="Cancelar" uploadLabel="Subir Foto" label="Subir Foto" sizeLimit="#{personaBean.maxfilesize}" showButtons="false"
+			update=":form-contentpage:mensajes, :form-contentpage:pnlPrevia, :form-contentpage:idpaneltextdescfoto" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" widgetVar="widgetVar"/>
+			
+			<h:panelGroup id="idpaneltextdescfoto"  >
+			<h:panelGroup id="idpaneltextdescfoto2" rendered="#{personaBean.fotoSubida}" >
+			<br />
+			<h1 class="title ui-widget-header ui-corner-all">Descripción de la Foto</h1>
+			<p:inputTextarea id="txtObservacionFoto" value="#{personaBean.descripcionFoto}" maxlength="500" style="max-width: 760px; min-width: 760px; max-height: 25px; min-height: 25px; "  />
+			<br />
+			</h:panelGroup>
+			</h:panelGroup>
+			<br />
+					
 			<h1 class="title ui-widget-header ui-corner-all">Alias</h1>
 			<p:inputText id="idalias" value="#{personaBean.cotpersona.alias}" size="30"></p:inputText>
 			<br /><br />
 			
 			<h1 class="title ui-widget-header ui-corner-all">Número de Identificación</h1>
-			<p:selectOneMenu id="idtipoidentificacion" value="#{personaBean.cottipoidentificacionselected.idtipoidentificacion}">
-			    <f:selectItems value="#{personaBean.lisCottipoidentificacion}" var="i" itemLabel="#{i.nombre}" itemValue="#{i.idtipoidentificacion}" />
+			<p:selectOneMenu id="idcmbtipoidentificacion" value="#{personaBean.cotpersona.cottipoidentificacion.idtipoidentificacion}">
+				<f:selectItems value="#{personaBean.lisCottipoidentificacion}" var="i" itemLabel="#{i.nombre}" itemValue="#{i.idtipoidentificacion}" />
 			</p:selectOneMenu>
 			<p:inputText id="idnumeroidentificacion" style="vertical-align: top;" value="#{personaBean.cotpersona.numeroidentificacion}" size="15" />
 			<br /><br />
@@ -78,7 +99,7 @@
 			<br /><br />
 			
 			<h1 class="title ui-widget-header ui-corner-all">Teléfono</h1>
-			<p:inputText id="idtelefono" value="#{personaBean.cotpersona.telefono}" size="50" required="true" requiredMessage="El campo 'Teléfono' es obligatorio."></p:inputText>
+			<p:inputText id="idtelefono" value="#{personaBean.cotpersona.telefono}" size="50" required="false" requiredMessage="El campo 'Teléfono' es obligatorio."></p:inputText>
 			<br /><br />
 			
 			<h1 class="title ui-widget-header ui-corner-all">Dirección</h1>
@@ -96,44 +117,65 @@
 				renderedButtonNewItem="false" />
             </h:panelGrid>
 		</p:panel>
-		<p:dialog id="iddialoggrabar" header="Persona"  closable="true" widgetVar="vardialoggrabar" modal="true" showEffect="bounce" hideEffect="explode">
-			<h:panelGrid id="idpanelgrabar" columns="2">
+		<p:dialog id="iddialoggrabar" header="Grabar" closable="true" widgetVar="vardialoggrabar" modal="true" style="min-height: 80px; width: 450px">
+			<h:panelGrid id="idpanelgrabar" columns="2" width="100%">
 				<h:outputText id="idlabelgrabar" value="Confirme si desea grabar el registro" />
-				<h:panelGrid columns="2" >
-					<p:commandButton value="SI" style="width: 50px" actionListener="#{personaBean.grabar()}" oncomplete="vardialoggrabar.hide()" update=":form-contentpage:mensajes" />
-					<p:commandButton value="NO" style="width: 50px" onclick="vardialoggrabar.hide()" />
-				</h:panelGrid>
+				<h:outputText value="" />
+				<h:outputText value="" />
+				<p:panelGrid id="idpanel2grabar" style="width: 100%; text-align: right;">
+					<p:row>
+					<p:column>
+					<p:commandButton id="idconfirmargrabar" value="Confirmar" action="#{personaBean.grabar()}" onclick="vardialoggrabar.hide()" update=":form-contentpage:mensajes, :form-contentpage:idpanellabelgaleria, :form-contentpage:idpanelgaleria" />
+					<p:commandButton id="idcancelargrabar" value="Cancelar" onclick="vardialoggrabar.hide()" />
+					</p:column>
+					</p:row>
+				</p:panelGrid>
 			</h:panelGrid>
 		</p:dialog>
-		<p:dialog id="iddialogdelete"  header="Persona" closable="true" widgetVar="vardialogdelete" modal="true" showEffect="bounce" hideEffect="explode">
-			<h:panelGrid id="idpaneldelete" columns="2">
-				<h:outputText id="idlabeldelete" value="Confirme si desea eliminar el registro" />
-				<h:panelGrid columns="2" >
-					<p:commandButton value="SI" style="width: 50px" actionListener="#{personaBean.eliminar()}" oncomplete="vardialogdelete.hide()" update=":form-contentpage:mensajes" />
-					<p:commandButton value="NO" style="width: 50px" onclick="vardialogdelete.hide()" />
-				</h:panelGrid>
+		<p:dialog id="iddialogdeletepersona"  header="Persona" closable="true" widgetVar="vardialogdelete" modal="true" showEffect="bounce" hideEffect="explode">
+			<h:panelGrid id="idpaneldeletepersona" columns="2" width="100%">
+				<h:outputText id="idlabeldeletepersona" value="Confirme si desea eliminar el registro" />
+				<h:outputText value="" />
+				<h:outputText value="" />
+				<p:panelGrid id="idpanel2deletenoticia" style="width: 100%; text-align: right;">
+					<p:row>
+					<p:column>
+					<p:commandButton id="idconfirmardeletepersona" value="Confirmar" action="#{personaBean.eliminar()}" onclick="vardialogdeletepersona.hide()" update=":form-contentpage:mensajes" />
+					<p:commandButton id="idcancelardeletepersona" value="Cancelar" onclick="vardialogdeletepersona.hide()" />
+					</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:panelGrid>
+		</p:dialog>
+		<p:dialog id="iddialogprincipal" header="Foto Principal" closable="true" widgetVar="vardialogprincipal" modal="true" style="min-height: 80px; width: 450px">
+			<h:panelGrid id="idpanelprincipal" columns="2" width="100%">
+				<p:graphicImage value="#{parametro.servletImagenes}#{personaBean.cotfotopersonaSelected.ruta}?w=150" style="max-height: 50px" />
+				<h:outputText id="idlabelprincipal" value="¿Seleccionar imágen como foto principal?" />
+				<h:outputText value="" />
+				<p:panelGrid id="idpanel2principal" style="width: 100%; text-align: right;">
+					<p:row>
+					<p:column>
+					<p:commandButton id="idconfirmarprincipal" value="Confirmar" action="#{personaBean.ponerFotoPerfil}" onclick="vardialogprincipal.hide()" update=":form-contentpage:mensajes" />
+					<p:commandButton id="idcancelarprincipal" value="Cancelar" onclick="vardialogprincipal.hide()" />
+					</p:column>
+					</p:row>
+				</p:panelGrid>
 			</h:panelGrid>
 		</p:dialog>
 		
-		<p:dialog id="iddialogperfil" header="Foto de Perfil" closable="true" widgetVar="vardialogperfil" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
-			<h:panelGrid id="idpanelperfil" rows="2">
+		<p:dialog id="iddialogdelete"  header="Eliminar Foto" closable="true" widgetVar="vardialogdeletefoto" modal="true" style="min-height: 80px; width: 450px">
+			<h:panelGrid id="idpaneldelete" columns="2" width="100%">
 				<p:graphicImage value="#{parametro.servletImagenes}#{personaBean.cotfotopersonaSelected.ruta}?w=150" style="max-height: 50px" />
-				<h:outputText  value="¿Poner imágen como foto del Perfil?" />
-				<h:panelGrid id="idpanel2perfil" columns="2" style="position: absolute;right: 0;bottom: 0;">
-					<p:commandButton id="idconfirmarperfil" value="Confirmar" actionListener="#{personaBean.ponerFotoPerfil}" oncomplete="vardialogperfil.hide()" update=":form-contentpage:mensajes" />
-					<p:commandButton id="idcancelarperfil" value="Cancelar" onclick="vardialogperfil.hide()" />
-				</h:panelGrid>
-			</h:panelGrid>
-		</p:dialog>
-		
-		<p:dialog id="iddialogdeletefoto"  header="Eliminar Foto" closable="true" widgetVar="vardialogdelete" modal="true" showEffect="bounce" hideEffect="explode" height="80" width="450">
-			<h:panelGrid id="idpaneldeletefoto" rows="2">
-				<p:graphicImage value="#{parametro.servletImagenes}#{personaBean.cotfotopersonaSelected.ruta}?w=150" style="max-height: 50px" />
-				<h:outputText  value="¿Eliminar Permanentemente la imágen del álbum? Esta acción no podrá deshacerse" />
-				<h:panelGrid id="idpanel2deletefoto" columns="2" style="position: absolute;right: 0;bottom: 0;">
-					<p:commandButton id="idconfirmardelete" value="Confirmar" actionListener="#{personaBean.eliminarFotoAlbum}" oncomplete="vardialogdeletefoto.hide()" update=":form-contentpage:mensajes" />
-					<p:commandButton id="idcancelardelete" value="Cancelar" onclick="vardialogdeletefoto.hide()" />
-				</h:panelGrid>
+				<h:outputText id="idlabeldelete" value="¿Quitar foto?" />
+				<h:outputText value="" />
+				<p:panelGrid id="idpanel2delete" style="width: 100%; text-align: right;">
+					<p:row>
+					<p:column>
+					<p:commandButton id="idconfirmardelete" value="Confirmar" action="#{personaBean.quitarFotoGaleria()}" onclick="vardialogdelete.hide()" update=":form-contentpage:mensajes, :form-contentpage:idpanellabelgaleria, :form-contentpage:idpanelgaleria" />
+					<p:commandButton id="idcancelardelete" value="Cancelar" onclick="vardialogdelete.hide()" />
+					</p:column>
+					</p:row>
+				</p:panelGrid>
 			</h:panelGrid>
 		</p:dialog>
 	</h:form>

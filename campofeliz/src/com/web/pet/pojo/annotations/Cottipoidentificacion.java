@@ -23,7 +23,7 @@ public class Cottipoidentificacion implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3310080115681633960L;
+	private static final long serialVersionUID = -4274430955674030976L;
 	private int idtipoidentificacion;
 	private Setestado setestado;
 	private Setusuario setusuario;
