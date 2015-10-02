@@ -19,6 +19,16 @@
 		<h:outputStylesheet library="css3" name="style.css" />
 		<h:outputStylesheet library="css3" name="messages.css" />
 		<h:outputStylesheet library="themes/#{themeBean.defaultTheme}" name="skin.css" />
+		
+		<!-- Lighbox-Colorbox -->
+   	<h:outputStylesheet library="css3/lightbox-colorbox" name="colorbox.css" media="all" />
+		<h:outputScript library="js/lightbox-colorbox" name="jquery.colorbox-min.js" />
+		<script>
+			$(window).load(function(){
+				$(".grupo1").colorbox({rel:'grupo1'});
+			});
+		</script>
+		
 		<!-- Configuración del Calendario de la Agenda -->
 		<script type="text/javascript">
 			PrimeFaces.locales['es'] = {

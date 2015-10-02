@@ -55,17 +55,21 @@ public class AlbumBean implements Serializable {
 	public void PostAlbumBean() {
 		FacesUtil facesUtil = new FacesUtil();
 
-		idmascota = Integer.parseInt(facesUtil.getParametroUrl("idmascota") != null ? facesUtil
-				.getParametroUrl("idmascota").toString() : "0");
-		
-		if(idmascota > 0){
-			try{
+		try{
+			Object par = facesUtil.getParametroUrl("idmascota");
+			if(par != null){
+				idmascota = Integer.parseInt(par.toString());
+				
 				petmascotahomenaje = new PetmascotaBO().getPetmascotaById(idmascota);//Usado en página side
 				lispetfotomascota = new PetfotomascotaBO().lisPetfotomascotaByIdmascota(idmascota);
-			}catch(Exception re){
-				re.printStackTrace();
-				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			}else{
+				facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
 			}
+		} catch(NumberFormatException ne){
+			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e){}
+		} catch(Exception e) {
+			e.printStackTrace();
+			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e2){}
 		}
 	}
 	

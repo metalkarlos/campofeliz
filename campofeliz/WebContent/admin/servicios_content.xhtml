@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	
+	<h:form id="form-contentpage">
+		<p:messages id="mensajes" showDetail="true" />
+		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
+		
+		<p:panel id="panel-content">
+			<div style="float: right;margin: 10px 0 0 0;">
+				<div id="search-form">
+					<h:inputText id="txtbusqueda"
+						value="#{serviciosBean.descripcionParam}"
+						onblur="if(this.value==''){this.value='buscar'}"
+						onfocus="if(this.value=='buscar'){this.value=''}" />
+					<h:commandLink styleClass="search-form-submit">
+						<f:ajax render="gridServicios" execute="txtbusqueda"></f:ajax>
+					</h:commandLink>
+				</div>
+			</div>
+			<br /><br />
+			[ <h:link  class="link" value="Nuevo Servicio" outcome="servicio-admin" >
+				<f:param name="idservicio" value="0"></f:param>
+				<f:param name="idempresa" value="#{serviciosBean.idempresa}"></f:param>
+			</h:link> ]
+			<br /><br />
+			<p:dataGrid styleClass="gridServicios" id="gridServicios"
+				value="#{serviciosBean.lisPetservicio}" var="servicio"
+				columns="#{serviciosBean.columnsGrid}"
+				rows="#{serviciosBean.rowsGrid}" paginator="true" effect="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				emptyMessage="No se encontraron registros"
+				paginatorPosition="both">
+				<p:panel header="#{servicio.nombre}" style="text-align:center">
+					<p:column>
+						<div class="inner-content">
+							<div class="cuerpo">
+								<div class="wrapper">
+									<h:link outcome="servicio">
+										<p:graphicImage id="idfoto" title="#{servicio.nombre}"
+											value="#{parametro.servletImagenes}#{servicio.rutafoto}?w=150"
+											style="max-height: 150px; max-width: 150px;"
+											styleClass="img-indent-1" />
+										<f:param name="idservicio" value="#{servicio.idservicio}"></f:param>
+										<f:param name="idempresa" value="#{servicio.cotempresa.idempresa}"></f:param>
+									</h:link>
+									<p class="p1" style="text-align: justify;">
+										<h:outputText
+											value="#{fn:substring(servicio.descripcionNoTags, 0, 200)} [...]"
+											escape="false" />
+									</p>
+								</div>
+								<div class="alignright p3">
+									[ <h:link value="Leer Más" outcome="servicio">
+										<f:param name="idservicio" value="#{servicio.idservicio}"></f:param>
+										<f:param name="idempresa" value="#{servicio.cotempresa.idempresa}"></f:param>
+									</h:link> ]
+								</div>
+							</div>
+						</div>
+					</p:column>
+				</p:panel>
+			</p:dataGrid>
+		</p:panel>
+	</h:form>
+</ui:composition>

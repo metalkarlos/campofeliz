@@ -17,7 +17,6 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.CotlugarBO;
-import com.web.pet.bo.CotservicioBO;
 import com.web.pet.bo.PetespecieBO;
 import com.web.pet.bo.PetfotomascotaBO;
 import com.web.pet.bo.PetmascotaBO;
@@ -25,11 +24,13 @@ import com.web.pet.bo.PetmascotacolorBO;
 import com.web.pet.bo.PetordenservicioBO;
 import com.web.pet.bo.PetordenserviciodetalleBO;
 import com.web.pet.bo.PetrazaBO;
+import com.web.pet.bo.PetservicioBO;
+import com.web.pet.global.Parametro;
 import com.web.pet.pojo.annotations.Cottipoidentificacion;
+import com.web.pet.pojo.annotations.Petservicio;
 import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Cotlugar;
 import com.web.pet.pojo.annotations.Cotpersona;
-import com.web.pet.pojo.annotations.Cotservicio;
 import com.web.pet.pojo.annotations.Mascotas;
 import com.web.pet.pojo.annotations.Petespecie;
 import com.web.pet.pojo.annotations.Petfotomascota;
@@ -61,7 +62,7 @@ public class OrdenServicioBean implements Serializable {
 	private LazyDataModel<Petordenserviciodetalle> lisPetordenserviciodetalle;
 	private List<Cotlugar> lisCotlugar;
 	private List<Petmascotacolor> lisPetmascotacolor;
-	private List<Cotservicio> lisCotservicio;
+	private List<Petservicio> lisPetservicio;
 	private Petmascotahomenaje petmascotahomenajenuevo; 
 	private Cotpersona cotpersonanuevo; 
 	private List<Petespecie> lisPetespecie;
@@ -70,7 +71,7 @@ public class OrdenServicioBean implements Serializable {
 	public OrdenServicioBean() {
 		petordenservicio = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null);
 		mascotasselected = new Mascotas(new Petfotomascota(), new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),0,new BigDecimal(0),null,false,false,null)); 
-		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Cotservicio(), new Petordenservicio(), null, null);
+		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
 		lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 		//petmascotahomenajenuevo = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,null,new Cotpersona(),null,1,new BigDecimal(0),null,false,false,null);
 		petmascotahomenajenuevo = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
@@ -85,11 +86,12 @@ public class OrdenServicioBean implements Serializable {
 	@PostConstruct
 	public void PostOrdenServicioBean(){
 		FacesUtil facesUtil = new FacesUtil();
-		idordenservicio = Integer.parseInt(facesUtil.getParametroUrl("idordenservicio") != null ? facesUtil
-						.getParametroUrl("idordenservicio").toString() : "0");
 		
-		if(idordenservicio > 0){
-			try{
+		try{
+			Object par = facesUtil.getParametroUrl("idordenservicio");
+			if(par != null){
+				idordenservicio = Integer.parseInt(par.toString());
+				
 				petordenservicio = new PetordenservicioBO().getPetordenservicioById(idordenservicio);
 				if(petordenservicio.getCotlugar() == null){
 					petordenservicio.setCotlugar(new Cotlugar());
@@ -104,10 +106,14 @@ public class OrdenServicioBean implements Serializable {
 				if(lisPetmascotacolor == null){
 					lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 				}
-			}catch(Exception re){
-				re.printStackTrace();
-				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			}else{
+				facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
 			}
+		} catch(NumberFormatException ne){
+			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e){}
+		} catch(Exception e) {
+			e.printStackTrace();
+			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e2){}
 		}
 	}
 	
@@ -128,19 +134,19 @@ public class OrdenServicioBean implements Serializable {
 	
 	private void llenarListaServicio(){
 		try{
-			Cotservicio cotservicio = new Cotservicio();
-			cotservicio.setIdservicio(0);
-			cotservicio.setNombre("Seleccione");
-			cotservicio.setSetestado(new Setestado());
-			cotservicio.setSetusuario(new Setusuario());
+			Petservicio petservicio = new Petservicio();
+			petservicio.setIdservicio(0);
+			petservicio.setNombre("Seleccione");
+			petservicio.setSetestado(new Setestado());
+			petservicio.setSetusuario(new Setusuario());
 			
-			lisCotservicio = new ArrayList<Cotservicio>();
-			lisCotservicio.add(cotservicio);
+			lisPetservicio = new ArrayList<Petservicio>();
+			lisPetservicio.add(petservicio);
 			
-			CotservicioBO cotservicioBO = new CotservicioBO();
-			List<Cotservicio> lisTmp = cotservicioBO.lisCotservicio();
+			PetservicioBO petservicioBO = new PetservicioBO();
+			List<Petservicio> lisTmp = petservicioBO.lisPetservicio(Parametro.EMPRESA_CAMPOFELIZ, Parametro.OFICINA_CAMPOFELIZ_LAROCA);
 			if(lisTmp != null && lisTmp.size() > 0){
-				lisCotservicio.addAll(lisTmp);
+				lisPetservicio.addAll(lisTmp);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -253,7 +259,7 @@ public class OrdenServicioBean implements Serializable {
 
 	public void setPetordenserviciodetalleItem(
 			Petordenserviciodetalle petordenserviciodetalleItem) {
-		this.petordenserviciodetalleItem = petordenserviciodetalleItem == null ? new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Cotservicio(), new Petordenservicio(), null, null) : petordenserviciodetalleItem;
+		this.petordenserviciodetalleItem = petordenserviciodetalleItem == null ? new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null) : petordenserviciodetalleItem;
 	}
 
 	public LazyDataModel<Petordenserviciodetalle> getLisPetordenserviciodetalle() {
@@ -281,12 +287,12 @@ public class OrdenServicioBean implements Serializable {
 		this.lisPetmascotacolor = lisPetmascotacolor;
 	}
 
-	public List<Cotservicio> getLisCotservicio() {
-		return lisCotservicio;
+	public List<Petservicio> getLisPetservicio() {
+		return lisPetservicio;
 	}
 
-	public void setLisCotservicio(List<Cotservicio> lisCotservicio) {
-		this.lisCotservicio = lisCotservicio;
+	public void setLisPetservicio(List<Petservicio> lisPetservicio) {
+		this.lisPetservicio = lisPetservicio;
 	}
 
 	public Petmascotahomenaje getPetmascotahomenajenuevo() {
@@ -353,7 +359,7 @@ public class OrdenServicioBean implements Serializable {
 	}
 	
 	public void newItem(){
-		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Cotservicio(), new Petordenservicio(), null, null);
+		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
 	}
 	
 	public void guardarItem(){
@@ -371,7 +377,7 @@ public class OrdenServicioBean implements Serializable {
 					ok = petordenserviciodetalleBO.newPetordenserviciodetalle(petordenserviciodetalleItem);
 				}
 				
-				petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Cotservicio(), new Petordenservicio(), null, null);
+				petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
 				
 				if(ok){
 					new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
@@ -387,7 +393,7 @@ public class OrdenServicioBean implements Serializable {
 	{
 		boolean ok = true;
 		
-		if(petordenserviciodetalleItem.getCotservicio() == null || petordenserviciodetalleItem.getCotservicio().getIdservicio() == 0){
+		if(petordenserviciodetalleItem.getPetservicio() == null || petordenserviciodetalleItem.getPetservicio().getIdservicio() == 0){
 			ok = false;
 			new MessageUtil().showWarnMessage("Datos incompletos!", "El Servicio es obligatorio!");
 		}

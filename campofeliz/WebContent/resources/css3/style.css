@@ -45,13 +45,20 @@ h3 {
 	text-align: justify;
 }
 
-.link2{
+/*.link2{
 	font-family: Verdana,Lucida Grande,Lucida Sans,Arial,sans-serif;
 	font-size:14px;
 	text-transform:UpperCase;
 	font-weight: bold;
 	background-color:#eceae7;
 	
+}*/
+.link2 {
+	letter-spacing: -1px;
+	font-family: Georgia,"Times New Roman",Times,serif;
+	font-weight: bold;
+	font-size: 11px;
+	text-shadow: 1px 1px #fbfbfb;
 }
 .texto{
 	font-family: Verdana,Lucida Grande,Lucida Sans,Arial,sans-serif;
@@ -153,6 +160,17 @@ h3 {
 	background:url(../resources/images/header-search-submit.gif) no-repeat 0 bottom;
 }
 
+.clear{
+	clear:both;
+	line-height:0;
+	font-size:0;
+	overflow:hidden;
+	height:0;
+	width:100%;
+}
+.parrafo {
+	font-size:15px;
+}
 /************************************** Login Settings **************************************/
 .centrar-body {
 	background-color:#ffffff;

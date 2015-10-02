@@ -73,18 +73,17 @@ public class MascotaBean implements Serializable {
 	public void PostMascotaBean() {
 		FacesUtil facesUtil = new FacesUtil();
 
-		especie  = Integer.parseInt(facesUtil.getParametroUrl("especie") != null ? facesUtil
-				.getParametroUrl("especie").toString() : "0");
-		
-		idmascota = Integer.parseInt(facesUtil.getParametroUrl("idmascota") != null ? facesUtil
-				.getParametroUrl("idmascota").toString() : "0");
-		
-		if(especie > 0){
-			petmascotahomenaje.getPetespecie().setIdespecie(this.especie);
-		}
-		
-		if(idmascota > 0){
-			try{
+		try{
+			Object par1 = facesUtil.getParametroUrl("especie");
+			Object par2 = facesUtil.getParametroUrl("idmascota");
+			
+			if(par1 != null && par2 != null){
+			
+				especie  = Integer.parseInt(par1.toString());
+				idmascota = Integer.parseInt(par2.toString());
+				
+				petmascotahomenaje.getPetespecie().setIdespecie(this.especie);
+				
 				petmascotahomenaje = new PetmascotaBO().getPetmascotaById(idmascota);
 				if(petmascotahomenaje == null){
 					petmascotahomenaje = new Petmascotahomenaje(0, null, new Petraza(), new Cotpersona());
@@ -119,10 +118,14 @@ public class MascotaBean implements Serializable {
 						e.printStackTrace();
 					}
 				}*/
-			}catch(Exception re){
-				re.printStackTrace();
-				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			}else{
+				facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
 			}
+		} catch(NumberFormatException ne){
+			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e){}
+		} catch(Exception e) {
+			e.printStackTrace();
+			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e2){}
 		}
 	}
 	

@@ -1,75 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 	
-	<h:form id="form-contentpage">
-		<p:messages id="mensajes" showDetail="true" />
-		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
-		<p:panel id="panel-content">
-			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
-				<my:buttons renderedButtonNewItem="true" actionButtonNewItem="#{servicioBean.newItem()}" onclickButtonNewItem="vartablaServicio.unselectAllRows()" oncompleteButtonNewItem="vardialogeditor.show()" updateButtonNewItem=":form-contentpage:idpaneleditor" 
-				renderedButtonEliminar="false"
-				renderedButtonCancelar="false" actionButtonCancelar="#{servicioBean.cancelar()}" 
-				renderedButtonAceptar="false" />
-			</h:panelGrid>
-			<br />
-			<p:dataTable id="idTablaServicio" value="#{servicioBean.lisCotservicio}" var="servicio" rowKey="#{servicio.idservicio}" widgetVar="vartablaServicio"
-				paginator="true" rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="6,8,10" selection="#{servicioBean.cotservicioItem}" selectionMode="single" emptyMessage="No se encontraron registros">
-				
-				<p:ajax event="rowSelect" update=":form-contentpage:idpaneleditor" oncomplete="vardialogeditor.show()"></p:ajax>
-				
-				<f:facet name="header">
-					Servicios
-				</f:facet>
-				
-				<p:column id="idNombreHeader" headerText="Nombre" style="width: 300px">
-					<h:outputText value="#{servicio.nombre}" />
-				</p:column>
-				
-				<p:column id="idDescripcionHeader" headerText="Descripción">
-					<h:outputText value="#{servicio.descripcion}" />
-				</p:column>
-				
-				<p:column id="idValorHeader" headerText="Valor">
-					<h:outputText value="#{servicio.valor}" />
-				</p:column>
-			</p:dataTable>
+	<ui:define name="head">
 			
-			<p:dialog id="iddialogeditor" header="Editor de Servicios" closable="true" onHide="vartablaServicio.unselectAllRows()" widgetVar="vardialogeditor" modal="true" showEffect="bounce" hideEffect="explode" height="110" width="450">
-				<h:panelGrid id="idpaneleditor" columns="2">
-					<h:outputLabel id="ideditorlblnombre" value="Nombre" for="ideditortxtnombre" />
-					<h:inputText id="ideditortxtnombre" value="#{servicioBean.cotservicioItem.nombre}" style="width: 300px" />
-					
-					<h:outputLabel id="ideditorlbldescripcion" value="Descripción" for="ideditortxtdescripcion" />
-					<h:inputText id="ideditortxtdescripcion" value="#{servicioBean.cotservicioItem.descripcion}" style="width: 300px" />
-					
-					<h:outputLabel id="ideditorlblvalor" value="Valor" for="ideditortxtvalor" />
-					<h:inputText id="ideditortxtvalor" value="#{servicioBean.cotservicioItem.valor}" />
-					
-					<h:outputText value="" />
-					<h:column>
-					<div align="right">
-						<p:commandButton id="idgrabar" value="Grabar" action="#{servicioBean.guardar()}" oncomplete="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaServicio" />
-						<p:commandButton id="ideliminar" value="Eliminar" action="#{servicioBean.eliminar()}" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaServicio" rendered="#{servicioBean.cotservicioItem.idservicio > 0}" />
-						<p:commandButton id="idcancelar" value="Cancelar" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes" />
-					</div>
-					</h:column>
-				</h:panelGrid>
-			</p:dialog>
+		<title>Servicio - #{servicioBean.petservicio.nombre}</title>
 		
-            <h:panelGrid id="panelgridbuttonsdown" columns="1" style="padding: 10px 10px 0 0">
-				<my:buttons renderedButtonNewItem="true" actionButtonNewItem="#{servicioBean.newItem()}" onclickButtonNewItem="vartablaServicio.unselectAllRows()" oncompleteButtonNewItem="vardialogeditor.show()" updateButtonNewItem=":form-contentpage:idpaneleditor" 
-				renderedButtonEliminar="false"
-				renderedButtonCancelar="false" actionButtonCancelar="#{servicioBean.cancelar()}" 
-				renderedButtonAceptar="false" />
-            </h:panelGrid>
-            
-		</p:panel>
-	</h:form>
+		<style type="text/css">
+			.inner-content {
+				padding-top: 14px;
+			}
+		</style>
+	</ui:define>
+	
+		<h:form id="form-contentpage">
+			<p:messages id="mensajes" showDetail="true" />
+			<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
+			
+			<p:panel id="panel-content">
+				<div style="text-align: right;">
+					<h:link value="[Editar]" styleClass="link2" outcome="/admin/servicio-admin" rendered="#{usuarioBean.autenticado}" >
+						<f:param name="idservicio" value="#{servicioBean.idservicio}"></f:param>
+						<f:param name="idempresa" value="#{servicioBean.petservicio.cotempresa.idempresa}"></f:param>
+					</h:link>
+				</div>
+				<center>
+				<p:galleria id="idgalleria" value="#{servicioBean.lisPetfotoservicio}" var="item" panelWidth="500" panelHeight="320">
+			        <p:graphicImage value="#{parametro.servletImagenes}#{item.ruta}?w=60" style="max-height: 58px" />
+			        <p:galleriaContent>  
+			            <h:outputLink styleClass="grupo1" value="#{request.contextPath}#{parametro.servletImagenes}#{item.ruta}" title="#{item.descripcion}">
+				            <p:graphicImage value="#{parametro.servletImagenes}#{item.ruta}?w=400" style="max-width: 480px; height: 300px; padding-top: 10px" />
+					    </h:outputLink>
+					</p:galleriaContent>
+				</p:galleria>
+				</center>
+				
+				<div class="cuerpo">
+					<br />
+					<h1 class="title ui-widget-header ui-corner-all">#{servicioBean.petservicio.nombre}</h1>
+					<div>
+						<p>
+							<h:outputText value="#{servicioBean.petservicio.descripcion}" escape="false" />
+						</p>
+					</div>
+				</div>
+			</p:panel>
+		</h:form>
+	
 </ui:composition>

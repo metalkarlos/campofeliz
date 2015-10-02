@@ -33,12 +33,14 @@ public class UsuarioBean implements Serializable{
 	private String sid;
 	private boolean autenticado;
 	private StreamedContent streamedContent;
+	private String mensaje;
 	
 	public UsuarioBean(){
 		FacesUtil facesUtil = new FacesUtil();  
 		ip = facesUtil.getClientIp();
 		sid = facesUtil.getSid();
 		setUsuario = new Setusuario();
+		mensaje = "";
 	}
 
 	public void setSetUsuario(Setusuario setUsuario) {
@@ -88,15 +90,9 @@ public class UsuarioBean implements Serializable{
 				
 				if(setUsuario!=null && setUsuario.getIdusuario()>0){
 					autenticado = true;
-					FacesUtil facesUtil = new FacesUtil();
-					strRedirect = (String) facesUtil.getSessionBean("urlrequested");
 					
-					if(strRedirect != null && !strRedirect.isEmpty()){
-						facesUtil.removeSessionBean("urlrequested");
-					}else{
-						FileUtil fileUtil = new FileUtil();
-						strRedirect = "../admin/"+fileUtil.getPropertyValue("home");
-					}
+					FileUtil fileUtil = new FileUtil();
+					strRedirect = "../admin/"+fileUtil.getPropertyValue("home");
 				}else{
 					new MessageUtil().showWarnMessage("Autenticación fallida","Usuario o Contraseña no existen.");
 				}
@@ -275,6 +271,14 @@ public class UsuarioBean implements Serializable{
 
 	public void setStreamedContent(StreamedContent streamedContent) {
 		this.streamedContent = streamedContent;
+	}
+	
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
 	}
 	
 }

@@ -65,18 +65,14 @@ public class PersonaBean implements Serializable {
 	}
 	
 	@PostConstruct
-	public void initPersonaBean() {
+	public void PostPersonaBean() {
 		FacesUtil facesUtil = new FacesUtil();
-		idpersona = Integer.parseInt(facesUtil.getParametroUrl("idpersona") != null ? facesUtil
-						.getParametroUrl("idpersona").toString() : "0");
-		if(idpersona > 0){
-			consultaPersona();
-		}
-	}
-	
-	public void consultaPersona(){
-		if(idpersona > 0){
-			try{
+		
+		try{
+			Object par = facesUtil.getParametroUrl("idpersona");
+			if(par != null){
+				idpersona = Integer.parseInt(par.toString());
+				
 				CotpersonaBO cotpersonaBO = new CotpersonaBO();
 				cotpersona = cotpersonaBO.getCotpersonaConObjetosById(idpersona);
 				
@@ -103,10 +99,14 @@ public class PersonaBean implements Serializable {
 						}
 					}
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				new MessageUtil().showErrorMessage("Error", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			}else{
+				facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
 			}
+		} catch(NumberFormatException ne){
+			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e){}
+		} catch(Exception e) {
+			e.printStackTrace();
+			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e2){}
 		}
 	}
 	

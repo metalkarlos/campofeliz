@@ -30,7 +30,7 @@ public class Petcomisiondetalle implements java.io.Serializable {
 	private PetcomisiondetalleId id;
 	private Petmascotahomenaje petmascotahomenaje;
 	private Petcomision petcomision;
-	private Cotservicio cotservicio;
+	private Petservicio petservicio;
 	private BigDecimal valorservicio;
 	private BigDecimal porcentajecomision;
 	private BigDecimal valorcomision;
@@ -56,14 +56,14 @@ public class Petcomisiondetalle implements java.io.Serializable {
 	}
 
 	public Petcomisiondetalle(PetcomisiondetalleId id, Petmascotahomenaje petmascotahomenaje,
-			Petcomision petcomision, Cotservicio cotservicio,
+			Petcomision petcomision, Petservicio petservicio,
 			BigDecimal valorservicio, BigDecimal porcentajecomision,
 			BigDecimal valorcomision, Date fecharegistro, String iplog,
 			Integer idusuario, Integer idestado) {
 		this.id = id;
 		this.petmascotahomenaje = petmascotahomenaje;
 		this.petcomision = petcomision;
-		this.cotservicio = cotservicio;
+		this.petservicio = petservicio;
 		this.valorservicio = valorservicio;
 		this.porcentajecomision = porcentajecomision;
 		this.valorcomision = valorcomision;
@@ -106,13 +106,13 @@ public class Petcomisiondetalle implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idservicio")
-	public Cotservicio getCotservicio() {
-		return this.cotservicio;
+	@JoinColumn(name = "idservicio", nullable = false)
+	public Petservicio getPetservicio() {
+		return this.petservicio;
 	}
 
-	public void setCotservicio(Cotservicio cotservicio) {
-		this.cotservicio = cotservicio;
+	public void setPetservicio(Petservicio petservicio) {
+		this.petservicio = petservicio;
 	}
 
 	@Column(name = "valorservicio", nullable = false, precision = 5)

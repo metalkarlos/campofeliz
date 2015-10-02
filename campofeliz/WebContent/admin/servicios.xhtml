@@ -4,10 +4,17 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/WEB-INF/templates/default.xhtml">
      
+	<ui:define name="title">Campo Feliz - Servicio</ui:define>
+	<ui:define name="head">
+		<style type="text/css">
+			.gridServicios {
+			}
+		</style>
+	</ui:define>
 	<ui:define name="side_page">
-		<ui:include src="../admin/servicio_side.xhtml"></ui:include>
+		<ui:include src="../admin/servicios_side.xhtml"></ui:include>
 	</ui:define>
 	<ui:define name="content_page">
-		<ui:include src="../admin/servicio_content.xhtml"></ui:include>
+		<ui:include src="../admin/servicios_content.xhtml"></ui:include>
 	</ui:define>
 </ui:composition>

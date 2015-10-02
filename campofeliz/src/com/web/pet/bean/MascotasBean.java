@@ -49,10 +49,19 @@ public class MascotasBean implements Serializable {
 	@PostConstruct
 	public void PostMascotasBean(){
 		FacesUtil facesUtil = new FacesUtil();
-		especie = Integer.parseInt(facesUtil.getParametroUrl("especie") != null ? facesUtil
-						.getParametroUrl("especie").toString() : "0");
 		
-		if(especie > 0){
+		try{
+			Object par = facesUtil.getParametroUrl("especie");
+			if(par != null){
+				especie = Integer.parseInt(par.toString());
+			}else{
+				facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
+			}
+		} catch(NumberFormatException ne){
+			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e){}
+		} catch(Exception e) {
+			e.printStackTrace();
+			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e2){}
 		}
 	}
 	

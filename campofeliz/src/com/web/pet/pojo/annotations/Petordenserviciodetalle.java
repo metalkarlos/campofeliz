@@ -29,7 +29,7 @@ public class Petordenserviciodetalle implements java.io.Serializable {
 	private PetordenserviciodetalleId id;
 	private Setestado setestado;
 	private Setusuario setusuario;
-	private Cotservicio cotservicio;
+	private Petservicio petservicio;
 	private Petordenservicio petordenservicio;
 	private Date fecharegistro;
 	private String iplog;
@@ -46,12 +46,12 @@ public class Petordenserviciodetalle implements java.io.Serializable {
 
 	public Petordenserviciodetalle(PetordenserviciodetalleId id,
 			Setestado setestado, Setusuario setusuario,
-			Cotservicio cotservicio, Petordenservicio petordenservicio,
+			Petservicio petservicio, Petordenservicio petordenservicio,
 			Date fecharegistro, String iplog) {
 		this.id = id;
 		this.setestado = setestado;
 		this.setusuario = setusuario;
-		this.cotservicio = cotservicio;
+		this.petservicio = petservicio;
 		this.petordenservicio = petordenservicio;
 		this.fecharegistro = fecharegistro;
 		this.iplog = iplog;
@@ -90,13 +90,13 @@ public class Petordenserviciodetalle implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idservicio")
-	public Cotservicio getCotservicio() {
-		return this.cotservicio;
+	@JoinColumn(name = "idservicio", nullable = false)
+	public Petservicio getPetservicio() {
+		return this.petservicio;
 	}
 
-	public void setCotservicio(Cotservicio cotservicio) {
-		this.cotservicio = cotservicio;
+	public void setPetservicio(Petservicio petservicio) {
+		this.petservicio = petservicio;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
