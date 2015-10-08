@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/templates/default.xhtml">
+     
+  <ui:define name="head">
+		<title>Campo Feliz - Servicios</title>
+		<style type="text/css">
+			/*.inner-content {
+				padding: 30px 0;
+			}*/
+			.label {
+				font-weight: bold;
+				font-size: 15px;
+				line-height: 300%;
+			}
+			.ui-panelgrid tr, .ui-panelgrid td {
+				border: none;
+				padding: 4px 0px;
+			}
+			.area-botones {
+				margin: 0px;
+			}
+			.panel-previa .ui-panel-content {
+				padding: 0px;
+			}
+			.ui-galleria textarea {
+				max-width: 400px;
+				min-width: 400px;
+				/*margin-top: 10px;*/
+			}
+			.col1 {
+				
+			}
+			.col2 {
+				width: 15px
+			}
+			.col1, .col2 {
+				padding: 10px 5px;
+			}
+		</style>
+		<script type="text/javascript">
+			function atras(){
+				redirect("../admin/servicio.jsf?idservicio="+#{servicioAdminBean.idservicio}+"&amp;idempresa="+#{servicioAdminBean.idempresa});
+			}
+		</script>
+	</ui:define>
+	<ui:define name="side_page">
+		<ui:include src="../admin/servicio_side_admin.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="content_page">
+		<ui:include src="../admin/servicio_content_admin.xhtml"></ui:include>
+	</ui:define>
+</ui:composition>

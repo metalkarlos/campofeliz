@@ -17,19 +17,19 @@
 					<h:inputText id="txtbusqueda"
 						value="#{serviciosBean.descripcionParam}"
 						onblur="if(this.value==''){this.value='buscar'}"
-						onfocus="if(this.value=='buscar'){this.value=''}" />
+						onfocus="if(this.value=='buscar'){this.value='';} this.select();" />
 					<h:commandLink styleClass="search-form-submit">
 						<f:ajax render="gridServicios" execute="txtbusqueda"></f:ajax>
 					</h:commandLink>
 				</div>
 			</div>
 			<br /><br />
-			[ <h:link  class="link" value="Nuevo Servicio" outcome="servicio-admin" >
+			[ <h:link  class="link" value="Nuevo Servicio" outcome="servicio_admin" >
 				<f:param name="idservicio" value="0"></f:param>
 				<f:param name="idempresa" value="#{serviciosBean.idempresa}"></f:param>
 			</h:link> ]
 			<br /><br />
-			<p:dataGrid styleClass="gridServicios" id="gridServicios"
+			<p:dataGrid id="gridServicios"
 				value="#{serviciosBean.lisPetservicio}" var="servicio"
 				columns="#{serviciosBean.columnsGrid}"
 				rows="#{serviciosBean.rowsGrid}" paginator="true" effect="true"

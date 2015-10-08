@@ -208,7 +208,7 @@ public class ServicioAdminBean implements Serializable {
 		usuarioBean.setMensaje(mensaje);
 		
 		FacesUtil facesUtil = new FacesUtil();
-		facesUtil.redirect("../pages/mensaje.jsf");	 
+		facesUtil.redirect("../admin/mensaje.jsf");	 
 	}
 	
 	public void eliminar(){

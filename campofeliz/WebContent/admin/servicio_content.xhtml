@@ -25,7 +25,7 @@
 			
 			<p:panel id="panel-content">
 				<div style="text-align: right;">
-					<h:link value="[Editar]" styleClass="link2" outcome="/admin/servicio-admin" rendered="#{usuarioBean.autenticado}" >
+					<h:link value="[Editar]" styleClass="link2" outcome="/admin/servicio_admin" rendered="#{usuarioBean.autenticado}" >
 						<f:param name="idservicio" value="#{servicioBean.idservicio}"></f:param>
 						<f:param name="idempresa" value="#{servicioBean.petservicio.cotempresa.idempresa}"></f:param>
 					</h:link>
@@ -42,12 +42,9 @@
 				</center>
 				
 				<div class="cuerpo">
-					<br />
-					<h1 class="title ui-widget-header ui-corner-all">#{servicioBean.petservicio.nombre}</h1>
-					<div>
-						<p>
-							<h:outputText value="#{servicioBean.petservicio.descripcion}" escape="false" />
-						</p>
+					<div class="titulo">#{servicioBean.petservicio.nombre}</div>
+					<div class="contenido">
+						<h:outputText value="#{servicioBean.petservicio.descripcion}" escape="false" />
 					</div>
 				</div>
 			</p:panel>
