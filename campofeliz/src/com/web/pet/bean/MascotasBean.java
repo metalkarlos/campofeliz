@@ -71,7 +71,7 @@ public class MascotasBean implements Serializable {
 			lisPetespecie = new PetespecieBO().lisPetespecie();
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -111,7 +111,7 @@ public class MascotasBean implements Serializable {
 			};
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	

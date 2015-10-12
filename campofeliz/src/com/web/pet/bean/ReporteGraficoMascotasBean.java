@@ -71,7 +71,7 @@ public class ReporteGraficoMascotasBean implements Serializable {
 			new Utilities().imprimirJasperPdf(nombreReporte, parametros);
 		}catch (Exception e) {
 			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 

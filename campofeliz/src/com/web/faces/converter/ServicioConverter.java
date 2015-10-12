@@ -21,7 +21,7 @@ public class ServicioConverter implements Converter {
                 return cotservicio;
             } catch(Exception ex) {
             	ex.printStackTrace();
-            	new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+            	new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
             }
         }
 

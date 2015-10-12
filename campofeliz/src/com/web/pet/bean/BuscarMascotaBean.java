@@ -89,7 +89,7 @@ public class BuscarMascotaBean implements Serializable {
 			};
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -163,7 +163,7 @@ public class BuscarMascotaBean implements Serializable {
 			setLisPetespecie(pettipoBO.lisPetespecie());
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", re.getMessage());
+			new MessageUtil().showFatalMessage(re.getMessage(),"");
 		}
 	}
 	
@@ -173,7 +173,7 @@ public class BuscarMascotaBean implements Serializable {
 			setLisPetraza(petrazaBO.lisRazas());
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", re.getMessage());
+			new MessageUtil().showFatalMessage(re.getMessage(),"");
 		}
 	}
 	

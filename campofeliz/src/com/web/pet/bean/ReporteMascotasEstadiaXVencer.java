@@ -55,14 +55,14 @@ public class ReporteMascotasEstadiaXVencer implements Serializable {
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
 	private boolean validarCampos(){
 		boolean ok = true;
 		if(anio < 0){
-			new MessageUtil().showFatalMessage("Datos incompletos!", "Debe ingresar los años a vencer!");
+			new MessageUtil().showFatalMessage("Datos incompletos! Debe ingresar los años a vencer!","");
 			ok = false;
 		}
 		return ok;

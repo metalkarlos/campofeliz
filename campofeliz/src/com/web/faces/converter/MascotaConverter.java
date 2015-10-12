@@ -33,7 +33,7 @@ public class MascotaConverter implements Converter {
                 return mascotas;
             } catch(Exception ex) {
             	ex.printStackTrace();
-            	new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+            	new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
             }
         }
 

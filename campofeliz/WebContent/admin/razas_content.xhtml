@@ -8,8 +8,8 @@
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
 	
 	<h:form id="form-contentpage">
-		<p:messages id="mensajes" showDetail="true" />
-		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
+		<p:messages id="mensajes" showDetail="false" />
+
 		<p:panel id="panel-razacontent">
 			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
 				<my:buttons renderedButtonNewItem="true" actionButtonNewItem="#{razaBean.newItem()}" onclickButtonNewItem="vartablaRazas.unselectAllRows()" oncompleteButtonNewItem="vardialogeditor.show()" updateButtonNewItem=":form-contentpage:idpaneleditor" 

@@ -135,7 +135,7 @@ public class MascotaBean implements Serializable {
 			lisPetespecie = new PetespecieBO().lisPetespecie();
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -157,7 +157,7 @@ public class MascotaBean implements Serializable {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -178,7 +178,7 @@ public class MascotaBean implements Serializable {
 			}
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -199,7 +199,7 @@ public class MascotaBean implements Serializable {
 			}
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -230,14 +230,14 @@ public class MascotaBean implements Serializable {
 			
 			if(lisCotpersona != null && lisCotpersona.size() > 0){
 				petmascotahomenaje.setCotpersona(lisCotpersona.get(0));
-				new MessageUtil().showInfoMessage("Correcto!", "Se ha validado correctamente!");
+				new MessageUtil().showInfoMessage("Correcto! Se ha validado correctamente!","");
 			}else{
 				petmascotahomenaje.setCotpersona(new Cotpersona());
-				new MessageUtil().showFatalMessage("Cédula no Existe!", "Cédula no existe, verifique e intente nuevamente!");
+				new MessageUtil().showFatalMessage("Cédula no Existe! Cédula no existe, verifique e intente nuevamente!","");
 			}
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 
@@ -379,12 +379,12 @@ public class MascotaBean implements Serializable {
 				}
 				
 				if(ok){
-					new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
+					new MessageUtil().showInfoMessage("Exito! Registro completo!","");
 				}
 			}
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 		
 		//return "";//"mascota.jsf?faces-redirect=true&idmascota="+this.idmascota+"&tipo="+this.tipo;
@@ -401,7 +401,7 @@ public class MascotaBean implements Serializable {
 			facesUtil.redirect("../admin/mascotas.jsf?iditem=2");
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -417,31 +417,31 @@ public class MascotaBean implements Serializable {
 		boolean ok = true;
 		
 		if(petmascotahomenaje.getNombre() == null || petmascotahomenaje.getNombre().trim().length() == 0){
-			new MessageUtil().showWarnMessage("Datos incompletos!", "El Nombre es obligatorio!");
+			new MessageUtil().showWarnMessage("Datos incompletos! El Nombre es obligatorio!","");
 			ok = false;
 		}else{
 			/*if(petmascota.getCaracteristicas() == null || petmascota.getCaracteristicas().trim().length() == 0){
 				ok = false;
 			}*/
 			if(petmascotahomenaje.getCotpersona() == null || petmascotahomenaje.getCotpersona().getIdpersona() == 0 ){
-				new MessageUtil().showWarnMessage("Datos incompletos!", "El Propietarios es obligatorio!");
+				new MessageUtil().showWarnMessage("Datos incompletos! El Propietarios es obligatorio!","");
 				ok = false;
 			}else{
 				if(petmascotahomenaje.getPetraza() == null || petmascotahomenaje.getPetraza().getIdraza() == 0 ){
-					new MessageUtil().showWarnMessage("Datos incompletos!", "La Raza es obligatoria!");
+					new MessageUtil().showWarnMessage("Datos incompletos! La Raza es obligatoria!","");
 					ok = false;
 				}else{
 					if(cottipoidentificacionselected != null && cottipoidentificacionselected.getIdtipoidentificacion() > 0 && (petmascotahomenaje.getNumeroidentificacion() == null || petmascotahomenaje.getNumeroidentificacion().trim().length() == 0)){
-						new MessageUtil().showWarnMessage("Datos incompletos!", "Si selecciona el Tipo de Identificación tambien debe ingresar el Número de Identificación!");
+						new MessageUtil().showWarnMessage("Datos incompletos! Si selecciona el Tipo de Identificación tambien debe ingresar el Número de Identificación!","");
 						ok = false;
 					}else{
 						if(petmascotahomenaje.getNumeroidentificacion() != null && petmascotahomenaje.getNumeroidentificacion().trim().length() > 0 && (cottipoidentificacionselected == null || cottipoidentificacionselected.getIdtipoidentificacion() == 0)){
-							new MessageUtil().showWarnMessage("Datos incompletos!", "Si ingresa el Número de Identificación también debe seleccionar el Tipo de Identificación!");
+							new MessageUtil().showWarnMessage("Datos incompletos! Si ingresa el Número de Identificación también debe seleccionar el Tipo de Identificación!","");
 							ok = false;
 						}
 						else{ 
 							if(petmascotahomenaje.getFechafallecimiento() != null && petmascotahomenaje.getFechanacimiento() != null && (petmascotahomenaje.getFechafallecimiento().before(petmascotahomenaje.getFechanacimiento()) )){
-								new MessageUtil().showWarnMessage("Datos incompletos!", "Fecha de Fallecimiento debe ser mayor a Fecha de Nacimiento!");
+								new MessageUtil().showWarnMessage("Datos incompletos! Fecha de Fallecimiento debe ser mayor a Fecha de Nacimiento!","");
 								ok = false;
 							}	
 						}	
@@ -467,7 +467,7 @@ public class MascotaBean implements Serializable {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -481,7 +481,7 @@ public class MascotaBean implements Serializable {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 

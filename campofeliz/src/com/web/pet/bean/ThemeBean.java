@@ -50,7 +50,7 @@ public class ThemeBean implements Serializable {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error al cargar los Temas. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error al cargar los Temas. Comunicar al Webmaster!","");
 		}
 	}
 	

@@ -66,7 +66,7 @@ public class AgendaBean implements Serializable{
 	    	};
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
     
@@ -135,10 +135,10 @@ public class AgendaBean implements Serializable{
                 coteventoBO.updateEvento(coteventoTmp);
             }
     		event = new DefaultScheduleEvent();
-    		new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
+    		new MessageUtil().showInfoMessage("Registro completo!","");
     	}catch(Exception e){
     		e.printStackTrace();
-    		new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+    		new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
     	}
     }
     
@@ -149,10 +149,10 @@ public class AgendaBean implements Serializable{
 	            Cotevento cotevento = (Cotevento)event.getData();
 	            CoteventoBO coteventoBO = new CoteventoBO();
 	            coteventoBO.deleteCotevento(cotevento.getIdevento());
-	            new MessageUtil().showInfoMessage("Exito!", "Registro eliminado!");
+	            new MessageUtil().showInfoMessage("Registro eliminado!","");
     		} catch(Exception e){
     			e.printStackTrace();
-    			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+    			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
     		}
         }
     }
@@ -168,11 +168,11 @@ public class AgendaBean implements Serializable{
 	}
 	
 	public void onEventMove(ScheduleEntryMoveEvent event) {
-		new MessageUtil().showInfoMessage("Evento ha sido modificado!", "Selecciona el evento y guarda tus cambios!");
+		new MessageUtil().showInfoMessage("Evento ha sido modificado! Selecciona el evento y guarda tus cambios!","");
 	}
 	
 	public void onEventResize(ScheduleEntryResizeEvent event) {
-		new MessageUtil().showInfoMessage("Evento ha sido modificado!", "Selecciona el evento y guarda tus cambios!");
+		new MessageUtil().showInfoMessage("Evento ha sido modificado! Selecciona el evento y guarda tus cambios!","");
 	}
     
 }

@@ -223,18 +223,6 @@ public class CotpersonaBO {
 			FileUtil fileUtil = new FileUtil();
 			FacesUtil facesUtil = new FacesUtil();
 			
-			//Se graba la persona si han habido cambios
-			if(!cotpersona.equals(cotpersonaClon)){
-				//auditoria
-				cotpersona.setFechamodificacion(fecharegistro);
-				cotpersona.setIplog(usuarioBean.getIp());
-				cotpersona.setSetusuario(usuarioBean.getSetUsuario());
-		
-				//actualizar
-				cotpersonaDAO.updateCotpersona(session, cotpersona);
-				ok = true;
-			}
-			
 			//Se evalua si han habido cambios en la lista de las fotos
 			for(Cotfotopersona cotfotopersonaClon : lisCotfotopersonaClon){
 				boolean encuentra = false;
@@ -287,6 +275,22 @@ public class CotpersonaBO {
 			//Si subio foto se crea en disco y en base
 			if(uploadedFile != null){
 				creaFotoDiscoBD(cotpersona, cotfotopersona, uploadedFile, session);
+				//si no tiene imagen principal se setea
+				if(cotpersona.getRuta() == null || cotpersona.getRuta().trim().length() == 0){
+					cotpersona.setRuta(cotfotopersona.getRuta());
+				}
+				ok = true;
+			}
+			
+			//Se graba la persona si han habido cambios
+			if(!cotpersona.equals(cotpersonaClon)){
+				//auditoria
+				cotpersona.setFechamodificacion(fecharegistro);
+				cotpersona.setIplog(usuarioBean.getIp());
+				cotpersona.setSetusuario(usuarioBean.getSetUsuario());
+		
+				//actualizar
+				cotpersonaDAO.updateCotpersona(session, cotpersona);
 				ok = true;
 			}
 			

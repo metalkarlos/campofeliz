@@ -128,7 +128,7 @@ public class PersonaBean implements Serializable {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -158,7 +158,7 @@ public class PersonaBean implements Serializable {
 			new MessageUtil().showInfoMessage("Presione Grabar para guardar los cambios.","");
 		}catch(Exception x){
 			x.printStackTrace();
-			new MessageUtil().showFatalMessage("Error!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -196,12 +196,12 @@ public class PersonaBean implements Serializable {
 				
 				if(ok){
 					uploadedFile = null;
-					new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
+					new MessageUtil().showInfoMessage("Exito! Registro completo!","");
 				}
 			}
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -213,19 +213,19 @@ public class PersonaBean implements Serializable {
 		boolean ok = true;
 		
 		if(cotpersona.getApellido1() == null || cotpersona.getApellido1().trim().length() == 0){
-			new MessageUtil().showWarnMessage("Datos incompletos!", "El Primer Apellido es obligatorio!");
+			new MessageUtil().showWarnMessage("Datos incompletos! El Primer Apellido es obligatorio!","");
 			ok = false;
 		}else{
 			if(cotpersona.getNombre1() == null || cotpersona.getNombre1().trim().length() == 0){
-				new MessageUtil().showWarnMessage("Datos incompletos!", "El Primer Nombre es obligatorio!");
+				new MessageUtil().showWarnMessage("Datos incompletos! El Primer Nombre es obligatorio!","");
 				ok = false;
 			}else{
 				if(cotpersona.getCottipoidentificacion() != null && cotpersona.getCottipoidentificacion().getIdtipoidentificacion() > 1 && (cotpersona.getNumeroidentificacion() == null || cotpersona.getNumeroidentificacion().trim().length() == 0)){
-					new MessageUtil().showWarnMessage("Datos incompletos!", "Si selecciona el Tipo de Identificación tambien debe ingresar el Número de Identificación!");
+					new MessageUtil().showWarnMessage("Datos incompletos! Si selecciona el Tipo de Identificación tambien debe ingresar el Número de Identificación!","");
 					ok = false;
 				}else{
 					if(cotpersona.getNumeroidentificacion() != null && cotpersona.getNumeroidentificacion().trim().length() > 0 && (cotpersona.getCottipoidentificacion() == null || cotpersona.getCottipoidentificacion().getIdtipoidentificacion() == 0)){
-						new MessageUtil().showWarnMessage("Datos incompletos!", "Si ingresa El Número de Identificación tambien debe seleccionar el Tipo de Identificación!");
+						new MessageUtil().showWarnMessage("Datos incompletos! Si ingresa El Número de Identificación tambien debe seleccionar el Tipo de Identificación!","");
 						ok = false;
 					}
 				}
@@ -246,7 +246,7 @@ public class PersonaBean implements Serializable {
 			paginaRetorno = "../admin/personas.jsf?iditem=36";
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 		
 		return paginaRetorno;

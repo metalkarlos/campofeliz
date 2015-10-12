@@ -129,13 +129,13 @@ import com.web.util.MessageUtil;
 					
 					new CotfotopersonaBO().newCotfotopersona(cotfotopersona);
 					liscotfotopersona = new CotfotopersonaBO().lisPetfotopersonaByIdpersona(idpersona);
-					new MessageUtil().showInfoMessage("Exito!", " Foto registrada!");
+					new MessageUtil().showInfoMessage("Exito! Foto registrada!","");
 				}else{
-					new MessageUtil().showWarnMessage("No procede!", "Antes de subir la imágen debe consultar el propietario de la mascota.");
+					new MessageUtil().showWarnMessage("No procede! Antes de subir la imágen debe consultar el propietario de la mascota.","");
 				}
 			} catch(Exception re) {
 				re.printStackTrace();
-				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+				new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 			}
 		}
 		
@@ -151,16 +151,16 @@ import com.web.util.MessageUtil;
 						
 						new CotfotopersonaBO().newCotfotopersona(cotfotopersona);
 						liscotfotopersona = new CotfotopersonaBO().lisPetfotopersonaByIdpersona(idpersona);
-						new MessageUtil().showInfoMessage("Exito!", " Foto registrada!");
+						new MessageUtil().showInfoMessage("Exito! Foto registrada!","");
 					}else{
-						new MessageUtil().showWarnMessage("Aviso!", "Antes de subir la imágen debe consultar el propietario de la mascota.");
+						new MessageUtil().showWarnMessage("Antes de subir la imágen debe consultar el propietario de la mascota.","");
 					}
 				}else{
-					new MessageUtil().showWarnMessage("Aviso!", "Antes de subir la imágen debe seleccionar una imágen.");
+					new MessageUtil().showWarnMessage("Antes de subir la imágen debe seleccionar una imágen.","");
 				}
 			} catch(Exception re) {
 				re.printStackTrace();
-				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+				new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 			}
 		}
 		
@@ -168,10 +168,10 @@ import com.web.util.MessageUtil;
 		{
 			try {
 				new CotfotopersonaBO().ponerFotoPerfil(cotfotopersonaSelected);
-				new MessageUtil().showInfoMessage("Exito!", "Imágen puesta como foto del perfil!");
+				new MessageUtil().showInfoMessage("Exito! Imágen puesta como foto del perfil!","");
 			} catch(Exception e){
 				e.printStackTrace();
-				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+				new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 			}
 		}
 		
@@ -189,12 +189,12 @@ import com.web.util.MessageUtil;
 				
 				if(fileUtil.deleteFile(rutaArchivo)){
 					new CotfotopersonaBO().eliminarFotoAlbum(cotfotopersonaSelected.getIdfotopersona());
-					new MessageUtil().showInfoMessage("Exito!", " Foto eliminada!");
+					new MessageUtil().showInfoMessage("Exito! Foto eliminada!","");
 					liscotfotopersona = new CotfotopersonaBO().lisPetfotopersonaByIdpersona(idpersona);
 				}
 			} catch(Exception re) {
 				re.printStackTrace();
-				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+				new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 			}
 		}
 		

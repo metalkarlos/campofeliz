@@ -75,7 +75,7 @@ public class ReporteMascotasxTiempoBean  implements Serializable{
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -83,7 +83,7 @@ public class ReporteMascotasxTiempoBean  implements Serializable{
 		boolean ok = true;
 		
 		if((fechadesde != null && fechahasta != null)&&(fechahasta.before(fechadesde))){
-			new MessageUtil().showFatalMessage("Datos incompletos!", "Fecha Desde debe estar antes de Fecha Hasta!");
+			new MessageUtil().showFatalMessage("Datos incompletos! Fecha Desde debe estar antes de Fecha Hasta!","");
 			ok = false;
 		}
 		

@@ -21,7 +21,7 @@ public class ColorConverter implements Converter {
                 return cotcolor;
             } catch(Exception ex) {
             	ex.printStackTrace();
-            	new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+            	new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
             }
         }
 

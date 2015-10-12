@@ -1,55 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="form-contentpage" enctype="multipart/form-data">
-		<p:messages id="mensajes" showDetail="true" />
-		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
+		<p:messages id="mensajes" showDetail="false" />
+		<p:defaultCommand target="lnkbuscar"></p:defaultCommand>
+
 		<p:panel id="panel-personacontent">
-			<div style="float: right;margin: 10px 15px 0 0;">
-			  <div id="search-form" >
-				<h:inputText id="txtbusqueda"  value="#{personasBean.nombre}" onblur="if(this.value==''){this.value='#{personasBean.textoBusqueda}'}" onfocus="if(this.value=='#{personasBean.textoBusqueda}'){this.value='';}  this.select();" />
-				<h:commandLink styleClass="search-form-submit" >
-					<f:ajax render="idTablaPersonas" execute="txtbusqueda"></f:ajax>
-				</h:commandLink>
-			  </div>
+			<div style="float: right; margin: 10px 15px 0 0;">
+				<div id="search-form">
+					<p:inputText id="txtbusqueda" value="#{personasBean.nombre}"
+						onblur="if(this.value==''){this.value='#{personasBean.textoBusqueda}'}"
+						onfocus="if(this.value=='#{personasBean.textoBusqueda}'){this.value='';}  this.select();" 
+						validatorMessage="Ingrese sólo letras. Corrija y reintente.">
+						<f:validateRegex pattern="[a-zA-Z ]+" />
+					</p:inputText>
+					<p:commandLink id="lnkbuscar" styleClass="search-form-submit" update="mensajes" >
+						<f:ajax render="idTablaPersonas" execute="txtbusqueda"></f:ajax>
+					</p:commandLink>
+				</div>
 			</div>
-			<br /><br />
-			[ <h:link class="link" value="Nueva Persona" outcome="persona.xhtml" >
-				<f:param name="idpersona" value="0" /> 
+			<br />
+			<br />
+			[ <h:link class="link" value="Nueva Persona" outcome="persona.xhtml">
+				<f:param name="idpersona" value="0" />
 			</h:link> ]
-			<br /><br />
-			<p:dataTable id="idTablaPersonas" value="#{personasBean.lisCotpersona}" var="persona" rowKey="#{persona.idpersona}" widgetVar="vartablaPersonas"
-				paginator="true" rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				selection="#{personasBean.cotpersonaSelected}" selectionMode="single"  emptyMessage="No se encontraron registros">
-				
+			<br />
+			<br />
+			<p:dataTable id="idTablaPersonas"
+				value="#{personasBean.lisCotpersona}" var="persona"
+				rowKey="#{persona.idpersona}" widgetVar="vartablaPersonas"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				selection="#{personasBean.cotpersonaSelected}"
+				selectionMode="single" emptyMessage="No se encontraron registros">
+
 				<p:ajax event="rowSelect" listener="#{personasBean.onRowSelect}" />
-				
+
 				<f:facet name="header">
 					Personas
 				</f:facet>
-				
-				<p:column id="idIdentificacionHeader" headerText="No.Iden." style="width: 150px">
+
+				<p:column id="idIdentificacionHeader" headerText="No.Iden."
+					style="width: 150px">
 					<h:outputText value="#{persona.numeroidentificacion}" />
 				</p:column>
-				
-				<p:column id="idApellido1Header" headerText="Apellido1" style="width: 150px">
+
+				<p:column id="idApellido1Header" headerText="Apellido1"
+					style="width: 150px">
 					<h:outputText value="#{persona.apellido1}" />
 				</p:column>
-				
+
 				<p:column id="idApellido2Header" headerText="Apellido2">
 					<h:outputText value="#{persona.apellido2}" />
 				</p:column>
-				
-				<p:column id="idNombre1Header" headerText="Nombre1" style="width: 125px">
+
+				<p:column id="idNombre1Header" headerText="Nombre1"
+					style="width: 125px">
 					<h:outputText value="#{persona.nombre1}" />
 				</p:column>
-				
-				<p:column id="idNombre2Header" headerText="Nombre2" style="width: 125px">
+
+				<p:column id="idNombre2Header" headerText="Nombre2"
+					style="width: 125px">
 					<h:outputText value="#{persona.nombre2}" />
 				</p:column>
 			</p:dataTable>

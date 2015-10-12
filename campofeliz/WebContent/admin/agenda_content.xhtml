@@ -7,15 +7,15 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="form-contentpage">
-		<p:messages id="mensajes" showDetail="true" />
-		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
+		<p:messages id="mensajes" showDetail="false" />
+
 		<p:schedule id="idagenda" value="#{agendaBean.lazyEventModel}" widgetVar="miagenda" locale="es">
 			<p:ajax event="dateSelect" listener="#{agendaBean.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
 			<p:ajax event="eventSelect" listener="#{agendaBean.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
 			<p:ajax event="eventMove" listener="#{agendaBean.onEventMove}" update="mensajes" />
 			<p:ajax event="eventResize" listener="#{agendaBean.onEventResize}" update="mensajes" />
 		</p:schedule>
-		<p:dialog id="iddialogeditor" header="Detalle del Evento" closable="true" widgetVar="eventDialog" modal="true" showEffect="bounce" hideEffect="explode" width="520" >
+		<p:dialog id="iddialogeditor" header="Detalle del Evento" closable="true" widgetVar="eventDialog" modal="true" width="520" >
 			<h:panelGrid id="eventDetails" columns="2" >
 				<h:outputLabel for="title" value="Título:" />
 				<p:inputText id="title" value="#{agendaBean.event.title}" style="width: 400px" maxlength="100" />

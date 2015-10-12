@@ -140,13 +140,13 @@ public class AlbumBean implements Serializable {
 				
 				new PetfotomascotaBO().newPetfotomascota(petfotomascota);
 				lispetfotomascota = new PetfotomascotaBO().lisPetfotomascotaByIdmascota(idmascota);
-				new MessageUtil().showInfoMessage("Exito!", " Foto registrada!");
+				new MessageUtil().showInfoMessage("Foto registrada!","");
 			}else{
-				new MessageUtil().showWarnMessage("No procede!", "Antes de subir la imágen debe consultar una mascota.");
+				new MessageUtil().showWarnMessage("No procede! Antes de subir la imágen debe consultar una mascota.","");
 			}
 		} catch(Exception re) {
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -162,16 +162,16 @@ public class AlbumBean implements Serializable {
 					
 					new PetfotomascotaBO().newPetfotomascota(petfotomascota);
 					lispetfotomascota = new PetfotomascotaBO().lisPetfotomascotaByIdmascota(idmascota);
-					new MessageUtil().showInfoMessage("Exito!", " Foto registrada!");
+					new MessageUtil().showInfoMessage("Exito! Foto registrada!","");
 				}else{
-					new MessageUtil().showWarnMessage("Aviso!", "Antes de subir la imágen debe consultar una mascota.");
+					new MessageUtil().showWarnMessage("Antes de subir la imágen debe consultar una mascota.","");
 				}
 			}else{
-				new MessageUtil().showWarnMessage("Aviso!", "Antes de subir la imágen debe seleccionar una imágen.");
+				new MessageUtil().showWarnMessage("Antes de subir la imágen debe seleccionar una imágen.","");
 			}
 		} catch(Exception re) {
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -179,10 +179,10 @@ public class AlbumBean implements Serializable {
 	{
 		try {
 			new PetfotomascotaBO().ponerFotoPerfil(petfotomascotaSelected);
-			new MessageUtil().showInfoMessage("Exito!", "Imágen puesta como foto del perfil!");
+			new MessageUtil().showInfoMessage("Exito! Imágen puesta como foto del perfil!","");
 		} catch(Exception e){
 			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -200,12 +200,12 @@ public class AlbumBean implements Serializable {
 			
 			if(fileUtil.deleteFile(rutaArchivo)){
 				new PetfotomascotaBO().eliminarFotoAlbum(petfotomascotaSelected.getIdfotomascota());
-				new MessageUtil().showInfoMessage("Exito!", " Foto eliminada!");
+				new MessageUtil().showInfoMessage("Exito! Foto eliminada!","");
 				lispetfotomascota = new PetfotomascotaBO().lisPetfotomascotaByIdmascota(idmascota);
 			}
 		} catch(Exception re) {
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	

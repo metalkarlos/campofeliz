@@ -1,47 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="form-contentpage" prependId="false">
-		<p:messages id="mensajes" showDetail="true" />
-		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
+		<p:messages id="mensajes" showDetail="false" />
+		<p:defaultCommand target="lnkbuscar"></p:defaultCommand>
+
 		<p:panel id="panel-content">
-			<div style="float: right;margin: 10px 15px 0 0;">
-			  <div id="search-form" >
-				<h:inputText id="txtbusqueda"  value="#{ordenesServicioBean.nombre}" onblur="if(this.value==''){this.value='#{ordenesServicioBean.textoBusqueda}'}" onfocus="if(this.value=='#{ordenesServicioBean.textoBusqueda}'){this.value=''}" />
-				<h:commandLink styleClass="search-form-submit" >
-					<f:ajax render="idTablaOrdenes" execute="txtbusqueda"></f:ajax>
-				</h:commandLink>
-			  </div>
+			<div style="float: right; margin: 10px 15px 0 0;">
+				<div id="search-form">
+					<p:inputText id="txtbusqueda" value="#{ordenesServicioBean.nombre}"
+						onblur="if(this.value==''){this.value='#{ordenesServicioBean.textoBusqueda}'}"
+						onfocus="if(this.value=='#{ordenesServicioBean.textoBusqueda}'){this.value=''}" 
+						validatorMessage="Ingrese sólo letras. Corrija y reintente.">
+						<f:validateRegex pattern="[a-zA-Z ]+" />
+					</p:inputText>
+					<p:commandLink id="lnkbuscar" styleClass="search-form-submit" update="mensajes" >
+						<f:ajax render="idTablaOrdenes" execute="txtbusqueda"></f:ajax>
+					</p:commandLink>
+				</div>
 			</div>
-			<br /><br />
-			[ <h:link  class="link" value="Nueva Solicitud" outcome="ordenservicio.hxtml" >
-				<f:param name="idordenservicio" value="0" /> 
+			<br />
+			<br />
+			[ <h:link class="link" value="Nueva Solicitud"
+				outcome="ordenservicio.hxtml">
+				<f:param name="idordenservicio" value="0" />
 			</h:link> ]
-			<br /><br />
-			<p:dataTable id="idTablaOrdenes" value="#{ordenesServicioBean.lisPetordenservicio}" var="orden" rowKey="#{orden.idordenservicio}" widgetVar="vartablaOrdenes"
-				paginator="true" rows="20" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				selection="#{ordenesServicioBean.petordenservicioSelected}" selectionMode="single">
-				
-				<p:ajax event="rowSelect" listener="#{ordenesServicioBean.onRowSelect}" />
-				
+			<br />
+			<br />
+			<p:dataTable id="idTablaOrdenes"
+				value="#{ordenesServicioBean.lisPetordenservicio}" var="orden"
+				rowKey="#{orden.idordenservicio}" widgetVar="vartablaOrdenes"
+				paginator="true" rows="20"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				selection="#{ordenesServicioBean.petordenservicioSelected}"
+				selectionMode="single">
+
+				<p:ajax event="rowSelect"
+					listener="#{ordenesServicioBean.onRowSelect}" />
+
 				<f:facet name="header">
 					Ordenes de Servicio
 				</f:facet>
-				
+
 				<p:column id="idordenHeader" headerText="No" style="width: 10px">
 					<h:outputText value="#{orden.idordenservicio}" />
 				</p:column>
-				
-				<p:column id="idPripietarioHeader" headerText="Propietario" style="width: 150px">
-					<h:outputText value="#{orden.petmascotahomenaje.cotpersona.apellido2} #{orden.petmascotahomenaje.cotpersona.apellido1} #{orden.petmascotahomenaje.cotpersona.nombre2} #{orden.petmascotahomenaje.cotpersona.nombre1}" />
+
+				<p:column id="idPripietarioHeader" headerText="Propietario"
+					style="width: 150px">
+					<h:outputText
+						value="#{orden.petmascotahomenaje.cotpersona.apellido2} #{orden.petmascotahomenaje.cotpersona.apellido1} #{orden.petmascotahomenaje.cotpersona.nombre2} #{orden.petmascotahomenaje.cotpersona.nombre1}" />
 				</p:column>
-				
-				<p:column id="idmascotaHeader" headerText="Mascota" style="width: 150px">
+
+				<p:column id="idmascotaHeader" headerText="Mascota"
+					style="width: 150px">
 					<h:outputText value="#{orden.petmascotahomenaje.nombre}" />
 				</p:column>
 			</p:dataTable>

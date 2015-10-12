@@ -80,7 +80,6 @@ public class OrdenServicioBean implements Serializable {
 		llenarListaServicio();
 		inicializarEspecieMascota();
 		llenarLisRaza();
-		consultarDetalle();
 	}
 	
 	@PostConstruct
@@ -93,18 +92,24 @@ public class OrdenServicioBean implements Serializable {
 				idordenservicio = Integer.parseInt(par.toString());
 				
 				petordenservicio = new PetordenservicioBO().getPetordenservicioById(idordenservicio);
-				if(petordenservicio.getCotlugar() == null){
-					petordenservicio.setCotlugar(new Cotlugar());
-				}
-				Mascotas mascotas = new Mascotas();
-				petmascotahomenajeselected = new PetmascotaBO().getPetmascotaById(petordenservicio.getPetmascotahomenaje().getIdmascota());
-				Petfotomascota petfoto = new PetfotomascotaBO().getPetfotomascotaPerfilByIdmascota(petmascotahomenajeselected.getIdmascota());
-				mascotas.setPetmascotahomenaje(petmascotahomenajeselected);
-				mascotas.setPetfotomascota(petfoto);
-				mascotasselected = mascotas;
-				lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(petmascotahomenajeselected.getIdmascota());
-				if(lisPetmascotacolor == null){
-					lisPetmascotacolor = new ArrayList<Petmascotacolor>();
+				
+				if(petordenservicio != null){
+					if(petordenservicio.getCotlugar() == null){
+						petordenservicio.setCotlugar(new Cotlugar());
+					}
+					Mascotas mascotas = new Mascotas();
+					petmascotahomenajeselected = new PetmascotaBO().getPetmascotaById(petordenservicio.getPetmascotahomenaje().getIdmascota());
+					Petfotomascota petfoto = new PetfotomascotaBO().getPetfotomascotaPerfilByIdmascota(petmascotahomenajeselected.getIdmascota());
+					mascotas.setPetmascotahomenaje(petmascotahomenajeselected);
+					mascotas.setPetfotomascota(petfoto);
+					mascotasselected = mascotas;
+					lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(petmascotahomenajeselected.getIdmascota());
+					if(lisPetmascotacolor == null){
+						lisPetmascotacolor = new ArrayList<Petmascotacolor>();
+					}
+					consultarDetalle();
+				}else{
+					petordenservicio = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null);
 				}
 			}else{
 				facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
@@ -128,7 +133,7 @@ public class OrdenServicioBean implements Serializable {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -150,7 +155,7 @@ public class OrdenServicioBean implements Serializable {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -160,7 +165,7 @@ public class OrdenServicioBean implements Serializable {
 			lisPetespecie = new PetespecieBO().lisPetespecie();
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -181,7 +186,7 @@ public class OrdenServicioBean implements Serializable {
 			}
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -189,7 +194,7 @@ public class OrdenServicioBean implements Serializable {
 	private void consultarDetalle(){
 		try
 		{
-			setLisPetordenserviciodetalle(new LazyDataModel<Petordenserviciodetalle>() {
+			lisPetordenserviciodetalle = new LazyDataModel<Petordenserviciodetalle>() {
 				public List<Petordenserviciodetalle> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
 					List<Petordenserviciodetalle> data = new ArrayList<Petordenserviciodetalle>();
 	
@@ -214,10 +219,10 @@ public class OrdenServicioBean implements Serializable {
                        super.setRowIndex(rowIndex % getPageSize());
                    }      
                }
-			});
+			};
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -338,7 +343,7 @@ public class OrdenServicioBean implements Serializable {
 			
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 			
 		return lisMascotas;
@@ -354,7 +359,7 @@ public class OrdenServicioBean implements Serializable {
 		}
 		catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -380,12 +385,12 @@ public class OrdenServicioBean implements Serializable {
 				petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
 				
 				if(ok){
-					new MessageUtil().showInfoMessage("Exito!", "Registro completo!");
+					new MessageUtil().showInfoMessage("Exito! Registro completo!","");
 				}
 			}
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 
@@ -395,7 +400,7 @@ public class OrdenServicioBean implements Serializable {
 		
 		if(petordenserviciodetalleItem.getPetservicio() == null || petordenserviciodetalleItem.getPetservicio().getIdservicio() == 0){
 			ok = false;
-			new MessageUtil().showWarnMessage("Datos incompletos!", "El Servicio es obligatorio!");
+			new MessageUtil().showWarnMessage("Datos incompletos! El Servicio es obligatorio!","");
 		}
 		
 		return ok;
@@ -414,7 +419,7 @@ public class OrdenServicioBean implements Serializable {
 				
 				if(petordenservicio.getIdordenservicio() > 0){
 					petordenservicioBO.updatePetordenservicio(petordenservicio);
-					new MessageUtil().showInfoMessage("Exito!", "Datos actualizados!");
+					new MessageUtil().showInfoMessage("Exito! Datos actualizados!","");
 				}else{
 					petordenservicioBO.newPetordenservicio(petordenservicio);
 					FacesUtil facesUtil = new FacesUtil();
@@ -422,7 +427,7 @@ public class OrdenServicioBean implements Serializable {
 				}
 			}catch(Exception re){
 				re.printStackTrace();
-				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+				new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 			}
 		}
 		
@@ -433,7 +438,7 @@ public class OrdenServicioBean implements Serializable {
 		boolean ok = true;
 		
 		if(mascotasselected == null || mascotasselected.getPetmascotahomenaje() == null || mascotasselected.getPetmascotahomenaje().getIdmascota() == 0){
-			new MessageUtil().showWarnMessage("Datos incompletos!", "Seleccione la Mascota!");
+			new MessageUtil().showWarnMessage("Datos incompletos! Seleccione la Mascota!","");
 			ok = false;
 		}
 		
@@ -458,7 +463,7 @@ public class OrdenServicioBean implements Serializable {
 			facesUtil.redirect("../admin/ordenesservicio.jsf?iditem=40");
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -473,10 +478,10 @@ public class OrdenServicioBean implements Serializable {
 			/*PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
 			petordenserviciodetalleBO.eliminarPetordenserviciodetalle(petordenserviciodetalleItem.getId());*/
 			
-			new MessageUtil().showInfoMessage("Exito!", "Registro Eliminado!");
+			new MessageUtil().showInfoMessage("Exito! Registro Eliminado!","");
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -499,7 +504,7 @@ public class OrdenServicioBean implements Serializable {
 			new Utilities().imprimirJasperPdf(nombreReporte, parametros);
 		}catch (Exception e) {
 			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -518,15 +523,15 @@ public class OrdenServicioBean implements Serializable {
 					ok = petordenservicioBO.grabarMascotaBasico(petmascotahomenajenuevo, cotpersonanuevo);
 					
 					if(ok){
-						new MessageUtil().showInfoMessage("Exito!", "Mascota Ingresada!");
+						new MessageUtil().showInfoMessage("Exito! Mascota Ingresada!","");
 					}
 				}
 			}else{
-				new MessageUtil().showWarnMessage("Aviso!", "Mascota ya ha sido Ingresada!");
+				new MessageUtil().showWarnMessage("Mascota ya ha sido Ingresada!","");
 			}
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -535,35 +540,35 @@ public class OrdenServicioBean implements Serializable {
 		boolean ok = true;
 		
 		if(petmascotahomenajenuevo.getIdmascotaveterinaria() == null || petmascotahomenajenuevo.getIdmascotaveterinaria().trim().length() == 0){
-			new MessageUtil().showWarnMessage("Datos incompletos!", "El código de la veterinaria es obligatorio!");
+			new MessageUtil().showWarnMessage("Datos incompletos! El código de la veterinaria es obligatorio!","");
 			ok = false;
 		}else{
 			if(petmascotahomenajenuevo.getNombre() == null || petmascotahomenajenuevo.getNombre().trim().length() == 0){
-				new MessageUtil().showWarnMessage("Datos incompletos!", "El nombre de la mascota es obligatorio!");
+				new MessageUtil().showWarnMessage("Datos incompletos! El nombre de la mascota es obligatorio!","");
 				ok = false;
 			}else{
 				if(petmascotahomenajenuevo.getPetespecie().getIdespecie() == 0){
-					new MessageUtil().showWarnMessage("Datos incompletos!", "La especie de la mascota es obligatorio!");
+					new MessageUtil().showWarnMessage("Datos incompletos! La especie de la mascota es obligatorio!","");
 					ok = false;
 				}else{
 					if(petmascotahomenajenuevo.getPetraza() == null || petmascotahomenajenuevo.getPetraza().getIdraza() == 0 ){
-						new MessageUtil().showWarnMessage("Datos incompletos!", "La Raza es obligatoria!");
+						new MessageUtil().showWarnMessage("Datos incompletos! La Raza es obligatoria!","");
 						ok = false;
 					}else{
 						if(petmascotahomenajenuevo.getSexo() == 0){
-							new MessageUtil().showWarnMessage("Datos incompletos!", "El sexo de la mascota es obligatorio!");
+							new MessageUtil().showWarnMessage("Datos incompletos! El sexo de la mascota es obligatorio!","");
 							ok = false;
 						}else{
 							if(petmascotahomenajenuevo.getFechanacimiento() == null){
-								new MessageUtil().showWarnMessage("Datos incompletos!", "Fecha de Nacimiento es obligatorio!");
+								new MessageUtil().showWarnMessage("Datos incompletos! Fecha de Nacimiento es obligatorio!","");
 								ok = false;
 							}else{
 								if(petmascotahomenajenuevo.getFechafallecimiento() == null){
-									new MessageUtil().showWarnMessage("Datos incompletos!", "Fecha de Fallecimiento es obligatorio!");
+									new MessageUtil().showWarnMessage("Datos incompletos! Fecha de Fallecimiento es obligatorio!","");
 									ok = false;
 								}else{
 									if(petmascotahomenajenuevo.getFechafallecimiento().before(petmascotahomenajenuevo.getFechanacimiento())){
-										new MessageUtil().showWarnMessage("Atención!", "Fecha de Fallecimiento debe ser mayor a Fecha de Nacimiento!");
+										new MessageUtil().showWarnMessage("Atención! Fecha de Fallecimiento debe ser mayor a Fecha de Nacimiento!","");
 										ok = false;
 									}	
 								}
@@ -576,19 +581,19 @@ public class OrdenServicioBean implements Serializable {
 		
 		if(ok){
 			if(cotpersonanuevo.getNombre1() == null || cotpersonanuevo.getNombre1().trim().length() == 0){
-				new MessageUtil().showWarnMessage("Datos incompletos!", "El Primer Nombre del propietario es obligatorio!");
+				new MessageUtil().showWarnMessage("Datos incompletos! El Primer Nombre del propietario es obligatorio!","");
 				ok = false;
 			}else{
 				if(cotpersonanuevo.getApellido1() == null || cotpersonanuevo.getApellido1().trim().length() == 0){
-					new MessageUtil().showWarnMessage("Datos incompletos!", "El Primer Apellido del propietario es obligatorio!");
+					new MessageUtil().showWarnMessage("Datos incompletos! El Primer Apellido del propietario es obligatorio!","");
 					ok = false;
 				}else{
 					if(cotpersonanuevo.getSexo() == 0){
-						new MessageUtil().showWarnMessage("Datos incompletos!", "El sexo del propietario es obligatorio!");
+						new MessageUtil().showWarnMessage("Datos incompletos! El sexo del propietario es obligatorio!","");
 						ok = false;
 					}else{
 						if(cotpersonanuevo.getTelefono() == null || cotpersonanuevo.getTelefono().trim().length() == 0 ){
-							new MessageUtil().showWarnMessage("Datos incompletos!", "El telefono del propietario es obligatorio!");
+							new MessageUtil().showWarnMessage("Datos incompletos! El telefono del propietario es obligatorio!","");
 							ok = false;
 						}
 					}

@@ -65,7 +65,7 @@
 							        <p:captcha id="idcaptcha" label="Captcha" required="true" requiredMessage="Ingrese el código captcha en el recuadro" language="es" />
 									<p:commandLink id="lnkEnviar" styleClass="link" value="Enviar" action="#{usuarioBean.enviarOlvidoClave()}" update=":form-content:mensajes, :form-content:idcaptcha" process=":form-content:idcaptcha, @(input:not(:password))" onclick="varClavePanel.hide();" oncomplete="Recaptcha.reload();"></p:commandLink>
 							    </p:overlayPanel>
-							    <p:messages id="mensajes" showDetail="true" />
+							    <p:messages id="mensajes" showDetail="false" />
 							</div>
 							</div>
 						</td>

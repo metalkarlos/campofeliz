@@ -81,7 +81,7 @@ public class PersonasBean implements Serializable {
 			};
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
@@ -131,7 +131,7 @@ public class PersonasBean implements Serializable {
 			facesUtil.redirect("../admin/persona.jsf?faces-redirect=true&idpersona="+cotpersonaSelected.getIdpersona()+"&iditem=36");
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 

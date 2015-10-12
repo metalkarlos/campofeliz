@@ -1,58 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="form-contentpage" prependId="false">
-		<p:messages id="mensajes" showDetail="true" />
-		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
+		<p:messages id="mensajes" showDetail="false" />
+		<p:defaultCommand target="lnkbuscar"></p:defaultCommand>
+		
 		<p:panel id="panel-ordencontent">
+			<br />
+			<div style="float: right; margin: 10px 15px 0 0;">
+				<div id="search-form">
+					<p:inputText id="txtbusqueda" value="#{mascotasBean.nombre}"
+						onblur="if(this.value==''){this.value='#{mascotasBean.textoBusqueda}'}"
+						onfocus="if(this.value=='#{mascotasBean.textoBusqueda}'){this.value=''}" 
+						validatorMessage="Ingrese sólo letras. Corrija y reintente.">
+						<f:validateRegex pattern="[a-zA-Z ]+" />
+					</p:inputText>
+					<p:commandLink id="lnkbuscar" styleClass="search-form-submit" update="mensajes" >
+						<f:ajax render="idGridMascotas" execute="txtbusqueda"></f:ajax>
+					</p:commandLink>
+				</div>
+			</div>
+			<br />
+			<br />
+		[ <h:link class="link" value="Nueva Mascota" outcome="mascota.hxtml">
+				<f:param name="idmascota" value="0" />
+				<f:param name="especie" value="#{mascotasBean.especie}" />
+			</h:link> ]
 		<br />
-		<div style="float: right;margin: 10px 15px 0 0;">
-		  <div id="search-form" >
-			<h:inputText id="txtbusqueda"  value="#{mascotasBean.nombre}" onblur="if(this.value==''){this.value='#{mascotasBean.textoBusqueda}'}" onfocus="if(this.value=='#{mascotasBean.textoBusqueda}'){this.value=''}" />
-			<h:commandLink styleClass="search-form-submit" >
-				<f:ajax render="idGridMascotas" execute="txtbusqueda"></f:ajax>
-			</h:commandLink>
-		  </div>
-		</div>
-		<br /><br />
-		[ <h:link  class="link" value="Nueva Mascota" outcome="mascota.hxtml" >
-			<f:param name="idmascota" value="0" /> 
-			<f:param name="especie" value="#{mascotasBean.especie}" />
-		</h:link> ]
-		<br /><br />
-		<p:dataGrid id="idGridMascotas" value="#{mascotasBean.lisMascotas}" var="pet" columns="#{mascotasBean.columnsGrid}" rows="#{mascotasBean.rowsGrid}" paginator="true" effect="true" 
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-			emptyMessage="No se encontraron registros">
-			<p:column>
-				<p:panel style="text-align:center; text-transform: capitalize; height: 185px; width: 180px;">
-					<f:facet name="header">
-						<h:link value="#{pet.petmascotahomenaje.nombre}" outcome="mascota.hxtml" >
-							<f:param name="idmascota" value="#{pet.petmascotahomenaje.idmascota}" /> 
-							<f:param name="especie" value="#{mascotasBean.especie}" />
-							<f:param name="iditem" value="#{menuBean.activeIdItem}" />
-						</h:link>
-					</f:facet>
-					<f:facet name="footer">
-						<center>
-						<h:outputText value="#{pet.petmascotahomenaje.sexo==1?'Macho':'Hembra'}" />
-						</center>
-					</f:facet>
-					<h:panelGrid columns="1" style="width:100%;height: 110px;">
-						<h:link outcome="mascota.hxtml" >
-							<f:param name="idmascota" value="#{pet.petmascotahomenaje.idmascota}" /> 
-							<f:param name="especie" value="#{mascotasBean.especie}" />
-							<f:param name="iditem" value="#{menuBean.activeIdItem}" />
-							<p:graphicImage id="idfoto" title="#{pet.petmascotahomenaje.nombre}" value="#{parametro.servletImagenes}#{pet.petfotomascota.ruta}?w=100" style="max-height: 100px" />
-						</h:link>
-					</h:panelGrid>
-				</p:panel>
-			</p:column>
-		</p:dataGrid>
+			<br />
+			<p:dataGrid id="idGridMascotas" value="#{mascotasBean.lisMascotas}"
+				var="pet" columns="#{mascotasBean.columnsGrid}"
+				rows="#{mascotasBean.rowsGrid}" paginator="true" effect="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				emptyMessage="No se encontraron registros">
+				<p:column>
+					<p:panel
+						style="text-align:center; text-transform: capitalize; height: 185px; width: 180px;">
+						<f:facet name="header">
+							<h:link value="#{pet.petmascotahomenaje.nombre}"
+								outcome="mascota.hxtml">
+								<f:param name="idmascota"
+									value="#{pet.petmascotahomenaje.idmascota}" />
+								<f:param name="especie" value="#{mascotasBean.especie}" />
+								<f:param name="iditem" value="#{menuBean.activeIdItem}" />
+							</h:link>
+						</f:facet>
+						<f:facet name="footer">
+							<center>
+								<h:outputText
+									value="#{pet.petmascotahomenaje.sexo==1?'Macho':'Hembra'}" />
+							</center>
+						</f:facet>
+						<h:panelGrid columns="1" style="width:100%;height: 110px;">
+							<h:link outcome="mascota.hxtml">
+								<f:param name="idmascota"
+									value="#{pet.petmascotahomenaje.idmascota}" />
+								<f:param name="especie" value="#{mascotasBean.especie}" />
+								<f:param name="iditem" value="#{menuBean.activeIdItem}" />
+								<p:graphicImage id="idfoto"
+									title="#{pet.petmascotahomenaje.nombre}"
+									value="#{parametro.servletImagenes}#{pet.petfotomascota.ruta}?w=100"
+									style="max-height: 100px" />
+							</h:link>
+						</h:panelGrid>
+					</p:panel>
+				</p:column>
+			</p:dataGrid>
 		</p:panel>
 	</h:form>
 </ui:composition>

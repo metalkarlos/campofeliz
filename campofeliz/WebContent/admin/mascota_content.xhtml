@@ -9,8 +9,8 @@
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
 	
 	<h:form id="form-contentpage">
-		<p:messages id="mensajes" showDetail="true" />
-		<p:growl autoUpdate="true" showDetail="true" sticky="true" ></p:growl>
+		<p:messages id="mensajes" showDetail="false" />
+
 		<p:panel id="panel-mascotacontent">
 			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
 				<my:buttons renderedButtonAceptar="true" onclickButtonAceptar="vardialoggrabar.show()" 
@@ -150,7 +150,7 @@
 				renderedButtonNewItem="false" />
             </h:panelGrid>
 		</p:panel>
-		<p:dialog id="iddialoggrabar" header="Mascota" closable="true" widgetVar="vardialoggrabar" modal="true" showEffect="bounce" hideEffect="explode">
+		<p:dialog id="iddialoggrabar" header="Mascota" closable="true" widgetVar="vardialoggrabar" modal="true" >
 			<h:panelGrid id="idpanelgrabar" columns="2" >
 				<h:outputText id="idlabelgrabar" value="Confirme si desea grabar el registro" />
 				<h:panelGrid columns="2" >
@@ -159,7 +159,7 @@
 				</h:panelGrid>
 			</h:panelGrid>
 		</p:dialog>
-		<p:dialog id="iddialogdelete" header="Mascota" closable="true" widgetVar="vardialogdelete" modal="true" showEffect="bounce" hideEffect="explode">
+		<p:dialog id="iddialogdelete" header="Mascota" closable="true" widgetVar="vardialogdelete" modal="true" >
 			<h:panelGrid id="idpaneldelete" columns="2">
 				<h:outputText id="idlabeldelete" value="Confirme si desea eliminar el registro" />
 				<h:panelGrid columns="2" >

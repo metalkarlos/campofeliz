@@ -109,7 +109,7 @@ public class HomeBean implements Serializable {
 	}
 
 	public void handleDateSelect(DateSelectEvent event) {  
-		new MessageUtil().showInfoMessage("Hola!", "Estoy en construcción!");  
+		new MessageUtil().showInfoMessage("Hola! Estoy en construcción!","");  
     }
 
 }

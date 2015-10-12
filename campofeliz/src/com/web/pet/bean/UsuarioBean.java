@@ -94,11 +94,11 @@ public class UsuarioBean implements Serializable{
 					FileUtil fileUtil = new FileUtil();
 					strRedirect = "../admin/"+fileUtil.getPropertyValue("home");
 				}else{
-					new MessageUtil().showWarnMessage("Autenticación fallida","Usuario o Contraseña no existen.");
+					new MessageUtil().showWarnMessage("Autenticación fallida. Usuario o Contraseña no existen.","");
 				}
 			}catch(Exception re){
 				re.printStackTrace();
-				new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+				new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 			}
 		}
 		
@@ -131,7 +131,7 @@ public class UsuarioBean implements Serializable{
 			facesUtil.redirect("../pages/"+strLogin);
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 		return "";
 	}
@@ -216,7 +216,7 @@ public class UsuarioBean implements Serializable{
 					}
 				}catch(Exception e){
 					e.printStackTrace();
-					new MessageUtil().showFatalMessage("Error!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+					new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 				}
 			}
 		}
@@ -247,7 +247,7 @@ public class UsuarioBean implements Serializable{
 				new MessageUtil().showWarnMessage("Usuario no existe", "");
 			}
 		}catch(Exception re){
-			new MessageUtil().showFatalMessage("Error!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 		
 		return ok;
@@ -260,7 +260,7 @@ public class UsuarioBean implements Serializable{
 			new FacesUtil().redirect("../pages/"+strnotlogged);
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 		return "";
 	}
