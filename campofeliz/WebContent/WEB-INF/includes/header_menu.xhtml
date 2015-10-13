@@ -15,7 +15,7 @@
 					<p:tab id="id-#{menu.orden}" title="#{menu.nombre}">
 						<c:forEach items="#{menu.lisSevOpcionMenu}" var="opcion" >
 							&nbsp;|&nbsp;
-							<h:link value="#{opcion.nombre}" outcome="#{opcion.paginaurl}">
+							<h:link value="#{opcion.nombre}" outcome="/admin/#{opcion.paginaurl}">
 								<f:param name="iditem" value="#{opcion.idmenu}"></f:param>
 							</h:link>
 						</c:forEach>

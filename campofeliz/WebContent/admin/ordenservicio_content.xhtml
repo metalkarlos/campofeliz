@@ -71,7 +71,7 @@
 							</h:panelGrid>
 						</f:facet>
 					</p:autoComplete>
-					[ <h:link class="link" id="idheadlink1" value="Nueva" onclick="vardialogeditormascota.show()" /> ]
+					[ <h:link class="link" value="Nueva" onclick="vardialogeditormascota.show()" /> ]
 					</p:column>
 					<p:column>
 					<p:message id="msgtxtmascota" for="txtmascota" display="icon" />
@@ -341,23 +341,13 @@
 				</p:panelGrid>
 
 				<center>
-					<p:commandButton id="idbotongrabar"
+					<p:commandButton id="idbotongrabar" style="margin: 15px"
 						value="#{ordenServicioBean.petordenservicio.idordenservicio > 0?'Actualizar Datos':'Crear Solicitud'}"
-						onclick="vardialoggrabar.show()" />
+						onclick="vardialoggrabar.show()" immediate="true"/>
 				</center>
 			
-				<p:panel id="idpaneldetalle"
+				<p:panel id="idpaneldetalle" 
 					visible="#{ordenServicioBean.petordenservicio.idordenservicio > 0}">
-					<h1 class="title ui-widget-header ui-corner-all">Servicios</h1>
-					<h:panelGrid id="detallebuttonsup" columns="1">
-						<my:buttons renderedButtonNewItem="true"
-							actionButtonNewItem="#{ordenServicioBean.newItem()}"
-							oncompleteButtonNewItem="vardialogeditor.show()"
-							updateButtonNewItem=":form-contentpage:idpaneleditor"
-							disabledButtonNewItem="#{ordenServicioBean.petordenservicio.idordenservicio eq 0}"
-							renderedButtonEliminar="false" renderedButtonCancelar="false"
-							renderedButtonAceptar="false" />
-					</h:panelGrid>
 					<p:dataTable id="idTablaDetalle"
 						value="#{ordenServicioBean.lisPetordenserviciodetalle}"
 						var="servicio" rowKey="#{servicio.id.idordenserviciodetalle}"
@@ -414,7 +404,7 @@
 						oncomplete="vardialoggrabar.hide()"
 						update=":form-contentpage:mensajes, :form-contentpage:idbotongrabar, :form-contentpage:idTablaDetalle" />
 					<p:commandButton value="NO" style="width: 50px"
-						onclick="vardialoggrabar.hide()" />
+						onclick="vardialoggrabar.hide()" immediate="true" />
 				</h:panelGrid>
 			</h:panelGrid>
 		</p:dialog>

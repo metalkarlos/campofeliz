@@ -6,9 +6,8 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 	
 	<h:form id="form-headerlinks">
-		<h:link class="link" id="idheadlink1" value="Inicio" outcome="home.jsf?faces-redirect=true&amp;iditem=35">
-		</h:link>
+		<h:link class="link" value="Inicio" outcome="/admin/home.jsf?faces-redirect=true&amp;iditem=35" />
 		|
-		<h:commandLink class="link" id="idheadlink3" value="Salir [#{usuarioBean.username}]" action="#{usuarioBean.logout}" />
+		<h:commandLink class="link" value="Salir [#{usuarioBean.username}]" action="#{usuarioBean.logout}" />
 	</h:form>
 </ui:composition>

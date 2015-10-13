@@ -80,6 +80,7 @@ public class OrdenServicioBean implements Serializable {
 		llenarListaServicio();
 		inicializarEspecieMascota();
 		llenarLisRaza();
+		consultarDetalle();
 	}
 	
 	@PostConstruct
@@ -107,7 +108,6 @@ public class OrdenServicioBean implements Serializable {
 					if(lisPetmascotacolor == null){
 						lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 					}
-					consultarDetalle();
 				}else{
 					petordenservicio = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null);
 				}
@@ -197,10 +197,13 @@ public class OrdenServicioBean implements Serializable {
 			lisPetordenserviciodetalle = new LazyDataModel<Petordenserviciodetalle>() {
 				public List<Petordenserviciodetalle> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
 					List<Petordenserviciodetalle> data = new ArrayList<Petordenserviciodetalle>();
-	
-					PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
 					int args[] = {0};
-					data = petordenserviciodetalleBO.lisPetordenserviciodetalleByPage(petordenservicio.getIdordenservicio(), pageSize, first, args);
+					
+					if(petordenservicio != null && petordenservicio.getIdordenservicio() > 0 ){
+						PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
+						data = petordenserviciodetalleBO.lisPetordenserviciodetalleByPage(petordenservicio.getIdordenservicio(), pageSize, first, args);
+					}
+					
 					this.setRowCount(args[0]);
 	
 			        return data;
@@ -410,6 +413,8 @@ public class OrdenServicioBean implements Serializable {
 		
 		if(validarObligatorios()){
 			try{
+				boolean ok = false;
+				
 				PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
 				petordenservicio.setPetmascotahomenaje(mascotasselected.getPetmascotahomenaje());
 				
@@ -417,13 +422,22 @@ public class OrdenServicioBean implements Serializable {
 					petordenservicio.setCotlugar(null);
 				}
 				
-				if(petordenservicio.getIdordenservicio() > 0){
-					petordenservicioBO.updatePetordenservicio(petordenservicio);
-					new MessageUtil().showInfoMessage("Exito! Datos actualizados!","");
+				if(petordenservicio.getIdordenservicio() == 0){
+					ok = petordenservicioBO.newPetordenservicio(petordenservicio);
+					if(ok){
+						FacesUtil facesUtil = new FacesUtil();
+						facesUtil.redirect("../admin/ordenservicio.jsf?faces-redirect=true&idordenservicio="+petordenservicio.getIdordenservicio()+"&iditem=40");
+					}else{
+						new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
+					}
 				}else{
-					petordenservicioBO.newPetordenservicio(petordenservicio);
-					FacesUtil facesUtil = new FacesUtil();
-					facesUtil.redirect("../admin/ordenservicio.jsf?faces-redirect=true&idordenservicio="+petordenservicio.getIdordenservicio()+"&iditem=40");
+					ok = petordenservicioBO.updatePetordenservicio(petordenservicio);
+					if(ok){
+						mostrarPaginaMensaje("Orden de Servicio actualizada con exito!!");
+					}else{
+						mostrarPaginaMensaje("No existen cambios que guardar.");
+						new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
+					}
 				}
 			}catch(Exception re){
 				re.printStackTrace();
@@ -443,6 +457,14 @@ public class OrdenServicioBean implements Serializable {
 		}
 		
 		return ok;
+	}
+	
+	private void mostrarPaginaMensaje(String mensaje) throws Exception {
+		UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+		usuarioBean.setMensaje(mensaje);
+		
+		FacesUtil facesUtil = new FacesUtil();
+		facesUtil.redirect("../admin/mensaje.jsf");	 
 	}
 	
 	public void eliminar(){
