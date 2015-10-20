@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "cotlugar")
-public class Cotlugar implements java.io.Serializable {
+public class Cotlugar implements java.io.Serializable, Cloneable {
 
 	/**
 	 * 
@@ -131,5 +131,15 @@ public class Cotlugar implements java.io.Serializable {
 	public void setPetordenservicios(Set<Petordenservicio> petordenservicios) {
 		this.petordenservicios = petordenservicios;
 	}*/
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException{
+		Cotlugar cotlugar = (Cotlugar) super.clone();
+		return cotlugar;
+	}
+	
+	public Cotlugar clonar() throws Exception{
+		return (Cotlugar)this.clone();
+	}
 
 }

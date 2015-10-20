@@ -37,8 +37,8 @@ public class OrdenesServicioBean implements Serializable {
 	public OrdenesServicioBean() {
 		petordenservicioSelected = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), new Setusuario(), null, null, null, null, null, null);
 		
-		nombre = "buscar por nombre de propietario";
-		textoBusqueda="buscar por nombre de propietario";
+		nombre = "buscar por nombre de mascota";
+		textoBusqueda="buscar por nombre de mascota";
 		
 		consultarOrdenes();
 	}
@@ -53,12 +53,21 @@ public class OrdenesServicioBean implements Serializable {
 					PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
 					int args[] = {0};
 					
-					String nombreParam = nombre.equals(textoBusqueda)?null:nombre;
-					String[] nombres = null;
-					if(nombreParam != null && nombreParam.trim().length() > 0){
-						nombres = nombreParam.split(" ");
+					try{
+						String nombreParam = nombre.equals(textoBusqueda)?null:nombre;
+						String[] nombres = null;
+						if(nombreParam != null && nombreParam.trim().length() > 0){
+							nombres = nombreParam.split(" ");
+						}
+						lisPetordenservicio = petordenservicioBO.lisPetordenservicioByPage(nombres, pageSize, first, args);
+						if(lisPetordenservicio == null){
+							lisPetordenservicio = new ArrayList<Petordenservicio>();
+						}
+					}catch(Exception re){
+						re.printStackTrace();
+						new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 					}
-					lisPetordenservicio = petordenservicioBO.lisPetordenservicioByPage(nombres, pageSize, first, args);
+					
 					this.setRowCount(args[0]);
 					
 					return lisPetordenservicio;

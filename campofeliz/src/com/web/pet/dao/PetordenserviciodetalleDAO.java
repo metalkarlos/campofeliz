@@ -90,8 +90,8 @@ public class PetordenserviciodetalleDAO {
 	public void deletePetordenserviciodetalle(Session session,
 			PetordenserviciodetalleId petordenserviciodetalleId)
 			throws Exception {
-		String hqlUpdate = "delete Petordenserviciodetalle d where d.idordenservicio = :idordenservicio and d.idordenserviciodetalle = :idordenserviciodetalle";
-		session.createQuery( hqlUpdate )
+		String hqlDelete = "delete Petordenserviciodetalle d where d.id.idordenservicio = :idordenservicio and d.id.idordenserviciodetalle = :idordenserviciodetalle";
+		session.createQuery( hqlDelete )
 		.setInteger("idordenservicio", petordenserviciodetalleId.getIdordenservicio() )
 		.setInteger("idordenserviciodetalle", petordenserviciodetalleId.getIdordenserviciodetalle())
 		.executeUpdate();

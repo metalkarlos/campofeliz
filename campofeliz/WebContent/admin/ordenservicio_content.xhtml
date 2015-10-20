@@ -10,18 +10,22 @@
 
 	<h:form id="form-contentpage" enctype="multipart/form-data">
 		<p:messages id="mensajes" showDetail="false" />
-		<p:focus for="txtmascota" />
+		<p:focus for="txtNombreMascota" />
 
 		<p:panel id="panel-ordencontent">
 			<div class="area-botones">
 				<my:buttons renderedButtonAceptar="false"
+					immediateButtonAceptar="true"
 					onclickButtonAceptar="vardialoggrabar.show()"
 					renderedButtonEliminar="#{ordenServicioBean.petordenservicio.idordenservicio > 0}"
+					immediateButtonEliminar="true"
 					onclickButtonEliminar="vardialogdelete.show()"
 					renderedButtonCancelar="true" labelButtonCancelar="Regresar"
 					onclickButtonCancelar="redirect('ordenesservicio.jsf?iditem='+#{menuBean.activeIdItem});"
 					renderedButtonImprimir="#{ordenServicioBean.petordenservicio.idordenservicio > 0}"
-					actionButtonImprimir="#{ordenServicioBean.imprimir()}" />
+					immediateButtonImprimir="true"
+					actionButtonImprimir="#{ordenServicioBean.imprimir()}" 
+					updateButtonImprimir=":form-contentpage:mensajes" />
 			</div>
 			
 			<div class="cuerpo">
@@ -37,7 +41,7 @@
 					
 					<p:row>
 					<p:column>
-					<p:autoComplete id="txtmascota" size="60"
+					<p:autoComplete id="txtNombreMascota" size="60"
 						value="#{ordenServicioBean.mascotasselected}"
 						completeMethod="#{ordenServicioBean.buscarMascotas}" var="m"
 						itemLabel="#{m.petmascotahomenaje.nombre}" itemValue="#{m}"
@@ -74,7 +78,7 @@
 					[ <h:link class="link" value="Nueva" onclick="vardialogeditormascota.show()" /> ]
 					</p:column>
 					<p:column>
-					<p:message id="msgtxtmascota" for="txtmascota" display="icon" />
+					<p:message id="msgtxtNombreMascota" for="txtNombreMascota" display="icon" />
 					</p:column>
 					</p:row>
 					
@@ -342,14 +346,14 @@
 
 				<center>
 					<p:commandButton id="idbotongrabar" style="margin: 15px"
-						value="#{ordenServicioBean.petordenservicio.idordenservicio > 0?'Actualizar Datos':'Crear Solicitud'}"
+						value="#{ordenServicioBean.petordenservicio.idordenservicio > 0?'Actualizar Orden de Servicio':'Crear Orden de Servicio'}"
 						onclick="vardialoggrabar.show()" immediate="true"/>
 				</center>
 			
 				<p:panel id="idpaneldetalle" 
 					visible="#{ordenServicioBean.petordenservicio.idordenservicio > 0}">
 					<p:dataTable id="idTablaDetalle"
-						value="#{ordenServicioBean.lisPetordenserviciodetalle}"
+						value="#{ordenServicioBean.lisPetordenserviciodetalleModel}"
 						var="servicio" rowKey="#{servicio.id.idordenserviciodetalle}"
 						widgetVar="vartablaServicios" paginator="true" rows="10"
 						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -358,7 +362,7 @@
 						selectionMode="single" emptyMessage="No se encontraron registros">
 	
 						<p:ajax event="rowSelect" update=":form-contentpage:idpaneleditor"
-							oncomplete="vardialogeditor.show()"></p:ajax>
+							oncomplete="varEliminarServicio.show()"></p:ajax>
 	
 						<f:facet name="header">
 							Servicios
@@ -367,15 +371,13 @@
 						<p:column id="idNombreHeader" headerText="Nombre">
 							<h:outputText value="#{servicio.petservicio.nombre}" />
 						</p:column>
-	
-						<p:column id="idDescripcionHeader" headerText="Descripción">
-							<h:outputText value="#{servicio.petservicio.descripcion}" />
-						</p:column>
 					</p:dataTable>
 					<h:panelGrid id="detallebuttondown" columns="1">
 						<my:buttons renderedButtonNewItem="true"
+							labelButtonNewItem="Nuevo Servicio"
+							immediateButtonNewItem="true"
 							actionButtonNewItem="#{ordenServicioBean.newItem()}"
-							oncompleteButtonNewItem="vardialogeditor.show()"
+							oncompleteButtonNewItem="varAgregarServicio.show()"
 							updateButtonNewItem=":form-contentpage:idpaneleditor"
 							disabledButtonNewItem="#{ordenServicioBean.petordenservicio.idordenservicio eq 0}"
 							renderedButtonEliminar="false" renderedButtonCancelar="false"
@@ -385,16 +387,20 @@
 			</div>
 			<div class="area-botones">
 				<my:buttons renderedButtonAceptar="false"
+					immediateButtonAceptar="true"
 					onclickButtonAceptar="vardialoggrabar.show()"
 					renderedButtonEliminar="#{ordenServicioBean.petordenservicio.idordenservicio > 0}"
+					immediateButtonEliminar="true"
 					onclickButtonEliminar="vardialogdelete.show()"
 					renderedButtonCancelar="true" labelButtonCancelar="Regresar"
 					onclickButtonCancelar="redirect('ordenesservicio.jsf?iditem='+#{menuBean.activeIdItem});"
 					renderedButtonImprimir="#{ordenServicioBean.petordenservicio.idordenservicio > 0}"
-					actionButtonImprimir="#{ordenServicioBean.imprimir()}" />
+					immediateButtonImprimir="true"
+					actionButtonImprimir="#{ordenServicioBean.imprimir()}" 
+					updateButtonImprimir=":form-contentpage:mensajes" />
 			</div>
 		</p:panel>
-		<p:dialog id="iddialoggrabar" header="Orden de Servicio"
+		<p:dialog id="iddialoggrabar" header="Actualizar Orden de Servicio"
 			closable="true" widgetVar="vardialoggrabar" modal="true">
 			<h:panelGrid id="idpanelgrabar" columns="2">
 				<h:outputText id="idlabelgrabar" value="¿Desea continuar?" />
@@ -402,13 +408,14 @@
 					<p:commandButton value="SI" style="width: 50px"
 						actionListener="#{ordenServicioBean.guardar()}"
 						oncomplete="vardialoggrabar.hide()"
-						update=":form-contentpage:mensajes, :form-contentpage:idbotongrabar, :form-contentpage:idTablaDetalle" />
+						update=":form-contentpage:mensajes, :form-contentpage:idbotongrabar, :form-contentpage:idTablaDetalle" 
+						process="txtNombreMascota,idfechaentierro,idlugar,idobservacion,iddedicatoria"/>
 					<p:commandButton value="NO" style="width: 50px"
 						onclick="vardialoggrabar.hide()" immediate="true" />
 				</h:panelGrid>
 			</h:panelGrid>
 		</p:dialog>
-		<p:dialog id="iddialogdelete" header="Orden de Servicio"
+		<p:dialog id="iddialogdelete" header="Eliminar Orden de Servicio"
 			closable="true" widgetVar="vardialogdelete" modal="true">
 			<h:panelGrid id="idpaneldelete" columns="2">
 				<h:outputText id="idlabeldelete"
@@ -416,22 +423,23 @@
 				<h:panelGrid columns="2">
 					<p:commandButton value="SI" style="width: 50px"
 						actionListener="#{ordenServicioBean.eliminar()}"
+						immediate="true"
 						oncomplete="vardialogdelete.hide()"
 						update=":form-contentpage:mensajes" />
 					<p:commandButton value="NO" style="width: 50px"
-						onclick="vardialogdelete.hide()" />
+						onclick="vardialogdelete.hide()" immediate="true" />
 				</h:panelGrid>
 			</h:panelGrid>
 		</p:dialog>
-		<p:dialog id="iddialogeditor" header="Editor" closable="true"
+		<p:dialog id="dlgAgregarServicio" header="Agregar Servicio" closable="true"
 			onHide="vartablaServicios.unselectAllRows()"
-			widgetVar="vardialogeditor" modal="true" height="150" width="400">
-			<p:focus for="idservicioEditor" />
+			widgetVar="varAgregarServicio" modal="true" height="150" width="400">
+			<p:focus for="cmbServicio" />
 			<br />
 			<h:panelGrid id="idpaneleditor" columns="2"
 				style="width: 100%; height: 130px;">
-				<p:outputLabel value="Servicio: " for="idservicioEditor" />
-				<p:selectOneMenu id="idservicioEditor"
+				<p:outputLabel value="Servicio: " for="cmbServicio" />
+				<p:selectOneMenu id="cmbServicio"
 					value="#{ordenServicioBean.petordenserviciodetalleItem.petservicio.idservicio}"
 					style="width: 300px">
 					<f:selectItems value="#{ordenServicioBean.lisPetservicio}" var="s"
@@ -446,18 +454,30 @@
 					<div align="right">
 						<p:commandButton id="idgrabareditor" value="Grabar"
 							actionListener="#{ordenServicioBean.guardarItem()}"
-							oncomplete="vardialogeditor.hide()"
-							update=":form-contentpage:mensajes, :form-contentpage:idTablaDetalle" />
-						<p:commandButton id="ideliminareditor" value="Eliminar"
-							actionListener="#{ordenServicioBean.eliminarItem()}"
-							onclick="vardialogeditor.hide()"
-							update=":form-contentpage:mensajes, :form-contentpage:idTablaDetalle"
-							rendered="#{ordenServicioBean.petordenserviciodetalleItem.id.idordenserviciodetalle > 0}" />
+							oncomplete="varAgregarServicio.hide()"
+							update=":form-contentpage:mensajes, :form-contentpage:idTablaDetalle, :form-contentpage:cmbServicio" 
+							process=":form-contentpage:cmbServicio"/>
 						<p:commandButton id="idcancelareditor" value="Cancelar"
-							onclick="vardialogeditor.hide()"
-							update=":form-contentpage:mensajes" />
+							onclick="varAgregarServicio.hide()"
+							update=":form-contentpage:mensajes" 
+							immediate="true"/>
 					</div>
 				</h:column>
+			</h:panelGrid>
+		</p:dialog>
+		<p:dialog id="dlgEliminarServicio" header="Eliminar Servicio" onHide="vartablaServicios.unselectAllRows()"
+			closable="true" widgetVar="varEliminarServicio" modal="true">
+			<h:panelGrid id="pnlEliminarServicio" columns="2">
+				<h:outputText value="Confirme si desea eliminar el servicio" />
+				<h:panelGrid columns="2">
+					<p:commandButton value="SI" style="width: 50px"
+						actionListener="#{ordenServicioBean.eliminarItem()}"
+						oncomplete="varEliminarServicio.hide()"
+						immediate="true"
+						update=":form-contentpage:mensajes, :form-contentpage:idTablaDetalle, :form-contentpage:cmbServicio" />
+					<p:commandButton value="NO" style="width: 50px"
+						onclick="varEliminarServicio.hide()" immediate="true" />
+				</h:panelGrid>
 			</h:panelGrid>
 		</p:dialog>
 		<p:dialog id="iddialogeditormascota"
@@ -468,18 +488,40 @@
 				autoUpdate="true" />
 			<p:fieldset id="idpaneleditormascota" style="margin-top: 10px"
 				legend="Datos de la Mascota">
-				<h:panelGrid id="idgrideditormascota" columns="2">
+				<p:panelGrid id="idgrideditormascota" style="width: 100%" columnClasses="col1,col2">
+					<p:row>
+					<p:column>
 					<h:outputLabel value="Código Veterinaria: "
-						for="ideditormascotaveterinaria" />
-					<p:inputText id="ideditormascotaveterinaria"
+						for="txtCodVeterinariaEditor" />
+					</p:column>
+					<p:column>
+					<p:inputText id="txtCodVeterinariaEditor" required="true" requiredMessage="Código Veterinaria es Obligatorio"
 						value="#{ordenServicioBean.petmascotahomenajenuevo.idmascotaveterinaria}" />
-
-					<h:outputLabel value="Nombre: " for="ideditornombremascota" />
-					<p:inputText id="ideditornombremascota"
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtCodVeterinariaEditor" for="txtCodVeterinariaEditor" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<h:outputLabel value="Nombre: " for="txtNombreMascotaEditor" />
+					</p:column>
+					<p:column>
+					<p:inputText id="txtNombreMascotaEditor" required="true" requiredMessage="Nombre de Mascota es Obligatorio"
 						value="#{ordenServicioBean.petmascotahomenajenuevo.nombre}" />
-
-					<h:outputLabel value="Especie: " for="ideditorespeciemascota" />
-					<p:selectOneMenu id="ideditorespeciemascota"
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtNombreMascotaEditor" for="txtNombreMascotaEditor" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<h:outputLabel value="Especie: " for="cmbEspecieEditor" />
+					</p:column>
+					<p:column>
+					<p:selectOneMenu id="cmbEspecieEditor" required="true" requiredMessage="Especie es Obligatorio"
 						style="width: 145px; align: center;"
 						value="#{ordenServicioBean.petmascotahomenajenuevo.petespecie.idespecie}">
 						<f:selectItem itemLabel="Seleccione" itemValue="0" />
@@ -487,82 +529,182 @@
 							var="especie" itemLabel="#{especie.nombre}"
 							itemValue="#{especie.idespecie}"></f:selectItems>
 					</p:selectOneMenu>
-
-					<h:outputLabel value="Raza: " for="ideditorrazalist" />
-					<p:selectOneMenu id="ideditorrazalist"
+					</p:column>
+					<p:column>
+					<p:message id="msgcmbEspecieEditor" for="cmbEspecieEditor" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<h:outputLabel value="Raza: " for="cmbRazaEditor" />
+					</p:column>
+					<p:column>
+					<p:selectOneMenu id="cmbRazaEditor" required="true" requiredMessage="Raza es Obligatorio"
 						value="#{ordenServicioBean.petmascotahomenajenuevo.petraza.idraza}"
-						style="width: 150px" required="false">
+						style="width: 150px">
 						<f:selectItems value="#{ordenServicioBean.lisRaza}" var="raza"
 							itemLabel="#{raza.nombre}" itemValue="#{raza.idraza}" />
 					</p:selectOneMenu>
-
+					</p:column>
+					<p:column>
+					<p:message id="msgcmbRazaEditor" for="cmbRazaEditor" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
 					<h:outputLabel value="Fecha Nacimiento: "
-						for="ideditorfechanacimiento" />
-					<p:calendar id="ideditorfechanacimiento"
+						for="txtFechaNacimientoEditor" />
+					</p:column>
+					<p:column>
+					<p:calendar id="txtFechaNacimientoEditor" required="true" requiredMessage="Fecha Nacimiento es Obligatorio"
 						value="#{ordenServicioBean.petmascotahomenajenuevo.fechanacimiento}"
 						yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy"
 						navigator="true" />
-
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtFechaNacimientoEditor" for="txtFechaNacimientoEditor" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
 					<h:outputLabel value="Fecha Fallecimiento: "
-						for="ideditorfechafallecimiento" />
-					<p:calendar id="ideditorfechafallecimiento"
+						for="txtFechaFallecimientoEditor" />
+					</p:column>
+					<p:column>
+					<p:calendar id="txtFechaFallecimientoEditor" required="true" requiredMessage="Fecha Fallecimiento es Obligatorio"
 						value="#{ordenServicioBean.petmascotahomenajenuevo.fechafallecimiento}"
 						yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy"
 						navigator="true" />
-
-					<h:outputLabel value="Sexo: " for="ideditorsexolist" />
-					<p:selectOneMenu id="ideditorsexolist"
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtFechaFallecimientoEditor" for="txtFechaFallecimientoEditor" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<h:outputLabel value="Sexo: " for="cmbSexoEditor" />
+					</p:column>
+					<p:column>
+					<p:selectOneMenu id="cmbSexoEditor" required="true" requiredMessage="Sexo es Obligatorio"
 						value="#{ordenServicioBean.petmascotahomenajenuevo.sexo}">
 						<f:selectItem itemLabel="Macho" itemValue="1" />
 						<f:selectItem itemLabel="Hembra" itemValue="2" />
 					</p:selectOneMenu>
-				</h:panelGrid>
+					</p:column>
+					<p:column>
+					<p:message id="msgcmbSexoEditor" for="cmbSexoEditor" display="icon" />
+					</p:column>
+					</p:row>
+				</p:panelGrid>
 			</p:fieldset>
 			<p:fieldset id="idpaneleditorpropietario" style="margin-top: 10px"
 				legend="Datos del Propietario">
-				<h:panelGrid id="idgrideditorpropietario" columns="2">
+				<p:panelGrid id="idgrideditorpropietario" style="width: 100%" columnClasses="col1,col2">
+					<p:row>
+					<p:column>
 					<h:outputLabel value="Primer Nombre: "
-						for="ideditornombre1propietario" />
-					<p:inputText id="ideditornombre1propietario"
+						for="txtPrimerNombreEditor" />
+					</p:column>
+					<p:column>
+					<p:inputText id="txtPrimerNombreEditor" required="true" requiredMessage="Primer Nombre del Propietario es Obligatorio"
 						value="#{ordenServicioBean.cotpersonanuevo.nombre1}" />
-
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtPrimerNombreEditor" for="txtPrimerNombreEditor" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
 					<h:outputLabel value="Segundo Nombre: "
 						for="ideditornombre2propietario" />
+					</p:column>
+					<p:column>
 					<p:inputText id="ideditornombre2propietario"
 						value="#{ordenServicioBean.cotpersonanuevo.nombre2}" />
-
+					</p:column>
+					<p:column>
+					<h:outputText value="" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
 					<h:outputLabel value="Primer Apellido: "
-						for="ideditorapellido1propietario" />
-					<p:inputText id="ideditorapellido1propietario"
+						for="txtPrimerApellidoEditor" />
+					</p:column>
+					<p:column>
+					<p:inputText id="txtPrimerApellidoEditor" required="true" requiredMessage="Primer Apellido del Propietario es Obligatorio"
 						value="#{ordenServicioBean.cotpersonanuevo.apellido1}" />
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtPrimerApellidoEditor" for="txtPrimerApellidoEditor" display="icon" />
+					</p:column>
+					</p:row>
 
+					<p:row>
+					<p:column>
 					<h:outputLabel value="Segundo Apellido: "
 						for="ideditorapellido2propietario" />
+					</p:column>
+					<p:column>
 					<p:inputText id="ideditorapellido2propietario"
 						value="#{ordenServicioBean.cotpersonanuevo.apellido2}" />
-
-					<h:outputLabel value="Sexo: " for="ideditorsexopropietario" />
-					<p:selectOneMenu id="ideditorsexopropietario"
+					</p:column>
+					<p:column>
+					<h:outputText value="" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<h:outputLabel value="Sexo: " for="cmbSexoPropietarioEditor" />
+					</p:column>
+					<p:column>
+					<p:selectOneMenu id="cmbSexoPropietarioEditor" required="true" requiredMessage="Sexo del Propietario es Obligatorio"
 						value="#{ordenServicioBean.cotpersonanuevo.sexo}">
 						<f:selectItem itemLabel="Hombre" itemValue="1" />
 						<f:selectItem itemLabel="Mujer" itemValue="2" />
 					</p:selectOneMenu>
-
-					<h:outputLabel value="Teléfono: " for="ideditortelefonopropietario" />
-					<p:inputText id="ideditortelefonopropietario"
+					</p:column>
+					<p:column>
+					<p:message id="msgcmbSexoPropietarioEditor" for="cmbSexoPropietarioEditor" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<h:outputLabel value="Teléfono: " for="txtTelefonoEditor" />
+					</p:column>
+					<p:column>
+					<p:inputText id="txtTelefonoEditor" required="true" requiredMessage="Teléfono del Propietario es Obligatorio"
 						value="#{ordenServicioBean.cotpersonanuevo.telefono}" />
-
-				</h:panelGrid>
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtTelefonoEditor" for="txtTelefonoEditor" display="icon" />
+					</p:column>
+					</p:row>
+				</p:panelGrid>
 			</p:fieldset>
 			<br />
 			<div align="right">
 				<p:commandButton id="idgrabarmascota" value="Grabar"
-					action="#{ordenServicioBean.guardarMascotaResumido()}" />
+					action="#{ordenServicioBean.guardarMascotaResumido()}"
+					update="mensajeseditormascota,msgtxtCodVeterinariaEditor,txtCodVeterinariaEditor,msgtxtNombreMascotaEditor,txtNombreMascotaEditor,msgcmbEspecieEditor,cmbEspecieEditor,msgcmbRazaEditor,cmbRazaEditor,msgtxtFechaNacimientoEditor,txtFechaNacimientoEditor,msgtxtFechaFallecimientoEditor,txtFechaFallecimientoEditor,msgcmbSexoEditor,cmbSexoEditor,msgtxtPrimerNombreEditor,txtPrimerNombreEditor,msgtxtPrimerApellidoEditor,txtPrimerApellidoEditor,msgcmbSexoPropietarioEditor,cmbSexoPropietarioEditor,msgtxtTelefonoEditor,txtTelefonoEditor" />
 				<p:commandButton id="idcancelarmascota" value="Cerrar"
 					action="#{ordenServicioBean.limpiarEditorMascotaResumido()}"
 					update=":form-contentpage:iddialogeditormascota"
-					oncomplete="vardialogeditormascota.hide()" />
+					oncomplete="vardialogeditormascota.hide()"
+					immediate="true" />
 			</div>
+		</p:dialog>
+		<p:dialog id="dlgMostrarReporte" header="Reporte" 
+			closable="true" widgetVar="varDlgMostrarReporte" modal="true">
+			<h:link id="lnkVerReporte" value="Ver Reporte" outcome="visor_reportes" target="_blank"  />
 		</p:dialog>
 	</h:form>
 </ui:composition>

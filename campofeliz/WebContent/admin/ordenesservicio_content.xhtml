@@ -17,11 +17,12 @@
 						onblur="if(this.value==''){this.value='#{ordenesServicioBean.textoBusqueda}'}"
 						onfocus="if(this.value=='#{ordenesServicioBean.textoBusqueda}'){this.value=''}" 
 						validatorMessage="Ingrese sólo letras. Corrija y reintente.">
-						<f:validateRegex pattern="[a-zA-Z ]+" />
+						<f:validateRegex pattern="[a-zA-Z ]*" />
 					</p:inputText>
-					<p:commandLink id="lnkbuscar" styleClass="search-form-submit" update="mensajes" >
-						<f:ajax render="idTablaOrdenes" execute="txtbusqueda"></f:ajax>
-					</p:commandLink>
+					<h:commandLink id="lnkbuscar" styleClass="search-form-submit" >
+						<f:ajax render="idTablaOrdenes mensajes" execute="txtbusqueda"></f:ajax>
+						<!-- <p:ajax process="txtbusqueda" update="idTablaOrdenes mensajes"></p:ajax> -->
+					</h:commandLink>
 				</div>
 			</div>
 			<br />
@@ -51,16 +52,17 @@
 					<h:outputText value="#{orden.idordenservicio}" />
 				</p:column>
 
+				<p:column id="idmascotaHeader" headerText="Mascota"
+					style="width: 150px">
+					<h:outputText value="#{orden.petmascotahomenaje.nombre}" />
+				</p:column>
+				
 				<p:column id="idPripietarioHeader" headerText="Propietario"
 					style="width: 150px">
 					<h:outputText
 						value="#{orden.petmascotahomenaje.cotpersona.apellido2} #{orden.petmascotahomenaje.cotpersona.apellido1} #{orden.petmascotahomenaje.cotpersona.nombre2} #{orden.petmascotahomenaje.cotpersona.nombre1}" />
 				</p:column>
-
-				<p:column id="idmascotaHeader" headerText="Mascota"
-					style="width: 150px">
-					<h:outputText value="#{orden.petmascotahomenaje.nombre}" />
-				</p:column>
+				
 			</p:dataTable>
 		</p:panel>
 	</h:form>

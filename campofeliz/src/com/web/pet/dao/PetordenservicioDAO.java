@@ -29,7 +29,7 @@ public class PetordenservicioDAO {
 		Petordenservicio petordenservicio = null;
 		
 		Criteria criteria = session.createCriteria(Petordenservicio.class)
-		.add( Restrictions.eq("idordenservicio", idordenservicio))
+		.add( Restrictions.eq("idordenservicio", new Integer(idordenservicio)))
 		.add( Restrictions.eq("setestado.idestado", 1))
 		.createAlias("petmascotahomenaje", "mascota")
 		.createAlias("cotlugar", "lugar", Criteria.LEFT_JOIN);
@@ -50,31 +50,38 @@ public class PetordenservicioDAO {
 		
 		Criteria joinPetmascotahomenaje = criteriaPetordenservicio.createCriteria("petmascotahomenaje", "m", Criteria.INNER_JOIN, Restrictions.eq("m.setestado.idestado", 1));
 		
-		Criteria joinCotpersona = joinPetmascotahomenaje.createCriteria("m.cotpersona", "p", Criteria.LEFT_JOIN, Restrictions.eq("p.setestado.idestado", 1));
+		//Criteria joinCotpersona = joinPetmascotahomenaje.createCriteria("m.cotpersona", "p", Criteria.LEFT_JOIN, Restrictions.eq("p.setestado.idestado", 1));
 		
 		if(nombres != null && nombres.length > 0){
 			String query = "(";
 			for(int i=0;i<nombres.length;i++)
 			{
-				query += "(lower({alias}.apellido1) like lower('%"+nombres[i]+"%') or ";
+				/*query += "(lower({alias}.apellido1) like lower('%"+nombres[i]+"%') or ";
 				query += "lower({alias}.apellido2) like lower('%"+nombres[i]+"%') or ";
 				query += "lower({alias}.nombre1) like lower('%"+nombres[i]+"%') or ";
-				query += "lower({alias}.nombre2) like lower('%"+nombres[i]+"%')) ";
+				query += "lower({alias}.nombre2) like lower('%"+nombres[i]+"%')) ";*/
+				query += "lower({alias}.nombre) like lower('%"+nombres[i]+"%') ";
+				
 				if(i<nombres.length-1){
 					query += "and ";
 				}
 			}
 			query += ")";
 			
-			joinCotpersona.add(Restrictions.sqlRestriction(query));
+			//joinCotpersona.add(Restrictions.sqlRestriction(query));
+			joinPetmascotahomenaje.add(Restrictions.sqlRestriction(query));
 		}
 		
+		Criteria joinCotpersona = joinPetmascotahomenaje.createCriteria("m.cotpersona", "p", Criteria.LEFT_JOIN, Restrictions.eq("p.setestado.idestado", 1));
+		
 		joinCotpersona.setMaxResults(pageSize)
+		//joinPetmascotahomenaje.setMaxResults(pageSize)
 		.setFirstResult(pageNumber)
-		.addOrder(Order.asc("p.apellido1"))
+		.addOrder(Order.asc("m.nombre"));
+		/*.addOrder(Order.asc("p.apellido1"))
 		.addOrder(Order.asc("p.apellido2"))
 		.addOrder(Order.asc("p.nombre1"))
-		.addOrder(Order.asc("p.nombre2"));
+		.addOrder(Order.asc("p.nombre2"));*/
 		
 		lisPetordenservicio = (List<Petordenservicio>) criteriaPetordenservicio.list();
 		
@@ -85,26 +92,32 @@ public class PetordenservicioDAO {
 			
 			Criteria joinPetmascotahomenajeCount = criteriaCount.createCriteria("petmascotahomenaje", "m", Criteria.INNER_JOIN, Restrictions.eq("m.setestado.idestado", 1));
 			
-			Criteria joinCotpersonaCount = joinPetmascotahomenajeCount.createCriteria("m.cotpersona", "p", Criteria.LEFT_JOIN, Restrictions.eq("p.setestado.idestado", 1));
+			//Criteria joinCotpersonaCount = joinPetmascotahomenajeCount.createCriteria("m.cotpersona", "p", Criteria.LEFT_JOIN, Restrictions.eq("p.setestado.idestado", 1));
 			
 			if(nombres != null && nombres.length > 0){
 				String query = "(";
 				for(int i=0;i<nombres.length;i++)
 				{
-					query += "(lower({alias}.apellido1) like lower('%"+nombres[i]+"%') or ";
+					/*query += "(lower({alias}.apellido1) like lower('%"+nombres[i]+"%') or ";
 					query += "lower({alias}.apellido2) like lower('%"+nombres[i]+"%') or ";
 					query += "lower({alias}.nombre1) like lower('%"+nombres[i]+"%') or ";
-					query += "lower({alias}.nombre2) like lower('%"+nombres[i]+"%')) ";
+					query += "lower({alias}.nombre2) like lower('%"+nombres[i]+"%')) ";*/
+					query += "lower({alias}.nombre) like lower('%"+nombres[i]+"%') ";
+					
 					if(i<nombres.length-1){
 						query += "and ";
 					}
 				}
 				query += ")";
 				
-				joinCotpersonaCount.add(Restrictions.sqlRestriction(query));
+				//joinCotpersonaCount.add(Restrictions.sqlRestriction(query));
+				joinPetmascotahomenajeCount.add(Restrictions.sqlRestriction(query));
 			}
 			
+			Criteria joinCotpersonaCount = joinPetmascotahomenajeCount.createCriteria("m.cotpersona", "p", Criteria.LEFT_JOIN, Restrictions.eq("p.setestado.idestado", 1));
+			
 			Object object = joinCotpersonaCount.uniqueResult();
+			//Object object = joinPetmascotahomenajeCount.uniqueResult();
 			int count = (object==null?0:Integer.parseInt(object.toString()));
 			args[0] = count;
 		} else {

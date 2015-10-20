@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -56,10 +57,12 @@ public class OrdenServicioBean implements Serializable {
 	private static final long serialVersionUID = -6374223940126173373L;
 	private int idordenservicio;
 	private Petordenservicio petordenservicio;
+	private Petordenservicio petordenservicioClon;
 	private Petmascotahomenaje petmascotahomenajeselected;
 	private Mascotas mascotasselected;
 	private Petordenserviciodetalle petordenserviciodetalleItem;
-	private LazyDataModel<Petordenserviciodetalle> lisPetordenserviciodetalle;
+	private LazyDataModel<Petordenserviciodetalle> lisPetordenserviciodetalleModel;
+	private List<Petordenserviciodetalle> lisPetordenserviciodetalle;
 	private List<Cotlugar> lisCotlugar;
 	private List<Petmascotacolor> lisPetmascotacolor;
 	private List<Petservicio> lisPetservicio;
@@ -67,15 +70,18 @@ public class OrdenServicioBean implements Serializable {
 	private Cotpersona cotpersonanuevo; 
 	private List<Petespecie> lisPetespecie;
 	private List<Petraza> lisRaza;
+	private String linkReporte;
 
 	public OrdenServicioBean() {
 		petordenservicio = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null);
+		petordenservicioClon = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null);
 		mascotasselected = new Mascotas(new Petfotomascota(), new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),0,new BigDecimal(0),null,false,false,null)); 
 		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
 		lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 		//petmascotahomenajenuevo = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,null,new Cotpersona(),null,1,new BigDecimal(0),null,false,false,null);
 		petmascotahomenajenuevo = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
 		cotpersonanuevo = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+		lisPetordenserviciodetalle = new ArrayList<Petordenserviciodetalle>();
 		llenarListaLugar();
 		llenarListaServicio();
 		inicializarEspecieMascota();
@@ -95,8 +101,11 @@ public class OrdenServicioBean implements Serializable {
 				petordenservicio = new PetordenservicioBO().getPetordenservicioById(idordenservicio);
 				
 				if(petordenservicio != null){
+					petordenservicioClon = petordenservicio.clonar();
+					
 					if(petordenservicio.getCotlugar() == null){
 						petordenservicio.setCotlugar(new Cotlugar());
+						petordenservicioClon.setCotlugar(new Cotlugar());
 					}
 					Mascotas mascotas = new Mascotas();
 					petmascotahomenajeselected = new PetmascotaBO().getPetmascotaById(petordenservicio.getPetmascotahomenaje().getIdmascota());
@@ -194,19 +203,19 @@ public class OrdenServicioBean implements Serializable {
 	private void consultarDetalle(){
 		try
 		{
-			lisPetordenserviciodetalle = new LazyDataModel<Petordenserviciodetalle>() {
+			lisPetordenserviciodetalleModel = new LazyDataModel<Petordenserviciodetalle>() {
 				public List<Petordenserviciodetalle> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
-					List<Petordenserviciodetalle> data = new ArrayList<Petordenserviciodetalle>();
+					lisPetordenserviciodetalle = new ArrayList<Petordenserviciodetalle>();
 					int args[] = {0};
 					
 					if(petordenservicio != null && petordenservicio.getIdordenservicio() > 0 ){
 						PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
-						data = petordenserviciodetalleBO.lisPetordenserviciodetalleByPage(petordenservicio.getIdordenservicio(), pageSize, first, args);
+						lisPetordenserviciodetalle = petordenserviciodetalleBO.lisPetordenserviciodetalleByPage(petordenservicio.getIdordenservicio(), pageSize, first, args);
 					}
 					
 					this.setRowCount(args[0]);
 	
-			        return data;
+			        return lisPetordenserviciodetalle;
 				}
 				
 				@Override
@@ -253,6 +262,14 @@ public class OrdenServicioBean implements Serializable {
 		this.petordenservicio = petordenservicio;
 	}
 
+	public Petordenservicio getPetordenservicioClon() {
+		return petordenservicioClon;
+	}
+
+	public void setPetordenservicioClon(Petordenservicio petordenservicioClon) {
+		this.petordenservicioClon = petordenservicioClon;
+	}
+
 	public Mascotas getMascotasselected() {
 		return mascotasselected;
 	}
@@ -270,12 +287,21 @@ public class OrdenServicioBean implements Serializable {
 		this.petordenserviciodetalleItem = petordenserviciodetalleItem == null ? new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null) : petordenserviciodetalleItem;
 	}
 
-	public LazyDataModel<Petordenserviciodetalle> getLisPetordenserviciodetalle() {
+	public LazyDataModel<Petordenserviciodetalle> getLisPetordenserviciodetalleModel() {
+		return lisPetordenserviciodetalleModel;
+	}
+
+	public void setLisPetordenserviciodetalleModel(
+			LazyDataModel<Petordenserviciodetalle> lisPetordenserviciodetalleModel) {
+		this.lisPetordenserviciodetalleModel = lisPetordenserviciodetalleModel;
+	}
+
+	public List<Petordenserviciodetalle> getLisPetordenserviciodetalle() {
 		return lisPetordenserviciodetalle;
 	}
 
 	public void setLisPetordenserviciodetalle(
-			LazyDataModel<Petordenserviciodetalle> lisPetordenserviciodetalle) {
+			List<Petordenserviciodetalle> lisPetordenserviciodetalle) {
 		this.lisPetordenserviciodetalle = lisPetordenserviciodetalle;
 	}
 
@@ -336,6 +362,14 @@ public class OrdenServicioBean implements Serializable {
 		this.lisRaza = lisRaza;
 	}
 
+	public String getLinkReporte() {
+		return linkReporte;
+	}
+
+	public void setLinkReporte(String linkReporte) {
+		this.linkReporte = linkReporte;
+	}
+
 	public List<Mascotas> buscarMascotas(String query) {
 		List<Mascotas> lisMascotas = new ArrayList<Mascotas>();
 		
@@ -388,7 +422,7 @@ public class OrdenServicioBean implements Serializable {
 				petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
 				
 				if(ok){
-					new MessageUtil().showInfoMessage("Exito! Registro completo!","");
+					new MessageUtil().showInfoMessage("Servicio Agregado con exito!","");
 				}
 			}
 		}catch(Exception re){
@@ -420,10 +454,11 @@ public class OrdenServicioBean implements Serializable {
 				
 				if(petordenservicio.getCotlugar() == null ||  petordenservicio.getCotlugar().getIdlugar() == 0){
 					petordenservicio.setCotlugar(null);
+					petordenservicioClon.setCotlugar(null);
 				}
 				
 				if(petordenservicio.getIdordenservicio() == 0){
-					ok = petordenservicioBO.newPetordenservicio(petordenservicio);
+					ok = petordenservicioBO.ingresarPetordenservicio(petordenservicio);
 					if(ok){
 						FacesUtil facesUtil = new FacesUtil();
 						facesUtil.redirect("../admin/ordenservicio.jsf?faces-redirect=true&idordenservicio="+petordenservicio.getIdordenservicio()+"&iditem=40");
@@ -431,11 +466,10 @@ public class OrdenServicioBean implements Serializable {
 						new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
 					}
 				}else{
-					ok = petordenservicioBO.updatePetordenservicio(petordenservicio);
+					ok = petordenservicioBO.modificarPetordenservicio(petordenservicio, petordenservicioClon);
 					if(ok){
 						mostrarPaginaMensaje("Orden de Servicio actualizada con exito!!");
 					}else{
-						mostrarPaginaMensaje("No existen cambios que guardar.");
 						new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
 					}
 				}
@@ -471,18 +505,13 @@ public class OrdenServicioBean implements Serializable {
 		try{
 			PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
 			
-			Setestado setestado = new Setestado();
-			setestado.setIdestado(2);//inactivo
-			petordenservicio.setSetestado(setestado);
+			boolean ok = petordenservicioBO.eliminarPetordenservicio(petordenservicio,lisPetordenserviciodetalle);
 			
-			if(petordenservicio.getCotlugar() == null ||  petordenservicio.getCotlugar().getIdlugar() == 0){
-				petordenservicio.setCotlugar(null);
+			if(ok){
+				mostrarPaginaMensaje("Orden de Servicio eliminada con exito!!");
+			}else{
+				new MessageUtil().showInfoMessage("No se ha podido eliminar Orden de Servicio.", "");
 			}
-			
-			petordenservicioBO.updatePetordenservicio(petordenservicio);
-			
-			FacesUtil facesUtil = new FacesUtil();
-			facesUtil.redirect("../admin/ordenesservicio.jsf?iditem=40");
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -491,39 +520,63 @@ public class OrdenServicioBean implements Serializable {
 	
 	public void eliminarItem(){
 		try{
-			Setestado setestado = new Setestado();
+			/*Setestado setestado = new Setestado();
 			setestado.setIdestado(2);//inactivo
 			petordenserviciodetalleItem.setSetestado(setestado);
 			PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
-			petordenserviciodetalleBO.updatePetordenserviciodetalle(petordenserviciodetalleItem);
+			petordenserviciodetalleBO.updatePetordenserviciodetalle(petordenserviciodetalleItem);*/
 			
-			/*PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
-			petordenserviciodetalleBO.eliminarPetordenserviciodetalle(petordenserviciodetalleItem.getId());*/
+			PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
+			petordenserviciodetalleBO.eliminarPetordenserviciodetalle(petordenserviciodetalleItem.getId());
 			
-			new MessageUtil().showInfoMessage("Exito! Registro Eliminado!","");
+			petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
+			
+			new MessageUtil().showInfoMessage("Registro Eliminado con exito!","");
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 	
-	public void imprimir(){
-		InputStream inputStream = null;
-		
+	public void imprimir2(){
 		try {
-			String nombreReporte = "OrdenServicio";
-
-			Map<String, Object> parametros = new HashMap<String, Object>();
-			
-			FileUtil fileUtil = new FileUtil();
-			inputStream = fileUtil.getLogoEmpresaAsStream();
-			if(inputStream != null){
-				parametros.put("P_LOGO", inputStream);
+			if(lisPetordenserviciodetalle != null && lisPetordenserviciodetalle.size() > 0){
+				InputStream inputStream = null;
+				String nombreReporte = "OrdenServicio";
+	
+				Map<String, Object> parametros = new HashMap<String, Object>();
+				
+				FileUtil fileUtil = new FileUtil();
+				inputStream = fileUtil.getLogoEmpresaAsStream();
+				if(inputStream != null){
+					parametros.put("P_LOGO", inputStream);
+				}
+				
+				parametros.put("P_IDORDENSERVICIO", petordenservicio.getIdordenservicio());
+				
+				new Utilities().imprimirJasperPdf(nombreReporte, parametros);
+			}else{
+				new MessageUtil().showWarnMessage("Debe ingresar los servicios. Corrija y reintente.","");
 			}
-			
-			parametros.put("P_IDORDENSERVICIO", petordenservicio.getIdordenservicio());
-			
-			new Utilities().imprimirJasperPdf(nombreReporte, parametros);
+		}catch (Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
+	public void imprimir(){
+		try {
+			if(lisPetordenserviciodetalle != null && lisPetordenserviciodetalle.size() > 0){
+				FacesUtil facesUtil = new FacesUtil();
+				
+				VisorBean visorBean = (VisorBean)facesUtil.getSessionBean("visorBean");
+				visorBean.setNombreReporte("OrdenServicio");
+				visorBean.getParametros().put("P_IDORDENSERVICIO", petordenservicio.getIdordenservicio());
+				
+				RequestContext.getCurrentInstance().execute("varDlgMostrarReporte.show()");
+			}else{
+				new MessageUtil().showWarnMessage("Debe ingresar los servicios. Corrija y reintente.","");
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -545,7 +598,7 @@ public class OrdenServicioBean implements Serializable {
 					ok = petordenservicioBO.grabarMascotaBasico(petmascotahomenajenuevo, cotpersonanuevo);
 					
 					if(ok){
-						new MessageUtil().showInfoMessage("Exito! Mascota Ingresada!","");
+						new MessageUtil().showInfoMessage("Mascota ingresada con exito!","");
 					}
 				}
 			}else{

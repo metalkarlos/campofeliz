@@ -23,7 +23,7 @@ import com.web.pet.pojo.annotations.Petordenserviciodetalle;
  */
 @Entity
 @Table(name = "petordenservicio")
-public class Petordenservicio implements java.io.Serializable {
+public class Petordenservicio implements java.io.Serializable, Cloneable {
 
 	/**
 	 * 
@@ -173,5 +173,108 @@ public class Petordenservicio implements java.io.Serializable {
 	public void setPetordenserviciodetalles(Set<Petordenserviciodetalle> petordenserviciodetalles) {
 		this.petordenserviciodetalles = petordenserviciodetalles;
 	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		Petordenservicio petordenservicio = (Petordenservicio)super.clone();
+		
+		if(petordenservicio.getCotlugar() != null && petordenservicio.getCotlugar().getIdlugar() > 0){
+			petordenservicio.setCotlugar((Cotlugar) petordenservicio.getCotlugar().clone());
+		}
+		
+		return petordenservicio;
+	}
+	
+	public Petordenservicio clonar() throws Exception {
+		return (Petordenservicio)this.clone();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((cotlugar == null) ? 0 : cotlugar.getIdlugar());
+		result = prime * result
+				+ ((dedicatoria == null) ? 0 : dedicatoria.hashCode());
+		result = prime * result
+				+ ((fechaentierro == null) ? 0 : fechaentierro.hashCode());
+		result = prime * result
+				+ ((fecharegistro == null) ? 0 : fecharegistro.hashCode());
+		result = prime * result + idordenservicio;
+		result = prime * result + ((iplog == null) ? 0 : iplog.hashCode());
+		result = prime * result
+				+ ((observacion == null) ? 0 : observacion.hashCode());
+		result = prime
+				* result
+				+ ((petmascotahomenaje == null) ? 0 : petmascotahomenaje
+						.getIdmascota());
+		result = prime * result
+				+ ((setestado == null) ? 0 : setestado.getIdestado());
+		result = prime * result
+				+ ((setusuario == null) ? 0 : setusuario.getIdusuario());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Petordenservicio other = (Petordenservicio) obj;
+		if (cotlugar == null) {
+			if (other.cotlugar != null)
+				return false;
+		} else if (cotlugar.getIdlugar() != other.cotlugar.getIdlugar())
+			return false;
+		if (dedicatoria == null) {
+			if (other.dedicatoria != null)
+				return false;
+		} else if (!dedicatoria.equals(other.dedicatoria))
+			return false;
+		if (fechaentierro == null) {
+			if (other.fechaentierro != null)
+				return false;
+		} else if (!fechaentierro.equals(other.fechaentierro))
+			return false;
+		if (fecharegistro == null) {
+			if (other.fecharegistro != null)
+				return false;
+		} else if (!fecharegistro.equals(other.fecharegistro))
+			return false;
+		if (idordenservicio != other.idordenservicio)
+			return false;
+		if (iplog == null) {
+			if (other.iplog != null)
+				return false;
+		} else if (!iplog.equals(other.iplog))
+			return false;
+		if (observacion == null) {
+			if (other.observacion != null)
+				return false;
+		} else if (!observacion.equals(other.observacion))
+			return false;
+		if (petmascotahomenaje == null) {
+			if (other.petmascotahomenaje != null)
+				return false;
+		} else if (petmascotahomenaje.getIdmascota() != other.petmascotahomenaje.getIdmascota())
+			return false;
+		if (setestado == null) {
+			if (other.setestado != null)
+				return false;
+		} else if (setestado.getIdestado() != other.setestado.getIdestado())
+			return false;
+		if (setusuario == null) {
+			if (other.setusuario != null)
+				return false;
+		} else if (setusuario.getIdusuario() != other.setusuario.getIdusuario())
+			return false;
+		return true;
+	}
+	
+	
 
 }

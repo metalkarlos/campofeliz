@@ -7,9 +7,12 @@ import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
 import com.web.pet.dao.PetordenservicioDAO;
+import com.web.pet.dao.PetordenserviciodetalleDAO;
 import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.pet.pojo.annotations.Petordenservicio;
+import com.web.pet.pojo.annotations.Petordenserviciodetalle;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
@@ -45,7 +48,7 @@ public class PetordenservicioBO {
 			
 			lisPetordenservicio = petordenservicioDAO.lisPetordenservicioByPage(session, nombres, pageSize, pageNumber, args);
 		}catch(Exception e){
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}finally{
 			session.close();
 		}
@@ -53,7 +56,7 @@ public class PetordenservicioBO {
 		return lisPetordenservicio;
 	}
 	
-	public boolean newPetordenservicio(Petordenservicio petordenservicio) throws Exception{
+	public boolean ingresarPetordenservicio(Petordenservicio petordenservicio) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -88,7 +91,7 @@ public class PetordenservicioBO {
 		return ok;
 	}
 	
-	public boolean updatePetordenservicio(Petordenservicio petordenservicio) throws Exception{
+	public boolean modificarPetordenservicio(Petordenservicio petordenservicio, Petordenservicio petordenservicioClon) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -101,10 +104,66 @@ public class PetordenservicioBO {
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
+			//Se graba el servicio si han habido cambios
+			if(!petordenservicio.equals(petordenservicioClon)){
+				petordenservicio.setFecharegistro(fecharegistro);
+				petordenservicio.setIplog(usuarioBean.getIp());
+				petordenservicio.setSetusuario(usuarioBean.getSetUsuario());
+				petordenservicioDAO.updatePetordenservicio(session, petordenservicio);
+				ok = true;
+			}
+			
+			if(ok){
+				session.getTransaction().commit();
+			}
+		}catch(Exception e){
+			ok = false;
+			session.getTransaction().rollback();
+			throw new Exception();
+		}finally{
+			session.close();
+		}
+		
+		return ok;
+	}
+	
+	public boolean eliminarPetordenservicio(Petordenservicio petordenservicio, List<Petordenserviciodetalle> lisPetordenserviciodetalle) throws Exception{
+		boolean ok = false;
+		Session session = null;
+		
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			PetordenservicioDAO petordenservicioDAO = new PetordenservicioDAO();
+			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
+		
+			Date fecharegistro = new Date();
+			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+			
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(2);//inactivo
+			petordenservicio.setSetestado(setestado);
+			
 			petordenservicio.setFecharegistro(fecharegistro);
 			petordenservicio.setIplog(usuarioBean.getIp());
 			petordenservicio.setSetusuario(usuarioBean.getSetUsuario());
 			petordenservicioDAO.updatePetordenservicio(session, petordenservicio);
+			
+			//se eliminan detalles en caso de existir
+			for(Petordenserviciodetalle tmp : lisPetordenserviciodetalle){
+				//petordenserviciodetalleDAO.deletePetordenserviciodetalle(session, tmp.getId());
+				Setestado setestadoservicios = new Setestado();
+				setestadoservicios.setIdestado(2);//inactivo
+				tmp.setSetestado(setestadoservicios);
+				
+				fecharegistro = new Date();
+				tmp.setFecharegistro(fecharegistro);
+				tmp.setIplog(usuarioBean.getIp());
+				tmp.setSetusuario(usuarioBean.getSetUsuario());
+				
+				petordenserviciodetalleDAO.updatePetordenserviciodetalle(session, tmp);
+			}
 			
 			session.getTransaction().commit();
 			ok = true;
