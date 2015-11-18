@@ -1,17 +1,15 @@
 package com.web.pet.bean;
 
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import com.web.util.FileUtil;
+import org.primefaces.context.RequestContext;
+
+import com.web.util.FacesUtil;
 import com.web.util.MessageUtil;
-import com.web.util.Utilities;
 
 @ManagedBean
 @ViewScoped
@@ -29,49 +27,27 @@ public class ReporteMascotasxTiempoBean  implements Serializable{
 		fechahasta = new Date();
 	}
 	
-	public Date getFechadesde() {
-		return fechadesde;
-	}
-
-	public void setFechadesde(Date fechadesde) {
-		this.fechadesde = fechadesde;
-	}
-
-	public Date getFechahasta() {
-		return fechahasta;
-	}
-
-	public void setFechahasta(Date fechahasta) {
-		this.fechahasta = fechahasta;
-	}
-
 	public void imprimir(){
-		InputStream inputStream = null;
-		
 		try {
 			if (validarCampos()) {
-				String nombreReporte = "MascotasxTiempo";
-				Map<String, Object> parametros = new HashMap<String, Object>();
+				FacesUtil facesUtil = new FacesUtil();
 				
-				FileUtil fileUtil = new FileUtil();
-				inputStream = fileUtil.getLogoEmpresaAsStream();
-				if(inputStream != null){
-					parametros.put("P_LOGO", inputStream);
-				}
-					  
+				VisorBean visorBean = (VisorBean)facesUtil.getSessionBean("visorBean");
+				visorBean.setNombreReporte("MascotasxTiempo");
+				
 				if(fechadesde !=null){
-					parametros.put("P_FECHA_DESDE", fechadesde);
+					visorBean.getParametros().put("P_FECHA_DESDE", fechadesde);
 				}else{
-					parametros.put("P_FECHA_DESDE", null);
+					visorBean.getParametros().put("P_FECHA_DESDE", null);
 				}
   
 				if(fechahasta != null){
-					parametros.put("P_FECHA_HASTA", fechahasta);  
+					visorBean.getParametros().put("P_FECHA_HASTA", fechahasta);  
 				}else{
-					parametros.put("P_FECHA_HASTA", null);
+					visorBean.getParametros().put("P_FECHA_HASTA", null);
 				}
-	
-				new Utilities().imprimirJasperPdf(nombreReporte, parametros);
+				
+				RequestContext.getCurrentInstance().execute("varDlgMostrarReporte.show()");
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -90,4 +66,19 @@ public class ReporteMascotasxTiempoBean  implements Serializable{
 		return ok;
 	}
 	
+	public Date getFechadesde() {
+		return fechadesde;
+	}
+
+	public void setFechadesde(Date fechadesde) {
+		this.fechadesde = fechadesde;
+	}
+
+	public Date getFechahasta() {
+		return fechahasta;
+	}
+
+	public void setFechahasta(Date fechahasta) {
+		this.fechahasta = fechahasta;
+	}
 }

@@ -25,6 +25,7 @@ import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.FacesUtil;
 import com.web.util.MessageUtil;
+import com.web.util.Utilities;
 
 @ManagedBean
 @ViewScoped
@@ -41,7 +42,6 @@ public class ServicioAdminBean implements Serializable {
 	private List<Petfotoservicio> lisPetfotoservicio;
 	private List<Petfotoservicio> lisPetfotoservicioClon;
 	private List<Cotoficina> lisCotoficina;
-	//private List<Cotempresa> lisCotempresa;
 	private Petfotoservicio petfotoservicioSeleccionado;
 	private StreamedContent streamedContent;
 	private UploadedFile uploadedFile;
@@ -55,13 +55,10 @@ public class ServicioAdminBean implements Serializable {
 		lisPetfotoservicio = new ArrayList<Petfotoservicio>();
 		lisPetfotoservicioClon = new ArrayList<Petfotoservicio>();
 		lisCotoficina = new ArrayList<Cotoficina>();
-		//lisCotempresa = new ArrayList<Cotempresa>();
 		petfotoservicioSeleccionado = new Petfotoservicio();
 		descripcionFoto = "";
 		fotoSubida = false;
 		maxfilesize = Parametro.TAMAÑO_IMAGEN;
-		
-		//llenarListaEmpresa();
 	}
 	
 	@PostConstruct
@@ -126,16 +123,6 @@ public class ServicioAdminBean implements Serializable {
 		}
 	}
 	
-	/*private void llenarListaEmpresa(){
-		try {
-			CotempresaBO cotempresaBO = new CotempresaBO();
-			lisCotempresa = cotempresaBO.lisCotempresa();
-		} catch (Exception e) {
-			e.printStackTrace();
-		    new MessageUtil().showErrorMessage("Error", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-		}
-	}*/
-
 	public void handleFileUpload(FileUploadEvent event) {
 		try{
 			uploadedFile = event.getFile();
@@ -180,6 +167,7 @@ public class ServicioAdminBean implements Serializable {
 			boolean ok = false;
 			
 			PetservicioBO petservicioBO = new PetservicioBO();
+			Utilities utilities = new Utilities();
 			Petfotoservicio petfotoservicio = new Petfotoservicio();
 			
 			if(fotoSubida && descripcionFoto != null && descripcionFoto.trim().length() > 0){
@@ -189,16 +177,16 @@ public class ServicioAdminBean implements Serializable {
 			if(idservicio == 0){
 				ok = petservicioBO.ingresar(petservicio, petfotoservicio, uploadedFile);
 				if(ok){
-					mostrarPaginaMensaje("Servicio creado con exito!!");
+					utilities.mostrarPaginaMensaje("Servicio creado con exito!!");
 				}else{
-					mostrarPaginaMensaje("No existen cambios que guardar.");
+					utilities.mostrarPaginaMensaje("No existen cambios que guardar.");
 				}
 			}else{
 				ok = petservicioBO.modificar(petservicio, petservicioClon, lisPetfotoservicio, lisPetfotoservicioClon, petfotoservicio, uploadedFile);
 				if(ok){
-					mostrarPaginaMensaje("Servicio modificado con exito!!");
+					utilities.mostrarPaginaMensaje("Servicio modificado con exito!!");
 				}else{
-					mostrarPaginaMensaje("No existen cambios que guardar.");
+					utilities.mostrarPaginaMensaje("No existen cambios que guardar.");
 				}
 			}
 		}catch(Exception e){
@@ -207,23 +195,16 @@ public class ServicioAdminBean implements Serializable {
 		}
 	}
 	
-	private void mostrarPaginaMensaje(String mensaje) throws Exception {
-		UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
-		usuarioBean.setMensaje(mensaje);
-		
-		FacesUtil facesUtil = new FacesUtil();
-		facesUtil.redirect("../admin/mensaje.jsf");	 
-	}
-	
 	public void eliminar(){
 		try{
 			PetservicioBO petservicioBO = new PetservicioBO();
+			Utilities utilities = new Utilities();
 			
 			boolean ok = petservicioBO.eliminar(petservicio);
 			if(ok){
-				mostrarPaginaMensaje("Servicio eliminado con exito!!");
+				utilities.mostrarPaginaMensaje("Servicio eliminado con exito!!");
 			}else{
-				mostrarPaginaMensaje("No se ha podido eliminar el Servicio. Comunicar al Webmaster.");
+				utilities.mostrarPaginaMensaje("No se ha podido eliminar el Servicio. Comunicar al Webmaster.");
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -292,10 +273,6 @@ public class ServicioAdminBean implements Serializable {
 		return maxfilesize;
 	}
 
-	public void setMaxfilesize(long maxfilesize) {
-		this.maxfilesize = maxfilesize;
-	}
-
 	public List<Cotoficina> getLisCotoficina() {
 		return lisCotoficina;
 	}
@@ -303,14 +280,6 @@ public class ServicioAdminBean implements Serializable {
 	public void setLisCotoficina(List<Cotoficina> lisCotoficina) {
 		this.lisCotoficina = lisCotoficina;
 	}
-
-	/*public List<Cotempresa> getLisCotempresa() {
-		return lisCotempresa;
-	}
-
-	public void setLisCotempresa(List<Cotempresa> lisCotempresa) {
-		this.lisCotempresa = lisCotempresa;
-	}*/
 
 	public int getIdempresa() {
 		return idempresa;

@@ -19,10 +19,7 @@ import com.web.util.HibernateUtil;
 
 public class PetservicioBO {
 
-	private PetservicioDAO petservicioDAO;
-	
 	public PetservicioBO() {
-		petservicioDAO = new PetservicioDAO();
 	}
 	
 	public int getMaxOrden() throws Exception{
@@ -31,6 +28,7 @@ public class PetservicioBO {
 		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			PetservicioDAO petservicioDAO = new PetservicioDAO();
 			orden = petservicioDAO.maxOrden(session);
 				
 		} catch (Exception e) {
@@ -48,6 +46,7 @@ public class PetservicioBO {
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
+			PetservicioDAO petservicioDAO = new PetservicioDAO();
 			lisPetservicio = petservicioDAO.lisPetservicioPrincipales(session);
 		}catch(Exception e){
 			throw new Exception(e);
@@ -64,6 +63,7 @@ public class PetservicioBO {
 	
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
+			PetservicioDAO petservicioDAO = new PetservicioDAO();
 			lisPetservicio = petservicioDAO.lisPetservicio(session, idempresa, idoficina);
 		}catch(Exception e){
 			throw new Exception(e);
@@ -80,6 +80,7 @@ public class PetservicioBO {
 		
 		try{
             session = HibernateUtil.getSessionFactory().openSession();
+            PetservicioDAO petservicioDAO = new PetservicioDAO();
             lisPetservicio = petservicioDAO.lisPetservicioBusquedaByPage(session, texto, idempresa, pageSize, pageNumber, args);
         }
         catch(Exception ex){
@@ -98,6 +99,7 @@ public class PetservicioBO {
 		
 		try{
             session = HibernateUtil.getSessionFactory().openSession();
+            PetservicioDAO petservicioDAO = new PetservicioDAO();
             petservicio = petservicioDAO.getPetservicioConObjetosById(session, idservicio, idempresa);
         }
         catch(Exception ex){
@@ -116,6 +118,7 @@ public class PetservicioBO {
 		
 		try{
             session = HibernateUtil.getSessionFactory().openSession();
+            PetservicioDAO petservicioDAO = new PetservicioDAO();
             petservicio = petservicioDAO.getPetservicioById(session, idservicio);
         }
         catch(Exception ex){
@@ -137,6 +140,7 @@ public class PetservicioBO {
 			session.beginTransaction();
 			
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+			PetservicioDAO petservicioDAO = new PetservicioDAO();
 			
 			//servicio
 			int maxIdservicio = petservicioDAO.maxIdservicio(session)+1;
@@ -186,6 +190,7 @@ public class PetservicioBO {
 			session.beginTransaction();
 			
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+			PetservicioDAO petservicioDAO = new PetservicioDAO();
 			PetfotoservicioDAO petfotoservicioDAO = new PetfotoservicioDAO();
 			
 			//se eliminan fisicamente las fotos asociadas a la noticia
@@ -194,13 +199,10 @@ public class PetservicioBO {
 			String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
 			
 			for(Petfotoservicio tmp : petservicio.getPetfotoservicios()){
-				String rutaArchivo = rutaImagenes + tmp.getRuta();
-				fileUtil.deleteFile(rutaArchivo);
-				
 				//se inactivan todas las fotos asociadas al servicio
-				Setestado setestado = new Setestado();
-				setestado.setIdestado(2);
-				tmp.setSetestado(setestado);
+				Setestado setestadotmp = new Setestado();
+				setestadotmp.setIdestado(2);
+				tmp.setSetestado(setestadotmp);
 				
 				//auditoria
 				Date fecharegistro = new Date();
@@ -210,6 +212,10 @@ public class PetservicioBO {
 				
 				//actualizar
 				petfotoservicioDAO.updatePetfotoservicio(session, tmp);
+				
+				//se elimina el archivo de imagen
+				String rutaArchivo = rutaImagenes + tmp.getRuta();
+				fileUtil.deleteFile(rutaArchivo);
 			}			 
 			
 			//se inactiva el registro
@@ -247,6 +253,7 @@ public class PetservicioBO {
 			session.beginTransaction();
 			
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+			PetservicioDAO petservicioDAO = new PetservicioDAO();
 			PetfotoservicioDAO petfotoservicioDAO = new PetfotoservicioDAO();
 			Date fecharegistro = new Date();
 			FileUtil fileUtil = new FileUtil();

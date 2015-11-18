@@ -5,7 +5,33 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/WEB-INF/templates/default.xhtml">
 
-	<ui:define name="title">Campo Feliz - Mascota</ui:define>
+	<ui:define name="title">Campo Feliz - #{mascotaBean.petmascotahomenaje.nombre}</ui:define>
+	<ui:define name="head">
+		<style type="text/css">
+		.ui-panelgrid tr, .ui-panelgrid td {
+			border: none;
+			padding: 4px 0px;
+		}
+		.ui-autocomplete input {
+			width: 80%;
+		}
+		.calendario input {
+			width: 100px;
+		}
+		.area-botones {
+			margin: 0px;
+		}
+		.col1 {
+			
+		}
+		.col2 {
+			width: 15px
+		}
+		.col1,.col2 {
+			padding: 10px 5px;
+		}
+		</style>
+	</ui:define>
 	<ui:define name="side_page">
 		<ui:include src="../admin/mascota_side.xhtml"></ui:include>
 	</ui:define>

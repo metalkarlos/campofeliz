@@ -39,46 +39,11 @@ public class UsuarioBean implements Serializable{
 		FacesUtil facesUtil = new FacesUtil();  
 		ip = facesUtil.getClientIp();
 		sid = facesUtil.getSid();
+		autenticado = false;
 		setUsuario = new Setusuario();
 		mensaje = "";
 	}
-
-	public void setSetUsuario(Setusuario setUsuario) {
-		this.setUsuario = setUsuario;
-	}
-
-	public Setusuario getSetUsuario() {
-		return setUsuario;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public String getIp() {
-		return ip;
-	}
-
-	public String getSid() {
-		return sid;
-	}
-
-	public boolean isAutenticado() {
-		return autenticado;
-	}
-
+	
 	public String login(){
 		String strRedirect = null;
 		
@@ -90,6 +55,15 @@ public class UsuarioBean implements Serializable{
 				
 				if(setUsuario!=null && setUsuario.getIdusuario()>0){
 					autenticado = true;
+					
+					FacesUtil facesUtil = new FacesUtil();
+					VisorBean visorBean = (VisorBean)facesUtil.getSessionBean("visorBean");
+					
+					//Inicializo Bean de session, visor de reportes
+					if(visorBean == null){
+						visorBean = new VisorBean();
+						facesUtil.setSessionBean("visorBean", visorBean);
+					}
 					
 					FileUtil fileUtil = new FileUtil();
 					strRedirect = "../admin/"+fileUtil.getPropertyValue("home");
@@ -263,6 +237,42 @@ public class UsuarioBean implements Serializable{
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 		return "";
+	}
+	
+	public void setSetUsuario(Setusuario setUsuario) {
+		this.setUsuario = setUsuario;
+	}
+
+	public Setusuario getSetUsuario() {
+		return setUsuario;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public String getSid() {
+		return sid;
+	}
+
+	public boolean isAutenticado() {
+		return autenticado;
 	}
 	
 	public StreamedContent getStreamedContent() {

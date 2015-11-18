@@ -4,7 +4,6 @@ package com.web.pet.pojo.annotations;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -54,8 +52,8 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 	private boolean microchip;
 	private String numeroidentificacion;
 	private String idmascotaveterinaria;
-	private Set<Petfotomascota> petfotomascotas = new HashSet<Petfotomascota>(0);
-	private Set<Petmascotacolor> petmascotacolors = new HashSet<Petmascotacolor>(0);
+	//private Set<Petfotomascota> petfotomascotas = new HashSet<Petfotomascota>(0);
+	//private Set<Petmascotacolor> petmascotacolors = new HashSet<Petmascotacolor>(0);
 
 	public Petmascotahomenaje() {
 	}
@@ -89,7 +87,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 		this.fecharegistro = fecharegistro;
 		this.fechamodificacion = fechamodificacion;
 		this.iplog = iplog;
-		this.petfotomascotas = petfotomascotas;
+		//this.petfotomascotas = petfotomascotas;
 		this.petraza = petraza;
 		this.cotpersona = cotpersona;
 		this.cottipoidentificacion = cottipoidentificacion;
@@ -200,7 +198,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 	
 	@Transient
 	public String getDedicatoriaNoTags() {
-		return this.dedicatoria.replaceAll("\\<.*?\\>", "");
+		return this.dedicatoria != null ? this.dedicatoria.replaceAll("\\<.*?\\>", "") : this.dedicatoria;
 	}
 
 	@Column(name = "tag", length = 200)
@@ -249,29 +247,14 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 		this.iplog = iplog;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "petmascotahomenaje", targetEntity=Petfotomascota.class)
+	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "petmascotahomenaje", targetEntity=Petfotomascota.class)
 	public Set<Petfotomascota> getPetfotomascotas() {
 		return this.petfotomascotas;
 	}
 
 	public void setPetfotomascotas(Set<Petfotomascota> petfotomascotas) {
 		this.petfotomascotas = petfotomascotas;
-	}
-
-	@Override
-	protected Object clone() throws CloneNotSupportedException{
-	  Petmascotahomenaje petmascotahomenaje = (Petmascotahomenaje) super.clone();
-	  
-	  if(petmascotahomenaje.getPetespecie() != null && petmascotahomenaje.getPetespecie().getIdespecie() > 0){
-		  petmascotahomenaje.setPetespecie((Petespecie) petmascotahomenaje.getPetespecie().clone());
-	  }
-	  
-	  return petmascotahomenaje;
-	}
-	
-	public Petmascotahomenaje clonar() throws Exception{
-		return (Petmascotahomenaje)this.clone();
-	}
+	}*/
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idraza", nullable = false)
@@ -331,14 +314,14 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 		this.caracteristicas = caracteristicas;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "petmascotahomenaje", targetEntity = Petmascotacolor.class)
+	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "petmascotahomenaje", targetEntity = Petmascotacolor.class)
 	public Set<Petmascotacolor> getPetmascotacolors() {
 		return this.petmascotacolors;
 	}
 
 	public void setPetmascotacolors(Set<Petmascotacolor> petmascotacolors) {
 		this.petmascotacolors = petmascotacolors;
-	}
+	}*/
 	
 	@Column(name = "pedigree")
 	public boolean getPedigree() {
@@ -374,6 +357,25 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 
 	public void setIdmascotaveterinaria(String idmascotaveterinaria) {
 		this.idmascotaveterinaria = idmascotaveterinaria;
+	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException{
+	  Petmascotahomenaje petmascotahomenaje = (Petmascotahomenaje) super.clone();
+	  
+	  if(petmascotahomenaje.getPetespecie() != null && petmascotahomenaje.getPetespecie().getIdespecie() > 0){
+		  petmascotahomenaje.setPetespecie((Petespecie) petmascotahomenaje.getPetespecie().clone());
+	  }
+	  
+	  if(petmascotahomenaje.getCottipoidentificacion() != null && petmascotahomenaje.getCottipoidentificacion().getIdtipoidentificacion() > 0){
+		  petmascotahomenaje.setCottipoidentificacion((Cottipoidentificacion) petmascotahomenaje.getCottipoidentificacion().clone());
+	  }
+	  
+	  return petmascotahomenaje;
+	}
+	
+	public Petmascotahomenaje clonar() throws Exception{
+		return (Petmascotahomenaje)this.clone();
 	}
 
 	@Override

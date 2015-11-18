@@ -9,7 +9,13 @@
 
 	<h:head>
 		<title>Campo Feliz - Login</title>
+		
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="robots" content="noindex" />
+		<meta content="no-cache" http-equiv="Cache-Control" />
+		<meta content="no-cache" http-equiv="Pragma" />
+		
+		<link rel="shortcut icon" href="#{request.contextPath}/resources/images/logo_m.ico" />
 		<h:outputScript library="js" name="javascript.js"/>
 		<h:outputStylesheet library="css" name="style.css" />
 		<h:outputStylesheet library="css" name="messages.css" />
@@ -17,7 +23,6 @@
 	
 	<h:body style="background-color: #333333"><!-- Color de fondo -->
 		<h:form id="form-content" >
-			#{visorBean}
 			<p:outputPanel id="paneldatos">
 			<div style="min-width: 1100px; min-height: 300px; background-color: #ffffff; 
 			position: absolute; left: 10px; right: 10px; top: 60px; bottom: 60px; 
@@ -77,11 +82,6 @@
 				</div>
 			</div>
 			</p:outputPanel>
-			<div style="min-width: 1100px; position: absolute; bottom: 0px; 
-			text-align: center; padding-left: 50px; padding-right: 50px; 
-			font-size: 12px; color:#747474;">
-			<p> Copyright &copy; 2015. All rights reserved. <a href="http://www.gruposintra.com/" style="color: #747474" target="blank">Grupo Sintra</a></p>
-			</div>
 			
 			<p:ajaxStatus style="width:32px;height:32px;display:block;position:fixed;right:0;top:0;">
 				<f:facet name="start">

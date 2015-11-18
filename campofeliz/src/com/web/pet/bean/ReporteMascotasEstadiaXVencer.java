@@ -1,16 +1,14 @@
 package com.web.pet.bean;
 
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import com.web.util.FileUtil;
+import org.primefaces.context.RequestContext;
+
+import com.web.util.FacesUtil;
 import com.web.util.MessageUtil;
-import com.web.util.Utilities;
 
 @ManagedBean
 @ViewScoped
@@ -26,32 +24,19 @@ public class ReporteMascotasEstadiaXVencer implements Serializable {
 		anio = 0;
 	}
 	
-	public int getAnio() {
-		return anio;
-	}
-
-	public void setAnio(int anio) {
-		this.anio = anio;
-	}
-	
 	public void imprimir(){
-		InputStream inputStream = null;
-		
 		try {
 			if (validarCampos()) {
-				String nombreReporte = "MascotasEstadiaxVencer";
-				Map<String, Object> parametros = new HashMap<String, Object>();
+				FacesUtil facesUtil = new FacesUtil();
 				
-				FileUtil fileUtil = new FileUtil();
-				inputStream = fileUtil.getLogoEmpresaAsStream();
-				if(inputStream != null){
-					parametros.put("P_LOGO", inputStream);
-				}
+				VisorBean visorBean = (VisorBean)facesUtil.getSessionBean("visorBean");
+				visorBean.setNombreReporte("MascotasEstadiaxVencer");
 				
-				if(anio >=0 ){
-				  parametros.put("P_ANIOS", anio);
+				if(anio >= 0){
+					visorBean.getParametros().put("P_ANIOS", anio);
 				}
-				new Utilities().imprimirJasperPdf(nombreReporte, parametros);
+  
+				RequestContext.getCurrentInstance().execute("varDlgMostrarReporte.show()");
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -66,5 +51,13 @@ public class ReporteMascotasEstadiaXVencer implements Serializable {
 			ok = false;
 		}
 		return ok;
+	}
+	
+	public int getAnio() {
+		return anio;
+	}
+
+	public void setAnio(int anio) {
+		this.anio = anio;
 	}
 }

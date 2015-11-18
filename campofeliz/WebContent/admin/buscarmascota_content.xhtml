@@ -5,30 +5,55 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-      
+
 	<h:form id="form-contentpage" prependId="false">
 		<p:messages id="mensajes" showDetail="false" />
 
 		<p:panel id="panel-buscarmascota">
-			<h2>Búsqueda Avanzada</h2>
+			<h2>Búsqueda Avanzada de Mascotas</h2>
 			<hr noshade="noshade" />
 			<br />
-			<p:focus for="idnombre"/>
+			<p:focus for="idnombre" />
 			<p:panelGrid id="panelgridcriterios" styleClass="gridcriterios">
 				<p:row>
 					<p:column style="width: 100px">
 						<h:outputLabel value="Nombre:" for="idnombre" />
 					</p:column>
 					<p:column>
-						<p:inputText id="idnombre" value="#{buscarMascotaBean.petmascotahomenaje.nombre}" style="width: 400px" />
+						<p:inputText id="idnombre"
+							value="#{buscarMascotaBean.petmascotahomenaje.nombre}"
+							style="width: 400px" />
 					</p:column>
 					<p:column>
-						<h:outputText value="*Escriba el nombre de la mascota" style="font-style: italic;" />
+						<h:outputText value="*Escriba el nombre de la mascota"
+							style="font-style: italic;" />
 					</p:column>
 				</p:row>
+				
 				<p:row>
 					<p:column>
-						<h2> Otros datos</h2>
+						<h:outputLabel value="Propietario:" for="cmbPropietario" />
+					</p:column>
+					<p:column>
+						<p:autoComplete id="cmbPropietario" size="50"
+							value="#{buscarMascotaBean.petmascotahomenaje.cotpersona}"
+							completeMethod="#{buscarMascotaBean.buscarPropietarios}" var="p"
+							itemLabel="#{p.nombre1} #{p.nombre2} #{p.apellido1} #{p.apellido2}"
+							itemValue="#{p}" converter="persona" minQueryLength="1"
+							forceSelection="true">
+							<p:ajax event="itemSelect"
+								update="mensajes"></p:ajax>
+						</p:autoComplete>
+					</p:column>
+					<p:column>
+						<h:outputText value="*Escriba el nombre del propietario"
+							style="font-style: italic;" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<h2>Otros datos</h2>
 					</p:column>
 					<p:column></p:column>
 					<p:column></p:column>
@@ -38,10 +63,12 @@
 						<h:outputLabel value="Características:" for="idcaracteristicas" />
 					</p:column>
 					<p:column>
-						<p:inputText id="idcaracteristicas" value="#{buscarMascotaBean.caracteristicas}" style="width: 400px" />
+						<p:inputText id="idcaracteristicas"
+							value="#{buscarMascotaBean.caracteristicas}" style="width: 400px" />
 					</p:column>
 					<p:column>
-						<h:outputText value="*Separe con espacios únicamente cada palabra" style="font-style: italic;" />
+						<h:outputText value="*Separe con espacios únicamente cada palabra"
+							style="font-style: italic;" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -49,13 +76,18 @@
 						<h:outputLabel value="Especie:" for="idtipolist" />
 					</p:column>
 					<p:column>
-						<p:selectOneMenu id="idtipolist" value="#{buscarMascotaBean.petmascotahomenaje.petespecie.idespecie}" style="width: 400px">
+						<p:selectOneMenu id="idtipolist"
+							value="#{buscarMascotaBean.petmascotahomenaje.petespecie.idespecie}"
+							style="width: 150px">
 							<f:selectItem itemLabel="Todos" />
-						    <f:selectItems value="#{buscarMascotaBean.lisPetespecie}" var="tipo" itemLabel="#{tipo.nombre}" itemValue="#{tipo.idespecie}"/>
+							<f:selectItems value="#{buscarMascotaBean.lisPetespecie}"
+								var="tipo" itemLabel="#{tipo.nombre}"
+								itemValue="#{tipo.idespecie}" />
 						</p:selectOneMenu>
 					</p:column>
 					<p:column>
-						<h:outputText value="*Seleccione la especie" style="font-style: italic;" />
+						<h:outputText value="*Seleccione la especie"
+							style="font-style: italic;" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -63,13 +95,17 @@
 						<h:outputLabel value="Raza:" for="idrazalist" />
 					</p:column>
 					<p:column>
-						<p:selectOneMenu id="idrazalist" value="#{buscarMascotaBean.petmascotahomenaje.petraza.idraza}" style="width: 150px" >
+						<p:selectOneMenu id="idrazalist"
+							value="#{buscarMascotaBean.petmascotahomenaje.petraza.idraza}"
+							style="width: 150px">
 							<f:selectItem itemLabel="Todos" />
-						    <f:selectItems value="#{buscarMascotaBean.lisPetraza}" var="raza" itemLabel="#{raza.nombre}" itemValue="#{raza.idraza}"/>
+							<f:selectItems value="#{buscarMascotaBean.lisPetraza}" var="raza"
+								itemLabel="#{raza.nombre}" itemValue="#{raza.idraza}" />
 						</p:selectOneMenu>
 					</p:column>
 					<p:column>
-						<h:outputText value="*Seleccione la raza de la mascota" style="font-style: italic;" />
+						<h:outputText value="*Seleccione la raza de la mascota"
+							style="font-style: italic;" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -77,49 +113,54 @@
 						<h:outputLabel value="Sexo:" for="idsexolist" />
 					</p:column>
 					<p:column>
-						<p:selectOneMenu id="idsexolist" value="#{buscarMascotaBean.petmascotahomenaje.sexo}" >
+						<p:selectOneMenu id="idsexolist"
+							value="#{buscarMascotaBean.petmascotahomenaje.sexo}">
 							<f:selectItem itemLabel="Todos" itemValue="0" />
-			                <f:selectItem itemLabel="Macho" itemValue="1" />
-			                <f:selectItem itemLabel="Hembra" itemValue="2" />
-			            </p:selectOneMenu>
+							<f:selectItem itemLabel="Macho" itemValue="1" />
+							<f:selectItem itemLabel="Hembra" itemValue="2" />
+						</p:selectOneMenu>
 					</p:column>
 					<p:column>
-						<h:outputText value="*Seleccione el sexo de la mascota" style="font-style: italic;" />
+						<h:outputText value="*Seleccione el sexo de la mascota"
+							style="font-style: italic;" />
 					</p:column>
 				</p:row>
 			</p:panelGrid>
 			<center>
-			<p:commandButton value="Buscar" actionListener="#{buscarMascotaBean.buscarMascotas()}" update=":form-contentpage:idGridResultado" />
+				<p:commandButton value="Buscar"
+					update="idGridResultado" />
 			</center>
 			<br />
-			<p:dataGrid id="idGridResultado" var="pet" value="#{buscarMascotaBean.lisMascotas}" columns="#{buscarMascotaBean.columnsGrid}" rows="#{buscarMascotaBean.rowsGrid}" paginator="true" effect="true"
+			<p:dataGrid id="idGridResultado" var="pet"
+				value="#{buscarMascotaBean.lisPetmascotahomenaje}"
+				columns="#{buscarMascotaBean.columnsGrid}"
+				rows="#{buscarMascotaBean.rowsGrid}" paginator="true" effect="true"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				emptyMessage="No se encontraron registros">
 				<p:column>
 					<p:panel>
 						<table>
-						<tr>
-						<td width="200px" align="center" bgcolor="#eaeaea">
-						<h:link title="Ver Información" outcome="mascota.jsf">
-							<f:param name="idmascota" value="#{pet.petmascotahomenaje.idmascota}" /> 
-							<f:param name="tipo" value="#{pet.petmascotahomenaje.petespecie.idespecie}" />
-							<p:graphicImage id="idfoto" value="#{parametro.servletImagenes}#{pet.petfotomascota.ruta}?w=150" style="max-height: 100px" />
-						</h:link>
-						</td>
-						<td>
-							<h:outputText value="Nombre: " style="font-weight: bold;" /><br />
-							<h:link id="idnombremascota" outcome="mascota.jsf" value="#{pet.petmascotahomenaje.nombre}" style="text-transform: capitalize;">
-								<f:param name="idmascota" value="#{pet.petmascotahomenaje.idmascota}" /> 
-								<f:param name="tipo" value="#{pet.petmascotahomenaje.petespecie.idespecie}" />
-							</h:link><br />
-							<h:outputText value="Características:" style="font-weight: bold;" /><br />
-							<h:outputText value="#{pet.petmascotahomenaje.caracteristicas}" />
-						</td>
-						</tr>
+							<tr>
+								<td width="200px" align="center" bgcolor="#eaeaea"><h:link
+										title="Ver Información" outcome="mascota.jsf">
+										<f:param name="idmascota" value="#{pet.idmascota}" />
+										<p:graphicImage id="idfoto"
+											value="#{parametro.servletImagenes}#{pet.rutafoto}?w=150"
+											style="max-height: 100px" />
+									</h:link></td>
+								<td><h:outputText value="Nombre: "
+										style="font-weight: bold;" /><br /> <h:link
+										id="idnombremascota" outcome="mascota.jsf"
+										value="#{pet.nombre}" style="text-transform: capitalize;">
+										<f:param name="idmascota" value="#{pet.idmascota}" />
+									</h:link><br /> <h:outputText value="Características:"
+										style="font-weight: bold;" /><br /> <h:outputText
+										value="#{pet.caracteristicas}" /></td>
+							</tr>
 						</table>
 					</p:panel>
 				</p:column>
-		
+
 			</p:dataGrid>
 		</p:panel>
 	</h:form>

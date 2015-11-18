@@ -36,7 +36,7 @@ public class PersonasBean implements Serializable {
 	private String textoBusqueda;
 	
 	public PersonasBean() {
-		cotpersonaSelected = new Cotpersona(0, new Cottipoidentificacion(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		cotpersonaSelected = new Cotpersona(0, new Cottipoidentificacion(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		
 		nombre = "buscar por nombre de persona";
 		textoBusqueda="buscar por nombre de persona";
@@ -114,7 +114,7 @@ public class PersonasBean implements Serializable {
 	}
 
 	public void setCotpersonaSelected(Cotpersona cotpersonaSelected) {
-		this.cotpersonaSelected = cotpersonaSelected == null ? new Cotpersona(0, new Cottipoidentificacion(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null) : cotpersonaSelected;
+		this.cotpersonaSelected = cotpersonaSelected == null ? new Cotpersona(0, new Cottipoidentificacion(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null) : cotpersonaSelected;
 	}
 	
 	public String getNombre() {

@@ -33,49 +33,51 @@ public class SecurityPhaseListener implements PhaseListener {
 			//si ingresa a login y ya esta logoneado redirecciona a home
 			String vista = facesContext.getViewRoot().getViewId();
 			boolean loginPage = vista != null && vista.equals("/pages/login.xhtml");
-			if(loginPage && usuarioBean != null && usuarioBean.isAutenticado()){
-				try{
-					facesContext.getExternalContext().redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
-					return;
-				}catch(Exception e){}
-			}
-			
-			FacesUtil facesUtil = new FacesUtil();
-			MenuBean menuBean = (MenuBean)facesUtil.getSessionBean("menuBean");
-			
-			if(menuBean == null){
-				menuBean = new MenuBean();
-				facesUtil.setSessionBean("menuBean", menuBean);
-			}
-			
-			if(menuBean != null){
-				int ordenmenupadre = 0;
-				String iditem = facesContext.getExternalContext().getRequestParameterMap().get("iditem");
+			if(loginPage){
+				if(usuarioBean != null && usuarioBean.isAutenticado()){
+					try{
+						facesContext.getExternalContext().redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
+						return;
+					}catch(Exception e){}
+				}
+			}else{
+				FacesUtil facesUtil = new FacesUtil();
+				MenuBean menuBean = (MenuBean)facesUtil.getSessionBean("menuBean");
 				
-				if(iditem != null && Integer.parseInt(iditem) >= 0){
-					boolean existepagina = false;
-					for(Menu menupadre : menuBean.getLisMenu()){
-						//ordenmenupadre = menupadre.getOrden();
-						
-						if(Integer.parseInt(iditem) == menupadre.getIdmenu()){
-							existepagina = true;
-							break;
-						}
-						
-						for(Sevmenu menuhijo : menupadre.getLisSevOpcionMenu()){
-							if(Integer.parseInt(iditem) == menuhijo.getIdmenu()){
+				if(menuBean == null){
+					menuBean = new MenuBean();
+					facesUtil.setSessionBean("menuBean", menuBean);
+				}
+				
+				if(menuBean != null){
+					int ordenmenupadre = 0;
+					String iditem = facesContext.getExternalContext().getRequestParameterMap().get("iditem");
+					
+					if(iditem != null && Integer.parseInt(iditem) >= 0){
+						boolean existepagina = false;
+						for(Menu menupadre : menuBean.getLisMenu()){
+							//ordenmenupadre = menupadre.getOrden();
+							
+							if(Integer.parseInt(iditem) == menupadre.getIdmenu()){
 								existepagina = true;
 								break;
 							}
+							
+							for(Sevmenu menuhijo : menupadre.getLisSevOpcionMenu()){
+								if(Integer.parseInt(iditem) == menuhijo.getIdmenu()){
+									existepagina = true;
+									break;
+								}
+							}
+							if(existepagina){
+								break;
+							}
+							ordenmenupadre++;
 						}
 						if(existepagina){
-							break;
+							menuBean.setActiveIndex(ordenmenupadre);
+							menuBean.setActiveIdItem(Integer.parseInt(iditem));
 						}
-						ordenmenupadre++;
-					}
-					if(existepagina){
-						menuBean.setActiveIndex(ordenmenupadre);
-						menuBean.setActiveIdItem(Integer.parseInt(iditem));
 					}
 				}
 			}

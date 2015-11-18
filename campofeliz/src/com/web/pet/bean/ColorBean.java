@@ -25,12 +25,13 @@ public class ColorBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -4533900181456343345L;
 	private Cotcolor cotcolorItem;
+	private Cotcolor cotcolorItemClon;
 	private LazyDataModel<Cotcolor> lisCotcolor;
 	
 	public ColorBean() {
 		cotcolorItem = new Cotcolor(0, new Setestado(), new Setusuario(), null, null, null, null, null);
+		cotcolorItemClon = new Cotcolor(0, new Setestado(), new Setusuario(), null, null, null, null, null);
 		consultarColores();
-		
 	}
 	
 	@SuppressWarnings("serial")
@@ -69,22 +70,6 @@ public class ColorBean implements Serializable {
 		}
 	}
 	
-	public Cotcolor getCotcolorItem() {
-		return cotcolorItem;
-	}
-
-	public void setCotcolorItem(Cotcolor cotcolorItem) {
-		this.cotcolorItem = cotcolorItem == null ? new Cotcolor(0, new Setestado(), new Setusuario(), null, null, null, null, null) : cotcolorItem;
-	}
-
-	public LazyDataModel<Cotcolor> getLisCotcolor() {
-		return lisCotcolor;
-	}
-
-	public void setLisCotcolor(LazyDataModel<Cotcolor> lisCotcolor) {
-		this.lisCotcolor = lisCotcolor;
-	}
-
 	public void guardar(){
 		try{
 			if(validarCampos()){
@@ -93,22 +78,26 @@ public class ColorBean implements Serializable {
 					boolean ok = false;
 					
 					if(cotcolorItem.getIdcolor() > 0){
-						ok = cotcolorBO.updateCotcolor(cotcolorItem);
+						ok = cotcolorBO.modificarCotcolor(cotcolorItem,cotcolorItemClon);
+						if(ok){
+							new MessageUtil().showInfoMessage("Color actualizado con exito!!", "");
+						}else{
+							new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
+						}
 					}else{
-						ok = cotcolorBO.newCotcolor(cotcolorItem);
-					}
-					
-					cotcolorItem = new Cotcolor(0, new Setestado(), new Setusuario(), null, null, null, null, null);
-					
-					if(ok){
-						new MessageUtil().showInfoMessage("Registro completo!","");
+						ok = cotcolorBO.ingresarCotcolor(cotcolorItem);
+						if(ok){
+							new MessageUtil().showInfoMessage("Color ingresado con exito!!", "");
+						}else{
+							new MessageUtil().showInfoMessage("No se ha podido ingresar el Color. Comunicar al Webmaster.", "");
+						}
 					}
 				}else{
-					new MessageUtil().showWarnMessage("Ya Existe! Descripción duplicada. Corrija e intente nuevamente.","");
+					new MessageUtil().showWarnMessage("Descripcion Ya Existe!. Corrija e intente nuevamente.","");
 				}
-			}else{
-				new MessageUtil().showWarnMessage("Datos incompletos! Datos incompletos!","");
 			}
+			
+			cotcolorItem = new Cotcolor(0, new Setestado(), new Setusuario(), null, null, null, null, null);
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -117,11 +106,10 @@ public class ColorBean implements Serializable {
 	
 	public void eliminar(){
 		try{
-			Setestado setestado = new Setestado();
-			setestado.setIdestado(2);//inactivo
-			cotcolorItem.setSetestado(setestado);
 			CotcolorBO cotcolorBO = new CotcolorBO();
-			cotcolorBO.updateCotcolor(cotcolorItem);
+			cotcolorBO.eliminarCotcolor(cotcolorItem);
+			cotcolorItem = new Cotcolor(0, new Setestado(), new Setusuario(), null, null, null, null, null);
+			new MessageUtil().showInfoMessage("Color eliminado con exito!!", "");
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -134,9 +122,11 @@ public class ColorBean implements Serializable {
 		
 		if(cotcolorItem.getNombre() == null || cotcolorItem.getNombre().trim().length() == 0){
 			ok = false;
+			new MessageUtil().showErrorMessage("El nombre del color es obligatorio.","");
 		}else{
 			if(cotcolorItem.getHex() == null || cotcolorItem.getHex().trim().length() == 0){
 				ok = false;
+				new MessageUtil().showErrorMessage("El color es obligatorio.","");
 			}
 		}
 		
@@ -175,6 +165,31 @@ public class ColorBean implements Serializable {
 	
 	public String cancelar(){
 		return "admin/home.jsf?faces-redirect=true&iditem=35";
+	}
+	
+	public void clonar() {
+		try{
+			cotcolorItemClon = cotcolorItem.clonar();
+		}catch(Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
+	public Cotcolor getCotcolorItem() {
+		return cotcolorItem;
+	}
+
+	public void setCotcolorItem(Cotcolor cotcolorItem) {
+		this.cotcolorItem = cotcolorItem == null ? new Cotcolor(0, new Setestado(), new Setusuario(), null, null, null, null, null) : cotcolorItem;
+	}
+
+	public LazyDataModel<Cotcolor> getLisCotcolor() {
+		return lisCotcolor;
+	}
+
+	public void setLisCotcolor(LazyDataModel<Cotcolor> lisCotcolor) {
+		this.lisCotcolor = lisCotcolor;
 	}
 
 }

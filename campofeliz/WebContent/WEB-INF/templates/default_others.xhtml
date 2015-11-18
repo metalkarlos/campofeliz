@@ -12,14 +12,19 @@
 	<h:head>
 		<ui:insert name="head" />
 		<title><ui:insert name="title" /></title>
+		
 		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+		<meta name="robots" content="noindex" />
+		<meta content="no-cache" http-equiv="Cache-Control" />
+		<meta content="no-cache" http-equiv="Pragma" />
+		
 		<link rel="shortcut icon" href="#{request.contextPath}/resources/images/logo_m.ico" />
 		<h:outputScript library="js" name="javascript.js"/>
 		<h:outputScript library="primefaces" name="jquery/jquery.js" />
 		<!-- <script src="http://code.jquery.com/jquery-latest.js"></script> -->
-		<h:outputStylesheet library="css" name="style.css" />
-		<h:outputStylesheet library="css" name="messages.css" />
 		<h:outputStylesheet library="themes/#{themeBean.defaultTheme}" name="skin.css" />
+		<h:outputStylesheet library="css" name="messages.css" />
+		<h:outputStylesheet library="css" name="style.css" />
 		<!-- Configuración del Calendario de la Agenda -->
 		<script type="text/javascript">
 			PrimeFaces.locales['es'] = {

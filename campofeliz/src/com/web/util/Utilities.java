@@ -14,6 +14,8 @@ import net.sf.jasperreports.engine.JasperPrint;
 
 import org.hibernate.Session;
 
+import com.web.pet.bean.UsuarioBean;
+
 public class Utilities {
 	
 	@SuppressWarnings("deprecation")
@@ -68,6 +70,14 @@ public class Utilities {
         }
 		
 		return sb.toString();
+	}
+	
+	public void mostrarPaginaMensaje(String mensaje) throws Exception {
+		UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+		usuarioBean.setMensaje(mensaje);
+		
+		FacesUtil facesUtil = new FacesUtil();
+		facesUtil.redirect("../admin/mensaje.jsf");	 
 	}
 	
 }

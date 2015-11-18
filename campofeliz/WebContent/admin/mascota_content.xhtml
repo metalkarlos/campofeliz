@@ -7,165 +7,530 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
-	
+
 	<h:form id="form-contentpage">
 		<p:messages id="mensajes" showDetail="false" />
+		<p:focus for="txtCodigoVeterinaria" />
 
-		<p:panel id="panel-mascotacontent">
-			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
-				<my:buttons renderedButtonAceptar="true" onclickButtonAceptar="vardialoggrabar.show()" 
-				renderedButtonEliminar="#{mascotaBean.idmascota > 0}" onclickButtonEliminar="vardialogdelete.show()" 
-				renderedButtonCancelar="true" labelButtonCancelar="Ir a Mascotas" onclickButtonCancelar="redirect('mascotas.jsf?iditem='+#{menuBean.activeIdItem});"
-				renderedButtonNewItem="false" />
-			</h:panelGrid>
-			<h1 class="title ui-widget-header ui-corner-all">Foto/Album</h1>
-			<div style="padding-left: 5px">
-				<p:graphicImage id="idfoto" value="#{parametro.servletImagenes}#{mascotaBean.petfotomascota.ruta}?w=150" style="max-height: 100px" />
+		<p:panel id="pnlMascotaContent">
+			<div class="area-botones">
+				<my:buttons labelButtonAceptar="Grabar" 
+					renderedButtonAceptar="true"
+					onclickButtonAceptar="varGrabarMascota.show()"
+					immediateButtonAceptar="true"
+					renderedButtonEliminar="#{mascotaBean.idmascota > 0}"
+					onclickButtonEliminar="varEliminarMascota.show()"
+					immediateButtonEliminar="true"
+					renderedButtonCancelar="true" 
+					labelButtonCancelar="Regresar"
+					onclickButtonCancelar="redirect('mascotas.jsf?iditem='+#{menuBean.activeIdItem});"
+					renderedButtonNewItem="false" />
 			</div>
-			<br />
-			<h:outputLabel value="&#8226; " rendered="#{mascotaBean.idmascota > 0}" for="idlinkalbum" />
-			<h:link id="idlinkalbum" value="Album" outcome="album.jsf" rendered="#{mascotaBean.idmascota gt 0}">
-				<f:param name="idmascota" value="#{mascotaBean.idmascota}"/>
-				<f:param name="iditem" value="#{menuBean.activeIdItem}"/>
-			</h:link>
-			
-			<h1 class="title ui-widget-header ui-corner-all">Código</h1>
-			<h:outputText value="#{mascotaBean.petmascotahomenaje.idmascota}" />
-			<br /><br />
-			
-			<h1 class="title ui-widget-header ui-corner-all">Código Veterinaria</h1>
-			<p:focus for="idmascotaveterinaria"/>
-			<p:inputText id="idmascotaveterinaria" value="#{mascotaBean.petmascotahomenaje.idmascotaveterinaria}" />
-			<br /><br />
-			
-			<h1 class="title ui-widget-header ui-corner-all">Nombre</h1>
-			<p:inputText id="idnombre" value="#{mascotaBean.petmascotahomenaje.nombre}" size="200" style="max-width: 760px" required="true" requiredMessage="El Nombre es obligatorio." />
-			<br /><br />
-			
-			<h1 class="title ui-widget-header ui-corner-all">Número de Identificación</h1>
-			<p:selectOneMenu id="idtipoidentificacion" value="#{mascotaBean.cottipoidentificacionselected.idtipoidentificacion}">
-			    <f:selectItems value="#{mascotaBean.lisCottipoidentificacion}" var="i" itemLabel="#{i.nombre}" itemValue="#{i.idtipoidentificacion}" />
-			</p:selectOneMenu>
-			<p:inputText id="idnumeroidentificacion" style="vertical-align: top;" value="#{mascotaBean.petmascotahomenaje.numeroidentificacion}" size="15" />
-			<br /><br />
-			
-			<h1 class="title ui-widget-header ui-corner-all">Propietario</h1>
-			<br />
-			<h:outputLabel id="idlblpropietariop" value="Buscar por Nombres: " for="idpropietariop" />
-			<p:autoComplete id="idpropietariop" size="80" value="#{mascotaBean.cotpersonaselected}" completeMethod="#{mascotaBean.buscarPropietarios}" 
-			var="p" itemLabel="#{p.nombre1} #{p.nombre2} #{p.apellido1} #{p.apellido2}" itemValue="#{p}" converter="persona" minQueryLength="1"  
-			forceSelection="true" required="true" requiredMessage="El Propietario es obligatorio" >
-				<p:ajax event="itemSelect" update=":form-contentpage:idpanelpropietario, :form-contentpage:mensajes"></p:ajax>
-			</p:autoComplete>
-			<br /><br />
-			
-			<h:panelGrid id="idpanelpropietario" columns="2" >
-				<h:outputLabel id="idlblnombrep" value="Nombre: " for="idnombrep" />
-				<h:link id="idnombrep" outcome="persona.xhtml" value="#{mascotaBean.cotpersonaselected.nombre1} #{mascotaBean.cotpersonaselected.nombre2} #{mascotaBean.cotpersonaselected.apellido1} #{mascotaBean.cotpersonaselected.apellido2}" target="_blank">
-					<f:param name="idpersona" value="#{mascotaBean.cotpersonaselected.idpersona}"></f:param>
-					<f:param name="iditem" value="36"></f:param>
-				</h:link>
-				
-				<h:outputLabel id="idlblidentificacionp" value="No. Identificación: " for="ididentificacionp" />
-				<h:outputText id="ididentificacionp" value="#{mascotaBean.cotpersonaselected.numeroidentificacion}" />
 
-				<h:outputLabel id="idlblemailp" value="E-mail: " for="idemailp" />
-				<h:outputText id="idemailp" value="#{mascotaBean.cotpersonaselected.email}" />
+			<div class="cuerpo">
+				<p:panelGrid id="pnlGridGeneral" style="width: 100%" columnClasses="col1,col2">
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Código Interno</div>
+					</p:column>
+					</p:row>
+
+					<p:row>
+					<p:column colspan="2">
+					<h:outputText value="#{mascotaBean.petmascotahomenaje.idmascota}" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column  colspan="2">
+					<div class="titulo">Código de Veterinaria</div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:inputText id="txtCodigoVeterinaria" value="#{mascotaBean.petmascotahomenaje.idmascotaveterinaria}" 
+					style="width: 150px;" />
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtCodigoVeterinaria" for="txtCodigoVeterinaria" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column  colspan="2">
+					<div class="titulo">Nombre de la Mascota<span style="color: red;">*</span></div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:inputText id="txtNombreMascota"
+						value="#{mascotaBean.petmascotahomenaje.nombre}" size="200"
+						required="true"
+						requiredMessage="El Nombre de la Mascota es obligatorio." />
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtNombreMascota" for="txtNombreMascota" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column  colspan="2">
+					<div class="titulo">Número de Identificación</div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:selectOneMenu id="cmbTipoIdentificacion" style="float: left;"
+						value="#{mascotaBean.petmascotahomenaje.cottipoidentificacion.idtipoidentificacion}">
+						<f:selectItem itemLabel="Seleccione" itemValue="" />
+						<f:selectItems value="#{mascotaBean.lisCottipoidentificacion}"
+							var="i" itemLabel="#{i.nombre}"
+							itemValue="#{i.idtipoidentificacion}" />
+					</p:selectOneMenu>
+					<p:message id="msgcmbTipoIdentificacion" for="cmbTipoIdentificacion" display="icon" />
+					<p:inputText id="txtNumeroIdentificacion" style="width:150px;"
+						value="#{mascotaBean.petmascotahomenaje.numeroidentificacion}"
+						size="15"  />
+					<p:message id="msgtxtNumeroIdentificacion" for="txtNumeroIdentificacion" display="icon" />
+					</p:column>
+					<p:column>
+					<h:outputText value="" />
+					</p:column>
+					</p:row>
 	
-				<h:outputLabel id="idlbltelefonop" value="Teléfono: " for="idtelefonop" />
-				<h:outputText id="idtelefonop" value="#{mascotaBean.cotpersonaselected.telefono}" />
+					<p:row>
+					<p:column  colspan="2">
+					<h:panelGroup id="idpanellabelgaleria">
+					<h:outputLabel id="lblFotos" for="idgalleria" rendered="#{mascotaBean.lisPetfotomascota.size() > 0}" >
+					<div class="titulo">Fotos</div>
+					</h:outputLabel>
+					</h:panelGroup>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<h:panelGroup id="idpanelgaleria" >
+					<center>
+					<p:galleria id="idgalleria" value="#{mascotaBean.lisPetfotomascota}" var="item" transitionInterval="0" panelWidth="500" panelHeight="400" rendered="#{mascotaBean.lisPetfotomascota.size() > 0}">
+		        <p:graphicImage id="idfotos" value="#{parametro.servletImagenes}#{item.ruta}?w=60" style="max-height: 58px;" />
+		        <p:galleriaContent>  
+	            <h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1" style="background-color: #eaeaea;height: 300px;" >  
+			        	<f:facet name="header">
+		            	<p:graphicImage id="idfoto" value="#{parametro.servletImagenes}#{item.ruta}?w=400" style="max-height: 300px; padding-top: 10px" />
+		            	
+		            	<p:commandButton id="idbuttonprincipal" title="Colocar como foto principal" icon="ui-icon ui-icon-person" immediate="true" onclick="vardialogprincipal.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:pnlFotoPrincipal" >
+					        	<f:setPropertyActionListener value="#{item}" target="#{mascotaBean.petfotomascotaSeleccionado}" />
+					        </p:commandButton>
+					        <p:commandButton id="idbuttondelete"  title="Eliminar foto permanentemente" icon="ui-icon ui-icon-trash" immediate="true" onclick="vardialogdelete.show()" style="position:absolute;right:0px;top:60px;" update=":form-contentpage:pnlEliminarPrincipal">
+					        	<f:setPropertyActionListener value="#{item}" target="#{mascotaBean.petfotomascotaSeleccionado}" />
+					        </p:commandButton>
+				        </f:facet>
+					    </h:panelGrid>
+					    <h:outputLabel value="Descripción de la Foto" for="txtDescripcionFoto" />
+					    <p:inputTextarea id="txtDescripcionFoto" value="#{item.descripcion}" maxlength="500" />
+						</p:galleriaContent>
+					</p:galleria>
+					</center>
+					</h:panelGroup>
+					</p:column>
+					<p:column>
+					<h:outputText value="" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column  colspan="2">
+					<div class="titulo">Agregar Foto</div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<p:panel id="pnlPrevia" styleClass="panel-previa">
+						<table>
+						<tr>
+						<td>
+						<p:graphicImage id="idfotoseleccionada" value="#{usuarioBean.streamedContent}" rendered="#{mascotaBean.fotoSubida}" />
+						</td>
+						<td style="vertical-align: top;">
+						<p:commandButton id="btnBorraFoto" icon="ui-icon ui-icon-trash" action="#{mascotaBean.borrarFotoSubida()}" update="pnlPrevia,pnlTituloDescripcionFoto,pnlTxtDescripcionFoto" process="pnlPrevia" rendered="#{mascotaBean.fotoSubida}" />
+						</td>
+						</tr>
+						</table>
+					</p:panel>
+					<p:fileUpload id="idSubeFotos" fileUploadListener="#{mascotaBean.handleFileUpload}" mode="advanced" 
+					cancelLabel="Cancelar" uploadLabel="Subir Foto" label="Elegir Foto" sizeLimit="#{mascotaBean.maxfilesize}" showButtons="false"
+					update="mensajes,pnlPrevia,pnlTituloDescripcionFoto,pnlTxtDescripcionFoto" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" widgetVar="widgetVar"/>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<h:panelGroup id="pnlTituloDescripcionFoto">
+					<h:outputLabel for="txtDescripcionFoto" rendered="#{mascotaBean.fotoSubida}" >
+					<div class="titulo">Descripción de la Foto</div>
+					</h:outputLabel>
+					</h:panelGroup>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<h:panelGroup id="pnlTxtDescripcionFoto">
+					<p:inputTextarea id="txtDescripcionFoto2" value="#{mascotaBean.descripcionFoto}" maxlength="500" autoResize="false" rendered="#{mascotaBean.fotoSubida}" />
+					</h:panelGroup>
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtDescripcionFoto2" for="txtDescripcionFoto2" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Escriba Nombre del Propietario de la Mascota<span style="color: red;">*</span></div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:autoComplete id="cmbPropietario" size="80"
+						value="#{mascotaBean.petmascotahomenaje.cotpersona}"
+						completeMethod="#{mascotaBean.buscarPropietarios}" var="p"
+						itemLabel="#{p.nombre1} #{p.nombre2} #{p.apellido1} #{p.apellido2}"
+						itemValue="#{p}" converter="persona" minQueryLength="1"
+						forceSelection="true" required="true"
+						requiredMessage="El Propietario de la Mascota es obligatorio">
+						<p:ajax event="itemSelect"
+							update=":form-contentpage:idpanelpropietario, :form-contentpage:mensajes"></p:ajax>
+					</p:autoComplete>
+					</p:column>
+					<p:column>
+					<p:message id="msgcmbPropietario" for="cmbPropietario" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<h:panelGrid id="idpanelpropietario" columns="2">
+						<h:outputLabel value="Nombre: " for="idnombrep" />
+						<h:link id="idnombrep" outcome="persona.xhtml"
+							value="#{mascotaBean.petmascotahomenaje.cotpersona.nombre1} #{mascotaBean.petmascotahomenaje.cotpersona.nombre2} #{mascotaBean.petmascotahomenaje.cotpersona.apellido1} #{mascotaBean.petmascotahomenaje.cotpersona.apellido2}"
+							target="_blank">
+							<f:param name="idpersona"
+								value="#{mascotaBean.petmascotahomenaje.cotpersona.idpersona}"></f:param>
+							<f:param name="iditem" value="36"></f:param>
+						</h:link>
 	
-				<h:outputLabel id="idlbldireccionp" value="Dirección: " for="iddireccionp" />
-				<h:outputText id="iddireccionp" value="#{mascotaBean.cotpersonaselected.direccion}" />
-			</h:panelGrid>
-			<br /><br />
-			<h1 class="title ui-widget-header ui-corner-all">Especie</h1>
-			<p:selectOneMenu id="idespeciemascota" style="width: 145px; align: center;" value="#{mascotaBean.petmascotahomenaje.petespecie.idespecie}" >
-				<f:selectItem itemLabel="Seleccione" itemValue="0"/>
-				<f:selectItems value="#{mascotaBean.lisPetespecie}" var="especie" itemLabel="#{especie.nombre}" itemValue="#{especie.idespecie}"></f:selectItems>
-			</p:selectOneMenu>
-			<br /><br />
-			<h1 class="title ui-widget-header ui-corner-all">Raza</h1>
-            <p:selectOneMenu id="idrazalist" value="#{mascotaBean.petmascotahomenaje.petraza.idraza}" style="width: 150px" required="false">
-			    <f:selectItems value="#{mascotaBean.lisRaza}" var="raza" itemLabel="#{raza.nombre}" itemValue="#{raza.idraza}"/>
-			</p:selectOneMenu>
-			<br /><br />
-			<h1 class="title ui-widget-header ui-corner-all">Sexo</h1>
-			<p:selectOneMenu id="idsexolist" value="#{mascotaBean.petmascotahomenaje.sexo}" >
-                <f:selectItem itemLabel="Macho" itemValue="1" />
-                <f:selectItem itemLabel="Hembra" itemValue="2" />
-            </p:selectOneMenu>
-			<br /><br />
+						<h:outputLabel value="No. Identificación: " for="ididentificacionp" />
+						<h:outputText id="ididentificacionp"
+							value="#{mascotaBean.petmascotahomenaje.cotpersona.numeroidentificacion}" />
+	
+						<h:outputLabel value="E-mail: " for="idemailp" />
+						<h:outputText id="idemailp"
+							value="#{mascotaBean.petmascotahomenaje.cotpersona.email}" />
+	
+						<h:outputLabel value="Teléfono: " for="idtelefonop" />
+						<h:outputText id="idtelefonop"
+							value="#{mascotaBean.petmascotahomenaje.cotpersona.telefono}" />
+	
+						<h:outputLabel value="Dirección: " for="iddireccionp" />
+						<h:outputText id="iddireccionp"
+							value="#{mascotaBean.petmascotahomenaje.cotpersona.direccion}" />
+					</h:panelGrid>
+					</p:column>
+					</p:row>
+	
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Especie<span style="color: red;">*</span></div>
+					</p:column>
+					<p:column>
+					<h:outputText value="" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:selectOneMenu id="cmbEspecie"
+						style="width: 150px; align: center;" required="true" requiredMessage="La Especie es Obligatoria."
+						value="#{mascotaBean.petmascotahomenaje.petespecie.idespecie}">
+						<f:selectItem itemLabel="Seleccione" itemValue="" />
+						<f:selectItems value="#{mascotaBean.lisPetespecie}" var="especie"
+							itemLabel="#{especie.nombre}" itemValue="#{especie.idespecie}" />
+						<!-- <f:ajax event="change" listener="#{mascotaBeann.llenarLisRaza()}" render=":form-contentpage:cmbRaza :form-contentpage:mensajes" /> -->
+						<p:ajax event="change" listener="#{mascotaBean.llenarLisRaza()}" update=":form-contentpage:cmbRaza :form-contentpage:mensajes"></p:ajax>
+					</p:selectOneMenu>
+					</p:column>
+					<p:column>
+					<p:message id="msgcmbEspecie" for="cmbEspecie" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Raza<span style="color: red;">*</span></div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:selectOneMenu id="cmbRaza"
+						value="#{mascotaBean.petmascotahomenaje.petraza.idraza}"
+						style="width: 150px" required="true" requiredMessage="La Raza es obligatoria.">
+						<f:selectItem itemLabel="Seleccione" itemValue="" />
+						<f:selectItems value="#{mascotaBean.lisRaza}" var="raza"
+							itemLabel="#{raza.nombre}" itemValue="#{raza.idraza}" />
+					</p:selectOneMenu>
+					</p:column>
+					<p:column>
+					<p:message id="msgcmbRaza" for="cmbRaza" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Sexo</div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:selectOneMenu id="cmbSexoMascota" style="width: 150px;"
+						value="#{mascotaBean.petmascotahomenaje.sexo}">
+						<f:selectItem itemLabel="Macho" itemValue="1" />
+						<f:selectItem itemLabel="Hembra" itemValue="2" />
+					</p:selectOneMenu>
+					</p:column>
+					<p:column>
+					<p:message id="msgcmbSexoMascota" for="cmbSexoMascota" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Características</div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:inputTextarea id="txtCaracteristicas"
+						value="#{mascotaBean.petmascotahomenaje.caracteristicas}"
+						required="false"
+						requiredMessage="El campo 'Características' es obligatorio."
+						maxlength="300" />
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtCaracteristicas" for="txtCaracteristicas" display="icon" />
+					</p:column>
+					</p:row>
+	
+					<p:row>
+					<p:column>
+					<p:selectBooleanCheckbox itemLabel="Pedigree"
+						value="#{mascotaBean.petmascotahomenaje.pedigree}"></p:selectBooleanCheckbox>
+					</p:column>
+					<p:column>
+					<h:outputText value="" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:selectBooleanCheckbox itemLabel="Microchip"
+						value="#{mascotaBean.petmascotahomenaje.microchip}"></p:selectBooleanCheckbox>
+					</p:column>
+					<p:column>
+					<h:outputText value="" />
+					</p:column>
+					</p:row>
+	
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Peso</div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:inputText id="txtPeso"
+						value="#{mascotaBean.petmascotahomenaje.pesokg}" required="false"
+						requiredMessage="El Peso es obligatorio." style="width: 150px;" />kg
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtPeso" for="txtPeso" display="icon" />
+					</p:column>
+					</p:row>
 			
-			
-			
-			<h1 class="title ui-widget-header ui-corner-all">Características</h1>
-			<p:inputTextarea id="idCaracteristicas" value="#{mascotaBean.petmascotahomenaje.caracteristicas}" style="max-width: 760px; min-width: 760px; max-height: 25px; min-height: 25px; " required="false" requiredMessage="El campo 'Características' es obligatorio." maxlength="300" />
-			<br /><br />
-			<p:selectBooleanCheckbox itemLabel="Pedigree" value="#{mascotaBean.petmascotahomenaje.pedigree}"></p:selectBooleanCheckbox>
-			&nbsp;<p:selectBooleanCheckbox itemLabel="Microchip" value="#{mascotaBean.petmascotahomenaje.microchip}"></p:selectBooleanCheckbox>
-			<br /><br />
-			
-			<h1 class="title ui-widget-header ui-corner-all">Peso</h1>
-			<p:inputText id="idpeso" value="#{mascotaBean.petmascotahomenaje.pesokg}" required="false" requiredMessage="El Peso es obligatorio." />kg
-			<br /><br />
-			
-			<h1 class="title ui-widget-header ui-corner-all">Fecha de Nacimiento</h1>
-			<p:calendar id="idfechanacimiento" value="#{mascotaBean.petmascotahomenaje.fechanacimiento}" yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />
-			<br /><br />
-			
-			<h1 class="title ui-widget-header ui-corner-all">Fecha de Fallecimiento</h1>
-			<p:calendar id="idfechanfallecimiento" value="#{mascotaBean.petmascotahomenaje.fechafallecimiento}" yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy" navigator="true" />
-			<br /><br />
-			<h1 class="title ui-widget-header ui-corner-all">Colores</h1>
-			<p:selectOneMenu id="idcolorlist" value="#{mascotaBean.cotcolorselected}" var="c" converter="color">
-			    <f:selectItems value="#{mascotaBean.lisColor}" var="i" itemLabel="#{i.nombre}" itemValue="#{i}" />
-			    <p:column>
-			        <div style="height: 30px; width: 30px; border-style: ridge; borderborder-width: 1px; background-color: ##{c.hex}"></div>
-			    </p:column>
-			    <p:column>
-			    	#{c.nombre}
-			    </p:column>
-			</p:selectOneMenu>
-			<p:commandButton id="idagregarcolor" icon="ui-icon ui-icon-plus" title="Agregar" style="vertical-align: top;" action="#{mascotaBean.agregarColor()}" update=":form-contentpage:mensajes, :form-contentpage:idcoloresmascota"></p:commandButton>
-			<br />
-			<p:panel id="idcoloresmascota" style="border: none; overflow: visible;" >
-				<ui:repeat var="color" value="#{mascotaBean.lisPetmascotacolor}">
-					<div style="float: left; width:35px; height: 60px;  ">
-						<center>
-						<div style="width:30px; height: 30px; border-style: solid; border-width: 1px; background: ##{color.cotcolor.hex}" title="#{color.cotcolor.nombre}"></div>
-						<p:commandButton icon="ui-icon ui-icon-minus" title="Quitar" action="#{mascotaBean.quitarColor()}" update=":form-contentpage:mensajes, :form-contentpage:idcoloresmascota">
-							<f:setPropertyActionListener target="#{mascotaBean.idcolorselected}" value="#{color.cotcolor.idcolor}" />
-						</p:commandButton>
-						</center>
-					</div>
-				</ui:repeat>
-			</p:panel>
-			<br clear="left"/>
-			
-            <h:panelGrid id="panelgridbuttonsdown" columns="1" style="padding: 10px 10px 0 0;">
-				<my:buttons renderedButtonAceptar="true" onclickButtonAceptar="vardialoggrabar.show()" 
-				renderedButtonEliminar="#{mascotaBean.idmascota > 0}" onclickButtonEliminar="vardialogdelete.show()" 
-				renderedButtonCancelar="true" labelButtonCancelar="Ir a Mascotas" onclickButtonCancelar="redirect('mascotas.jsf?iditem='+#{menuBean.activeIdItem});"
-				renderedButtonNewItem="false" />
-            </h:panelGrid>
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Fecha de Nacimiento</div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:calendar id="txtFechaNacimiento" styleClass="calendario"
+						value="#{mascotaBean.petmascotahomenaje.fechanacimiento}"
+						yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy"
+						navigator="true" />
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtFechaNacimiento" for="txtFechaNacimiento" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Fecha de Fallecimiento<span style="color: red;">*</span></div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:calendar id="txtFechaFallecimiento" styleClass="calendario"
+						value="#{mascotaBean.petmascotahomenaje.fechafallecimiento}"
+						yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy"
+						navigator="true" required="true" requiredMessage="La Fecha de Fallecimiento es obligatoria." />
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtFechaFallecimiento" for="txtFechaFallecimiento" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Colores</div>
+					</p:column>
+					</p:row>
+	
+					<p:row>
+					<p:column>
+					<p:selectOneMenu id="cmbColor"
+						value="#{mascotaBean.cotcolorselected}" var="c" converter="color">
+						<f:selectItem itemLabel="Seleccione" itemValue="" />
+						<f:selectItems value="#{mascotaBean.lisColor}" var="i"
+							itemLabel="#{i.nombre}" itemValue="#{i}" />
+						<p:column>
+							<div
+								style="height: 30px; width: 30px; border-style: ridge; borderborder-width: 1px; background-color: ##{c.hex}"></div>
+						</p:column>
+						<p:column>
+					    	#{c.nombre}
+					    </p:column>
+					</p:selectOneMenu>
+					<p:commandButton id="btnAgregarColor" icon="ui-icon ui-icon-plus"
+						title="Agregar" style="vertical-align: top;"
+						action="#{mascotaBean.agregarColor()}"
+						update="mensajes,pnlColores,cmbColor" 
+						process="cmbColor"
+						/>
+					</p:column>
+					<p:column>
+					<p:message id="msgcmbColor" for="cmbColor" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<p:panel id="pnlColores"
+						style="border: none; overflow: visible;">
+						<ui:repeat var="color" value="#{mascotaBean.lisPetmascotacolor}">
+							<div style="float: left; width: 35px; height: 60px;">
+								<center>
+									<div
+										style="width:30px; height: 30px; border-style: solid; border-width: 1px; background: ##{color.cotcolor.hex}"
+										title="#{color.cotcolor.nombre}"></div>
+									<p:commandButton icon="ui-icon ui-icon-minus" title="Quitar"
+										action="#{mascotaBean.quitarColor()}"
+										update=":form-contentpage:mensajes, :form-contentpage:pnlColores">
+										<f:setPropertyActionListener
+											target="#{mascotaBean.idcolorselected}"
+											value="#{color.cotcolor.idcolor}" />
+									</p:commandButton>
+								</center>
+							</div>
+						</ui:repeat>
+					</p:panel>
+					</p:column>
+					</p:row>
+				</p:panelGrid>	
+			</div>
+			<div class="area-botones">
+				<my:buttons labelButtonAceptar="Grabar" 
+					renderedButtonAceptar="true"
+					onclickButtonAceptar="varGrabarMascota.show()"
+					immediateButtonAceptar="true"
+					renderedButtonEliminar="#{mascotaBean.idmascota > 0}"
+					onclickButtonEliminar="varEliminarMascota.show()"
+					immediateButtonEliminar="true"
+					renderedButtonCancelar="true" 
+					labelButtonCancelar="Regresar"
+					onclickButtonCancelar="redirect('mascotas.jsf?iditem='+#{menuBean.activeIdItem});"
+					renderedButtonNewItem="false" />
+			</div>
 		</p:panel>
-		<p:dialog id="iddialoggrabar" header="Mascota" closable="true" widgetVar="vardialoggrabar" modal="true" >
-			<h:panelGrid id="idpanelgrabar" columns="2" >
-				<h:outputText id="idlabelgrabar" value="Confirme si desea grabar el registro" />
-				<h:panelGrid columns="2" >
-					<p:commandButton value="SI" style="width: 50px" actionListener="#{mascotaBean.grabar()}" oncomplete="vardialoggrabar.hide()" update=":form-contentpage:mensajes, :form-contentpage:panel-mascotacontent" />
-					<p:commandButton value="NO" style="width: 50px" onclick="vardialoggrabar.hide()" />
+		<p:dialog id="dlgGrabarMascota" header="Mascota" closable="true"
+			widgetVar="varGrabarMascota" modal="true">
+			<h:panelGrid id="pnlDlgGrabarMascota" columns="2">
+				<h:outputText value="Confirme si desea grabar el registro" />
+				<h:panelGrid columns="2">
+					<p:commandButton value="SI" style="width: 50px"
+						actionListener="#{mascotaBean.grabar()}"
+						oncomplete="varGrabarMascota.hide()"
+						update="mensajes,txtNombreMascota,msgtxtNombreMascota,cmbPropietario,msgcmbPropietario,
+						cmbEspecie,msgcmbEspecie,cmbRaza,msgcmbRaza,txtFechaFallecimiento,msgtxtFechaFallecimiento" />
+					<p:commandButton value="NO" style="width: 50px"
+						onclick="varGrabarMascota.hide()" immediate="true" />
 				</h:panelGrid>
 			</h:panelGrid>
 		</p:dialog>
-		<p:dialog id="iddialogdelete" header="Mascota" closable="true" widgetVar="vardialogdelete" modal="true" >
-			<h:panelGrid id="idpaneldelete" columns="2">
-				<h:outputText id="idlabeldelete" value="Confirme si desea eliminar el registro" />
-				<h:panelGrid columns="2" >
-					<p:commandButton value="SI" style="width: 50px" actionListener="#{mascotaBean.eliminar()}" oncomplete="vardialogdelete.hide()" update=":form-contentpage:mensajes" />
-					<p:commandButton value="NO" style="width: 50px" onclick="vardialogdelete.hide()" />
+		<p:dialog id="dlgEliminarMascota" header="Mascota" closable="true"
+			widgetVar="varEliminarMascota" modal="true">
+			<h:panelGrid id="pnlDlgEliminarMascota" columns="2">
+				<h:outputText value="Confirme si desea eliminar el registro" />
+				<h:panelGrid columns="2">
+					<p:commandButton value="SI" style="width: 50px"
+						actionListener="#{mascotaBean.eliminar()}"
+						oncomplete="varEliminarMascota.hide()"
+						update=":form-contentpage:mensajes" />
+					<p:commandButton value="NO" style="width: 50px"
+						onclick="varEliminarMascota.hide()" immediate="true" />
 				</h:panelGrid>
+			</h:panelGrid>
+		</p:dialog>
+		<p:dialog id="dlgFotoPrincipal" header="Foto Principal" closable="true" widgetVar="vardialogprincipal" modal="true" style="min-height: 80px; width: 450px">
+			<h:panelGrid id="pnlFotoPrincipal" columns="2" width="100%">
+				<p:graphicImage value="#{parametro.servletImagenes}#{mascotaBean.petfotomascotaSeleccionado.ruta}?w=150" style="max-height: 50px" />
+				<h:outputText value="¿Seleccionar imágen como foto principal?" />
+				<h:outputText value="" />
+				<p:panelGrid style="width: 100%; text-align: right;">
+					<p:row>
+					<p:column>
+					<p:commandButton value="Confirmar" action="#{mascotaBean.ponerFotoPrincipal()}" onclick="vardialogprincipal.hide()" update="mensajes" />
+					<p:commandButton value="Cancelar" immediate="true" onclick="vardialogprincipal.hide()" />
+					</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:panelGrid>
+		</p:dialog>
+		<p:dialog id="dlgEliminarPrincipal"  header="Eliminar Foto" closable="true" widgetVar="vardialogdelete" modal="true" style="min-height: 80px; width: 450px">
+			<h:panelGrid id="pnlEliminarPrincipal" columns="2" width="100%">
+				<p:graphicImage value="#{parametro.servletImagenes}#{mascotaBean.petfotomascotaSeleccionado.ruta}?w=150" style="max-height: 50px" />
+				<h:outputText value="¿Quitar foto?" />
+				<h:outputText value="" />
+				<p:panelGrid style="width: 100%; text-align: right;">
+					<p:row>
+					<p:column>
+					<p:commandButton value="Confirmar" action="#{mascotaBean.quitarFotoGaleria()}" onclick="vardialogdelete.hide()" update=":form-contentpage:idpanellabelgaleria, :form-contentpage:idpanelgaleria, :form-contentpage:mensajes" />
+					<p:commandButton value="Cancelar" immediate="true" onclick="vardialogdelete.hide()" />
+					</p:column>
+					</p:row>
+				</p:panelGrid>
 			</h:panelGrid>
 		</p:dialog>
 	</h:form>

@@ -21,6 +21,25 @@ public class PetmascotaDAO {
 		return max;
 	}
 	
+	public Petmascotahomenaje getPetmascotaById(Session session, int id) throws Exception {
+		Petmascotahomenaje petmascotahomenaje = new Petmascotahomenaje();
+		
+		Criteria criteria = session.createCriteria(Petmascotahomenaje.class)
+		.add( Restrictions.eq("idmascota", id) )
+		.add( Restrictions.eq("setestado.idestado", 1))
+		.createAlias("cotpersona","persona", Criteria.LEFT_JOIN)
+		.createAlias("petraza","raza", Criteria.LEFT_JOIN)
+		.createAlias("petespecie", "especie")
+		.createAlias("cottipoidentificacion", "tipoidentificacion", Criteria.LEFT_JOIN)
+		//.createAlias("petfotomascotas", "foto", Criteria.LEFT_JOIN, Restrictions.eq("foto.setestado.idestado", 1))
+		//.add( Restrictions.eq("foto.setestado.idestado", 1))
+		;
+		
+		petmascotahomenaje = (Petmascotahomenaje) criteria.uniqueResult();
+		
+		return petmascotahomenaje;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Petmascotahomenaje> lisPetmascota(Session session, int especie) throws Exception {
 		List<Petmascotahomenaje> lisPetmascota = null;
@@ -28,7 +47,7 @@ public class PetmascotaDAO {
 		Criteria criteria = session.createCriteria(Petmascotahomenaje.class)
 		.add( Restrictions.eq("petespecie.idespecie", especie) )
 		.add( Restrictions.eq("setestado.idestado", 1) )
-		.addOrder(Order.asc("nombre"));
+		.addOrder(Order.asc("nombre").ignoreCase());
 		
 		lisPetmascota = (List<Petmascotahomenaje>) criteria.list();
 
@@ -52,7 +71,7 @@ public class PetmascotaDAO {
 			criteria.add( Restrictions.like("nombre", "%"+nombre.replaceAll(" ", "%")+"%").ignoreCase());
 		}
 		
-		criteria.addOrder(Order.asc("nombre"))
+		criteria.addOrder(Order.asc("nombre").ignoreCase())
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
 			
@@ -67,7 +86,7 @@ public class PetmascotaDAO {
 			.createAlias("cotpersona", "persona", Criteria.LEFT_JOIN);
 			
 			if(especie > 0){
-				criteria.add( Restrictions.eq("petespecie.idespecie", especie) );
+				criteriaCount.add( Restrictions.eq("petespecie.idespecie", especie) );
 			}
 			
 			if(nombre != null && nombre.trim().length() > 0){
@@ -98,7 +117,7 @@ public class PetmascotaDAO {
 			criteria.add( Restrictions.like("nombre", "%"+nombre.replaceAll(" ", "%")+"%").ignoreCase());
 		}
 		
-		criteria.addOrder(Order.asc("nombre"))
+		criteria.addOrder(Order.asc("nombre").ignoreCase())
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
 			
@@ -163,7 +182,7 @@ public class PetmascotaDAO {
 			criteria.add(Restrictions.sqlRestriction(query));
 		}
 		
-		criteria.addOrder(Order.asc("nombre"));
+		criteria.addOrder(Order.asc("nombre").ignoreCase());
 		
 		lisPetmascotahomenaje = criteria.list();
 		
@@ -190,6 +209,9 @@ public class PetmascotaDAO {
 		if(petmascotahomenaje.getSexo() != null && petmascotahomenaje.getSexo() > 0){
 			criteria.add(Restrictions.eq("sexo", petmascotahomenaje.getSexo()));
 		}
+		if(petmascotahomenaje.getCotpersona() != null && petmascotahomenaje.getCotpersona().getIdpersona() > 0){
+			criteria.add(Restrictions.eq("cotpersona.idpersona", petmascotahomenaje.getCotpersona().getIdpersona()));
+		}
 
 		if(caracteristicas != null && caracteristicas.length > 0){
 			String query = "(";
@@ -205,7 +227,7 @@ public class PetmascotaDAO {
 			criteria.add(Restrictions.sqlRestriction(query));
 		}
 		
-		criteria.addOrder(Order.asc("nombre"))
+		criteria.addOrder(Order.asc("nombre").ignoreCase())
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
 		
@@ -228,6 +250,9 @@ public class PetmascotaDAO {
 			}
 			if(petmascotahomenaje.getSexo() != null && petmascotahomenaje.getSexo() > 0){
 				criteriaCount.add(Restrictions.eq("sexo", petmascotahomenaje.getSexo()));
+			}
+			if(petmascotahomenaje.getCotpersona() != null && petmascotahomenaje.getCotpersona().getIdpersona() > 0){
+				criteriaCount.add(Restrictions.eq("cotpersona.idpersona", petmascotahomenaje.getCotpersona().getIdpersona()));
 			}
 
 			if(caracteristicas != null && caracteristicas.length > 0){
@@ -257,31 +282,6 @@ public class PetmascotaDAO {
 		}
 		
 		return lisPetmascotahomenaje;
-	}
-	
-	public Petmascotahomenaje getPetmascotaById(Session session, int id) throws Exception {
-		Petmascotahomenaje petmascotahomenaje = new Petmascotahomenaje();
-		
-		Criteria criteria = session.createCriteria(Petmascotahomenaje.class)
-		.add( Restrictions.eq("idmascota", id) )
-		.add( Restrictions.eq("setestado.idestado", 1))
-		.createAlias("cotpersona","persona", Criteria.LEFT_JOIN)
-		.createAlias("petraza","raza", Criteria.LEFT_JOIN)
-		.createAlias("petespecie", "especie")
-		.createAlias("cottipoidentificacion", "tipoidentificacion", Criteria.LEFT_JOIN)
-		;
-		
-		petmascotahomenaje = (Petmascotahomenaje) criteria.uniqueResult();
-		
-		return petmascotahomenaje;
-	}
-	
-	public void savePetmascota(Session session, Petmascotahomenaje petmascotahomenaje) throws Exception {
-		session.save(petmascotahomenaje);
-	}
-	
-	public void updatePetmascota(Session session, Petmascotahomenaje petmascotahomenaje) throws Exception {
-		session.update(petmascotahomenaje);
 	}
 	
 	public List<Petmascotahomenaje> lisMascotas(Session session, int especie) throws Exception {
@@ -369,4 +369,11 @@ public class PetmascotaDAO {
 		return lisPetmascotahomenaje;
 	}
 
+	public void savePetmascota(Session session, Petmascotahomenaje petmascotahomenaje) throws Exception {
+		session.save(petmascotahomenaje);
+	}
+	
+	public void updatePetmascota(Session session, Petmascotahomenaje petmascotahomenaje) throws Exception {
+		session.update(petmascotahomenaje);
+	}
 }

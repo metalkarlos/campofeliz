@@ -1,17 +1,15 @@
 package com.web.pet.bean;
 
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import com.web.util.FileUtil;
+import org.primefaces.context.RequestContext;
+
+import com.web.util.FacesUtil;
 import com.web.util.MessageUtil;
-import com.web.util.Utilities;
 
 @ManagedBean
 @ViewScoped
@@ -29,6 +27,29 @@ public class ReporteGraficoMascotasBean implements Serializable {
 		anio = Calendar.getInstance().get(Calendar.YEAR);
 	}
 	
+	public void imprimir(){
+		try {
+			FacesUtil facesUtil = new FacesUtil();
+			
+			VisorBean visorBean = (VisorBean)facesUtil.getSessionBean("visorBean");
+			
+			if(tipografico == 1){
+				visorBean.setNombreReporte("GraficaMascotasxAnio");
+			}
+			else{
+				if(tipografico == 2){
+				  visorBean.getParametros().put("P_ANIO", anio);
+				  visorBean.setNombreReporte("GraficaMascotasxMes");
+				}
+			}
+
+			RequestContext.getCurrentInstance().execute("varDlgMostrarReporte.show()");
+		}catch (Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
 	public int getTipografico() {
 		return tipografico;
 	}
@@ -43,36 +64,6 @@ public class ReporteGraficoMascotasBean implements Serializable {
 
 	public void setAnio(int anio) {
 		this.anio = anio;
-	}
-
-	public void imprimir(){
-		InputStream inputStream = null;
-		
-		try {
-			String nombreReporte = "";
-			Map<String, Object> parametros = new HashMap<String, Object>();
-			
-			FileUtil fileUtil = new FileUtil();
-			inputStream = fileUtil.getLogoEmpresaAsStream();
-			if(inputStream != null){
-				parametros.put("P_LOGO", inputStream);
-			}
-			
-			if(tipografico == 1){
-			  nombreReporte = "GraficaMascotasxAnio";
-			}
-			else{
-				if(tipografico == 2){
-				  parametros.put("P_ANIO", anio);
-				  nombreReporte = "GraficaMascotasxMes";
-				}
-			}
-			
-			new Utilities().imprimirJasperPdf(nombreReporte, parametros);
-		}catch (Exception e) {
-			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
-		}
 	}
 
 }

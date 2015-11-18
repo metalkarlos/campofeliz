@@ -32,6 +32,9 @@ public class PetordenservicioDAO {
 		.add( Restrictions.eq("idordenservicio", new Integer(idordenservicio)))
 		.add( Restrictions.eq("setestado.idestado", 1))
 		.createAlias("petmascotahomenaje", "mascota")
+		.createAlias("mascota.petespecie", "especie")
+		.createAlias("mascota.petraza", "raza")
+		.createAlias("mascota.cotpersona", "persona")
 		.createAlias("cotlugar", "lugar", Criteria.LEFT_JOIN);
 		
 		petordenservicio = (Petordenservicio) criteria.uniqueResult();
@@ -77,7 +80,7 @@ public class PetordenservicioDAO {
 		joinCotpersona.setMaxResults(pageSize)
 		//joinPetmascotahomenaje.setMaxResults(pageSize)
 		.setFirstResult(pageNumber)
-		.addOrder(Order.asc("m.nombre"));
+		.addOrder(Order.asc("m.nombre").ignoreCase());
 		/*.addOrder(Order.asc("p.apellido1"))
 		.addOrder(Order.asc("p.apellido2"))
 		.addOrder(Order.asc("p.nombre1"))

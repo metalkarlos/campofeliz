@@ -1,8 +1,6 @@
 package com.web.pet.dao;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -10,7 +8,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
-import com.web.pet.pojo.annotations.Cotfotopersona;
 import com.web.pet.pojo.annotations.Cotpersona;
 
 public class CotpersonaDAO {
@@ -46,12 +43,13 @@ public class CotpersonaDAO {
 		Criteria criteria = session.createCriteria(Cotpersona.class, "per")
 				.add( Restrictions.eq("per.idpersona", idpersona))
 				.add( Restrictions.eq("per.setestado.idestado", 1))
-				.createAlias("per.cotfotopersonas", "foto", Criteria.LEFT_JOIN)
+				//.createAlias("per.cotfotopersonas", "foto", Criteria.LEFT_JOIN, Restrictions.eq("foto.setestado.idestado", 1))
 				.createAlias("per.cottipoidentificacion", "tid", Criteria.LEFT_JOIN);
+				//.add( Restrictions.eq("foto.setestado.idestado", 1));
 		
 		cotpersona = (Cotpersona) criteria.uniqueResult();
 		
-		if(cotpersona.getCotfotopersonas() != null && cotpersona.getCotfotopersonas().size() > 0){
+		/*if(cotpersona != null && cotpersona.getCotfotopersonas() != null && cotpersona.getCotfotopersonas().size() > 0){
 			
 				Set<Cotfotopersona> tmp = new HashSet<Cotfotopersona>();
 				for(Cotfotopersona foto : cotpersona.getCotfotopersonas()){
@@ -61,7 +59,7 @@ public class CotpersonaDAO {
 				}
 				cotpersona.setCotfotopersonas(tmp);
 				
-		}
+		}*/
 		
 		return cotpersona;
 	}
@@ -90,10 +88,10 @@ public class CotpersonaDAO {
 			criteria.add(Restrictions.sqlRestriction(query));
 		}
 		
-		criteria.addOrder(Order.asc("apellido1"))
-		.addOrder(Order.asc("apellido2"))
-		.addOrder(Order.asc("nombre1"))
-		.addOrder(Order.asc("nombre2"))
+		criteria.addOrder(Order.asc("nombre1").ignoreCase())
+		.addOrder(Order.asc("nombre2").ignoreCase())
+		.addOrder(Order.asc("apellido1").ignoreCase())
+		.addOrder(Order.asc("apellido2").ignoreCase())
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
 		
@@ -194,10 +192,10 @@ public class CotpersonaDAO {
 			criteria.add( Restrictions.eq("sexo", cotpersona.getSexo()));
 		}
 		
-		criteria.addOrder(Order.asc("apellido1"))
-		.addOrder(Order.asc("apellido2"))
-		.addOrder(Order.asc("nombre1"))
-		.addOrder(Order.asc("nombre2"));
+		criteria.addOrder(Order.asc("nombre1").ignoreCase())
+		.addOrder(Order.asc("nombre2").ignoreCase())
+		.addOrder(Order.asc("apellido1").ignoreCase())
+		.addOrder(Order.asc("apellido2").ignoreCase());
 		
 		lisCotpersona = criteria.list();
 		
@@ -259,10 +257,10 @@ public class CotpersonaDAO {
 			criteria.add( Restrictions.eq("sexo", cotpersona.getSexo()));
 		}
 		
-		criteria.addOrder(Order.asc("apellido1"))
-		.addOrder(Order.asc("apellido2"))
-		.addOrder(Order.asc("nombre1"))
-		.addOrder(Order.asc("nombre2"))
+		criteria.addOrder(Order.asc("nombre1").ignoreCase())
+		.addOrder(Order.asc("nombre2").ignoreCase())
+		.addOrder(Order.asc("apellido1").ignoreCase())
+		.addOrder(Order.asc("apellido2").ignoreCase())
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
 		

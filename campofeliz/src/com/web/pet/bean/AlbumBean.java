@@ -211,7 +211,7 @@ public class AlbumBean implements Serializable {
 	
 	public String verInformacion(){
 		MenuBean menuBean = (MenuBean)new FacesUtil().getSessionBean("menuBean");
-		String url = "mascota.jsf?faces-redirect=true&idmascota="+idmascota+"&tipo="+petmascotahomenaje.getPetespecie().getIdespecie()+"&iditem="+menuBean.getActiveIdItem();
+		String url = "mascota.jsf?faces-redirect=true&idmascota="+idmascota+"&iditem="+menuBean.getActiveIdItem();
 		return url;
 	}
 

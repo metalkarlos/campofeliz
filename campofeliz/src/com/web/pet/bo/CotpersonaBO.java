@@ -115,7 +115,7 @@ public class CotpersonaBO {
 		return lisCotpersona;
 	}
 	
-	public boolean newCotpersona(Cotpersona cotpersona, Cotfotopersona cotfotopersona, UploadedFile uploadedFile) throws Exception{
+	public boolean ingresarCotpersona(Cotpersona cotpersona, Cotfotopersona cotfotopersona, UploadedFile uploadedFile) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -208,7 +208,7 @@ public class CotpersonaBO {
 		cotfotopersonaDAO.saveCotfotopersona(session, cotfotopersona);
 	}
 	
-	public boolean updateCotpersona(Cotpersona cotpersona, Cotpersona cotpersonaClon, List<Cotfotopersona> lisCotfotopersona, List<Cotfotopersona> lisCotfotopersonaClon, Cotfotopersona cotfotopersona, UploadedFile uploadedFile) throws Exception{
+	public boolean modificarCotpersona(Cotpersona cotpersona, Cotpersona cotpersonaClon, List<Cotfotopersona> lisCotfotopersona, List<Cotfotopersona> lisCotfotopersonaClon, Cotfotopersona cotfotopersona, UploadedFile uploadedFile) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -307,7 +307,7 @@ public class CotpersonaBO {
 		return ok;
 	}
 	
-	public boolean eliminar(Cotpersona cotpersona) throws Exception {
+	public boolean eliminar(Cotpersona cotpersona,List<Cotfotopersona> lisCotfotopersona) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
@@ -324,10 +324,7 @@ public class CotpersonaBO {
 			FacesUtil facesUtil = new FacesUtil();
 			String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
 			
-			for(Cotfotopersona tmp : cotpersona.getCotfotopersonas()){
-				String rutaArchivo = rutaImagenes + tmp.getRuta();
-				fileUtil.deleteFile(rutaArchivo);
-				
+			for(Cotfotopersona tmp : lisCotfotopersona){
 				//se inactivan todas las fotos asociadas a la persona
 				Setestado setestado = new Setestado();
 				setestado.setIdestado(2);
@@ -341,6 +338,10 @@ public class CotpersonaBO {
 				
 				//actualizar
 				cotfotopersonaDAO.updateCotfotopersona(session, tmp);
+				
+				//se elimina el archivo de imagen
+				String rutaArchivo = rutaImagenes + tmp.getRuta();
+				fileUtil.deleteFile(rutaArchivo);
 			}			 
 			
 			//se inactiva el registro

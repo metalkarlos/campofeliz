@@ -6,41 +6,48 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
-      
+
 	<h:form id="form-contentpage" prependId="false">
 		<p:messages id="mensajes" showDetail="false" />
 
 		<p:panel id="panel-graficomascota">
-			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
-				<my:buttons renderedButtonImprimir="true" renderedButtonAceptar="false" actionButtonImprimir="#{reporteGraficoMascotasBean.imprimir()}" 
-				renderedButtonEliminar="false"  
-				renderedButtonCancelar="true" labelButtonCancelar="Cancelar" 
-				renderedButtonNewItem="false" />
-			</h:panelGrid>
-			<br />
-			<h1 class="title ui-widget-header ui-corner-all">Gráfico Estadístico de Mascotas Sepultadas o Cremadas</h1>
-			<br />
-			Seleccione el Tipo de Gráfico:
-			<p:selectOneRadio id="idtipografico" value="#{reporteGraficoMascotasBean.tipografico}" layout="custom">
+			<div class="area-botones">
+				<my:buttons renderedButtonImprimir="true"
+					renderedButtonAceptar="false"
+					actionButtonImprimir="#{reporteGraficoMascotasBean.imprimir()}"
+					renderedButtonEliminar="false" 
+					renderedButtonCancelar="false"
+					renderedButtonNewItem="false" />
+			</div>
+			<p:selectOneRadio id="idtipografico"
+				value="#{reporteGraficoMascotasBean.tipografico}" layout="custom">
 				<f:selectItem itemLabel="Gráfico Anual" itemValue="1" />
 				<f:selectItem itemLabel="Gráfico Mensual" itemValue="2" />
 			</p:selectOneRadio>
 			<h:panelGrid id="panel-graficomensual" columns="3">
-				<p:radioButton id="opt1" for="idtipografico" itemIndex="0"/>  
-		        <h:outputLabel for="opt1" value="Gráfico Anual" />
-		        <h:outputText value="" />  
-				
-				<p:radioButton id="opt2" for="idtipografico" itemIndex="1"/>  
-        		<h:outputLabel for="opt2" value="Gráfico Mensual" />  
-				<p:spinner id="idanio" value="#{reporteGraficoMascotasBean.anio}" min="1" max="9999" size="4" />
+				<p:radioButton id="opt1" for="idtipografico" itemIndex="0" />
+				<h:outputLabel for="opt1" value="Gráfico Anual" />
+				<h:outputText value="" />
+
+				<p:radioButton id="opt2" for="idtipografico" itemIndex="1" />
+				<h:outputLabel for="opt2" value="Gráfico Mensual" />
+				<p:spinner id="idanio" value="#{reporteGraficoMascotasBean.anio}"
+					min="1" max="9999" size="4" />
 			</h:panelGrid>
-			<br />
-			<h:panelGrid id="panelgridbuttondown" columns="1" style="padding: 10px 10px 0 0">
-				<my:buttons renderedButtonImprimir="true" renderedButtonAceptar="false" actionButtonImprimir="#{reporteGraficoMascotasBean.imprimir()}" 
-				renderedButtonEliminar="false"  
-				renderedButtonCancelar="true" labelButtonCancelar="Cancelar" 
-				renderedButtonNewItem="false" />
-			</h:panelGrid>
+			<div class="area-botones">
+				<my:buttons renderedButtonImprimir="true"
+					renderedButtonAceptar="false"
+					actionButtonImprimir="#{reporteGraficoMascotasBean.imprimir()}"
+					renderedButtonEliminar="false" 
+					renderedButtonCancelar="false"
+					renderedButtonNewItem="false" />
+			</div>
 		</p:panel>
+		<p:dialog id="dlgMostrarReporte" header="Reporte" height="30" width="200"
+			closable="true" widgetVar="varDlgMostrarReporte" modal="true">
+			<center>
+			<h:link id="lnkVerReporte" value="Ver Reporte" outcome="visor_reportes" target="_blank" onclick="varDlgMostrarReporte.hide()" />
+			</center>
+		</p:dialog>
 	</h:form>
 </ui:composition>

@@ -14,9 +14,9 @@ import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.PetespecieBO;
 import com.web.pet.bo.PetmascotaBO;
-import com.web.pet.pojo.annotations.Mascotas;
+//import com.web.pet.pojo.annotations.Mascotas;
 import com.web.pet.pojo.annotations.Petespecie;
-import com.web.util.FacesUtil;
+import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.util.MessageUtil;
 
 @ManagedBean
@@ -28,7 +28,8 @@ public class MascotasBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -7416931331487760552L;
 	private int especie;
-	private LazyDataModel<Mascotas> lisMascotas;
+	//private LazyDataModel<Mascotas> lisMascotas;
+	private LazyDataModel<Petmascotahomenaje> lisPetmascotahomenaje;
 	private int columnsGrid;
 	private int rowsGrid;
 	private List<Petespecie> lisPetespecie;
@@ -42,13 +43,27 @@ public class MascotasBean implements Serializable {
 		nombre = "buscar por nombre de mascota";
 		textoBusqueda="buscar por nombre de mascota";
 		
-		inicializarEspecieMascota();
-		consultarMascotas();
+		/*llenarListaEspecieMascota();
+		
+		if(lisPetespecie != null && lisPetespecie.size() > 0){
+			especie = lisPetespecie.get(0).getIdespecie();
+		}
+		
+		consultarMascotas();*/
 	}
 	
 	@PostConstruct
 	public void PostMascotasBean(){
-		FacesUtil facesUtil = new FacesUtil();
+		
+		llenarListaEspecieMascota();
+		
+		if(lisPetespecie != null && lisPetespecie.size() > 0){
+			especie = lisPetespecie.get(0).getIdespecie();
+		}
+		
+		consultarMascotas();
+		
+		/*FacesUtil facesUtil = new FacesUtil();
 		
 		try{
 			Object par = facesUtil.getParametroUrl("especie");
@@ -62,10 +77,10 @@ public class MascotasBean implements Serializable {
 		} catch(Exception e) {
 			e.printStackTrace();
 			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e2){}
-		}
+		}*/
 	}
 	
-	private void inicializarEspecieMascota(){
+	private void llenarListaEspecieMascota(){
 		try
 		{
 			lisPetespecie = new PetespecieBO().lisPetespecie();
@@ -79,15 +94,15 @@ public class MascotasBean implements Serializable {
 	private void consultarMascotas(){
 		try
 		{
-			lisMascotas = new LazyDataModel<Mascotas>() {
-				public List<Mascotas> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
-					List<Mascotas> data = new ArrayList<Mascotas>();
+			lisPetmascotahomenaje = new LazyDataModel<Petmascotahomenaje>() {
+				public List<Petmascotahomenaje> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+					List<Petmascotahomenaje> data = new ArrayList<Petmascotahomenaje>();
 					PetmascotaBO petmascotaBO = new PetmascotaBO();
 					int args[] = {0};
 					
 					String nombreParam = nombre.equals(textoBusqueda)?null:nombre;
 					if(especie > 0 || nombreParam != null){
-						data = petmascotaBO.lisMascotasByEspecieByPage(especie, nombreParam, pageSize, first, args);
+						data = petmascotaBO.lisPetmascotahomenajeEspecieByPage(especie, nombreParam, pageSize, first, args);
 					}
 
 					this.setRowCount(args[0]);
@@ -123,13 +138,13 @@ public class MascotasBean implements Serializable {
 		return especie;
 	}
 
-	public LazyDataModel<Mascotas> getLisMascotas() {
+	/*public LazyDataModel<Mascotas> getLisMascotas() {
 		return lisMascotas;
 	}
 
 	public void setLisMascotas(LazyDataModel<Mascotas> lisMascotas) {
 		this.lisMascotas = lisMascotas;
-	}
+	}*/
 
 	public int getColumnsGrid() {
 		return columnsGrid;
@@ -169,6 +184,15 @@ public class MascotasBean implements Serializable {
 
 	public void setTextoBusqueda(String textoBusqueda) {
 		this.textoBusqueda = textoBusqueda;
+	}
+
+	public LazyDataModel<Petmascotahomenaje> getLisPetmascotahomenaje() {
+		return lisPetmascotahomenaje;
+	}
+
+	public void setLisPetmascotahomenaje(
+			LazyDataModel<Petmascotahomenaje> lisPetmascotahomenaje) {
+		this.lisPetmascotahomenaje = lisPetmascotahomenaje;
 	}
 
 }

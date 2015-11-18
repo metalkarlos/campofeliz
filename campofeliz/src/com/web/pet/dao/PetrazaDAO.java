@@ -32,11 +32,15 @@ public class PetrazaDAO {
 		session.update(petraza);
 	}
 	@SuppressWarnings("unchecked")
-	public List<Petraza> lisPetraza(Session session) throws Exception {
+	public List<Petraza> lisPetraza(Session session, int idespecie) throws Exception {
 		List<Petraza> lisPetraza = null;
 		
 		Criteria criteria = session.createCriteria(Petraza.class)
 		.add( Restrictions.eq("setestado.idestado", 1));
+		
+		if(idespecie > 0) {
+			criteria.add( Restrictions.eq("petespecie.idespecie", new Integer(idespecie)));
+		}
 		
 		lisPetraza = (List<Petraza>) criteria.list();
 		
@@ -61,7 +65,9 @@ public class PetrazaDAO {
 		
 		Criteria criteria = session.createCriteria(Petraza.class)
 		.add( Restrictions.eq("setestado.idestado", 1))
-		.addOrder(Order.asc("nombre"))
+		.createAlias("petespecie", "especie")
+		.addOrder(Order.asc("especie.nombre").ignoreCase())
+		.addOrder(Order.asc("nombre").ignoreCase())
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
 			
@@ -71,7 +77,8 @@ public class PetrazaDAO {
 		{
 			Criteria criteriaCount = session.createCriteria( Petraza.class)
 			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("setestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1))
+			.createAlias("petespecie", "especie");
 			
 			Object object = criteriaCount.uniqueResult();
 			int count = (object==null?0:Integer.parseInt(object.toString()));

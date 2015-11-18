@@ -25,10 +25,12 @@ public class EspecieBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 2533593253855721306L;
 	private Petespecie petespecieItem;
+	private Petespecie petespecieItemClon;
 	private LazyDataModel<Petespecie> lisPetespecie;
 	
 	public EspecieBean() {
 		petespecieItem = new Petespecie(0, new Setestado(), new Setusuario(), null, null, null, null,null);
+		petespecieItemClon = new Petespecie(0, new Setestado(), new Setusuario(), null, null, null, null,null);
 		consultarEspecies();
 		
 	}
@@ -69,22 +71,6 @@ public class EspecieBean implements Serializable {
 		}
 	}
 	
-	public Petespecie getPetespecieItem() {
-		return petespecieItem;
-	}
-
-	public void setPetespecieItem(Petespecie petespecieItem) {
-		this.petespecieItem = petespecieItem == null ? new Petespecie(0, new Setestado(), new Setusuario(), null, null, null, null,null) : petespecieItem;
-	}
-
-	public LazyDataModel<Petespecie> getLisPetespecie() {
-		return lisPetespecie;
-	}
-
-	public void setLisPetespecie(LazyDataModel<Petespecie> lisPetespecie) {
-		this.lisPetespecie = lisPetespecie;
-	}
-
 	public void guardar(){
 		try{
 			if(validarCampos()){
@@ -93,22 +79,26 @@ public class EspecieBean implements Serializable {
 					boolean ok = false;
 					
 					if(petespecieItem.getIdespecie() > 0){
-						ok = petespecieBO.updatePetespecie(petespecieItem);
+						ok = petespecieBO.modificarPetespecie(petespecieItem,petespecieItemClon);
+						if(ok){
+							new MessageUtil().showInfoMessage("Especie actualizada con exito!!", "");
+						}else{
+							new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
+						}
 					}else{
-						ok = petespecieBO.newPetespecie(petespecieItem);
-					}
-					
-					petespecieItem = new Petespecie(0, new Setestado(), new Setusuario(), null, null, null, null, null);
-					
-					if(ok){
-						new MessageUtil().showInfoMessage("Exito! Registro completo!","");
+						ok = petespecieBO.ingresarPetespecie(petespecieItem);
+						if(ok){
+							new MessageUtil().showInfoMessage("Especie ingresada con exito!!", "");
+						}else{
+							new MessageUtil().showInfoMessage("No se ha podido ingresar el Color. Comunicar al Webmaster.", "");
+						}
 					}
 				}else{
 					new MessageUtil().showWarnMessage("Ya Existe! Descripción duplicada. Corrija e intente nuevamente.","");
 				}
-			}else{
-				new MessageUtil().showWarnMessage("Datos incompletos! Datos incompletos!","");
 			}
+			
+			petespecieItem = new Petespecie(0, new Setestado(), new Setusuario(), null, null, null, null, null);
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -117,11 +107,10 @@ public class EspecieBean implements Serializable {
 	
 	public void eliminar(){
 		try{
-			Setestado setestado = new Setestado();
-			setestado.setIdestado(2);//inactivo
-			petespecieItem.setSetestado(setestado);
 			PetespecieBO petespecieBO = new PetespecieBO();
-			petespecieBO.updatePetespecie(petespecieItem);
+			petespecieBO.eliminarPetespecie(petespecieItem);
+			petespecieItem = new Petespecie(0, new Setestado(), new Setusuario(), null, null, null, null, null);
+			new MessageUtil().showInfoMessage("Especie eliminada con exito!!", "");
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -134,6 +123,7 @@ public class EspecieBean implements Serializable {
 		
 		if(petespecieItem.getNombre() == null || petespecieItem.getNombre().trim().length() == 0){
 			ok = false;
+			new MessageUtil().showErrorMessage("El nombre de la especie es obligatorio.","");
 		}
 		
 		return ok;
@@ -151,6 +141,31 @@ public class EspecieBean implements Serializable {
 	
 	public String cancelar(){
 		return "admin/home.jsf?faces-redirect=true&iditem=35";
+	}
+	
+	public void clonar() {
+		try{
+			petespecieItemClon = petespecieItem.clonar();
+		}catch(Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
+	public Petespecie getPetespecieItem() {
+		return petespecieItem;
+	}
+
+	public void setPetespecieItem(Petespecie petespecieItem) {
+		this.petespecieItem = petespecieItem == null ? new Petespecie(0, new Setestado(), new Setusuario(), null, null, null, null,null) : petespecieItem;
+	}
+
+	public LazyDataModel<Petespecie> getLisPetespecie() {
+		return lisPetespecie;
+	}
+
+	public void setLisPetespecie(LazyDataModel<Petespecie> lisPetespecie) {
+		this.lisPetespecie = lisPetespecie;
 	}
 
 }

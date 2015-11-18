@@ -20,20 +20,20 @@
 						validatorMessage="Ingrese sólo letras. Corrija y reintente.">
 						<f:validateRegex pattern="[a-zA-Z ]*" />
 					</p:inputText>
-					<p:commandLink id="lnkbuscar" styleClass="search-form-submit" update="mensajes" >
-						<f:ajax render="idGridMascotas" execute="txtbusqueda"></f:ajax>
-					</p:commandLink>
+					<h:commandLink id="lnkbuscar" styleClass="search-form-submit" >
+						<f:ajax render="idGridMascotas mensajes" execute="txtbusqueda"></f:ajax>
+					</h:commandLink>
 				</div>
 			</div>
 			<br />
 			<br />
 		[ <h:link class="link" value="Nueva Mascota" outcome="mascota.hxtml">
 				<f:param name="idmascota" value="0" />
-				<f:param name="especie" value="#{mascotasBean.especie}" />
+				<f:param name="iditem" value="#{menuBean.activeIdItem}" />
 			</h:link> ]
 		<br />
 			<br />
-			<p:dataGrid id="idGridMascotas" value="#{mascotasBean.lisMascotas}"
+			<p:dataGrid id="idGridMascotas" value="#{mascotasBean.lisPetmascotahomenaje}"
 				var="pet" columns="#{mascotasBean.columnsGrid}"
 				rows="#{mascotasBean.rowsGrid}" paginator="true" effect="true"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -42,30 +42,28 @@
 					<p:panel
 						style="text-align:center; text-transform: capitalize; height: 185px; width: 180px;">
 						<f:facet name="header">
-							<h:link value="#{pet.petmascotahomenaje.nombre}"
+							<h:link value="#{pet.nombre}"
 								outcome="mascota.hxtml">
 								<f:param name="idmascota"
-									value="#{pet.petmascotahomenaje.idmascota}" />
-								<f:param name="especie" value="#{mascotasBean.especie}" />
+									value="#{pet.idmascota}" />
 								<f:param name="iditem" value="#{menuBean.activeIdItem}" />
 							</h:link>
 						</f:facet>
 						<f:facet name="footer">
 							<center>
 								<h:outputText
-									value="#{pet.petmascotahomenaje.sexo==1?'Macho':'Hembra'}" />
+									value="#{pet.sexo==1?'Macho':'Hembra'}" />
 							</center>
 						</f:facet>
 						<h:panelGrid columns="1" style="width:100%;height: 110px;">
 							<h:link outcome="mascota.hxtml">
-								<f:param name="idmascota"
-									value="#{pet.petmascotahomenaje.idmascota}" />
-								<f:param name="especie" value="#{mascotasBean.especie}" />
-								<f:param name="iditem" value="#{menuBean.activeIdItem}" />
 								<p:graphicImage id="idfoto"
-									title="#{pet.petmascotahomenaje.nombre}"
-									value="#{parametro.servletImagenes}#{pet.petfotomascota.ruta}?w=100"
+									title="#{pet.nombre}"
+									value="#{parametro.servletImagenes}#{pet.rutafoto}?w=100"
 									style="max-height: 100px" />
+								<f:param name="idmascota"
+									value="#{pet.idmascota}" />
+								<f:param name="iditem" value="#{menuBean.activeIdItem}" />
 							</h:link>
 						</h:panelGrid>
 					</p:panel>

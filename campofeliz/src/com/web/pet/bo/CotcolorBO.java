@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import com.web.pet.bean.UsuarioBean;
 import com.web.pet.dao.CotcolorDAO;
 import com.web.pet.pojo.annotations.Cotcolor;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
@@ -70,7 +71,7 @@ public class CotcolorBO {
 		return lisCotcolor;
 	}
 	
-	public boolean newCotcolor(Cotcolor cotcolor) throws Exception {
+	public boolean ingresarCotcolor(Cotcolor cotcolor) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
@@ -87,7 +88,11 @@ public class CotcolorBO {
 			cotcolor.setIdcolor(maxid);
 			cotcolor.setFecharegistro(fecharegistro);
 			cotcolor.setIplog(usuarioBean.getIp());
-			cotcolor.getSetestado().setIdestado(1);
+			
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(1);
+			cotcolor.setSetestado(setestado);
+			
 			cotcolor.setSetusuario(usuarioBean.getSetUsuario());
 	
 			cotcolorDAO.saveCotcolor(session, cotcolor);
@@ -104,7 +109,41 @@ public class CotcolorBO {
 		return ok;
 	}
 	
-	public boolean updateCotcolor(Cotcolor cotcolor) throws Exception{
+	public boolean modificarCotcolor(Cotcolor cotcolor,Cotcolor cotcolorClon) throws Exception{
+		boolean ok = false;
+		Session session = null;
+		
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			if(!cotcolor.equals(cotcolorClon)){
+				CotcolorDAO cotcolorDAO = new CotcolorDAO();
+				Date fecharegistro = new Date();
+				UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+				
+				cotcolor.setFecharegistro(fecharegistro);
+				cotcolor.setIplog(usuarioBean.getIp());
+				cotcolor.setSetusuario(usuarioBean.getSetUsuario());
+				cotcolorDAO.updateCotcolor(session, cotcolor);
+				
+				ok = true;
+			}
+			
+			if(ok){
+				session.getTransaction().commit();
+			}
+		}catch(Exception he){
+			session.getTransaction().rollback();
+			throw new Exception();
+		}finally{
+			session.close();
+		}
+		
+		return ok;
+	}
+	
+	public boolean eliminarCotcolor(Cotcolor cotcolor) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -113,9 +152,12 @@ public class CotcolorBO {
 			session.beginTransaction();
 			
 			CotcolorDAO cotcolorDAO = new CotcolorDAO();
-		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+			
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(2);//inactivo
+			cotcolor.setSetestado(setestado);
 			
 			cotcolor.setFecharegistro(fecharegistro);
 			cotcolor.setIplog(usuarioBean.getIp());

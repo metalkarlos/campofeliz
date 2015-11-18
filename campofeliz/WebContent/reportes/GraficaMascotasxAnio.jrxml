@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GraficaMascotasXAnio" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="5" bottomMargin="0" uuid="ab6bcb54-3b82-4f13-8e41-35e18ef91b16">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GraficaMascotasXAnio" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="822" leftMargin="10" rightMargin="10" topMargin="5" bottomMargin="5" uuid="ab6bcb54-3b82-4f13-8e41-35e18ef91b16">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="P_LOGO" class="java.io.InputStream"/>
 	<queryString>
-		<![CDATA[select count(m.idmascota) as count,coalesce(extract(year from s.fechaentierro), 0) as date_part
+		<![CDATA[select count(m.idmascota) as count,coalesce(extract(year from s.fechaentierro), 0) as date_part,
+(SELECT concat('Direccion: ',ofi.direccion,'\r',ofi.descripcion,
+           '\rTelef: ',ofi.telefono,' / ',ofi.celular,'\rCorreo: ',ofi.email)
+           FROM cotoficina ofi where ofi.idoficina = 1) as membrete
   from petordenservicio s,
        petmascotahomenaje m
  where s.idestado   = 1
@@ -16,54 +19,50 @@
 	</queryString>
 	<field name="count" class="java.lang.Long"/>
 	<field name="date_part" class="java.lang.Integer"/>
+	<field name="membrete" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="109" splitType="Stretch">
+		<band height="126" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="3a302b6e-39dd-4274-a6d1-976dfad4c2bc" x="3" y="89" width="39" height="20"/>
+				<reportElement x="3" y="89" width="39" height="20" uuid="3a302b6e-39dd-4274-a6d1-976dfad4c2bc"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 			<textField pattern="dd MMMMM yyyy">
-				<reportElement uuid="a8cbd397-f44b-4618-8406-e9459f366844" x="42" y="89" width="110" height="20" forecolor="#000000"/>
+				<reportElement x="42" y="89" width="110" height="20" forecolor="#000000" uuid="a8cbd397-f44b-4618-8406-e9459f366844"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement uuid="fe5a8de9-d740-4e47-b296-4076fb64d4be" x="673" y="0" width="168" height="61"/>
+				<reportElement x="677" y="0" width="145" height="61" uuid="fe5a8de9-d740-4e47-b296-4076fb64d4be"/>
 				<imageExpression><![CDATA[$P{P_LOGO}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement uuid="3ac725e0-7fef-41b8-9336-04e1acecb324" x="644" y="61" width="200" height="48" forecolor="#000000"/>
-				<textElement textAlignment="Center">
-					<font fontName="Tahoma" size="6" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[ Dirección: Km 16 vía a Daule frente al centro
-                 penitenciario la Roca, entrando por el Chorrillo
-       Teléf: (04)6014815 / 0993211106 / 0986092471
- Atención:  Lunes - Domingo 8:00am - 16:30pm
-Consultas: Lunes - Domingo 7:30am - 22:00pm
-  Correo  : campofeliz@campofeliz.com]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="e93c8870-d064-4799-b408-8fc473cbf8ea" x="76" y="21" width="558" height="55" forecolor="#990000"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<reportElement x="195" y="21" width="439" height="55" forecolor="#990000" uuid="e93c8870-d064-4799-b408-8fc473cbf8ea"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="20" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Gráfica de Mascotas sepultadas/cremadas por Año]]></text>
+				<text><![CDATA[Gráfica de Mascotas Sepultadas/Cremadas por Año]]></text>
 			</staticText>
 			<line>
-				<reportElement uuid="54201885-dd8b-4008-b4f4-6db212913d98" x="2" y="108" width="840" height="1" forecolor="#CC6600"/>
+				<reportElement x="2" y="125" width="820" height="1" forecolor="#CC6600" uuid="54201885-dd8b-4008-b4f4-6db212913d98"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineColor="#CC6600"/>
 				</graphicElement>
 			</line>
+			<textField>
+				<reportElement x="677" y="66" width="145" height="59" uuid="815db035-469a-49ab-83a8-2e5d95d0094b"/>
+				<textElement>
+					<font fontName="Tahoma" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{membrete}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -85,7 +84,7 @@ Consultas: Lunes - Domingo 7:30am - 22:00pm
 		<band height="184" splitType="Stretch">
 			<barChart>
 				<chart>
-					<reportElement uuid="c4047b80-95fe-426b-ac03-0f459da50772" x="14" y="24" width="287" height="146"/>
+					<reportElement x="14" y="24" width="287" height="146" uuid="c4047b80-95fe-426b-ac03-0f459da50772"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>

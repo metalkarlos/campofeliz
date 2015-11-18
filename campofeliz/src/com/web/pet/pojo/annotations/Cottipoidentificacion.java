@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "cottipoidentificacion")
-public class Cottipoidentificacion implements java.io.Serializable {
+public class Cottipoidentificacion implements java.io.Serializable, Cloneable {
 
 	/**
 	 * 
@@ -123,6 +123,16 @@ public class Cottipoidentificacion implements java.io.Serializable {
 
 	public void setIplog(String iplog) {
 		this.iplog = iplog;
+	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException{
+		Cottipoidentificacion cottipoidentificacion = (Cottipoidentificacion)super.clone();
+		return cottipoidentificacion;
+	}
+	
+	public Cottipoidentificacion clonar() throws Exception{
+		return (Cottipoidentificacion)this.clone();
 	}
 /*
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cottipoidentificacion", targetEntity = Cotpersona.class)

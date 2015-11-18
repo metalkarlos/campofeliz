@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrdenServicio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="5" bottomMargin="5" uuid="1c5d0775-3fd5-40e9-90a2-4dae8c6afe95">
-	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="77"/>
-	<property name="ireport.y" value="687"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="344"/>
 	<parameter name="P_LOGO" class="java.io.InputStream">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -490,7 +490,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{idsolicitud}]]></textFieldExpression>
 			</textField>
-			<image hAlign="Center">
+			<image hAlign="Center" isUsingCache="true">
 				<reportElement x="430" y="6" width="145" height="61" uuid="e24c7699-82d0-4088-8cc3-d2d8f9d68405"/>
 				<imageExpression><![CDATA[$P{P_LOGO}]]></imageExpression>
 			</image>
@@ -529,13 +529,6 @@
 	<columnFooter>
 		<band height="60" splitType="Stretch">
 			<staticText>
-				<reportElement x="225" y="34" width="15" height="14" uuid="fc26f704-864b-4f73-be96-b11b230afca8"/>
-				<textElement>
-					<font fontName="Tahoma" isBold="true" pdfFontName="Helvetica-Bold"/>
-				</textElement>
-				<text><![CDATA[C.I]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="225" y="5" width="124" height="20" uuid="edc15e87-92f8-4f5b-8889-9a8d741b110a"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
@@ -546,11 +539,11 @@
 				<reportElement x="224" y="3" width="125" height="1" uuid="732f9cbe-87f8-4c84-ae73-efa2424db57c"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="241" y="33" width="125" height="15" isPrintWhenDetailOverflows="true" uuid="38393cb2-05c1-45ec-9f22-ddd405a13c43"/>
-				<textElement>
+				<reportElement x="225" y="25" width="124" height="15" isPrintWhenDetailOverflows="true" uuid="38393cb2-05c1-45ec-9f22-ddd405a13c43"/>
+				<textElement textAlignment="Center">
 					<font fontName="Tahoma"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{numeroidentificacion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["C.I.: "+$F{numeroidentificacion}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>

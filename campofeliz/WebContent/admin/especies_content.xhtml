@@ -6,65 +6,92 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
-	
+
 	<h:form id="form-contentpage">
 		<p:messages id="mensajes" showDetail="false" />
 
-		<p:panel id="panel-especiecontent">
-			<h:panelGrid id="panelgridbuttonsup" columns="1" style="padding: 10px 10px 0 0">
-				<my:buttons renderedButtonNewItem="true" actionButtonNewItem="#{especieBean.newItem()}" onclickButtonNewItem="vartablaEspecies.unselectAllRows()" oncompleteButtonNewItem="vardialogeditor.show()" updateButtonNewItem=":form-contentpage:idpaneleditor" 
-				renderedButtonEliminar="false"
-				renderedButtonCancelar="false" actionButtonCancelar="#{especieBean.cancelar()}" 
-				renderedButtonAceptar="false" />
-			</h:panelGrid>
-			<br />
-			<p:dataTable id="idTablaEspecies" value="#{especieBean.lisPetespecie}" var="especie" rowKey="#{especie.idespecie}" widgetVar="vartablaEspecies"
-				paginator="true" rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PageLinks} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="6,8,10" selection="#{especieBean.petespecieItem}" selectionMode="single" emptyMessage="No se encontraron registros">
-				
-				<p:ajax event="rowSelect" update=":form-contentpage:idpaneleditor" oncomplete="vardialogeditor.show()"></p:ajax>
-				
+		<p:panel id="pnlEspeciesContent">
+			<div class="area-botones">
+				<my:buttons renderedButtonNewItem="true"
+					actionButtonNewItem="#{especieBean.newItem()}"
+					onclickButtonNewItem="vartablaEspecies.unselectAllRows()"
+					oncompleteButtonNewItem="vardialogeditor.show()"
+					updateButtonNewItem=":form-contentpage:idpaneleditor"
+					renderedButtonEliminar="false" 
+					renderedButtonCancelar="false"
+					renderedButtonAceptar="false" />
+			</div>
+			<p:dataTable id="idTablaEspecies"
+				value="#{especieBean.lisPetespecie}" var="especie"
+				rowKey="#{especie.idespecie}" widgetVar="vartablaEspecies"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PageLinks} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="6,8,10"
+				selection="#{especieBean.petespecieItem}" selectionMode="single"
+				emptyMessage="No se encontraron registros">
+
+				<p:ajax event="rowSelect" update=":form-contentpage:idpaneleditor" listener="#{especieBean.clonar()}"
+					oncomplete="vardialogeditor.show()"></p:ajax>
+
 				<f:facet name="header">
 					Especies
 				</f:facet>
-				
-				<p:column id="idNombreHeader" headerText="Nombre" style="width: 150px">
+
+				<p:column id="idNombreHeader" headerText="Nombre"
+					style="width: 150px">
 					<h:outputText value="#{especie.nombre}" />
 				</p:column>
-				
+
 				<p:column id="idDescripcionHeader" headerText="Descripción">
 					<h:outputText value="#{especie.descripcion}" />
 				</p:column>
 			</p:dataTable>
-			
-			<p:dialog id="iddialogeditor" header="Editor de especies" closable="true" onHide="vartablaEspecies.unselectAllRows()" widgetVar="vardialogeditor" modal="true" height="100" width="450">
-				<h:panelGrid id="idpaneleditor" columns="2" style="width: 100%;">
-					<h:outputLabel id="ideditorlblnombre" value="Nombre" for="ideditortxtnombre" />
-					<h:inputText id="ideditortxtnombre" value="#{especieBean.petespecieItem.nombre}" />
-					
-					<h:outputLabel id="ideditorlbldescripcion" value="Descripción" for="ideditortxtdescripcion" />
-					<h:inputText id="ideditortxtdescripcion" value="#{especieBean.petespecieItem.descripcion}" style="width: 300px" />
-					
-					<h:outputText value="" /><h:outputText value="" />
-				
-					<h:outputText value="" />
-					<h:column>
-						<div align="right">
-							<p:commandButton id="idgrabar" value="Grabar" action="#{especieBean.guardar()}" oncomplete="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaEspecies" />
-							<p:commandButton id="ideliminar" value="Eliminar" action="#{especieBean.eliminar()}" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes, :form-contentpage:idTablaEspecies" rendered="#{especieBean.petespecieItem.idespecie > 0}" />
-							<p:commandButton id="idcancelar" value="Cancelar" onclick="vardialogeditor.hide()" update=":form-contentpage:mensajes" />
-						</div>
-					</h:column>
-				</h:panelGrid>
-			</p:dialog>
-		
-            <h:panelGrid id="panelgridbuttonsdown" columns="1" style="padding: 10px 10px 0 0">
-				<my:buttons renderedButtonNewItem="true" actionButtonNewItem="#{especieBean.newItem()}" onclickButtonNewItem="vartablaEspecies.unselectAllRows()" oncompleteButtonNewItem="vardialogeditor.show()" updateButtonNewItem=":form-contentpage:idpaneleditor" 
-				renderedButtonEliminar="false"
-				renderedButtonCancelar="false" actionButtonCancelar="#{especieBean.cancelar()}" 
-				renderedButtonAceptar="false" />
-            </h:panelGrid>
-            
+			<div class="area-botones">
+				<my:buttons renderedButtonNewItem="true"
+					actionButtonNewItem="#{especieBean.newItem()}"
+					onclickButtonNewItem="vartablaEspecies.unselectAllRows()"
+					oncompleteButtonNewItem="vardialogeditor.show()"
+					updateButtonNewItem=":form-contentpage:idpaneleditor"
+					renderedButtonEliminar="false" 
+					renderedButtonCancelar="false"
+					renderedButtonAceptar="false" />
+			</div>
 		</p:panel>
+		<p:dialog id="iddialogeditor" header="Editor de especies"
+			closable="true" onHide="vartablaEspecies.unselectAllRows()"
+			widgetVar="vardialogeditor" modal="true" height="140" width="450">
+			<h:panelGrid id="idpaneleditor" columns="2" style="width: 100%;">
+				<h:outputLabel id="ideditorlblnombre" value="Nombre"
+					for="ideditortxtnombre" />
+				<h:inputText id="ideditortxtnombre"
+					value="#{especieBean.petespecieItem.nombre}" />
+
+				<h:outputLabel id="ideditorlbldescripcion" value="Descripción"
+					for="ideditortxtdescripcion" />
+				<h:inputTextarea id="ideditortxtdescripcion"
+					value="#{especieBean.petespecieItem.descripcion}" />
+
+				<h:outputText value="" />
+				<h:outputText value="" />
+
+				<h:outputText value="" />
+				<h:column>
+					<div align="right">
+						<p:commandButton id="idgrabar" value="Grabar"
+							actionListener="#{especieBean.guardar()}"
+							oncomplete="vardialogeditor.hide()"
+							update=":form-contentpage:mensajes, :form-contentpage:idTablaEspecies" />
+						<p:commandButton id="ideliminar" value="Eliminar"
+							actionListener="#{especieBean.eliminar()}"
+							oncomplete="vardialogeditor.hide()"
+							update=":form-contentpage:mensajes, :form-contentpage:idTablaEspecies"
+							rendered="#{especieBean.petespecieItem.idespecie > 0}" />
+						<p:commandButton id="idcancelar" value="Cancelar"
+							onclick="vardialogeditor.hide()"
+							update=":form-contentpage:mensajes" />
+					</div>
+				</h:column>
+			</h:panelGrid>
+		</p:dialog>
 	</h:form>
 </ui:composition>

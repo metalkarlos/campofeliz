@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "petraza")
-public class Petraza implements java.io.Serializable {
+public class Petraza implements java.io.Serializable, Cloneable {
 
 	/**
 	 * 
@@ -33,6 +33,7 @@ public class Petraza implements java.io.Serializable {
 	private String iplog;
 	private byte[] objeto;
 	private String ruta;
+	private Petespecie petespecie;
 //	private Set<Petmascota> petmascotas = new HashSet<Petmascota>(0);
 
 	public Petraza() {
@@ -46,7 +47,7 @@ public class Petraza implements java.io.Serializable {
 
 	public Petraza(int idraza, Setestado setestado, Setusuario setusuario,
 			String nombre, String descripcion, Date fecharegistro,
-			String iplog, byte[] objeto, String ruta/*, Set<Petmascota> petmascotas*/) {
+			String iplog, byte[] objeto, String ruta,Petespecie petespecie/*, Set<Petmascota> petmascotas*/) {
 		this.idraza = idraza;
 		this.setestado = setestado;
 		this.setusuario = setusuario;
@@ -56,6 +57,7 @@ public class Petraza implements java.io.Serializable {
 		this.iplog = iplog;
 		this.objeto = objeto;
 		this.ruta = ruta;
+		this.petespecie = petespecie;
 //		this.petmascotas = petmascotas;
 	}
 
@@ -153,4 +155,101 @@ public class Petraza implements java.io.Serializable {
 		this.petmascotas = petmascotas;
 	}
 */
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idespecie")
+	public Petespecie getPetespecie() {
+		return petespecie;
+	}
+
+	public void setPetespecie(Petespecie petespecie) {
+		this.petespecie = petespecie;
+	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException{
+		Petraza petraza = (Petraza) super.clone();
+	  return petraza;
+	}
+	
+	public Petraza clonar() throws Exception{
+		return (Petraza)this.clone();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((descripcion == null) ? 0 : descripcion.hashCode());
+		result = prime * result
+				+ ((fecharegistro == null) ? 0 : fecharegistro.hashCode());
+		result = prime * result + idraza;
+		result = prime * result + ((iplog == null) ? 0 : iplog.hashCode());
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result
+				+ ((petespecie == null) ? 0 : petespecie.getIdespecie());
+		result = prime * result + ((ruta == null) ? 0 : ruta.hashCode());
+		result = prime * result
+				+ ((setestado == null) ? 0 : setestado.getIdestado());
+		result = prime * result
+				+ ((setusuario == null) ? 0 : setusuario.getIdusuario());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Petraza other = (Petraza) obj;
+		if (descripcion == null) {
+			if (other.descripcion != null)
+				return false;
+		} else if (!descripcion.equals(other.descripcion))
+			return false;
+		if (fecharegistro == null) {
+			if (other.fecharegistro != null)
+				return false;
+		} else if (!fecharegistro.equals(other.fecharegistro))
+			return false;
+		if (idraza != other.idraza)
+			return false;
+		if (iplog == null) {
+			if (other.iplog != null)
+				return false;
+		} else if (!iplog.equals(other.iplog))
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (petespecie == null) {
+			if (other.petespecie != null)
+				return false;
+		} else if (petespecie.getIdespecie() != other.petespecie.getIdespecie())
+			return false;
+		if (ruta == null) {
+			if (other.ruta != null)
+				return false;
+		} else if (!ruta.equals(other.ruta))
+			return false;
+		if (setestado == null) {
+			if (other.setestado != null)
+				return false;
+		} else if (setestado.getIdestado() != other.setestado.getIdestado())
+			return false;
+		if (setusuario == null) {
+			if (other.setusuario != null)
+				return false;
+		} else if (setusuario.getIdusuario() != other.setusuario.getIdusuario())
+			return false;
+		return true;
+	}
+	
+	
 }

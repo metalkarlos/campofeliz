@@ -12,12 +12,13 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
+import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetrazaBO;
 import com.web.pet.bo.PetespecieBO;
 import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.pet.pojo.annotations.Cottipoidentificacion;
-import com.web.pet.pojo.annotations.Mascotas;
+//import com.web.pet.pojo.annotations.Mascotas;
 import com.web.pet.pojo.annotations.Petespecie;
 import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Petmascotahomenaje;
@@ -33,8 +34,8 @@ public class BuscarMascotaBean implements Serializable {
 	private String caracteristicas;
 	private List<Petespecie> lisPetespecie;
 	private List<Petraza> lisPetraza;
-	private LazyDataModel<Mascotas> lisMascotas;
-	private boolean renderGrid;//Para evitar consultar al inicio y sólo al presionar botón
+	//private LazyDataModel<Mascotas> lisMascotas;
+	private LazyDataModel<Petmascotahomenaje> lisPetmascotahomenaje;
 	private int columnsGrid;
 	private int rowsGrid;
 
@@ -42,7 +43,6 @@ public class BuscarMascotaBean implements Serializable {
 		petmascotahomenaje = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),0,new BigDecimal(0),null,false,false,null);
 		llenarPettipo();
 		llenarPetraza();
-		setRenderGrid(false);
 		setColumnsGrid(1);
 		setRowsGrid(4);
 		
@@ -53,22 +53,19 @@ public class BuscarMascotaBean implements Serializable {
 	private void consultarMascotas(){
 		try
 		{
-			lisMascotas = new LazyDataModel<Mascotas>() {
-				public List<Mascotas> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
-					List<Mascotas> data = new ArrayList<Mascotas>();
+			lisPetmascotahomenaje = new LazyDataModel<Petmascotahomenaje>() {
+				public List<Petmascotahomenaje> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+					List<Petmascotahomenaje> data = new ArrayList<Petmascotahomenaje>();
 					
-					if(isRenderGrid())
-					{
-						PetmascotaBO petmascotaBO = new PetmascotaBO();
-						int args[] = {0};
-						String[] caracteristicas = null;
-						if(BuscarMascotaBean.this.caracteristicas != null && BuscarMascotaBean.this.caracteristicas.trim().length() > 0){
-							caracteristicas = BuscarMascotaBean.this.caracteristicas.split(" ");
-						}
-						
-						data = petmascotaBO.lisMascotasBusquedaByPage(petmascotahomenaje, caracteristicas, (pageSize * columnsGrid), (first * columnsGrid), args);
-						this.setRowCount(args[0]);
+					PetmascotaBO petmascotaBO = new PetmascotaBO();
+					int args[] = {0};
+					String[] caracteristicas = null;
+					if(BuscarMascotaBean.this.caracteristicas != null && BuscarMascotaBean.this.caracteristicas.trim().length() > 0){
+						caracteristicas = BuscarMascotaBean.this.caracteristicas.split(" ");
 					}
+					
+					data = petmascotaBO.lisPetmascotahomenajeBusquedaByPage(petmascotahomenaje, caracteristicas, (pageSize * columnsGrid), (first * columnsGrid), args);
+					this.setRowCount(args[0]);
 					
 			        return data;
 				}
@@ -91,6 +88,47 @@ public class BuscarMascotaBean implements Serializable {
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
+	}
+	
+	private void llenarPettipo(){
+		try{
+			PetespecieBO pettipoBO = new PetespecieBO();
+			setLisPetespecie(pettipoBO.lisPetespecie());
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage(re.getMessage(),"");
+		}
+	}
+	
+	private void llenarPetraza(){
+		try{
+			PetrazaBO petrazaBO = new PetrazaBO();
+			setLisPetraza(petrazaBO.lisRazas(0));
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage(re.getMessage(),"");
+		}
+	}
+	
+	public List<Cotpersona> buscarPropietarios(String query) {
+		List<Cotpersona> lisPropietarios = new ArrayList<Cotpersona>();
+		
+		List<Cotpersona> lisCotpersona = new ArrayList<Cotpersona>();
+		CotpersonaBO cotpersonaBO = new CotpersonaBO();
+		int args[] = {0};
+		String[] nombres = null;
+		if(query != null && query.trim().length() > 0){
+			nombres = query.split(" ");
+		}
+		lisCotpersona = cotpersonaBO.lisCotpersonaByPage(nombres, 10, 0, args);
+		
+		if(lisCotpersona != null && lisCotpersona.size() > 0){
+			for(Cotpersona cotpersona : lisCotpersona){
+				lisPropietarios.add(cotpersona);
+			}
+		}
+		
+		return lisPropietarios;
 	}
 	
 	public Petmascotahomenaje getPetmascotahomenaje() {
@@ -125,22 +163,6 @@ public class BuscarMascotaBean implements Serializable {
 		this.lisPetraza = lisPetraza;
 	}
 
-	public LazyDataModel<Mascotas> getLisMascotas() {
-		return lisMascotas;
-	}
-
-	public void setLisMascotas(LazyDataModel<Mascotas> lisMascotas) {
-		this.lisMascotas = lisMascotas;
-	}
-
-	public boolean isRenderGrid() {
-		return renderGrid;
-	}
-
-	public void setRenderGrid(boolean renderGrid) {
-		this.renderGrid = renderGrid;
-	}
-
 	public int getColumnsGrid() {
 		return columnsGrid;
 	}
@@ -157,28 +179,13 @@ public class BuscarMascotaBean implements Serializable {
 		this.rowsGrid = rowsGrid;
 	}
 
-	private void llenarPettipo(){
-		try{
-			PetespecieBO pettipoBO = new PetespecieBO();
-			setLisPetespecie(pettipoBO.lisPetespecie());
-		}catch(Exception re){
-			re.printStackTrace();
-			new MessageUtil().showFatalMessage(re.getMessage(),"");
-		}
+	public LazyDataModel<Petmascotahomenaje> getLisPetmascotahomenaje() {
+		return lisPetmascotahomenaje;
 	}
-	
-	private void llenarPetraza(){
-		try{
-			PetrazaBO petrazaBO = new PetrazaBO();
-			setLisPetraza(petrazaBO.lisRazas());
-		}catch(Exception re){
-			re.printStackTrace();
-			new MessageUtil().showFatalMessage(re.getMessage(),"");
-		}
-	}
-	
-	public void buscarMascotas(){
-		setRenderGrid(true);
+
+	public void setLisPetmascotahomenaje(
+			LazyDataModel<Petmascotahomenaje> lisPetmascotahomenaje) {
+		this.lisPetmascotahomenaje = lisPetmascotahomenaje;
 	}
 
 }

@@ -40,7 +40,7 @@ public class CotlugarDAO {
 		
 		Criteria criteria = session.createCriteria(Cotlugar.class)
 		.add( Restrictions.eq("setestado.idestado", 1))
-		.addOrder(Order.asc("nombre"));
+		.addOrder(Order.asc("nombre").ignoreCase());
 			
 		arraydatos = (List<Cotlugar>) criteria.list();
 		
@@ -54,7 +54,7 @@ public class CotlugarDAO {
 		
 		Criteria criteria = session.createCriteria(Cotlugar.class)
 		.add( Restrictions.eq("setestado.idestado", 1))
-		.addOrder(Order.asc("nombre"))
+		.addOrder(Order.asc("nombre").ignoreCase())
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
 			

@@ -185,4 +185,97 @@ public class Cotfotopersona implements java.io.Serializable, Cloneable {
 		return (Cotfotopersona)this.clone();
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((cotpersona == null) ? 0 : cotpersona.getIdpersona());
+		result = prime * result
+				+ ((descripcion == null) ? 0 : descripcion.hashCode());
+		result = prime
+				* result
+				+ ((fechamodificacion == null) ? 0 : fechamodificacion
+						.hashCode());
+		result = prime * result
+				+ ((fecharegistro == null) ? 0 : fecharegistro.hashCode());
+		result = prime * result + idfotopersona;
+		result = prime * result + ((iplog == null) ? 0 : iplog.hashCode());
+		result = prime * result + ((mostrar == null) ? 0 : mostrar.hashCode());
+		result = prime * result
+				+ ((nombrearchivo == null) ? 0 : nombrearchivo.hashCode());
+		result = prime * result + ((ruta == null) ? 0 : ruta.hashCode());
+		result = prime * result
+				+ ((setestado == null) ? 0 : setestado.getIdestado());
+		result = prime * result
+				+ ((setusuario == null) ? 0 : setusuario.getIdusuario());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cotfotopersona other = (Cotfotopersona) obj;
+		if (cotpersona == null) {
+			if (other.cotpersona != null)
+				return false;
+		} else if (cotpersona.getIdpersona() != other.cotpersona.getIdpersona())
+			return false;
+		if (descripcion == null) {
+			if (other.descripcion != null)
+				return false;
+		} else if (!descripcion.equals(other.descripcion))
+			return false;
+		if (fechamodificacion == null) {
+			if (other.fechamodificacion != null)
+				return false;
+		} else if (!fechamodificacion.equals(other.fechamodificacion))
+			return false;
+		if (fecharegistro == null) {
+			if (other.fecharegistro != null)
+				return false;
+		} else if (!fecharegistro.equals(other.fecharegistro))
+			return false;
+		if (idfotopersona != other.idfotopersona)
+			return false;
+		if (iplog == null) {
+			if (other.iplog != null)
+				return false;
+		} else if (!iplog.equals(other.iplog))
+			return false;
+		if (mostrar == null) {
+			if (other.mostrar != null)
+				return false;
+		} else if (!mostrar.equals(other.mostrar))
+			return false;
+		if (nombrearchivo == null) {
+			if (other.nombrearchivo != null)
+				return false;
+		} else if (!nombrearchivo.equals(other.nombrearchivo))
+			return false;
+		if (ruta == null) {
+			if (other.ruta != null)
+				return false;
+		} else if (!ruta.equals(other.ruta))
+			return false;
+		if (setestado == null) {
+			if (other.setestado != null)
+				return false;
+		} else if (setestado.getIdestado() != other.setestado.getIdestado())
+			return false;
+		if (setusuario == null) {
+			if (other.setusuario != null)
+				return false;
+		} else if (setusuario.getIdusuario() != other.setusuario.getIdusuario())
+			return false;
+		return true;
+	}
+	
+	
+
 }

@@ -11,9 +11,10 @@
 	    <hr noshade="noshade" />
 		<label for="idespeciemascota">Seleccione la Especie:</label>
 		<br />
-		<p:selectOneMenu id="idespeciemascota" style="width: 145px; align: center;" value="#{mascotasBean.especie}" onchange="redirect('mascotas.jsf?especie='+this.options[this.selectedIndex].value+'&amp;iditem='+#{menuBean.activeIndex})">
+		<p:selectOneMenu id="idespeciemascota" style="width: 145px; align: center;" value="#{mascotasBean.especie}" >
 			<f:selectItem itemLabel="Seleccione" itemValue="0"/>
 			<f:selectItems value="#{mascotasBean.lisPetespecie}" var="especie" itemLabel="#{especie.nombre}" itemValue="#{especie.idespecie}"></f:selectItems>
+			<f:ajax event="change" render=":form-contentpage:idGridMascotas :form-contentpage:mensajes"></f:ajax>
 		</p:selectOneMenu>
 	</h:form>
 </ui:composition>

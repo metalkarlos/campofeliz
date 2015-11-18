@@ -3,8 +3,6 @@ package com.web.pet.pojo.annotations;
 // Generated 26/07/2012 03:22:37 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,7 +45,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 	private String ruta;
 	private byte[] objeto;
 	private Integer sexo;
-	private Set<Cotfotopersona> cotfotopersonas = new HashSet<Cotfotopersona>(0);
+	//private Set<Cotfotopersona> cotfotopersonas = new HashSet<Cotfotopersona>(0);
 
 	public Cotpersona() {
 	}
@@ -68,7 +65,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 			String nombre1, String nombre2, String alias, Date fecharegistro,
 			String iplog, String numeroidentificacion, Date fechanacimiento,
 			String telefono, String direccion, String email, String ruta, byte[] objeto, Integer sexo,
-			Set<Cotfotopersona> cotfotopersonas, Date fechamodificacion) {
+			/*Set<Cotfotopersona> cotfotopersonas, */Date fechamodificacion) {
 		this.idpersona = idpersona;
 		this.cottipoidentificacion = cottipoidentificacion;
 		this.setestado = setestado;
@@ -88,7 +85,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 		this.ruta = ruta;
 		this.objeto = objeto;
 		this.sexo = sexo;
-		this.cotfotopersonas = cotfotopersonas;
+		//this.cotfotopersonas = cotfotopersonas;
 		this.fechamodificacion = fechamodificacion;
 	}
 
@@ -280,18 +277,23 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 		this.sexo = sexo;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cotpersona", targetEntity=Cotfotopersona.class)
+	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "cotpersona", targetEntity=Cotfotopersona.class)
 	public Set<Cotfotopersona> getCotfotopersonas() {
 		return this.cotfotopersonas;
 	}
 
 	public void setCotfotopersonas(Set<Cotfotopersona> cotfotopersonas) {
 		this.cotfotopersonas = cotfotopersonas;
-	}
+	}*/
 	
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		Cotpersona cotpersona = (Cotpersona)super.clone();
+		
+		if(cotpersona.getCottipoidentificacion() != null && cotpersona.getCottipoidentificacion().getIdtipoidentificacion() > 0){
+			cotpersona.setCottipoidentificacion((Cottipoidentificacion) cotpersona.getCottipoidentificacion().clone());
+		}
+		
 		return cotpersona;
 	}
 	

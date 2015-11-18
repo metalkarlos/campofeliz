@@ -4,10 +4,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-import com.web.pet.bo.PetfotomascotaBO;
 import com.web.pet.bo.PetmascotaBO;
-import com.web.pet.pojo.annotations.Mascotas;
-import com.web.pet.pojo.annotations.Petfotomascota;
 import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.util.MessageUtil;
 
@@ -21,16 +18,14 @@ public class MascotaConverter implements Converter {
             try {
                 int id = Integer.parseInt(submittedValue);
                 
-                Mascotas mascotas = new Mascotas();
+                Petmascotahomenaje petmascotahomenaje = new Petmascotahomenaje();
                 
                 if(id > 0){
-	                Petmascotahomenaje petmascotahomenaje = new PetmascotaBO().getPetmascotaById(id);
-					Petfotomascota petfotomascota = new PetfotomascotaBO().getPetfotomascotaPerfilByIdmascota(petmascotahomenaje.getIdmascota());
-					mascotas.setPetmascotahomenaje(petmascotahomenaje);
-					mascotas.setPetfotomascota(petfotomascota);
+                	PetmascotaBO petmascotaBO = new PetmascotaBO();
+	                petmascotahomenaje = petmascotaBO.getPetmascotaById(id);
                 }
                 
-                return mascotas;
+                return petmascotahomenaje;
             } catch(Exception ex) {
             	ex.printStackTrace();
             	new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -42,8 +37,8 @@ public class MascotaConverter implements Converter {
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent component, Object value) {
-		if (value instanceof Mascotas){
-			return String.valueOf(((Mascotas) value).getPetmascotahomenaje().getIdmascota());
+		if (value instanceof Petmascotahomenaje){
+			return String.valueOf(((Petmascotahomenaje) value).getIdmascota());
 		} else {
 			return "";
 		}

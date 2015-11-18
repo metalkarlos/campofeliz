@@ -31,6 +31,7 @@ public class Petmascotacolor implements java.io.Serializable {
 	private Setusuario setusuario;
 	private Date fecharegistro;
 	private String iplog;
+	private Date fechamodificacion;
 
 	public Petmascotacolor() {
 	}
@@ -45,7 +46,7 @@ public class Petmascotacolor implements java.io.Serializable {
 
 	public Petmascotacolor(int idmascotacolor, Petmascotahomenaje petmascotahomenaje,
 			Setestado setestado, Cotcolor cotcolor, Setusuario setusuario,
-			Date fecharegistro, String iplog) {
+			Date fecharegistro, String iplog,Date fechamodificacion) {
 		this.idmascotacolor = idmascotacolor;
 		this.petmascotahomenaje = petmascotahomenaje;
 		this.setestado = setestado;
@@ -53,6 +54,7 @@ public class Petmascotacolor implements java.io.Serializable {
 		this.setusuario = setusuario;
 		this.fecharegistro = fecharegistro;
 		this.iplog = iplog;
+		this.fechamodificacion = fechamodificacion;
 	}
 
 	@Id
@@ -122,6 +124,16 @@ public class Petmascotacolor implements java.io.Serializable {
 
 	public void setIplog(String iplog) {
 		this.iplog = iplog;
+	}
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fechamodificacion", length = 29)
+	public Date getFechamodificacion() {
+		return fechamodificacion;
+	}
+
+	public void setFechamodificacion(Date fechamodificacion) {
+		this.fechamodificacion = fechamodificacion;
 	}
 
 }

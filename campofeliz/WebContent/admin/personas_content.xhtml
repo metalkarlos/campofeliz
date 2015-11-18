@@ -10,7 +10,7 @@
 		<p:messages id="mensajes" showDetail="false" />
 		<p:defaultCommand target="lnkbuscar"></p:defaultCommand>
 
-		<p:panel id="panel-personacontent">
+		<p:panel id="panel-content">
 			<div style="float: right; margin: 10px 15px 0 0;">
 				<div id="search-form">
 					<p:inputText id="txtbusqueda" value="#{personasBean.nombre}"
@@ -19,9 +19,9 @@
 						validatorMessage="Ingrese sólo letras. Corrija y reintente.">
 						<f:validateRegex pattern="[a-zA-Z ]*" />
 					</p:inputText>
-					<p:commandLink id="lnkbuscar" styleClass="search-form-submit" update="mensajes" >
-						<f:ajax render="idTablaPersonas" execute="txtbusqueda"></f:ajax>
-					</p:commandLink>
+					<h:commandLink id="lnkbuscar" styleClass="search-form-submit" >
+						<f:ajax execute="txtbusqueda" render="idTablaPersonas mensajes"></f:ajax>
+					</h:commandLink>
 				</div>
 			</div>
 			<br />
@@ -44,10 +44,15 @@
 				<f:facet name="header">
 					Personas
 				</f:facet>
+				
+				<p:column id="idNombre1Header" headerText="Nombre1"
+					style="width: 125px">
+					<h:outputText value="#{persona.nombre1}" />
+				</p:column>
 
-				<p:column id="idIdentificacionHeader" headerText="No.Iden."
-					style="width: 150px">
-					<h:outputText value="#{persona.numeroidentificacion}" />
+				<p:column id="idNombre2Header" headerText="Nombre2"
+					style="width: 125px">
+					<h:outputText value="#{persona.nombre2}" />
 				</p:column>
 
 				<p:column id="idApellido1Header" headerText="Apellido1"
@@ -58,15 +63,10 @@
 				<p:column id="idApellido2Header" headerText="Apellido2">
 					<h:outputText value="#{persona.apellido2}" />
 				</p:column>
-
-				<p:column id="idNombre1Header" headerText="Nombre1"
-					style="width: 125px">
-					<h:outputText value="#{persona.nombre1}" />
-				</p:column>
-
-				<p:column id="idNombre2Header" headerText="Nombre2"
-					style="width: 125px">
-					<h:outputText value="#{persona.nombre2}" />
+				
+				<p:column id="idIdentificacionHeader" headerText="No.Iden."
+					style="width: 150px">
+					<h:outputText value="#{persona.numeroidentificacion}" />
 				</p:column>
 			</p:dataTable>
 		</p:panel>

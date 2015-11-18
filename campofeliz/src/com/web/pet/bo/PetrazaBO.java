@@ -8,12 +8,13 @@ import org.hibernate.Session;
 import com.web.pet.bean.UsuarioBean;
 import com.web.pet.dao.PetrazaDAO;
 import com.web.pet.pojo.annotations.Petraza;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class PetrazaBO {
 	
-	public List<Petraza> lisRazas() throws Exception {
+	public List<Petraza> lisRazas(int idespecie) throws Exception {
 		List<Petraza> lisPetraza = null;
 		Session session = null;
 		
@@ -22,7 +23,7 @@ public class PetrazaBO {
 			
 			PetrazaDAO petrazaDAO = new PetrazaDAO();
 			
-			lisPetraza = petrazaDAO.lisPetraza(session);
+			lisPetraza = petrazaDAO.lisPetraza(session, idespecie);
 		}catch(Exception he){
 			throw new Exception();
 		}finally{
@@ -70,7 +71,7 @@ public class PetrazaBO {
 		return lisPetraza;
 	}
 	
-	public boolean newPetraza(Petraza petraza) throws Exception {
+	public boolean ingresarPetraza(Petraza petraza) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
@@ -87,7 +88,11 @@ public class PetrazaBO {
 			petraza.setIdraza(maxid);
 			petraza.setFecharegistro(fecharegistro);
 			petraza.setIplog(usuarioBean.getIp());
-			petraza.getSetestado().setIdestado(1);
+			
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(1);
+			
+			petraza.setSetestado(setestado);
 			petraza.setSetusuario(usuarioBean.getSetUsuario());
 	
 			petrazaDAO.savePetraza(session, petraza);
@@ -104,7 +109,41 @@ public class PetrazaBO {
 		return ok;
 	}
 	
-	public boolean updatePetraza(Petraza petraza) throws Exception{
+	public boolean modificarPetraza(Petraza petraza,Petraza petrazaClon) throws Exception{
+		boolean ok = false;
+		Session session = null;
+		
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			if(!petraza.equals(petrazaClon)){
+				PetrazaDAO petrazaDAO = new PetrazaDAO();
+				Date fecharegistro = new Date();
+				UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+				
+				petraza.setFecharegistro(fecharegistro);
+				petraza.setIplog(usuarioBean.getIp());
+				petraza.setSetusuario(usuarioBean.getSetUsuario());
+				petrazaDAO.updatePetraza(session, petraza);
+				
+				ok = true;
+			}
+			
+			if(ok){
+				session.getTransaction().commit();
+			}
+		}catch(Exception he){
+			session.getTransaction().rollback();
+			throw new Exception();
+		}finally{
+			session.close();
+		}
+		
+		return ok;
+	}
+	
+	public boolean eliminarPetraza(Petraza petraza) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -113,9 +152,12 @@ public class PetrazaBO {
 			session.beginTransaction();
 			
 			PetrazaDAO petrazaDAO = new PetrazaDAO();
-		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+			
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(2);//inactivo
+			petraza.setSetestado(setestado);
 			
 			petraza.setFecharegistro(fecharegistro);
 			petraza.setIplog(usuarioBean.getIp());

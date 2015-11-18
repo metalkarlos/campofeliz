@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import com.web.pet.bean.UsuarioBean;
 import com.web.pet.dao.PetespecieDAO;
 import com.web.pet.pojo.annotations.Petespecie;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
@@ -70,7 +71,7 @@ public class PetespecieBO {
 		return lisPetespecie;
 	}
 	
-	public boolean newPetespecie(Petespecie petespecie) throws Exception {
+	public boolean ingresarPetespecie(Petespecie petespecie) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
@@ -87,7 +88,11 @@ public class PetespecieBO {
 			petespecie.setIdespecie(maxid);
 			petespecie.setFecharegistro(fecharegistro);
 			petespecie.setIplog(usuarioBean.getIp());
-			petespecie.getSetestado().setIdestado(1);
+			
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(1);
+			petespecie.setSetestado(setestado);
+			
 			petespecie.setSetusuario(usuarioBean.getSetUsuario());
 	
 			petespecieDAO.savePetespecie(session, petespecie);
@@ -104,7 +109,41 @@ public class PetespecieBO {
 		return ok;
 	}
 	
-	public boolean updatePetespecie(Petespecie petespecie) throws Exception{
+	public boolean modificarPetespecie(Petespecie petespecie,Petespecie petespecieClon) throws Exception{
+		boolean ok = false;
+		Session session = null;
+		
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			if(!petespecie.equals(petespecieClon)){
+				PetespecieDAO petespecieDAO = new PetespecieDAO();
+				Date fecharegistro = new Date();
+				UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+				
+				petespecie.setFecharegistro(fecharegistro);
+				petespecie.setIplog(usuarioBean.getIp());
+				petespecie.setSetusuario(usuarioBean.getSetUsuario());
+				petespecieDAO.updatePetespecie(session, petespecie);
+				
+				ok = true;
+			}
+			
+			if(ok){
+				session.getTransaction().commit();
+			}
+		}catch(Exception he){
+			session.getTransaction().rollback();
+			throw new Exception();
+		}finally{
+			session.close();
+		}
+		
+		return ok;
+	}
+	
+	public boolean eliminarPetespecie(Petespecie petespecie) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -113,15 +152,18 @@ public class PetespecieBO {
 			session.beginTransaction();
 			
 			PetespecieDAO petespecieDAO = new PetespecieDAO();
-		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
+			
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(2);//inactivo
+			petespecie.setSetestado(setestado);
 			
 			petespecie.setFecharegistro(fecharegistro);
 			petespecie.setIplog(usuarioBean.getIp());
 			petespecie.setSetusuario(usuarioBean.getSetUsuario());
 			petespecieDAO.updatePetespecie(session, petespecie);
-			
+				
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception he){

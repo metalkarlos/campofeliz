@@ -14,6 +14,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
+import com.web.pet.bo.CotfotopersonaBO;
 import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.bo.CottipoidentificacionBO;
 import com.web.pet.global.Parametro;
@@ -24,6 +25,7 @@ import com.web.pet.pojo.annotations.Cottipoidentificacion;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.FacesUtil;
 import com.web.util.MessageUtil;
+import com.web.util.Utilities;
 
 @ManagedBean
 @ViewScoped
@@ -34,7 +36,6 @@ public class PersonaBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 9199679241560273036L;
 	private int idpersona;
-	private Cotfotopersona cotfotopersona;
 	private Cotpersona cotpersona;
 	private Cotfotopersona cotfotopersonaSelected;
 	private Cottipoidentificacion cottipoidentificacionselected;
@@ -50,14 +51,13 @@ public class PersonaBean implements Serializable {
 	private long maxfilesize;
 	
 	public PersonaBean() {
-		cotpersona = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-		cotpersonaClon = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		cotpersona = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		cotpersonaClon = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		lisCotfotopersona = new ArrayList<Cotfotopersona>();
 		lisCotfotopersonaClon = new ArrayList<Cotfotopersona>();
 		cottipoidentificacionselected = new Cottipoidentificacion(0,null,null);
 		//idtipoidentificacion = 0;
 		cotfotopersonaSelected = new Cotfotopersona();
-		cotfotopersona = new Cotfotopersona();
 		descripcionFoto = "";
 		fotoSubida = false;
 		maxfilesize = Parametro.TAMAÑO_IMAGEN;
@@ -73,30 +73,31 @@ public class PersonaBean implements Serializable {
 			if(par != null){
 				idpersona = Integer.parseInt(par.toString());
 				
-				CotpersonaBO cotpersonaBO = new CotpersonaBO();
-				cotpersona = cotpersonaBO.getCotpersonaConObjetosById(idpersona);
-				
-	            /*if(cotpersona != null && cotpersona.getCottipoidentificacion() != null && cotpersona.getCottipoidentificacion().getIdtipoidentificacion() > 0){
-	            	//cottipoidentificacionselected = cotpersona.getCottipoidentificacion();
-	            	//idtipoidentificacion = cotpersona.getCottipoidentificacion().getIdtipoidentificacion();
-				}*/
-				if(cotpersona == null){
-					cotpersona = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-				}else{
-					if(cotpersona.getCottipoidentificacion() == null){
-						cotpersona.setCottipoidentificacion(new Cottipoidentificacion(0,null,null));
-					}
-				}
-	            
-	            if(cotpersona != null && cotpersona.getIdpersona() > 0){
-	            	cotpersonaClon = cotpersona.clonar();
+				if(idpersona > 0){
+					CotpersonaBO cotpersonaBO = new CotpersonaBO();
+					cotpersona = cotpersonaBO.getCotpersonaConObjetosById(idpersona);
 					
-					if(cotpersona.getCotfotopersonas() != null && cotpersona.getCotfotopersonas().size() > 0){
-						lisCotfotopersona = new ArrayList<Cotfotopersona>(cotpersona.getCotfotopersonas());
+					if(cotpersona != null){
 						
-						for(Cotfotopersona cotfotopersona : lisCotfotopersona){
-							lisCotfotopersonaClon.add(cotfotopersona.clonar());
+						cotpersonaClon = cotpersona.clonar();
+						
+						if(cotpersona.getCottipoidentificacion() == null){
+							cotpersona.setCottipoidentificacion(new Cottipoidentificacion(0,null,null));
 						}
+						
+						if(cotpersonaClon.getCottipoidentificacion() == null){
+							cotpersonaClon.setCottipoidentificacion(new Cottipoidentificacion(0,null,null));
+						}
+						
+						CotfotopersonaBO cotfotopersonaBO = new CotfotopersonaBO();
+						lisCotfotopersona = cotfotopersonaBO.lisPetfotopersonaByIdpersona(idpersona);
+						if(lisCotfotopersona != null && lisCotfotopersona.size() > 0){
+							for(Cotfotopersona cotfotopersona : lisCotfotopersona){
+								lisCotfotopersonaClon.add(cotfotopersona.clonar());
+							}
+						}
+					}else{
+						cotpersona = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 					}
 				}
 			}else{
@@ -112,14 +113,14 @@ public class PersonaBean implements Serializable {
 	
 	private void llenarLisTipoidentificacion(){
 		try{
-			Cottipoidentificacion cottipoidentificacion = new Cottipoidentificacion();
+			/*Cottipoidentificacion cottipoidentificacion = new Cottipoidentificacion();
 			cottipoidentificacion.setIdtipoidentificacion(0);
 			cottipoidentificacion.setNombre("Seleccione");
 			cottipoidentificacion.setSetestado(new Setestado());
-			cottipoidentificacion.setSetusuario(new Setusuario());
+			cottipoidentificacion.setSetusuario(new Setusuario());*/
 		
 			lisCottipoidentificacion = new ArrayList<Cottipoidentificacion>();
-			lisCottipoidentificacion.add(cottipoidentificacion);
+			//lisCottipoidentificacion.add(cottipoidentificacion);
 			
 			CottipoidentificacionBO cottipoidentificacionBO = new CottipoidentificacionBO();
 			List<Cottipoidentificacion> lisTmp = cottipoidentificacionBO.lisCottipoidentificacion();
@@ -132,7 +133,7 @@ public class PersonaBean implements Serializable {
 		}
 	}
 	
-	public void ponerFotoPerfil(ActionEvent actionEvent)
+	public void ponerFotoPrincipal(ActionEvent actionEvent)
 	{
 		cotpersona.setRuta(cotfotopersonaSelected.getRuta());
 		cotfotopersonaSelected = new Cotfotopersona();
@@ -140,8 +141,12 @@ public class PersonaBean implements Serializable {
 	}
 	
 	public void quitarFotoGaleria(){
-		lisCotfotopersona.remove(cotfotopersonaSelected);
-		cotfotopersonaSelected = new Cotfotopersona();
+		if(cotfotopersonaSelected.getRuta().equalsIgnoreCase(cotpersona.getRuta())){
+			new MessageUtil().showInfoMessage("La foto a eliminar es la foto principal de ésta persona. Seleccione otra foto como principal para poderla eliminar.","");
+		}else{
+			lisCotfotopersona.remove(cotfotopersonaSelected);
+			cotfotopersonaSelected = new Cotfotopersona();
+		}
 	}
 	
 	public void handleFileUpload(FileUploadEvent event) {
@@ -166,6 +171,7 @@ public class PersonaBean implements Serializable {
 		streamedContent = null;
 		uploadedFile = null;
 		fotoSubida = false;
+		descripcionFoto = null;
 	}
 
 	public void grabar(){
@@ -188,15 +194,23 @@ public class PersonaBean implements Serializable {
 					cotfotopersona.setDescripcion(descripcionFoto);
 				}
 				
-				if(idpersona > 0){
-					ok = cotpersonaBO.updateCotpersona(cotpersona, cotpersonaClon, lisCotfotopersona, lisCotfotopersonaClon, cotfotopersona, uploadedFile);
-				}else{
-					ok = cotpersonaBO.newCotpersona(cotpersona, cotfotopersona, uploadedFile);
-				}
+				Utilities utilities = new Utilities();
 				
-				if(ok){
+				if(idpersona > 0){
+					ok = cotpersonaBO.modificarCotpersona(cotpersona, cotpersonaClon, lisCotfotopersona, lisCotfotopersonaClon, cotfotopersona, uploadedFile);
+					if(ok){
+						utilities.mostrarPaginaMensaje("Persona actualizada con exito!!");
+					}else{
+						new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
+					}
+				}else{
+					ok = cotpersonaBO.ingresarCotpersona(cotpersona, cotfotopersona, uploadedFile);
 					uploadedFile = null;
-					new MessageUtil().showInfoMessage("Exito! Registro completo!","");
+					if(ok){
+						utilities.mostrarPaginaMensaje("Persona ingresada con exito!!");
+					}else{
+						new MessageUtil().showInfoMessage("No se ha podido ingresar la Persona. Comunicar al Webmaster.", "");
+					}
 				}
 			}
 		}catch(Exception re){
@@ -235,21 +249,25 @@ public class PersonaBean implements Serializable {
 		return ok;
 	}
 	
-	public String eliminar(){
-		String paginaRetorno = null;
-		
+	public void eliminar(){
 		try{
 			CotpersonaBO cotpersonaBO = new CotpersonaBO();
+			Utilities utilities = new Utilities();
 			
-			cotpersonaBO.eliminar(cotpersona);
+			if(cotpersona.getCottipoidentificacion() != null && cotpersona.getCottipoidentificacion().getIdtipoidentificacion() == 0){
+				cotpersona.setCottipoidentificacion(null);
+			}
 			
-			paginaRetorno = "../admin/personas.jsf?iditem=36";
+			boolean ok = cotpersonaBO.eliminar(cotpersona,lisCotfotopersona);
+			if(ok){
+				utilities.mostrarPaginaMensaje("Persona eliminada con exito!");
+			}else{
+				utilities.mostrarPaginaMensaje("No se ha podido eliminar la Persona. Comunicar al Webmaster.");
+			}
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
-		
-		return paginaRetorno;
 	}
 	
 	public Cotpersona getCotpersona() {
@@ -275,13 +293,6 @@ public class PersonaBean implements Serializable {
 		this.lisCottipoidentificacion = lisCottipoidentificacion;
 	}
 	
-	public Cotfotopersona getCotfotopersona() {
-		return cotfotopersona;
-	}
-
-	public void setCotfotopersona(Cotfotopersona cotfotopersona) {
-		this.cotfotopersona = cotfotopersona;
-	}
 	/*public UploadedFile getFile() {
 		return file;
 	}*/

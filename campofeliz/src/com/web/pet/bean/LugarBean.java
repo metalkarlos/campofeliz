@@ -26,12 +26,13 @@ public class LugarBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -2914517347984298492L;
 	private Cotlugar cotlugarItem;
+	private Cotlugar cotlugarItemClon;
 	private LazyDataModel<Cotlugar> lisCotlugar;
 	
 	public LugarBean() {
 		cotlugarItem =  new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
+		cotlugarItemClon =  new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
 		consultarLugar();
-		
 	}
 	
 	@SuppressWarnings("serial")
@@ -70,22 +71,6 @@ public class LugarBean implements Serializable {
 		}
 	}
 	
-	public Cotlugar getCotlugarItem() {
-		return cotlugarItem;
-	}
-
-	public void setCotlugarItem(Cotlugar cotlugarItem) {
-		this.cotlugarItem = cotlugarItem == null ? new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null) : cotlugarItem;
-	}
-
-	public LazyDataModel<Cotlugar> getLisCotlugar() {
-		return lisCotlugar;
-	}
-
-	public void setLisCotlugar(LazyDataModel<Cotlugar> lisCotlugar) {
-		this.lisCotlugar = lisCotlugar;
-	}
-
 	public void guardar(){
 		try{
 			if(validarCampos()){
@@ -94,22 +79,26 @@ public class LugarBean implements Serializable {
 					boolean ok = false;
 					
 					if(cotlugarItem.getIdlugar() > 0){
-						ok = cotlugarBO.updateCotlugar(cotlugarItem);
+						ok = cotlugarBO.modificarCotlugar(cotlugarItem,cotlugarItemClon);
+						if(ok){
+							new MessageUtil().showInfoMessage("Lugar actualizado con exito!!", "");
+						}else{
+							new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
+						}
 					}else{
-						ok = cotlugarBO.newCotlugar(cotlugarItem);
-					}
-					
-					cotlugarItem = new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
-					
-					if(ok){
-						new MessageUtil().showInfoMessage("Exito! Registro completo!","");
+						ok = cotlugarBO.ingresarCotlugar(cotlugarItem);
+						if(ok){
+							new MessageUtil().showInfoMessage("Lugar ingresado con exito!!", "");
+						}else{
+							new MessageUtil().showInfoMessage("No se ha podido ingresar el Color. Comunicar al Webmaster.", "");
+						}
 					}
 				}else{
 					new MessageUtil().showWarnMessage("Ya Existe! Descripción duplicada. Corrija e intente nuevamente.","");
 				}
-			}else{
-				new MessageUtil().showWarnMessage("Datos incompletos! Datos incompletos!","");
 			}
+			
+			cotlugarItem = new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -118,11 +107,10 @@ public class LugarBean implements Serializable {
 	
 	public void eliminar(){
 		try{
-			Setestado setestado = new Setestado();
-			setestado.setIdestado(2);//inactivo
-			cotlugarItem.setSetestado(setestado);
 			CotlugarBO cotlugarBO = new CotlugarBO();
-			cotlugarBO.updateCotlugar(cotlugarItem);
+			cotlugarBO.eliminarCotlugar(cotlugarItem);
+			cotlugarItem = new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
+			new MessageUtil().showInfoMessage("Lugar eliminado con exito!!", "");
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -135,6 +123,7 @@ public class LugarBean implements Serializable {
 		
 		if(cotlugarItem.getNombre() == null || cotlugarItem.getNombre().trim().length() == 0){
 			ok = false;
+			new MessageUtil().showErrorMessage("El nombre del lugar es obligatorio.","");
 		}
 		
 		return ok;
@@ -152,6 +141,31 @@ public class LugarBean implements Serializable {
 	
 	public String cancelar(){
 		return "admin/home.jsf?faces-redirect=true&iditem=35";
+	}
+	
+	public void clonar() {
+		try{
+			cotlugarItemClon = cotlugarItem.clonar();
+		}catch(Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
+	public Cotlugar getCotlugarItem() {
+		return cotlugarItem;
+	}
+
+	public void setCotlugarItem(Cotlugar cotlugarItem) {
+		this.cotlugarItem = cotlugarItem == null ? new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null) : cotlugarItem;
+	}
+
+	public LazyDataModel<Cotlugar> getLisCotlugar() {
+		return lisCotlugar;
+	}
+
+	public void setLisCotlugar(LazyDataModel<Cotlugar> lisCotlugar) {
+		this.lisCotlugar = lisCotlugar;
 	}
 
 }

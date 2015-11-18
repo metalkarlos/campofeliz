@@ -23,11 +23,8 @@
 			<div class="cuerpo">
 				<p:panelGrid id="idgridcontenido" style="width: 100%" columnClasses="col1,col2">
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<div class="titulo">Nombre del Servicio<span style="color: red;">*</span></div>
-					</p:column>
-					<p:column>
-					<h:outputText value="" />
 					</p:column>
 					</p:row>
 					
@@ -41,20 +38,17 @@
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<h:panelGroup id="idpanellabelgaleria">
 					<h:outputLabel id="lblFotos" for="idgalleria" rendered="#{servicioAdminBean.lisPetfotoservicio.size() > 0}" >
 					<div class="titulo">Fotos</div>
 					</h:outputLabel>
 					</h:panelGroup>
 					</p:column>
-					<p:column>
-					<h:outputText value="" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<h:panelGroup id="idpanelgaleria" >
 					<center>
 					<p:galleria id="idgalleria" value="#{servicioAdminBean.lisPetfotoservicio}" var="item" transitionInterval="0" panelWidth="500" panelHeight="400" rendered="#{servicioAdminBean.lisPetfotoservicio.size() > 0}">
@@ -79,22 +73,16 @@
 					</center>
 					</h:panelGroup>
 					</p:column>
-					<p:column>
-					<h:outputText value="" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<div class="titulo">Agregar Foto</div>
 					</p:column>
-					<p:column>
-					<h:outputText value="" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<p:panel id="pnlPrevia" styleClass="panel-previa">
 						<table>
 						<tr>
@@ -111,21 +99,15 @@
 					cancelLabel="Cancelar" uploadLabel="Subir Foto" label="Elegir Foto" sizeLimit="#{servicioAdminBean.maxfilesize}" showButtons="false"
 					update="mensajes,pnlPrevia,pnlDescripcionFoto,pnlDescripcionFoto2" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" widgetVar="widgetVar"/>
 					</p:column>
-					<p:column>
-					<h:outputText value="" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<h:panelGroup id="pnlDescripcionFoto">
 					<h:outputLabel for="txtDescripcionFoto" rendered="#{servicioAdminBean.fotoSubida}" >
 					<div class="titulo">Descripción de la Foto</div>
 					</h:outputLabel>
 					</h:panelGroup>
-					</p:column>
-					<p:column>
-					<h:outputText value="" />
 					</p:column>
 					</p:row>
 					
@@ -141,11 +123,8 @@
 					</p:row>
 				
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<div class="titulo">Descripción del Servicio<span style="color: red;">*</span></div>
-					</p:column>
-					<p:column>
-					<h:outputText value="" />
 					</p:column>
 					</p:row>
 					
@@ -159,11 +138,8 @@
 					</p:row>
 	
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<div class="titulo">Oficina<span style="color: red;">*</span></div>
-					</p:column>
-					<p:column>
-					<h:outputText value="" />
 					</p:column>
 					</p:row>
 					
@@ -180,11 +156,8 @@
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<div class="titulo">Tags</div>
-					</p:column>
-					<p:column>
-					<h:outputText value="" />
 					</p:column>
 					</p:row>
 					
@@ -198,11 +171,8 @@
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<div class="titulo">Orden<span style="color: red;">*</span></div>
-					</p:column>
-					<p:column>
-					<h:outputText value="" />
 					</p:column>
 					</p:row>
 					
@@ -216,13 +186,10 @@
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<h:outputLabel for="txtprincipal" rendered="#{servicioAdminBean.idempresa == 1}" >
 					<div class="titulo">¿Aparece en los servicios destacados?<span style="color: red;">*</span></div>
 					</h:outputLabel>
-					</p:column>
-					<p:column>
-					<h:outputText value="" />
 					</p:column>
 					</p:row>
 					

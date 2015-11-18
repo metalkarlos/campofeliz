@@ -31,22 +31,19 @@
 			<div class="cuerpo">
 				<p:panelGrid id="idgridcontenido" style="width: 100%" columnClasses="col1,col2">
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<div class="titulo">Escriba Nombre de la Mascota<span style="color: red;">*</span></div>
-					</p:column>
-					<p:column>
-					<h:outputText value="" />
 					</p:column>
 					</p:row>
 					
 					<p:row>
 					<p:column>
 					<p:autoComplete id="txtNombreMascota" size="60"
-						value="#{ordenServicioBean.mascotasselected}"
+						value="#{ordenServicioBean.petordenservicio.petmascotahomenaje}"
 						completeMethod="#{ordenServicioBean.buscarMascotas}" var="m"
-						itemLabel="#{m.petmascotahomenaje.nombre}" itemValue="#{m}"
+						itemLabel="#{m.nombre}" itemValue="#{m}"
 						converter="mascota" minQueryLength="1" forceSelection="true"
-						requiredMessage="La Mascota es obligatoria">
+						required="true" requiredMessage="Escriba el Nombre de la Mascota">
 						<p:ajax event="itemSelect"
 							listener="#{ordenServicioBean.itemSelectMascota}"
 							update=":form-contentpage:panelgridmascota, :form-contentpage:panelgridpropietario, :form-contentpage:mensajes"></p:ajax>
@@ -56,26 +53,28 @@
 								<f:facet name="header">
 									<center>
 										<p:graphicImage
-											value="#{parametro.servletImagenes}#{m.petfotomascota.ruta}?w=150"
+											value="#{parametro.servletImagenes}#{m.rutafoto}?w=150"
 											style="max-height: 100px" />
 									</center>
 								</f:facet>
 	
 								<h:outputText value="Código: " style="font-weight: bold;" />
 								<h:outputText id="idtoolcodigo"
-									value="#{m.petmascotahomenaje.idmascota}" />
+									value="#{m.idmascota}" />
 	
 								<h:outputText value="Mascota: " style="font-weight: bold;" />
 								<h:outputText id="idtoolnombre"
-									value="#{m.petmascotahomenaje.nombre}" />
+									value="#{m.nombre}" />
 	
 								<h:outputText value="Propietario: " style="font-weight: bold;" />
 								<h:outputText id="idtoolpropietario"
-									value="#{m.petmascotahomenaje.cotpersona.nombre1} #{m.petmascotahomenaje.cotpersona.nombre2} #{m.petmascotahomenaje.cotpersona.apellido1} #{m.petmascotahomenaje.cotpersona.apellido2}" />
+									value="#{m.cotpersona.nombre1} #{m.cotpersona.nombre2} #{m.cotpersona.apellido1} #{m.cotpersona.apellido2}" />
 							</h:panelGrid>
 						</f:facet>
 					</p:autoComplete>
+					<h:panelGroup rendered="#{ordenServicioBean.petordenservicio.idordenservicio == 0}">
 					[ <h:link class="link" value="Nueva" onclick="vardialogeditormascota.show()" /> ]
+					</h:panelGroup>
 					</p:column>
 					<p:column>
 					<p:message id="msgtxtNombreMascota" for="txtNombreMascota" display="icon" />
@@ -83,16 +82,13 @@
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<div class="titulo">Datos de la Mascota</div>
-					</p:column>
-					<p:column>
-					<h:outputText value="" />
 					</p:column>
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 						<h:panelGroup id="panelgridmascota">
 							<table style="width:100%">
 							<tr>
@@ -103,7 +99,7 @@
 									<h:outputLabel id="idlblcodigo" value="Código: " for="idcodigo" />
 								</td>
 								<td style="width: 50%">
-									<h:outputText id="idcodigo" value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.idmascota}" />
+									<h:outputText id="idcodigo" value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.idmascota}" />
 								</td>
 								</tr>
 								<tr>
@@ -113,11 +109,9 @@
 								<td>
 									<h:link id="idnombre" title="Consultar/Editar" outcome="mascota.hxtml" target="_blank">
 										<h:outputText
-											value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.nombre}" />
+											value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.nombre}" />
 										<f:param name="idmascota"
-											value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.idmascota}" />
-										<f:param name="especie"
-											value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.petespecie.idespecie}" />
+											value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.idmascota}" />
 										<f:param name="iditem" value="#{menuBean.activeIdItem}" />
 									</h:link>
 								</td>
@@ -127,7 +121,7 @@
 									<h:outputLabel id="idlblespecie" value="Especie: " for="idespecie" />
 								</td>
 								<td>
-									<h:outputText id="idespecie" value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.petespecie.nombre}" />
+									<h:outputText id="idespecie" value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.petespecie.nombre}" />
 								</td>
 								</tr>
 								<tr>
@@ -135,7 +129,7 @@
 									<h:outputLabel id="idlblraza" value="Raza: " for="idraza" />
 								</td>
 								<td>
-									<h:outputText id="idraza" value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.petraza.nombre}" />
+									<h:outputText id="idraza" value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.petraza.nombre}" />
 								</td>
 								</tr>
 								<tr>
@@ -143,7 +137,7 @@
 									<h:outputLabel id="idlblpeso" value="Peso: " for="idpeso" />
 								</td>
 								<td>
-									<h:outputText id="idpeso" value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.pesokg}kg." />
+									<h:outputText id="idpeso" value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.pesokg}kg." />
 								</td>
 								</tr>
 								<tr>
@@ -152,7 +146,7 @@
 								</td>
 								<td>
 									<h:outputText id="idfechanacimiento"
-										value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.fechanacimiento}">
+										value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.fechanacimiento}">
 										<f:convertDateTime dateStyle="medium" />
 									</h:outputText>
 								</td>
@@ -163,7 +157,7 @@
 								</td>
 								<td>
 									<h:outputText id="idfechafallecimiento"
-										value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.fechafallecimiento}">
+										value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.fechafallecimiento}">
 										<f:convertDateTime dateStyle="medium" />
 									</h:outputText>
 								</td>
@@ -189,29 +183,23 @@
 							</td>
 							<td style="width: 50%">
 								<p:graphicImage id="idfotox"
-								value="#{parametro.servletImagenes}#{ordenServicioBean.mascotasselected.petfotomascota.ruta}?w=150"
+								value="#{parametro.servletImagenes}#{ordenServicioBean.petordenservicio.petmascotahomenaje.rutafoto}?w=150"
 								style="max-height: 150px" />
 							</td>
 							</tr>
 							</table>
 						</h:panelGroup>
 					</p:column>
-					<p:column>
-					<h:outputText value="" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<div class="titulo">Datos del Propietario</div>
 					</p:column>
-					<p:column>
-					<h:outputText value="" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 						<h:panelGroup id="panelgridpropietario">
 							<table style="width:100%">
 							<tr>
@@ -220,10 +208,10 @@
 							</td>
 							<td style="width: 75%">
 							<h:link id="idpropietario" outcome="persona.xhtml" title="Consultar/Editar"
-								value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.cotpersona.nombre1} #{ordenServicioBean.mascotasselected.petmascotahomenaje.cotpersona.nombre2} #{ordenServicioBean.mascotasselected.petmascotahomenaje.cotpersona.apellido1} #{ordenServicioBean.mascotasselected.petmascotahomenaje.cotpersona.apellido2}"
+								value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.nombre1} #{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.nombre2} #{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.apellido1} #{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.apellido2}"
 								target="_blank">
 								<f:param name="idpersona"
-									value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.cotpersona.idpersona}"></f:param>
+									value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.idpersona}"></f:param>
 								<f:param name="iditem" value="36"></f:param>
 							</h:link>
 							</td>
@@ -233,7 +221,7 @@
 							<h:outputLabel id="idlblidentificacionp" value="Número de Identificación: " for="ididentificacionp" />
 							</td>
 							<td>
-							<h:outputText id="ididentificacionp" value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.cotpersona.numeroidentificacion}" />
+							<h:outputText id="ididentificacionp" value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.numeroidentificacion}" />
 							</td>
 							</tr>
 							<tr>
@@ -242,7 +230,7 @@
 							</td>
 							<td>
 							<h:outputText id="idfechanacimientop"
-								value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.cotpersona.fechanacimiento}">
+								value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.fechanacimiento}">
 								<f:convertDateTime dateStyle="medium" />
 							</h:outputText>
 							</td>
@@ -252,7 +240,7 @@
 							<h:outputLabel id="idlbldireccionp" value="Dirección: " for="iddireccionp" />
 							</td>
 							<td>
-							<h:outputText id="iddireccionp" value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.cotpersona.direccion}" />
+							<h:outputText id="iddireccionp" value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.direccion}" />
 							</td>
 							</tr>
 							<tr>
@@ -260,7 +248,7 @@
 							<h:outputLabel id="idlbltelefonop" value="Teléfono: " for="idtelefonop" />
 							</td>
 							<td>
-							<h:outputText id="idtelefonop" value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.cotpersona.telefono}" />
+							<h:outputText id="idtelefonop" value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.telefono}" />
 							</td>
 							</tr>
 							<tr>
@@ -268,33 +256,27 @@
 							<h:outputLabel id="idlblemailp" value="E-mail: " for="idemailp" />
 							</td>
 							<td>
-							<h:outputText id="idemailp" value="#{ordenServicioBean.mascotasselected.petmascotahomenaje.cotpersona.email}" />
+							<h:outputText id="idemailp" value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.email}" />
 							</td>
 							</tr>
 							</table>
 						</h:panelGroup>
 					</p:column>
-					<p:column>
-					<h:outputText value="" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<div class="titulo">Datos de la Solicitud</div>
 					</p:column>
-					<p:column>
-					<h:outputText value="" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 						<h:panelGroup id="panelgridorden" >
 							<table style="width: 100%">
 							<tr>
 							<td style="width:25%">
-							<h:outputLabel id="idlblfechaentierro" value="Fecha de Entierro: " for="idfechaentierro" />
+							<h:outputLabel id="idlblfechaentierro" value="Fecha de Entierro/Cremación: " for="idfechaentierro" />
 							</td>
 							<td style="width:75%">
 							<p:calendar id="idfechaentierro" styleClass="calendario" 
@@ -337,9 +319,6 @@
 							</tr>
 							</table>
 						</h:panelGroup>
-					</p:column>
-					<p:column>
-					<h:outputText value="" />
 					</p:column>
 					</p:row>
 				</p:panelGrid>
@@ -400,7 +379,7 @@
 					updateButtonImprimir=":form-contentpage:mensajes" />
 			</div>
 		</p:panel>
-		<p:dialog id="iddialoggrabar" header="Actualizar Orden de Servicio"
+		<p:dialog id="iddialoggrabar" header="Orden de Servicio"
 			closable="true" widgetVar="vardialoggrabar" modal="true">
 			<h:panelGrid id="idpanelgrabar" columns="2">
 				<h:outputText id="idlabelgrabar" value="¿Desea continuar?" />
@@ -408,8 +387,8 @@
 					<p:commandButton value="SI" style="width: 50px"
 						actionListener="#{ordenServicioBean.guardar()}"
 						oncomplete="vardialoggrabar.hide()"
-						update=":form-contentpage:mensajes, :form-contentpage:idbotongrabar, :form-contentpage:idTablaDetalle" 
-						process="txtNombreMascota,idfechaentierro,idlugar,idobservacion,iddedicatoria"/>
+						update="mensajes,txtNombreMascota,msgtxtNombreMascota,idbotongrabar,idTablaDetalle" 
+						process="mensajes,txtNombreMascota,msgtxtNombreMascota,idfechaentierro,idlugar,idobservacion,iddedicatoria"/>
 					<p:commandButton value="NO" style="width: 50px"
 						onclick="vardialoggrabar.hide()" immediate="true" />
 				</h:panelGrid>
@@ -524,10 +503,11 @@
 					<p:selectOneMenu id="cmbEspecieEditor" required="true" requiredMessage="Especie es Obligatorio"
 						style="width: 145px; align: center;"
 						value="#{ordenServicioBean.petmascotahomenajenuevo.petespecie.idespecie}">
-						<f:selectItem itemLabel="Seleccione" itemValue="0" />
+						<f:selectItem itemLabel="Seleccione" itemValue=" " />
 						<f:selectItems value="#{ordenServicioBean.lisPetespecie}"
 							var="especie" itemLabel="#{especie.nombre}"
 							itemValue="#{especie.idespecie}"></f:selectItems>
+						<f:ajax event="change" listener="#{ordenServicioBean.llenarLisRaza()}" render=":form-contentpage:cmbRazaEditor" />
 					</p:selectOneMenu>
 					</p:column>
 					<p:column>
@@ -543,6 +523,7 @@
 					<p:selectOneMenu id="cmbRazaEditor" required="true" requiredMessage="Raza es Obligatorio"
 						value="#{ordenServicioBean.petmascotahomenajenuevo.petraza.idraza}"
 						style="width: 150px">
+						<f:selectItem itemLabel="Seleccione" itemValue=" " />
 						<f:selectItems value="#{ordenServicioBean.lisRaza}" var="raza"
 							itemLabel="#{raza.nombre}" itemValue="#{raza.idraza}" />
 					</p:selectOneMenu>
@@ -690,8 +671,7 @@
 					</p:row>
 				</p:panelGrid>
 			</p:fieldset>
-			<br />
-			<div align="right">
+			<div align="right" style="padding: 5px 0;">
 				<p:commandButton id="idgrabarmascota" value="Grabar"
 					action="#{ordenServicioBean.guardarMascotaResumido()}"
 					update="mensajeseditormascota,msgtxtCodVeterinariaEditor,txtCodVeterinariaEditor,msgtxtNombreMascotaEditor,txtNombreMascotaEditor,msgcmbEspecieEditor,cmbEspecieEditor,msgcmbRazaEditor,cmbRazaEditor,msgtxtFechaNacimientoEditor,txtFechaNacimientoEditor,msgtxtFechaFallecimientoEditor,txtFechaFallecimientoEditor,msgcmbSexoEditor,cmbSexoEditor,msgtxtPrimerNombreEditor,txtPrimerNombreEditor,msgtxtPrimerApellidoEditor,txtPrimerApellidoEditor,msgcmbSexoPropietarioEditor,cmbSexoPropietarioEditor,msgtxtTelefonoEditor,txtTelefonoEditor" />
@@ -702,9 +682,11 @@
 					immediate="true" />
 			</div>
 		</p:dialog>
-		<p:dialog id="dlgMostrarReporte" header="Reporte" 
+		<p:dialog id="dlgMostrarReporte" header="Reporte" height="30" width="200"
 			closable="true" widgetVar="varDlgMostrarReporte" modal="true">
-			<h:link id="lnkVerReporte" value="Ver Reporte" outcome="visor_reportes" target="_blank"  />
+			<center>
+			<h:link id="lnkVerReporte" value="Ver Reporte" outcome="visor_reportes" target="_blank" onclick="varDlgMostrarReporte.hide()" />
+			</center>
 		</p:dialog>
 	</h:form>
 </ui:composition>

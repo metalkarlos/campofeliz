@@ -41,7 +41,7 @@ public class CottiposervicioDAO {
 		
 		Criteria criteria = session.createCriteria(Cottiposervicio.class)
 		.add( Restrictions.eq("setestado.idestado", 1))
-		.addOrder(Order.asc("nombre"))
+		.addOrder(Order.asc("nombre").ignoreCase())
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
 			

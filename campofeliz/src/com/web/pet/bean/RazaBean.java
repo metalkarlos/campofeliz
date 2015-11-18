@@ -11,7 +11,9 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
+import com.web.pet.bo.PetespecieBO;
 import com.web.pet.bo.PetrazaBO;
+import com.web.pet.pojo.annotations.Petespecie;
 import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Petraza;
 import com.web.pet.pojo.annotations.Setusuario;
@@ -25,12 +27,15 @@ public class RazaBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -2391829863647678000L;
 	private Petraza petrazaItem;
+	private Petraza petrazaItemClon;
+	private List<Petespecie> lisPetespecie;
 	private LazyDataModel<Petraza> lisPetraza;
 	
 	public RazaBean() {
-		petrazaItem = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null);
+		petrazaItem = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null, new Petespecie());
+		petrazaItemClon = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null, new Petespecie());
 		consultarRazas();
-		
+		llenarEspecieMascota();
 	}
 	
 	@SuppressWarnings("serial")
@@ -69,22 +74,16 @@ public class RazaBean implements Serializable {
 		}
 	}
 	
-	public Petraza getPetrazaItem() {
-		return petrazaItem;
+	private void llenarEspecieMascota(){
+		try
+		{
+			lisPetespecie = new PetespecieBO().lisPetespecie();
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
 	}
-
-	public void setPetrazaItem(Petraza petrazaItem) {
-		this.petrazaItem = petrazaItem == null ? new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null) : petrazaItem;
-	}
-
-	public LazyDataModel<Petraza> getLisPetraza() {
-		return lisPetraza;
-	}
-
-	public void setLisPetraza(LazyDataModel<Petraza> lisPetraza) {
-		this.lisPetraza = lisPetraza;
-	}
-
+	
 	public void guardar(){
 		try{
 			if(validarCampos()){
@@ -93,22 +92,26 @@ public class RazaBean implements Serializable {
 					boolean ok = false;
 					
 					if(petrazaItem.getIdraza() > 0){
-						ok = petrazaBO.updatePetraza(petrazaItem);
+						ok = petrazaBO.modificarPetraza(petrazaItem,petrazaItemClon);
+						if(ok){
+							new MessageUtil().showInfoMessage("Raza actualizada con exito!!", "");
+						}else{
+							new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
+						}
 					}else{
-						ok = petrazaBO.newPetraza(petrazaItem);
-					}
-					
-					petrazaItem = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null);
-					
-					if(ok){
-						new MessageUtil().showInfoMessage("Exito! Registro completo!","");
+						ok = petrazaBO.ingresarPetraza(petrazaItem);
+						if(ok){
+							new MessageUtil().showInfoMessage("Raza ingresada con exito!!", "");
+						}else{
+							new MessageUtil().showInfoMessage("No se ha podido ingresar la Raza. Comunicar al Webmaster.", "");
+						}
 					}
 				}else{
 					new MessageUtil().showWarnMessage("Ya Existe! Descripción duplicada. Corrija e intente nuevamente.","");
 				}
-			}else{
-				new MessageUtil().showWarnMessage("Datos incompletos! Datos incompletos!","");
 			}
+			
+			petrazaItem = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null,new Petespecie());
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -117,11 +120,10 @@ public class RazaBean implements Serializable {
 	
 	public void eliminar(){
 		try{
-			Setestado setestado = new Setestado();
-			setestado.setIdestado(2);//inactivo
-			petrazaItem.setSetestado(setestado);
 			PetrazaBO petrazaBO = new PetrazaBO();
-			petrazaBO.updatePetraza(petrazaItem);
+			petrazaBO.eliminarPetraza(petrazaItem);
+			petrazaItem = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null,new Petespecie());
+			new MessageUtil().showInfoMessage("Raza eliminada con exito!!", "");
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -132,8 +134,14 @@ public class RazaBean implements Serializable {
 	{
 		boolean ok = true;
 		
-		if(petrazaItem.getNombre() == null || petrazaItem.getNombre().trim().length() == 0){
+		if(petrazaItem.getPetespecie() == null || petrazaItem.getPetespecie().getIdespecie() == 0 ){
 			ok = false;
+			new MessageUtil().showErrorMessage("La Especie es obligatoria.","");
+		}else{
+			if(petrazaItem.getNombre() == null || petrazaItem.getNombre().trim().length() == 0){
+				ok = false;
+				new MessageUtil().showErrorMessage("El nombre de la raza es obligatorio.","");
+			}
 		}
 		
 		return ok;
@@ -146,11 +154,44 @@ public class RazaBean implements Serializable {
 
 	public void newItem()
 	{
-		petrazaItem = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null);
+		petrazaItem = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null,new Petespecie());
 	}
 	
 	public String cancelar(){
 		return "admin/home.jsf?faces-redirect=true&iditem=35";
+	}
+	
+	public void clonar() {
+		try{
+			petrazaItemClon = petrazaItem.clonar();
+		}catch(Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
+	public Petraza getPetrazaItem() {
+		return petrazaItem;
+	}
+
+	public void setPetrazaItem(Petraza petrazaItem) {
+		this.petrazaItem = petrazaItem == null ? new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null,new Petespecie()) : petrazaItem;
+	}
+
+	public LazyDataModel<Petraza> getLisPetraza() {
+		return lisPetraza;
+	}
+
+	public void setLisPetraza(LazyDataModel<Petraza> lisPetraza) {
+		this.lisPetraza = lisPetraza;
+	}
+
+	public List<Petespecie> getLisPetespecie() {
+		return lisPetespecie;
+	}
+
+	public void setLisPetespecie(List<Petespecie> lisPetespecie) {
+		this.lisPetespecie = lisPetespecie;
 	}
 
 }

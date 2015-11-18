@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "cotcolor")
-public class Cotcolor implements java.io.Serializable {
+public class Cotcolor implements java.io.Serializable, Cloneable {
 
 	/**
 	 * 
@@ -142,6 +142,16 @@ public class Cotcolor implements java.io.Serializable {
 	public void setPetmascotacolors(Set<Petmascotacolor> petmascotacolors) {
 		this.petmascotacolors = petmascotacolors;
 	}*/
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException{
+	  Cotcolor cotcolor = (Cotcolor) super.clone();
+	  return cotcolor;
+	}
+	
+	public Cotcolor clonar() throws Exception{
+		return (Cotcolor)this.clone();
+	}
 
 	@Override
 	public int hashCode() {

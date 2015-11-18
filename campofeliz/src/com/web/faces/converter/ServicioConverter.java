@@ -12,9 +12,7 @@ public class ServicioConverter implements Converter {
 	
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String submittedValue) {
-		if (submittedValue.trim().equals("")) {
-            return null;
-        } else {
+		if (submittedValue != null && submittedValue.trim().length() > 0) {
             try {
                 int id = Integer.parseInt(submittedValue);
                 Petservicio cotservicio = new PetservicioBO().getPetservicioById(id);
