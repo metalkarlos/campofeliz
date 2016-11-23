@@ -357,10 +357,10 @@ public class PetservicioBO {
 		Calendar fecha = Calendar.getInstance();
 		
 		String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
-		String rutaServicios =  fileUtil.getPropertyValue("repositorio-servicios") + fecha.get(Calendar.YEAR);
+		String rutaServicios =  fileUtil.getPropertyValue("repositorio-servicios") + "/" + fecha.get(Calendar.YEAR);
 		String nombreArchivo = fecha.get(Calendar.YEAR) + "-" + (fecha.get(Calendar.MONTH) + 1) + "-" + fecha.get(Calendar.DAY_OF_MONTH) + "-" + petservicio.getIdservicio() + "-" + cantFotosPorServicio + "." + fileUtil.getFileExtention(uploadedFile.getFileName()).toLowerCase();
 		
-		String rutaCompleta = rutaImagenes + rutaServicios;
+		String rutaCompleta = rutaImagenes + "/" + rutaServicios;
 		
 		if(fileUtil.createDir(rutaCompleta)){
 			//crear foto en disco
@@ -371,7 +371,7 @@ public class PetservicioBO {
 		//foto en BD
 		petfotoservicio.setIdfotoservicio(maxIdfotoservicio);
 		petfotoservicio.setPetservicio(petservicio);
-		String rutaBD = rutaServicios + "/" + nombreArchivo;
+		String rutaBD = "/" + rutaServicios + "/" + nombreArchivo;
 		petfotoservicio.setRuta(rutaBD);
 		petfotoservicio.setNombrearchivo(nombreArchivo);
 		petfotoservicio.setPerfil(1);//campo sin uso ya que tabla principal posee ruta de foto de perfil

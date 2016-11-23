@@ -57,14 +57,14 @@ package com.web.pet.bo;
 				Calendar fecha = Calendar.getInstance();
 				
 				String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
-				String rutaMascota =  fileUtil.getPropertyValue("repositorio-personas") + fecha.get(Calendar.YEAR);
+				String rutaMascota =  fileUtil.getPropertyValue("repositorio-personas") + "/" + fecha.get(Calendar.YEAR);
 				String nombrearchivo = fecha.get(Calendar.YEAR) + "-" + (fecha.get(Calendar.MONTH) + 1) + "-" + fecha.get(Calendar.DAY_OF_MONTH) + "-" + cotfotopersona.getCotpersona().getIdpersona()+"-"+secuencia+"."+fileUtil.getFileExtention(cotfotopersona.getNombrearchivo()).toLowerCase();
 				
-				String rutaCompleta = rutaImagenes + rutaMascota;
+				String rutaCompleta = rutaImagenes + "/" + rutaMascota;
 				
 				//asignar ruta y nombre de archivo en objeto
 				cotfotopersona.setNombrearchivo(nombrearchivo);
-				cotfotopersona.setRuta(rutaMascota+"/"+nombrearchivo);
+				cotfotopersona.setRuta("/" + rutaMascota + "/" + nombrearchivo);
 				
 				//Auditoria
 				cotfotopersona.setFecharegistro(fecharegistro);

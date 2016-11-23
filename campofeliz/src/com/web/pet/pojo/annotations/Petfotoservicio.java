@@ -2,6 +2,7 @@ package com.web.pet.pojo.annotations;
 
 // Generated 05/03/2014 11:20:16 AM by Hibernate Tools 3.4.0.CR1
 
+import java.util.Comparator;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,6 +36,12 @@ public class Petfotoservicio implements java.io.Serializable, Cloneable {
 	private Date fecharegistro;
 	private String iplog;
 	private Date fechamodificacion;
+	
+	public static Comparator<Petfotoservicio> FecharegistroComparator = new Comparator<Petfotoservicio>() {
+		public int compare(Petfotoservicio petfotoservicio1, Petfotoservicio petfotoservicio2) {
+			return petfotoservicio1.getFecharegistro().compareTo(petfotoservicio2.getFecharegistro());
+		}
+	};
 
 	public Petfotoservicio() {
 	}

@@ -184,10 +184,10 @@ public class PetmascotaBO {
 		Calendar fecha = Calendar.getInstance();
 		
 		String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
-		String rutaMascotas =  fileUtil.getPropertyValue("repositorio-mascota") + fecha.get(Calendar.YEAR);
+		String rutaMascotas =  fileUtil.getPropertyValue("repositorio-mascota") + "/" + fecha.get(Calendar.YEAR);
 		String nombreArchivo = fecha.get(Calendar.YEAR) + "-" + (fecha.get(Calendar.MONTH) + 1) + "-" + fecha.get(Calendar.DAY_OF_MONTH) + "-" + petmascotahomenaje.getIdmascota() + "-" + cantFotosPorMascota + "." + fileUtil.getFileExtention(uploadedFile.getFileName()).toLowerCase();
 		
-		String rutaCompleta = rutaImagenes + rutaMascotas;
+		String rutaCompleta = rutaImagenes + "/" + rutaMascotas;
 		
 		if(fileUtil.createDir(rutaCompleta)){
 			//crear foto en disco
@@ -198,7 +198,7 @@ public class PetmascotaBO {
 		//foto en BD
 		petfotomascota.setIdfotomascota(maxidfotomascota);
 		petfotomascota.setPetmascotahomenaje(petmascotahomenaje);
-		String rutaBD = rutaMascotas + "/" + nombreArchivo;
+		String rutaBD = "/" + rutaMascotas + "/" + nombreArchivo;
 		petfotomascota.setRuta(rutaBD);
 		petfotomascota.setNombrearchivo(nombreArchivo);
 		petfotomascota.setMostrar(1);//campo sin uso ya que tabla principal posee ruta de foto de perfil

@@ -176,10 +176,10 @@ public class CotpersonaBO {
 		Calendar fecha = Calendar.getInstance();
 		
 		String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
-		String rutaPersonas =  fileUtil.getPropertyValue("repositorio-personas") + fecha.get(Calendar.YEAR);
+		String rutaPersonas =  fileUtil.getPropertyValue("repositorio-personas") + "/" + fecha.get(Calendar.YEAR);
 		String nombreArchivo = fecha.get(Calendar.YEAR) + "-" + (fecha.get(Calendar.MONTH) + 1) + "-" + fecha.get(Calendar.DAY_OF_MONTH) + "-" + cotpersona.getIdpersona() + "-" + cantFotosPorPersona + "." + fileUtil.getFileExtention(uploadedFile.getFileName()).toLowerCase();
 		
-		String rutaCompleta = rutaImagenes + rutaPersonas;
+		String rutaCompleta = rutaImagenes + "/" + rutaPersonas;
 		
 		if(fileUtil.createDir(rutaCompleta)){
 			//crear foto en disco
@@ -190,7 +190,7 @@ public class CotpersonaBO {
 		//foto en BD
 		cotfotopersona.setIdfotopersona(maxIdfotonoticia);
 		cotfotopersona.setCotpersona(cotpersona);
-		String rutaBD = rutaPersonas + "/" + nombreArchivo;
+		String rutaBD = "/" + rutaPersonas + "/" + nombreArchivo;
 		cotfotopersona.setRuta(rutaBD);
 		cotfotopersona.setNombrearchivo(nombreArchivo);
 		cotfotopersona.setMostrar(1);//campo sin uso ya que tabla principal posee ruta de foto de perfil

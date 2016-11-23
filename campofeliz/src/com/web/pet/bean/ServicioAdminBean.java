@@ -2,6 +2,7 @@ package com.web.pet.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class ServicioAdminBean implements Serializable {
 			try{facesUtil.redirect("../pages/home.jsf");}catch(Exception e){}
 		} catch(Exception e) {
 			e.printStackTrace();
-			try{facesUtil.redirect("home.jsf");}catch(Exception e2){}
+			try{facesUtil.redirect("../pages/home.jsf");}catch(Exception e2){}
 		}
 	}
 	
@@ -109,7 +110,13 @@ public class ServicioAdminBean implements Serializable {
 					}
 					
 					if(petservicio.getPetfotoservicios() != null && petservicio.getPetfotoservicios().size() > 0){
-						lisPetfotoservicio = new ArrayList<Petfotoservicio>(petservicio.getPetfotoservicios());
+						//lisPetfotoservicio = new ArrayList<Petfotoservicio>(petservicio.getPetfotoservicios());
+						
+						//ordenar por fecharegistro
+						Petfotoservicio[] arr = new Petfotoservicio[petservicio.getPetfotoservicios().size()];
+						arr = petservicio.getPetfotoservicios().toArray(arr);
+						Arrays.sort(arr, Petfotoservicio.FecharegistroComparator);
+						lisPetfotoservicio = new ArrayList<Petfotoservicio>(Arrays.asList(arr));
 						
 						for(Petfotoservicio petfotoservicio : lisPetfotoservicio){
 							lisPetfotoservicioClon.add(petfotoservicio.clonar());
@@ -122,7 +129,7 @@ public class ServicioAdminBean implements Serializable {
 			}
 		}
 	}
-	
+
 	public void handleFileUpload(FileUploadEvent event) {
 		try{
 			uploadedFile = event.getFile();

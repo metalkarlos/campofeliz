@@ -4,6 +4,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
+import javax.servlet.http.HttpServletRequest;
 
 import com.web.pet.bean.MenuBean;
 import com.web.pet.bean.UsuarioBean;
@@ -27,12 +28,14 @@ public class SecurityPhaseListener implements PhaseListener {
 	
 	public void afterPhase(PhaseEvent phaseEvent) {
 		if(phaseEvent.getPhaseId() == PhaseId.RESTORE_VIEW){
-			UsuarioBean usuarioBean = (UsuarioBean) new FacesUtil().getSessionBean("usuarioBean");
 			FacesContext facesContext = phaseEvent.getFacesContext();
+			UsuarioBean usuarioBean = (UsuarioBean) new FacesUtil().getSessionBean("usuarioBean");
+			HttpServletRequest request = (HttpServletRequest)facesContext.getExternalContext().getRequest();
+			String vista = request.getRequestURI();
+			//String param = request.getQueryString();
 			
 			//si ingresa a login y ya esta logoneado redirecciona a home
-			String vista = facesContext.getViewRoot().getViewId();
-			boolean loginPage = vista != null && vista.equals("/pages/login.xhtml");
+			boolean loginPage = vista != null && vista.equals("/pages/login.jsf");
 			if(loginPage){
 				if(usuarioBean != null && usuarioBean.isAutenticado()){
 					try{

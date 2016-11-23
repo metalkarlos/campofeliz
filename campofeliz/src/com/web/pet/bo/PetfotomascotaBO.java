@@ -57,14 +57,14 @@ public class PetfotomascotaBO {
 			Calendar fecha = Calendar.getInstance();
 			
 			String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
-			String rutaMascota =  fileUtil.getPropertyValue("repositorio-mascota") + fecha.get(Calendar.YEAR);
+			String rutaMascota =  fileUtil.getPropertyValue("repositorio-mascota") + "/" + fecha.get(Calendar.YEAR);
 			String nombrearchivo = fecha.get(Calendar.YEAR) + "-" + (fecha.get(Calendar.MONTH) + 1) + "-" + fecha.get(Calendar.DAY_OF_MONTH) + "-" + petfotomascota.getPetmascotahomenaje().getPetespecie().getIdespecie()+"-"+petfotomascota.getPetmascotahomenaje().getIdmascota()+"-"+secuencia+"."+fileUtil.getFileExtention(petfotomascota.getNombrearchivo()).toLowerCase();
 			
-			String rutaCompleta = rutaImagenes + rutaMascota;
+			String rutaCompleta = rutaImagenes + "/" + rutaMascota;
 			
 			//asignar ruta y nombre de archivo en objeto
 			petfotomascota.setNombrearchivo(nombrearchivo);
-			petfotomascota.setRuta(rutaMascota+"/"+nombrearchivo);
+			petfotomascota.setRuta("/" + rutaMascota + "/" + nombrearchivo);
 			
 			//Auditoria
 			petfotomascota.setFecharegistro(fecharegistro);

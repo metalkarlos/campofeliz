@@ -46,16 +46,23 @@ public class CambiarClaveBean implements Serializable {
 				setpeticionclave = setpeticionclaveBO.getSetpeticionclaveByUid(uid);
 				
 				if(setpeticionclave == null || setpeticionclave.getIdpeticionclave() == 0){
-					facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
+					redireccionar("home");
 				}
 			}else{
-				facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
+				redireccionar("home");
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			try{
-				facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
-			}catch(Throwable th){}
+			redireccionar("home");
+		}
+	}
+	
+	private void redireccionar(String pagina){
+		try{
+			FacesUtil facesUtil = new FacesUtil();
+			facesUtil.redirectByPropertyFileKey(pagina);
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 	
