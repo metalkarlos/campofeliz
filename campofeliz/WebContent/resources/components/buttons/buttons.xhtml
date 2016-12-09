@@ -16,6 +16,7 @@
 		<composite:attribute name="updateButtonAceptar" required="false" shortDescription="Componentes a actualizar luego de ejecutado el evento" />
 		<composite:attribute name="disabledButtonAceptar" required="false" default="false" shortDescription="Habilita o deshabilita el botón" />
 		<composite:attribute name="immediateButtonAceptar" required="false" default="false" shortDescription="ignora validaciones" />
+		<composite:attribute name="tooltipButtonAceptar" required="false" shortDescription="Tooltip" />
 		
 		<composite:attribute name="labelButtonNewItem" required="false" default="Nuevo Item" shortDescription="Etiqueta del botón" />
 		<composite:attribute name="renderedButtonNewItem" required="false" default="false" shortDescription="True muestra botón, False no muestra botón" />
@@ -25,6 +26,7 @@
 		<composite:attribute name="updateButtonNewItem" required="false" shortDescription="Componentes a actualizar luego de ejecutado el evento" />
 		<composite:attribute name="disabledButtonNewItem" required="false" default="false" shortDescription="Habilita o deshabilita el botón" />
 		<composite:attribute name="immediateButtonNewItem" required="false" default="false" shortDescription="ignora validaciones" />
+		<composite:attribute name="tooltipButtonNewItem" required="false" shortDescription="Tooltip" />
 		
 		<composite:attribute name="labelButtonEliminar" required="false" default="Eliminar" shortDescription="Etiqueta del botón" />
 		<composite:attribute name="renderedButtonEliminar" required="true" shortDescription="True muestra botón, False no muestra botón" />
@@ -34,6 +36,7 @@
 		<composite:attribute name="updateButtonEliminar" required="false" shortDescription="Componentes a actualizar luego de ejecutado el evento" />
 		<composite:attribute name="disabledButtonEliminar" required="false" default="false" shortDescription="Habilita o deshabilita el botón" />
 		<composite:attribute name="immediateButtonEliminar" required="false" default="false" shortDescription="ignora validaciones" />
+		<composite:attribute name="tooltipButtonEliminar" required="false" shortDescription="Tooltip" />
 		
 		<composite:attribute name="labelButtonCancelar" required="false" default="Cancelar" shortDescription="Etiqueta del botón" />
 		<composite:attribute name="renderedButtonCancelar" required="true" shortDescription="True muestra botón, False no muestra botón" />
@@ -41,6 +44,7 @@
 		<composite:attribute name="onclickButtonCancelar" required="false" shortDescription="Evento en el cliente que se ejecuta al hacer click" />
 		<composite:attribute name="oncompleteButtonCancelar" required="false" shortDescription="Evento en el cliente que se ejecuta al terminar la transacción" />
 		<composite:attribute name="disabledButtonCancelar" required="false" default="false" shortDescription="Habilita o deshabilita el botón" />
+		<composite:attribute name="tooltipButtonCancelar" required="false" shortDescription="Tooltip" />
 		
 		<composite:attribute name="labelButtonImprimir" required="false" default="Imprimir" shortDescription="Etiqueta del botón" />
 		<composite:attribute name="renderedButtonImprimir" required="false" default="false" shortDescription="True muestra botón, False no muestra botón" />
@@ -51,15 +55,16 @@
 		<composite:attribute name="disabledButtonImprimir" required="false" default="false" shortDescription="Habilita o deshabilita el botón" />
 		<composite:attribute name="immediateButtonImprimir" required="false" default="false" shortDescription="ignora validaciones" />
 		<composite:attribute name="processButtonImprimir" required="false" shortDescription="Componentes a procesar al ejecutado el evento" />
-		
+		<composite:attribute name="tooltipButtonImprimir" required="false" shortDescription="Tooltip" />
+				
 		<!-- <composite:clientBehavior name="click" event="action" targets=":customButtonA" /> -->
 	</composite:interface>
 
 	<composite:implementation>
-		<p:commandButton value="#{cc.attrs.labelButtonAceptar}" action="#{cc.attrs.actionButtonAceptar}" onclick="#{cc.attrs.onclickButtonAceptar}" oncomplete="#{cc.attrs.oncompleteButtonAceptar}" rendered="#{cc.attrs.renderedButtonAceptar}" update="#{cc.attrs.updateButtonAceptar}" disabled="#{cc.attrs.disabledButtonAceptar}" immediate="#{cc.attrs.immediateButtonAceptar}" />
-		<p:commandButton value="#{cc.attrs.labelButtonNewItem}" action="#{cc.attrs.actionButtonNewItem}" onclick="#{cc.attrs.onclickButtonNewItem}" oncomplete="#{cc.attrs.oncompleteButtonNewItem}" rendered="#{cc.attrs.renderedButtonNewItem}" update="#{cc.attrs.updateButtonNewItem}" disabled="#{cc.attrs.disabledButtonNewItem}" immediate="#{cc.attrs.immediateButtonNewItem}" />
-		<p:commandButton value="#{cc.attrs.labelButtonEliminar}" action="#{cc.attrs.actionButtonEliminar}" onclick="#{cc.attrs.onclickButtonEliminar}" oncomplete="#{cc.attrs.oncompleteButtonEliminar}" rendered="#{cc.attrs.renderedButtonEliminar}" update="#{cc.attrs.updateButtonEliminar}" disabled="#{cc.attrs.disabledButtonEliminar}" immediate="#{cc.attrs.immediateButtonEliminar}" />
-		<p:commandButton value="#{cc.attrs.labelButtonCancelar}" action="#{cc.attrs.actionButtonCancelar}" onclick="#{cc.attrs.onclickButtonCancelar}" oncomplete="#{cc.attrs.oncompleteButtonCancelar}" rendered="#{cc.attrs.renderedButtonCancelar}" immediate="true" />
-		<p:commandButton value="#{cc.attrs.labelButtonImprimir}" action="#{cc.attrs.actionButtonImprimir}" onclick="#{cc.attrs.onclickButtonImprimir}" oncomplete="#{cc.attrs.oncompleteButtonImprimir}" rendered="#{cc.attrs.renderedButtonImprimir}" update="#{cc.attrs.updateButtonImprimir}" disabled="#{cc.attrs.disabledButtonImprimir}" immediate="#{cc.attrs.immediateButtonImprimir}" />
+		<p:commandButton value="#{cc.attrs.labelButtonAceptar}" action="#{cc.attrs.actionButtonAceptar}" onclick="#{cc.attrs.onclickButtonAceptar}" oncomplete="#{cc.attrs.oncompleteButtonAceptar}" rendered="#{cc.attrs.renderedButtonAceptar}" update="#{cc.attrs.updateButtonAceptar}" disabled="#{cc.attrs.disabledButtonAceptar}" immediate="#{cc.attrs.immediateButtonAceptar}" title="#{cc.attrs.tooltipButtonAceptar}" />
+		<p:commandButton value="#{cc.attrs.labelButtonNewItem}" action="#{cc.attrs.actionButtonNewItem}" onclick="#{cc.attrs.onclickButtonNewItem}" oncomplete="#{cc.attrs.oncompleteButtonNewItem}" rendered="#{cc.attrs.renderedButtonNewItem}" update="#{cc.attrs.updateButtonNewItem}" disabled="#{cc.attrs.disabledButtonNewItem}" immediate="#{cc.attrs.immediateButtonNewItem}" title="#{cc.attrs.tooltipButtonNewItem}" />
+		<p:commandButton value="#{cc.attrs.labelButtonEliminar}" action="#{cc.attrs.actionButtonEliminar}" onclick="#{cc.attrs.onclickButtonEliminar}" oncomplete="#{cc.attrs.oncompleteButtonEliminar}" rendered="#{cc.attrs.renderedButtonEliminar}" update="#{cc.attrs.updateButtonEliminar}" disabled="#{cc.attrs.disabledButtonEliminar}" immediate="#{cc.attrs.immediateButtonEliminar}" title="#{cc.attrs.tooltipButtonEliminar}" />
+		<p:commandButton value="#{cc.attrs.labelButtonCancelar}" action="#{cc.attrs.actionButtonCancelar}" onclick="#{cc.attrs.onclickButtonCancelar}" oncomplete="#{cc.attrs.oncompleteButtonCancelar}" rendered="#{cc.attrs.renderedButtonCancelar}" immediate="true" title="#{cc.attrs.tooltipButtonCancelar}" />
+		<p:commandButton value="#{cc.attrs.labelButtonImprimir}" action="#{cc.attrs.actionButtonImprimir}" onclick="#{cc.attrs.onclickButtonImprimir}" oncomplete="#{cc.attrs.oncompleteButtonImprimir}" rendered="#{cc.attrs.renderedButtonImprimir}" update="#{cc.attrs.updateButtonImprimir}" disabled="#{cc.attrs.disabledButtonImprimir}" immediate="#{cc.attrs.immediateButtonImprimir}" title="#{cc.attrs.tooltipButtonImprimir}" />
 	</composite:implementation>
 </ui:composition>

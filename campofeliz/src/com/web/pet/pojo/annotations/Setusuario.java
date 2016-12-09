@@ -153,5 +153,91 @@ public class Setusuario implements java.io.Serializable {
 	public void setFechamodificacion(Date fechamodificacion) {
 		this.fechamodificacion = fechamodificacion;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((clave == null) ? 0 : clave.hashCode());
+		result = prime * result
+				+ ((cotpersona == null) ? 0 : cotpersona.hashCode());
+		result = prime * result
+				+ ((descripcion == null) ? 0 : descripcion.hashCode());
+		result = prime
+				* result
+				+ ((fechamodificacion == null) ? 0 : fechamodificacion
+						.hashCode());
+		result = prime * result
+				+ ((fecharegistro == null) ? 0 : fecharegistro.hashCode());
+		result = prime * result + idusuario;
+		result = prime * result + ((iplog == null) ? 0 : iplog.hashCode());
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result
+				+ ((setestado == null) ? 0 : setestado.hashCode());
+		result = prime * result
+				+ ((setperfil == null) ? 0 : setperfil.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Setusuario other = (Setusuario) obj;
+		if (clave == null) {
+			if (other.clave != null)
+				return false;
+		} else if (!clave.equals(other.clave))
+			return false;
+		if (cotpersona == null) {
+			if (other.cotpersona != null)
+				return false;
+		} else if (!cotpersona.equals(other.cotpersona))
+			return false;
+		if (descripcion == null) {
+			if (other.descripcion != null)
+				return false;
+		} else if (!descripcion.equals(other.descripcion))
+			return false;
+		if (fechamodificacion == null) {
+			if (other.fechamodificacion != null)
+				return false;
+		} else if (!fechamodificacion.equals(other.fechamodificacion))
+			return false;
+		if (fecharegistro == null) {
+			if (other.fecharegistro != null)
+				return false;
+		} else if (!fecharegistro.equals(other.fecharegistro))
+			return false;
+		if (idusuario != other.idusuario)
+			return false;
+		if (iplog == null) {
+			if (other.iplog != null)
+				return false;
+		} else if (!iplog.equals(other.iplog))
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (setestado == null) {
+			if (other.setestado != null)
+				return false;
+		} else if (!setestado.equals(other.setestado))
+			return false;
+		if (setperfil == null) {
+			if (other.setperfil != null)
+				return false;
+		} else if (!setperfil.equals(other.setperfil))
+			return false;
+		return true;
+	}
+	
+	
 	
 }

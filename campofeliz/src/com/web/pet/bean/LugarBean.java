@@ -12,6 +12,8 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.CotlugarBO;
+import com.web.pet.bo.CottipolugarBO;
+import com.web.pet.pojo.annotations.Cottipolugar;
 import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Cotlugar;
 import com.web.pet.pojo.annotations.Setusuario;
@@ -27,11 +29,13 @@ public class LugarBean implements Serializable {
 	private static final long serialVersionUID = -2914517347984298492L;
 	private Cotlugar cotlugarItem;
 	private Cotlugar cotlugarItemClon;
+	private List<Cottipolugar> lisCottipolugar;
 	private LazyDataModel<Cotlugar> lisCotlugar;
 	
 	public LugarBean() {
-		cotlugarItem =  new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
-		cotlugarItemClon =  new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
+		cotlugarItem =  new Cotlugar(0, new Setestado(), new Cottipolugar(), new Setusuario(), null, null, null, null);
+		cotlugarItemClon =  new Cotlugar(0, new Setestado(), new Cottipolugar(), new Setusuario(), null, null, null, null);
+		llenarTipoLugar();
 		consultarLugar();
 	}
 	
@@ -71,6 +75,17 @@ public class LugarBean implements Serializable {
 		}
 	}
 	
+	private void llenarTipoLugar(){
+		try
+		{
+			CottipolugarBO cottipolugarBO = new CottipolugarBO();
+			lisCottipolugar = cottipolugarBO.lisCottipolugar();
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
 	public void guardar(){
 		try{
 			if(validarCampos()){
@@ -98,7 +113,7 @@ public class LugarBean implements Serializable {
 				}
 			}
 			
-			cotlugarItem = new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
+			cotlugarItem = new Cotlugar(0, new Setestado(), new Cottipolugar(), new Setusuario(), null, null, null, null);
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -109,7 +124,7 @@ public class LugarBean implements Serializable {
 		try{
 			CotlugarBO cotlugarBO = new CotlugarBO();
 			cotlugarBO.eliminarCotlugar(cotlugarItem);
-			cotlugarItem = new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
+			cotlugarItem = new Cotlugar(0, new Setestado(), new Cottipolugar(), new Setusuario(), null, null, null, null);
 			new MessageUtil().showInfoMessage("Lugar eliminado con exito!!", "");
 		}catch(Exception re){
 			re.printStackTrace();
@@ -124,6 +139,11 @@ public class LugarBean implements Serializable {
 		if(cotlugarItem.getNombre() == null || cotlugarItem.getNombre().trim().length() == 0){
 			ok = false;
 			new MessageUtil().showErrorMessage("El nombre del lugar es obligatorio.","");
+		}else{
+			if(cotlugarItem.getCottipolugar() == null || cotlugarItem.getCottipolugar().getIdtipolugar() == 0 ){
+				ok = false;
+				new MessageUtil().showErrorMessage("El tipo de lugar es obligatorio.","");
+			}
 		}
 		
 		return ok;
@@ -136,7 +156,7 @@ public class LugarBean implements Serializable {
 
 	public void newItem()
 	{
-		cotlugarItem = new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null);
+		cotlugarItem = new Cotlugar(0, new Setestado(), new Cottipolugar(), new Setusuario(), null, null, null, null);
 	}
 	
 	public String cancelar(){
@@ -157,7 +177,7 @@ public class LugarBean implements Serializable {
 	}
 
 	public void setCotlugarItem(Cotlugar cotlugarItem) {
-		this.cotlugarItem = cotlugarItem == null ? new Cotlugar(0, new Setestado(), new Setusuario(), null, null, null, null) : cotlugarItem;
+		this.cotlugarItem = cotlugarItem == null ? new Cotlugar(0, new Setestado(), new Cottipolugar(), new Setusuario(), null, null, null, null) : cotlugarItem;
 	}
 
 	public LazyDataModel<Cotlugar> getLisCotlugar() {
@@ -166,6 +186,14 @@ public class LugarBean implements Serializable {
 
 	public void setLisCotlugar(LazyDataModel<Cotlugar> lisCotlugar) {
 		this.lisCotlugar = lisCotlugar;
+	}
+
+	public List<Cottipolugar> getLisCottipolugar() {
+		return lisCottipolugar;
+	}
+
+	public void setLisCottipolugar(List<Cottipolugar> lisCottipolugar) {
+		this.lisCottipolugar = lisCottipolugar;
 	}
 
 }

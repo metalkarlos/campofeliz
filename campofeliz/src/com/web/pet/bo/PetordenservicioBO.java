@@ -1,5 +1,6 @@
 package com.web.pet.bo;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -11,14 +12,16 @@ import com.web.pet.dao.PetordenserviciodetalleDAO;
 import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.pet.pojo.annotations.Petordenservicio;
+import com.web.pet.pojo.annotations.PetordenservicioId;
 import com.web.pet.pojo.annotations.Petordenserviciodetalle;
+import com.web.pet.pojo.annotations.PetordenserviciodetalleId;
 import com.web.pet.pojo.annotations.Setestado;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class PetordenservicioBO {
 	
-	public Petordenservicio getPetordenservicioById(int idordenservicio) throws Exception{
+	public Petordenservicio getPetordenservicioById(PetordenservicioId petordenservicioId) throws Exception{
 		Petordenservicio petordenservicio = null;
 		Session session = null;
 		
@@ -27,9 +30,9 @@ public class PetordenservicioBO {
 			
 			PetordenservicioDAO petordenservicioDAO = new PetordenservicioDAO();
 			
-			petordenservicio = petordenservicioDAO.getPetordenservicioById(session, idordenservicio);
+			petordenservicio = petordenservicioDAO.getPetordenservicioById(session, petordenservicioId);
 		}catch(Exception he) {
-			throw new Exception();
+			throw new Exception(he.getMessage(), he.getCause());
 		} finally {
 			session.close();
 		}
@@ -56,7 +59,7 @@ public class PetordenservicioBO {
 		return lisPetordenservicio;
 	}
 	
-	public boolean ingresarPetordenservicio(Petordenservicio petordenservicio) throws Exception{
+	public boolean ingresarPetordenservicio(Petordenservicio petordenservicio, List<Petordenserviciodetalle> lisPetordenserviciodetalle) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -65,12 +68,19 @@ public class PetordenservicioBO {
 			session.beginTransaction();
 			
 			PetordenservicioDAO petordenservicioDAO = new PetordenservicioDAO();
+			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
 			
-			int max = petordenservicioDAO.maxIdPetordenservicio(session)+1;
+			//grabar cabecera
+			int idanio = Calendar.getInstance().get(Calendar.YEAR);
+			int idordenservicio = petordenservicioDAO.maxIdPetordenservicio(session, idanio) + 1;
+			PetordenservicioId petordenservicioId = new PetordenservicioId();
+			petordenservicioId.setIdordenservicio(idordenservicio);
+			petordenservicioId.setIdanio(idanio);
+			
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
-			petordenservicio.setIdordenservicio(max);
+			petordenservicio.setId(petordenservicioId);
 			petordenservicio.setFecharegistro(fecharegistro);
 			petordenservicio.setIplog(usuarioBean.getIp());
 			petordenservicio.getSetestado().setIdestado(1);
@@ -78,12 +88,38 @@ public class PetordenservicioBO {
 			
 			petordenservicioDAO.savePetordenservicio(session, petordenservicio);
 			
+			//grabar detalle
+			for(Petordenserviciodetalle petordenserviciodetalle : lisPetordenserviciodetalle){
+
+				int idordenserviciodetalle = petordenserviciodetalleDAO.maxIdPetordenserviciodetalleByParent(session, petordenservicioId) + 1;
+				
+				petordenserviciodetalle.setPetordenservicio(petordenservicio);
+				
+				PetordenserviciodetalleId petordenserviciodetalleId = new PetordenserviciodetalleId();
+				petordenserviciodetalleId.setIdanio(petordenservicioId.getIdanio());
+				petordenserviciodetalleId.setIdordenservicio(petordenservicioId.getIdordenservicio());
+				petordenserviciodetalleId.setIdordenserviciodetalle(idordenserviciodetalle);
+				
+				petordenserviciodetalle.setId(petordenserviciodetalleId);
+				
+				//auditoria
+				fecharegistro = new Date();
+				petordenserviciodetalle.setFecharegistro(fecharegistro);
+				petordenserviciodetalle.setIplog(usuarioBean.getIp());
+				petordenserviciodetalle.setSetusuario(usuarioBean.getSetUsuario());
+				Setestado setestado = new Setestado(); 
+				setestado.setIdestado(1);
+				petordenserviciodetalle.setSetestado(setestado);
+				
+				petordenserviciodetalleDAO.savePetordenserviciodetalle(session, petordenserviciodetalle);
+			}
+			
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception e){
-			petordenservicio.setIdordenservicio(0);
+			petordenservicio.setId(null);
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(e.getMessage(),e.getCause());
 		}finally{
 			session.close();
 		}
@@ -91,7 +127,7 @@ public class PetordenservicioBO {
 		return ok;
 	}
 	
-	public boolean modificarPetordenservicio(Petordenservicio petordenservicio, Petordenservicio petordenservicioClon) throws Exception{
+	public boolean modificarPetordenservicio(Petordenservicio petordenservicio, Petordenservicio petordenservicioClon, List<Petordenserviciodetalle> lisPetordenserviciodetalle, List<Petordenserviciodetalle> lisPetordenserviciodetalleClon) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -100,17 +136,100 @@ public class PetordenservicioBO {
 			session.beginTransaction();
 			
 			PetordenservicioDAO petordenservicioDAO = new PetordenservicioDAO();
+			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
 		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
 			//Se graba el servicio si han habido cambios
 			if(!petordenservicio.equals(petordenservicioClon)){
-				petordenservicio.setFecharegistro(fecharegistro);
+				petordenservicio.setFechamodificacion(fecharegistro);
 				petordenservicio.setIplog(usuarioBean.getIp());
 				petordenservicio.setSetusuario(usuarioBean.getSetUsuario());
 				petordenservicioDAO.updatePetordenservicio(session, petordenservicio);
 				ok = true;
+			}
+			
+			//Se evalua si han habido cambios en la lista de servicios
+			for(Petordenserviciodetalle petordenserviciodetalleClon : lisPetordenserviciodetalleClon){
+				boolean encuentra = false;
+				for(Petordenserviciodetalle petordenserviciodetalleItem : lisPetordenserviciodetalle){
+					if(petordenserviciodetalleClon.getId().equals(petordenserviciodetalleItem.getId())){
+						//si encuentra
+						encuentra = true;
+						
+						if(!petordenserviciodetalleClon.equals(petordenserviciodetalleItem)){
+							//si han habido cambios se actualiza
+							
+							//auditoria
+							fecharegistro = new Date();
+							petordenserviciodetalleItem.setFechamodificacion(fecharegistro);
+							petordenserviciodetalleItem.setIplog(usuarioBean.getIp());
+							petordenserviciodetalleItem.setSetusuario(usuarioBean.getSetUsuario());
+							
+							//actualizar
+							petordenserviciodetalleDAO.updatePetordenserviciodetalle(session, petordenserviciodetalleItem);
+							ok = true;
+						}
+						
+						break;
+					}
+				}
+				if(!encuentra){
+					//no encuentra
+					//inhabilitar
+					Setestado setestado = new Setestado();
+					setestado.setIdestado(2);
+					petordenserviciodetalleClon.setSetestado(setestado);
+					
+					//auditoria
+					fecharegistro = new Date();
+					petordenserviciodetalleClon.setFechamodificacion(fecharegistro);
+					petordenserviciodetalleClon.setIplog(usuarioBean.getIp());
+					petordenserviciodetalleClon.setSetusuario(usuarioBean.getSetUsuario());
+					
+					//actualizar
+					petordenserviciodetalleDAO.updatePetordenserviciodetalle(session, petordenserviciodetalleClon);
+					
+					ok = true;
+				}
+			}
+			
+			//Se evalua si han subido nuevos servicios
+			for(Petordenserviciodetalle petordenserviciodetalleItem : lisPetordenserviciodetalle){
+				boolean encuentra = false;
+				for(Petordenserviciodetalle petordenserviciodetalleClon : lisPetordenserviciodetalleClon){
+					if(petordenserviciodetalleItem.getId().equals(petordenserviciodetalleClon.getId())){
+						//si encuentra
+						encuentra = true; 
+						break;
+					}
+				}
+				//no encuentra en lista clonada
+				if(!encuentra){
+					int idordenserviciodetalle = petordenserviciodetalleDAO.maxIdPetordenserviciodetalleByParent(session, petordenservicio.getId()) + 1;
+					
+					petordenserviciodetalleItem.setPetordenservicio(petordenservicio);
+					
+					PetordenserviciodetalleId petordenserviciodetalleId = new PetordenserviciodetalleId();
+					petordenserviciodetalleId.setIdanio(petordenservicio.getId().getIdanio());
+					petordenserviciodetalleId.setIdordenservicio(petordenservicio.getId().getIdordenservicio());
+					petordenserviciodetalleId.setIdordenserviciodetalle(idordenserviciodetalle);
+					
+					petordenserviciodetalleItem.setId(petordenserviciodetalleId);
+					
+					//auditoria
+					fecharegistro = new Date();
+					petordenserviciodetalleItem.setFecharegistro(fecharegistro);
+					petordenserviciodetalleItem.setIplog(usuarioBean.getIp());
+					petordenserviciodetalleItem.setSetusuario(usuarioBean.getSetUsuario());
+					Setestado setestado = new Setestado(); 
+					setestado.setIdestado(1);
+					petordenserviciodetalleItem.setSetestado(setestado);
+					
+					petordenserviciodetalleDAO.savePetordenserviciodetalle(session, petordenserviciodetalleItem);
+					ok = true;
+				}
 			}
 			
 			if(ok){
@@ -119,7 +238,7 @@ public class PetordenservicioBO {
 		}catch(Exception e){
 			ok = false;
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(e.getMessage(), e.getCause());
 		}finally{
 			session.close();
 		}
@@ -145,7 +264,7 @@ public class PetordenservicioBO {
 			setestado.setIdestado(2);//inactivo
 			petordenservicio.setSetestado(setestado);
 			
-			petordenservicio.setFecharegistro(fecharegistro);
+			petordenservicio.setFechamodificacion(fecharegistro);
 			petordenservicio.setIplog(usuarioBean.getIp());
 			petordenservicio.setSetusuario(usuarioBean.getSetUsuario());
 			petordenservicioDAO.updatePetordenservicio(session, petordenservicio);
@@ -158,7 +277,7 @@ public class PetordenservicioBO {
 				tmp.setSetestado(setestadoservicios);
 				
 				fecharegistro = new Date();
-				tmp.setFecharegistro(fecharegistro);
+				tmp.setFechamodificacion(fecharegistro);
 				tmp.setIplog(usuarioBean.getIp());
 				tmp.setSetusuario(usuarioBean.getSetUsuario());
 				

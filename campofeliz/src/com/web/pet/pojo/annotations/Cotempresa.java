@@ -142,6 +142,17 @@ public class Cotempresa implements java.io.Serializable, Cloneable {
 	public void setFechamodificacion(Date fechamodificacion) {
 		this.fechamodificacion = fechamodificacion;
 	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException{
+	  Cotempresa cotempresa = (Cotempresa) super.clone();
+	  
+	  return cotempresa;
+	}
+	
+	public Cotempresa clonar() throws Exception{
+		return (Cotempresa)this.clone();
+	}
 
 	@Override
 	public int hashCode() {
@@ -221,15 +232,4 @@ public class Cotempresa implements java.io.Serializable, Cloneable {
 		return true;
 	}
 	
-	@Override
-	protected Object clone() throws CloneNotSupportedException{
-	  Cotempresa cotempresa = (Cotempresa) super.clone();
-	  
-	  return cotempresa;
-	}
-	
-	public Cotempresa clonar() throws Exception{
-		return (Cotempresa)this.clone();
-	}
-
 }

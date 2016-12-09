@@ -7,7 +7,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="form-contentpage" prependId="false">
-		<p:messages id="mensajes" showDetail="false" />
+		<p:growl id="mensajes" showDetail="false" sticky="true" />
 		<p:defaultCommand target="lnkbuscar"></p:defaultCommand>
 
 		<p:panel id="panel-content">
@@ -30,12 +30,13 @@
 			[ <h:link class="link" value="Nueva Solicitud"
 				outcome="ordenservicio.hxtml">
 				<f:param name="idordenservicio" value="0" />
+				<f:param name="idanio" value="0" />
 			</h:link> ]
 			<br />
 			<br />
-			<p:dataTable id="idTablaOrdenes"
+			<p:dataTable id="idTablaOrdenes" emptyMessage="No existen solicitudes"
 				value="#{ordenesServicioBean.lisPetordenservicio}" var="orden"
-				rowKey="#{orden.idordenservicio}" widgetVar="vartablaOrdenes"
+				rowKey="#{orden.id.idordenservicio}" widgetVar="vartablaOrdenes"
 				paginator="true" rows="20"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				selection="#{ordenesServicioBean.petordenservicioSelected}"
@@ -48,8 +49,10 @@
 					Ordenes de Servicio
 				</f:facet>
 
-				<p:column id="idordenHeader" headerText="No" style="width: 10px">
-					<h:outputText value="#{orden.idordenservicio}" />
+				<p:column id="idordenHeader" headerText="Fecha Emisión" style="width: 10px">
+					<h:outputText value="#{orden.fechaemision}" >
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
 				</p:column>
 
 				<p:column id="idmascotaHeader" headerText="Mascota"

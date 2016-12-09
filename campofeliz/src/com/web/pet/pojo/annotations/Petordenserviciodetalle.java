@@ -10,6 +10,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,11 +21,8 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "petordenserviciodetalle")
-public class Petordenserviciodetalle implements java.io.Serializable {
+public class Petordenserviciodetalle implements java.io.Serializable, Cloneable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1517731967653899671L;
 	private PetordenserviciodetalleId id;
 	private Setestado setestado;
@@ -33,6 +31,7 @@ public class Petordenserviciodetalle implements java.io.Serializable {
 	private Petordenservicio petordenservicio;
 	private Date fecharegistro;
 	private String iplog;
+	private Date fechamodificacion;
 
 	public Petordenserviciodetalle() {
 	}
@@ -47,7 +46,7 @@ public class Petordenserviciodetalle implements java.io.Serializable {
 	public Petordenserviciodetalle(PetordenserviciodetalleId id,
 			Setestado setestado, Setusuario setusuario,
 			Petservicio petservicio, Petordenservicio petordenservicio,
-			Date fecharegistro, String iplog) {
+			Date fecharegistro, String iplog, Date fechamodificacion) {
 		this.id = id;
 		this.setestado = setestado;
 		this.setusuario = setusuario;
@@ -55,11 +54,13 @@ public class Petordenserviciodetalle implements java.io.Serializable {
 		this.petordenservicio = petordenservicio;
 		this.fecharegistro = fecharegistro;
 		this.iplog = iplog;
+		this.fechamodificacion = fechamodificacion;
 	}
 
 	@EmbeddedId
 	@AttributeOverrides({
 			@AttributeOverride(name = "idordenservicio", column = @Column(name = "idordenservicio", nullable = false)),
+			@AttributeOverride(name = "idanio", column = @Column(name = "idanio", nullable = false)),
 			@AttributeOverride(name = "idordenserviciodetalle", column = @Column(name = "idordenserviciodetalle", nullable = false)) })
 	public PetordenserviciodetalleId getId() {
 		return this.id;
@@ -100,7 +101,9 @@ public class Petordenserviciodetalle implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idordenservicio", nullable = false, insertable = false, updatable = false)
+	@JoinColumns({
+			@JoinColumn(name = "idordenservicio", referencedColumnName = "idordenservicio", nullable = false, insertable = false, updatable = false),
+			@JoinColumn(name = "idanio", referencedColumnName = "idanio", nullable = false, insertable = false, updatable = false) })
 	public Petordenservicio getPetordenservicio() {
 		return this.petordenservicio;
 	}
@@ -110,7 +113,7 @@ public class Petordenserviciodetalle implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecharegistro", nullable = false, length = 29)
+	@Column(name = "fecharegistro", nullable = false, length = 19)
 	public Date getFecharegistro() {
 		return this.fecharegistro;
 	}
@@ -127,5 +130,100 @@ public class Petordenserviciodetalle implements java.io.Serializable {
 	public void setIplog(String iplog) {
 		this.iplog = iplog;
 	}
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fechamodificacion",  length = 19)
+	public Date getFechamodificacion() {
+		return this.fechamodificacion;
+	}
+
+	public void setFechamodificacion(Date fechamodificacion) {
+		this.fechamodificacion = fechamodificacion;
+	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		Petordenserviciodetalle petordenserviciodetalle = (Petordenserviciodetalle)super.clone();
+		return petordenserviciodetalle;
+	}
+	
+	public Petordenserviciodetalle clonar() throws Exception {
+		return (Petordenserviciodetalle)this.clone();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((fecharegistro == null) ? 0 : fecharegistro.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((iplog == null) ? 0 : iplog.hashCode());
+		result = prime
+				* result
+				+ ((petordenservicio == null) ? 0 : petordenservicio.getId().hashCode());
+		result = prime * result
+				+ ((petservicio == null) ? 0 : petservicio.getIdservicio());
+		result = prime * result
+				+ ((setestado == null) ? 0 : setestado.getIdestado());
+		result = prime * result
+				+ ((setusuario == null) ? 0 : setusuario.getIdusuario());
+		result = prime * result + ((fechamodificacion == null) ? 0 : fechamodificacion.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Petordenserviciodetalle other = (Petordenserviciodetalle) obj;
+		if (fecharegistro == null) {
+			if (other.fecharegistro != null)
+				return false;
+		} else if (!fecharegistro.equals(other.fecharegistro))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (iplog == null) {
+			if (other.iplog != null)
+				return false;
+		} else if (!iplog.equals(other.iplog))
+			return false;
+		if (petordenservicio == null) {
+			if (other.petordenservicio != null)
+				return false;
+		} else if (!petordenservicio.getId().equals(other.petordenservicio.getId()))
+			return false;
+		if (petservicio == null) {
+			if (other.petservicio != null)
+				return false;
+		} else if (petservicio.getIdservicio() != other.petservicio.getIdservicio())
+			return false;
+		if (setestado == null) {
+			if (other.setestado != null)
+				return false;
+		} else if (setestado.getIdestado() != other.setestado.getIdestado())
+			return false;
+		if (setusuario == null) {
+			if (other.setusuario != null)
+				return false;
+		} else if (setusuario.getIdusuario() != other.setusuario.getIdusuario())
+			return false;
+		if (fechamodificacion == null) {
+			if (other.fechamodificacion != null)
+				return false;
+		} else if (!fechamodificacion.equals(other.fechamodificacion))
+			return false;
+		return true;
+	}
+	
+	
 
 }

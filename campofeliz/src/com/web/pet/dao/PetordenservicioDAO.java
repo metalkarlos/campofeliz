@@ -9,14 +9,16 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.web.pet.pojo.annotations.Petordenservicio;
+import com.web.pet.pojo.annotations.PetordenservicioId;
 
 public class PetordenservicioDAO {
 
-	public int maxIdPetordenservicio(Session session) throws Exception {
+	public int maxIdPetordenservicio(Session session, int idanio) throws Exception {
 		int max = 0;
 		
 		Criteria criteria = session.createCriteria(Petordenservicio.class)
-		.setProjection(Projections.max("idordenservicio"));
+		.setProjection(Projections.max("id.idordenservicio"))
+		.add( Restrictions.eq("id.idanio", idanio));
 		
 		Object object = criteria.uniqueResult();
 		max = (object==null?0:Integer.parseInt(object.toString()));
@@ -25,17 +27,19 @@ public class PetordenservicioDAO {
 	}
 
 	public Petordenservicio getPetordenservicioById(Session session,
-			int idordenservicio) throws Exception {
+			PetordenservicioId petordenservicioId) throws Exception {
 		Petordenservicio petordenservicio = null;
 		
 		Criteria criteria = session.createCriteria(Petordenservicio.class)
-		.add( Restrictions.eq("idordenservicio", new Integer(idordenservicio)))
+		.add( Restrictions.eq("id.idordenservicio", new Integer(petordenservicioId.getIdordenservicio())))
+		.add( Restrictions.eq("id.idanio", new Integer(petordenservicioId.getIdanio())))
 		.add( Restrictions.eq("setestado.idestado", 1))
 		.createAlias("petmascotahomenaje", "mascota")
-		.createAlias("mascota.petespecie", "especie")
-		.createAlias("mascota.petraza", "raza")
-		.createAlias("mascota.cotpersona", "persona")
-		.createAlias("cotlugar", "lugar", Criteria.LEFT_JOIN);
+		.createAlias("mascota.petespecie", "especie", Criteria.LEFT_JOIN)
+		.createAlias("mascota.petraza", "raza", Criteria.LEFT_JOIN)
+		.createAlias("mascota.cotpersona", "persona", Criteria.LEFT_JOIN)
+		.createAlias("cotlugar", "lugar", Criteria.LEFT_JOIN)
+		.createAlias("lugar.cottipolugar", "tipolugar", Criteria.LEFT_JOIN);
 		
 		petordenservicio = (Petordenservicio) criteria.uniqueResult();
 		
@@ -49,7 +53,8 @@ public class PetordenservicioDAO {
 		List<Petordenservicio> lisPetordenservicio = null;
 		
 		Criteria criteriaPetordenservicio = session.createCriteria(Petordenservicio.class)
-		.add( Restrictions.eq("setestado.idestado", 1));
+		.add( Restrictions.eq("setestado.idestado", 1))
+		.addOrder(Order.asc("fechaemision").ignoreCase());
 		
 		Criteria joinPetmascotahomenaje = criteriaPetordenservicio.createCriteria("petmascotahomenaje", "m", Criteria.INNER_JOIN, Restrictions.eq("m.setestado.idestado", 1));
 		

@@ -51,8 +51,8 @@ public class PersonaBean implements Serializable {
 	private long maxfilesize;
 	
 	public PersonaBean() {
-		cotpersona = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-		cotpersonaClon = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		cotpersona = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		cotpersonaClon = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 		lisCotfotopersona = new ArrayList<Cotfotopersona>();
 		lisCotfotopersonaClon = new ArrayList<Cotfotopersona>();
 		cottipoidentificacionselected = new Cottipoidentificacion(0,null,null);
@@ -97,7 +97,7 @@ public class PersonaBean implements Serializable {
 							}
 						}
 					}else{
-						cotpersona = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+						cotpersona = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 					}
 				}
 			}else{

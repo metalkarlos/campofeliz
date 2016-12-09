@@ -40,6 +40,7 @@ public class CotlugarDAO {
 		
 		Criteria criteria = session.createCriteria(Cotlugar.class)
 		.add( Restrictions.eq("setestado.idestado", 1))
+		.createAlias("cottipolugar", "tipolugar", Criteria.LEFT_JOIN)
 		.addOrder(Order.asc("nombre").ignoreCase());
 			
 		arraydatos = (List<Cotlugar>) criteria.list();
@@ -54,6 +55,8 @@ public class CotlugarDAO {
 		
 		Criteria criteria = session.createCriteria(Cotlugar.class)
 		.add( Restrictions.eq("setestado.idestado", 1))
+		.createAlias("cottipolugar", "lugar", Criteria.LEFT_JOIN)
+		.addOrder(Order.asc("lugar.nombre").ignoreCase())
 		.addOrder(Order.asc("nombre").ignoreCase())
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
@@ -64,7 +67,8 @@ public class CotlugarDAO {
 		{
 			Criteria criteriaCount = session.createCriteria( Cotlugar.class)
 			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("setestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1))
+			.createAlias("cottipolugar", "lugar", Criteria.LEFT_JOIN);
 			
 			Object object = criteriaCount.uniqueResult();
 			int count = (object==null?0:Integer.parseInt(object.toString()));
@@ -83,6 +87,7 @@ public class CotlugarDAO {
 		
 		Criteria criteria = session.createCriteria(Cotlugar.class)
 		.add( Restrictions.eq("setestado.idestado", 1) )
+		.createAlias("cottipolugar", "tipolugar", Criteria.LEFT_JOIN)
 		.add( Restrictions.eq("idlugar", id));
 		
 		cotlugar = (Cotlugar) criteria.uniqueResult();

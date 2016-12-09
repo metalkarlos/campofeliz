@@ -18,6 +18,10 @@
   <converter-id>servicio</converter-id>
   <converter-class>com.web.faces.converter.ServicioConverter</converter-class>
  </converter>
+ <converter>
+  <converter-id>lugar</converter-id>
+  <converter-class>com.web.faces.converter.LugarConverter</converter-class>
+ </converter>
  <!-- <factory>
   <exception-handler-factory>com.web.faces.exceptions.ViewExpiredExceptionExceptionHandlerFactory</exception-handler-factory>
  </factory> -->

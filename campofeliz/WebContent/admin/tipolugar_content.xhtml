@@ -10,46 +10,42 @@
 	<h:form id="form-contentpage">
 		<p:growl id="mensajes" showDetail="false" sticky="true" />
 
-		<p:panel id="pnlEspeciesContent">
+		<p:panel id="pnlTipoLugarContent">
 			<div class="area-botones">
 				<my:buttons renderedButtonNewItem="true"
-					actionButtonNewItem="#{especieBean.newItem()}"
-					onclickButtonNewItem="vartablaEspecies.unselectAllRows()"
+					actionButtonNewItem="#{tipoLugarBean.newItem()}"
+					onclickButtonNewItem="vartablaTipoLugar.unselectAllRows()"
 					oncompleteButtonNewItem="vardialogeditor.show()"
 					updateButtonNewItem=":form-contentpage:idpaneleditor"
 					renderedButtonEliminar="false" 
 					renderedButtonCancelar="false"
 					renderedButtonAceptar="false" />
 			</div>
-			<p:dataTable id="idTablaEspecies"
-				value="#{especieBean.lisPetespecie}" var="especie"
-				rowKey="#{especie.idespecie}" widgetVar="vartablaEspecies"
+			<p:dataTable id="idTablaTipoLugar"
+				value="#{tipoLugarBean.lisCottipolugar}" var="tipolugar"
+				rowKey="#{tipolugar.idtipolugar}" widgetVar="vartablaTipoLugar"
 				paginator="true" rows="10"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PageLinks} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="6,8,10"
-				selection="#{especieBean.petespecieItem}" selectionMode="single"
+				selection="#{tipoLugarBean.cottipolugarItem}" selectionMode="single"
 				emptyMessage="No se encontraron registros">
 
-				<p:ajax event="rowSelect" update=":form-contentpage:idpaneleditor" listener="#{especieBean.clonar()}"
+				<p:ajax event="rowSelect" update=":form-contentpage:idpaneleditor" listener="#{tipoLugarBean.clonar()}"
 					oncomplete="vardialogeditor.show()"></p:ajax>
 
 				<f:facet name="header">
-					Especies
+					Tipos de Lugar
 				</f:facet>
 
 				<p:column id="idNombreHeader" headerText="Nombre"
 					style="width: 150px">
-					<h:outputText value="#{especie.nombre}" />
-				</p:column>
-
-				<p:column id="idDescripcionHeader" headerText="Descripción">
-					<h:outputText value="#{especie.descripcion}" />
+					<h:outputText value="#{tipolugar.nombre}" />
 				</p:column>
 			</p:dataTable>
 			<div class="area-botones">
 				<my:buttons renderedButtonNewItem="true"
-					actionButtonNewItem="#{especieBean.newItem()}"
-					onclickButtonNewItem="vartablaEspecies.unselectAllRows()"
+					actionButtonNewItem="#{tipoLugarBean.newItem()}"
+					onclickButtonNewItem="vartablaTipoLugar.unselectAllRows()"
 					oncompleteButtonNewItem="vardialogeditor.show()"
 					updateButtonNewItem=":form-contentpage:idpaneleditor"
 					renderedButtonEliminar="false" 
@@ -57,19 +53,14 @@
 					renderedButtonAceptar="false" />
 			</div>
 		</p:panel>
-		<p:dialog id="iddialogeditor" header="Editor de especies"
-			closable="true" onHide="vartablaEspecies.unselectAllRows()"
+		<p:dialog id="iddialogeditor" header="Editor de tipo lugar"
+			closable="true" onHide="vartablaTipoLugar.unselectAllRows()"
 			widgetVar="vardialogeditor" modal="true" height="140" width="450">
 			<h:panelGrid id="idpaneleditor" columns="2" style="width: 100%;">
 				<h:outputLabel id="ideditorlblnombre" value="Nombre"
 					for="ideditortxtnombre" />
 				<h:inputText id="ideditortxtnombre"
-					value="#{especieBean.petespecieItem.nombre}" />
-
-				<h:outputLabel id="ideditorlbldescripcion" value="Descripción"
-					for="ideditortxtdescripcion" />
-				<h:inputTextarea id="ideditortxtdescripcion"
-					value="#{especieBean.petespecieItem.descripcion}" />
+					value="#{tipoLugarBean.cottipolugarItem.nombre}" />
 
 				<h:outputText value="" />
 				<h:outputText value="" />
@@ -78,14 +69,14 @@
 				<h:column>
 					<div align="right">
 						<p:commandButton id="idgrabar" value="Grabar"
-							actionListener="#{especieBean.guardar()}"
+							actionListener="#{tipoLugarBean.guardar()}"
 							oncomplete="vardialogeditor.hide()"
-							update=":form-contentpage:mensajes, :form-contentpage:idTablaEspecies" />
+							update=":form-contentpage:mensajes, :form-contentpage:idTablaTipoLugar" />
 						<p:commandButton id="ideliminar" value="Eliminar"
-							actionListener="#{especieBean.eliminar()}"
+							actionListener="#{tipoLugarBean.eliminar()}"
 							oncomplete="vardialogeditor.hide()"
-							update=":form-contentpage:mensajes, :form-contentpage:idTablaEspecies"
-							rendered="#{especieBean.petespecieItem.idespecie > 0}" />
+							update=":form-contentpage:mensajes, :form-contentpage:idTablaTipoLugar"
+							rendered="#{tipoLugarBean.cottipolugarItem.idtipolugar > 0}" />
 						<p:commandButton id="idcancelar" value="Cancelar"
 							onclick="vardialogeditor.hide()"
 							update=":form-contentpage:mensajes" />

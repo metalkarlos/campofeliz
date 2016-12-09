@@ -20,9 +20,6 @@ import javax.persistence.TemporalType;
 @Table(name = "petraza")
 public class Petraza implements java.io.Serializable, Cloneable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5447534948211922819L;
 	private int idraza;
 	private Setestado setestado;
@@ -34,7 +31,6 @@ public class Petraza implements java.io.Serializable, Cloneable {
 	private byte[] objeto;
 	private String ruta;
 	private Petespecie petespecie;
-//	private Set<Petmascota> petmascotas = new HashSet<Petmascota>(0);
 
 	public Petraza() {
 	}
@@ -58,7 +54,6 @@ public class Petraza implements java.io.Serializable, Cloneable {
 		this.objeto = objeto;
 		this.ruta = ruta;
 		this.petespecie = petespecie;
-//		this.petmascotas = petmascotas;
 	}
 
 	@Id
@@ -91,7 +86,7 @@ public class Petraza implements java.io.Serializable, Cloneable {
 		this.setusuario = setusuario;
 	}
 
-	@Column(name = "nombre", nullable = false, length = 20)
+	@Column(name = "nombre", length = 100)
 	public String getNombre() {
 		return this.nombre;
 	}
@@ -110,7 +105,7 @@ public class Petraza implements java.io.Serializable, Cloneable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecharegistro", nullable = false, length = 29)
+	@Column(name = "fecharegistro", nullable = false, length = 19)
 	public Date getFecharegistro() {
 		return this.fecharegistro;
 	}
@@ -127,7 +122,7 @@ public class Petraza implements java.io.Serializable, Cloneable {
 	public void setIplog(String iplog) {
 		this.iplog = iplog;
 	}
-	
+
 	@Column(name = "objeto")
 	public byte[] getObjeto() {
 		return this.objeto;
@@ -145,16 +140,6 @@ public class Petraza implements java.io.Serializable, Cloneable {
 	public void setRuta(String ruta) {
 		this.ruta = ruta;
 	}
-/*
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "petraza", targetEntity = Petmascota.class)
-	public Set<Petmascota> getPetmascotas() {
-		return this.petmascotas;
-	}
-
-	public void setPetmascotas(Set<Petmascota> petmascotas) {
-		this.petmascotas = petmascotas;
-	}
-*/
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idespecie")
@@ -169,6 +154,11 @@ public class Petraza implements java.io.Serializable, Cloneable {
 	@Override
 	protected Object clone() throws CloneNotSupportedException{
 		Petraza petraza = (Petraza) super.clone();
+		
+		if(petraza.getPetespecie() != null && petraza.getPetespecie().getIdespecie() > 0){
+			petraza.setPetespecie((Petespecie)petraza.getPetespecie().clone());
+		}
+		
 	  return petraza;
 	}
 	

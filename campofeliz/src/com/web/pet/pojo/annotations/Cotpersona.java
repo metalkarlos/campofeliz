@@ -2,6 +2,7 @@ package com.web.pet.pojo.annotations;
 
 // Generated 26/07/2012 03:22:37 PM by Hibernate Tools 3.4.0.CR1
 
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -45,18 +46,14 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 	private String ruta;
 	private byte[] objeto;
 	private Integer sexo;
-	//private Set<Cotfotopersona> cotfotopersonas = new HashSet<Cotfotopersona>(0);
+	private String nombre;
 
 	public Cotpersona() {
 	}
 
-	public Cotpersona(int idpersona, String apellido1, String nombre1,
-			Date fecharegistro, String telefono) {
+	public Cotpersona(int idpersona, Date fecharegistro) {
 		this.idpersona = idpersona;
-		this.apellido1 = apellido1;
-		this.nombre1 = nombre1;
 		this.fecharegistro = fecharegistro;
-		this.telefono = telefono;
 	}
 
 	public Cotpersona(int idpersona,
@@ -65,7 +62,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 			String nombre1, String nombre2, String alias, Date fecharegistro,
 			String iplog, String numeroidentificacion, Date fechanacimiento,
 			String telefono, String direccion, String email, String ruta, byte[] objeto, Integer sexo,
-			/*Set<Cotfotopersona> cotfotopersonas, */Date fechamodificacion) {
+			Date fechamodificacion, String nombre) {
 		this.idpersona = idpersona;
 		this.cottipoidentificacion = cottipoidentificacion;
 		this.setestado = setestado;
@@ -85,8 +82,8 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 		this.ruta = ruta;
 		this.objeto = objeto;
 		this.sexo = sexo;
-		//this.cotfotopersonas = cotfotopersonas;
 		this.fechamodificacion = fechamodificacion;
+		this.nombre = nombre;
 	}
 
 	@Id
@@ -130,7 +127,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 		this.setusuario = setusuario;
 	}
 
-	@Column(name = "apellido1", nullable = false, length = 30)
+	@Column(name = "apellido1", length = 30)
 	public String getApellido1() {
 		return this.apellido1;
 	}
@@ -148,7 +145,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 		this.apellido2 = apellido2;
 	}
 
-	@Column(name = "nombre1", nullable = false, length = 30)
+	@Column(name = "nombre1", length = 30)
 	public String getNombre1() {
 		return this.nombre1;
 	}
@@ -176,7 +173,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecharegistro", nullable = false, length = 29)
+	@Column(name = "fecharegistro", nullable = false, length = 19)
 	public Date getFecharegistro() {
 		return this.fecharegistro;
 	}
@@ -184,11 +181,11 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 	public void setFecharegistro(Date fecharegistro) {
 		this.fecharegistro = fecharegistro;
 	}
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fechamodificacion", length = 29)
+	@Column(name = "fechamodificacion", length = 19)
 	public Date getFechamodificacion() {
-		return fechamodificacion;
+		return this.fechamodificacion;
 	}
 
 	public void setFechamodificacion(Date fechamodificacion) {
@@ -214,7 +211,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fechanacimiento", length = 29)
+	@Column(name = "fechanacimiento", length = 19)
 	public Date getFechanacimiento() {
 		return this.fechanacimiento;
 	}
@@ -223,7 +220,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 		this.fechanacimiento = fechanacimiento;
 	}
 
-	@Column(name = "telefono", nullable = false, length = 50)
+	@Column(name = "telefono", length = 50)
 	public String getTelefono() {
 		return this.telefono;
 	}
@@ -241,7 +238,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 		this.direccion = direccion;
 	}
 
-	@Column(name = "email", length = 50)
+	@Column(name = "email", length = 100)
 	public String getEmail() {
 		return this.email;
 	}
@@ -252,13 +249,13 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 
 	@Column(name = "ruta", length = 100)
 	public String getRuta() {
-		return ruta;
+		return this.ruta;
 	}
 
 	public void setRuta(String ruta) {
 		this.ruta = ruta;
 	}
-	
+
 	@Column(name = "objeto")
 	public byte[] getObjeto() {
 		return this.objeto;
@@ -267,7 +264,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 	public void setObjeto(byte[] objeto) {
 		this.objeto = objeto;
 	}
-	
+
 	@Column(name = "sexo")
 	public Integer getSexo() {
 		return this.sexo;
@@ -276,15 +273,15 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 	public void setSexo(Integer sexo) {
 		this.sexo = sexo;
 	}
-	
-	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "cotpersona", targetEntity=Cotfotopersona.class)
-	public Set<Cotfotopersona> getCotfotopersonas() {
-		return this.cotfotopersonas;
+
+	@Column(name = "nombre", length = 150)
+	public String getNombre() {
+		return this.nombre;
 	}
 
-	public void setCotfotopersonas(Set<Cotfotopersona> cotfotopersonas) {
-		this.cotfotopersonas = cotfotopersonas;
-	}*/
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 	
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
@@ -306,40 +303,26 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
-		result = prime * result
-				+ ((apellido1 == null) ? 0 : apellido1.hashCode());
-		result = prime * result
-				+ ((apellido2 == null) ? 0 : apellido2.hashCode());
-		result = prime
-				* result
-				+ ((cottipoidentificacion == null) ? 0 : cottipoidentificacion.getIdtipoidentificacion());
-		result = prime * result
-				+ ((direccion == null) ? 0 : direccion.hashCode());
+		result = prime * result + ((apellido1 == null) ? 0 : apellido1.hashCode());
+		result = prime * result + ((apellido2 == null) ? 0 : apellido2.hashCode());
+		result = prime * result + ((cottipoidentificacion == null) ? 0 : cottipoidentificacion.hashCode());
+		result = prime * result + ((direccion == null) ? 0 : direccion.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime
-				* result
-				+ ((fechamodificacion == null) ? 0 : fechamodificacion
-						.hashCode());
-		result = prime * result
-				+ ((fechanacimiento == null) ? 0 : fechanacimiento.hashCode());
-		result = prime * result
-				+ ((fecharegistro == null) ? 0 : fecharegistro.hashCode());
+		result = prime * result + ((fechamodificacion == null) ? 0 : fechamodificacion.hashCode());
+		result = prime * result + ((fechanacimiento == null) ? 0 : fechanacimiento.hashCode());
+		result = prime * result + ((fecharegistro == null) ? 0 : fecharegistro.hashCode());
 		result = prime * result + idpersona;
 		result = prime * result + ((iplog == null) ? 0 : iplog.hashCode());
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result + ((nombre1 == null) ? 0 : nombre1.hashCode());
 		result = prime * result + ((nombre2 == null) ? 0 : nombre2.hashCode());
-		result = prime
-				* result
-				+ ((numeroidentificacion == null) ? 0 : numeroidentificacion
-						.hashCode());
+		result = prime * result + ((numeroidentificacion == null) ? 0 : numeroidentificacion.hashCode());
+		result = prime * result + Arrays.hashCode(objeto);
 		result = prime * result + ((ruta == null) ? 0 : ruta.hashCode());
-		result = prime * result
-				+ ((setestado == null) ? 0 : setestado.getIdestado());
-		result = prime * result
-				+ ((setusuario == null) ? 0 : setusuario.getIdusuario());
+		result = prime * result + ((setestado == null) ? 0 : setestado.getIdestado());
+		result = prime * result + ((setusuario == null) ? 0 : setusuario.getIdusuario());
 		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
-		result = prime * result
-				+ ((telefono == null) ? 0 : telefono.hashCode());
+		result = prime * result + ((telefono == null) ? 0 : telefono.hashCode());
 		return result;
 	}
 
@@ -370,7 +353,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 		if (cottipoidentificacion == null) {
 			if (other.cottipoidentificacion != null)
 				return false;
-		} else if (cottipoidentificacion.getIdtipoidentificacion() != other.cottipoidentificacion.getIdtipoidentificacion())
+		} else if (!cottipoidentificacion.equals(other.cottipoidentificacion))
 			return false;
 		if (direccion == null) {
 			if (other.direccion != null)
@@ -404,6 +387,11 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 				return false;
 		} else if (!iplog.equals(other.iplog))
 			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
 		if (nombre1 == null) {
 			if (other.nombre1 != null)
 				return false;
@@ -419,6 +407,7 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 				return false;
 		} else if (!numeroidentificacion.equals(other.numeroidentificacion))
 			return false;
+		if (!Arrays.equals(objeto, other.objeto))
 		if (ruta == null) {
 			if (other.ruta != null)
 				return false;
@@ -446,7 +435,5 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 			return false;
 		return true;
 	}
-	
-	
 
 }

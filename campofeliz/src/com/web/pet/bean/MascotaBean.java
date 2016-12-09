@@ -253,7 +253,7 @@ public class MascotaBean implements Serializable {
 	
 	public void verificarCedula(){
 		try{
-			Cotpersona cotpersona = new Cotpersona(0, new Cottipoidentificacion(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null);
+			Cotpersona cotpersona = new Cotpersona(0, new Cottipoidentificacion(), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 			cotpersona.setNumeroidentificacion(petmascotahomenaje.getCotpersona().getNumeroidentificacion());
 			
 			List<Cotpersona> lisCotpersona = new ArrayList<Cotpersona>();

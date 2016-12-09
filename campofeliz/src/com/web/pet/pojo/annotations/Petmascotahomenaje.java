@@ -23,9 +23,6 @@ import javax.persistence.Transient;
 @Table(name = "petmascotahomenaje")
 public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6299529275804346070L;
 	private int idmascota;
 	private Setestado setestado;
@@ -52,8 +49,6 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 	private boolean microchip;
 	private String numeroidentificacion;
 	private String idmascotaveterinaria;
-	//private Set<Petfotomascota> petfotomascotas = new HashSet<Petfotomascota>(0);
-	//private Set<Petmascotacolor> petmascotacolors = new HashSet<Petmascotacolor>(0);
 
 	public Petmascotahomenaje() {
 	}
@@ -87,7 +82,6 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 		this.fecharegistro = fecharegistro;
 		this.fechamodificacion = fechamodificacion;
 		this.iplog = iplog;
-		//this.petfotomascotas = petfotomascotas;
 		this.petraza = petraza;
 		this.cotpersona = cotpersona;
 		this.cottipoidentificacion = cottipoidentificacion;
@@ -149,7 +143,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fechanacimiento", length = 29)
+	@Column(name = "fechanacimiento", length = 19)
 	public Date getFechanacimiento() {
 		return this.fechanacimiento;
 	}
@@ -159,7 +153,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fechafallecimiento", length = 29)
+	@Column(name = "fechafallecimiento", length = 19)
 	public Date getFechafallecimiento() {
 		return this.fechafallecimiento;
 	}
@@ -169,7 +163,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fechapublicacion", length = 29)
+	@Column(name = "fechapublicacion", length = 19)
 	public Date getFechapublicacion() {
 		return this.fechapublicacion;
 	}
@@ -178,7 +172,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 		this.fechapublicacion = fechapublicacion;
 	}
 
-	@Column(name = "familia", length = 200)
+	@Column(name = "familia", length = 100)
 	public String getFamilia() {
 		return this.familia;
 	}
@@ -187,7 +181,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 		this.familia = familia;
 	}
 
-	@Column(name = "dedicatoria", length = 2000)
+	@Column(name = "dedicatoria", length = 1000)
 	public String getDedicatoria() {
 		return this.dedicatoria;
 	}
@@ -220,7 +214,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecharegistro", nullable = false, length = 29)
+	@Column(name = "fecharegistro", nullable = false, length = 19)
 	public Date getFecharegistro() {
 		return this.fecharegistro;
 	}
@@ -230,7 +224,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fechamodificacion",  length = 29)
+	@Column(name = "fechamodificacion",  length = 19)
 	public Date getFechamodificacion() {
 		return this.fechamodificacion;
 	}
@@ -247,15 +241,6 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 		this.iplog = iplog;
 	}
 
-	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "petmascotahomenaje", targetEntity=Petfotomascota.class)
-	public Set<Petfotomascota> getPetfotomascotas() {
-		return this.petfotomascotas;
-	}
-
-	public void setPetfotomascotas(Set<Petfotomascota> petfotomascotas) {
-		this.petfotomascotas = petfotomascotas;
-	}*/
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idraza", nullable = false)
 	public Petraza getPetraza() {
@@ -295,7 +280,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 	public void setSexo(Integer sexo) {
 		this.sexo = sexo;
 	}
-	
+
 	@Column(name = "pesokg", precision = 5)
 	public BigDecimal getPesokg() {
 		return this.pesokg;
@@ -304,7 +289,7 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 	public void setPesokg(BigDecimal pesokg) {
 		this.pesokg = pesokg;
 	}
-	
+
 	@Column(name = "caracteristicas", length = 300)
 	public String getCaracteristicas() {
 		return this.caracteristicas;
@@ -313,15 +298,6 @@ public class Petmascotahomenaje implements java.io.Serializable, Cloneable {
 	public void setCaracteristicas(String caracteristicas) {
 		this.caracteristicas = caracteristicas;
 	}
-	
-	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "petmascotahomenaje", targetEntity = Petmascotacolor.class)
-	public Set<Petmascotacolor> getPetmascotacolors() {
-		return this.petmascotacolors;
-	}
-
-	public void setPetmascotacolors(Set<Petmascotacolor> petmascotacolors) {
-		this.petmascotacolors = petmascotacolors;
-	}*/
 	
 	@Column(name = "pedigree")
 	public boolean getPedigree() {

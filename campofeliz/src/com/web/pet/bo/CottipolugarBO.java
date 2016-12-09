@@ -6,72 +6,53 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
-import com.web.pet.dao.PetespecieDAO;
-import com.web.pet.pojo.annotations.Petespecie;
+import com.web.pet.dao.CottipolugarDAO;
+import com.web.pet.pojo.annotations.Cottipolugar;
 import com.web.pet.pojo.annotations.Setestado;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
-public class PetespecieBO {
+public class CottipolugarBO {
 	
-	public List<Petespecie> lisPetespecie() throws Exception {
-		List<Petespecie> lisPetespecie = null;
+	public List<Cottipolugar> lisCottipolugar() throws Exception {
+		List<Cottipolugar> lisCottipolugar = null;
 		Session session = null;
 		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			
-			PetespecieDAO petespecieDAO = new PetespecieDAO();
+			CottipolugarDAO cottipolugarDAO = new CottipolugarDAO();
 			
-			lisPetespecie = petespecieDAO.lisPetespecie(session);
+			lisCottipolugar = cottipolugarDAO.lisCottipolugar(session);
 		} catch(Exception e) {
 			throw new Exception();
-		} finally {
+		}finally {
 			session.close();
 		}
 		
-		return lisPetespecie;
+		return lisCottipolugar;
 	}
 	
-	public Petespecie getPetespecieById(int id) throws Exception {
-		Petespecie petespecie = null;
-		Session session = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			
-			PetespecieDAO petespecieDAO = new PetespecieDAO();
-			
-			petespecie = petespecieDAO.getPetespecieById(session, id);
-		} catch(Exception e){
-			throw new Exception();
-		} finally {
-			session.close();
-		}
-		
-		return petespecie;
-	}
-	
-	public List<Petespecie> lisPetespecieByPage(int pageSize, int pageNumber, int args[]) throws RuntimeException {
-		List<Petespecie> lisPetespecie = null;
+	public List<Cottipolugar> lisCottipolugarByPage(int pageSize, int pageNumber, int args[]) throws RuntimeException {
+		List<Cottipolugar> lisCottipolugar = null;
 		Session session = null;
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			
-			PetespecieDAO petespecieDAO = new PetespecieDAO();
+			CottipolugarDAO cottipolugarDAO = new CottipolugarDAO();
 			
-			lisPetespecie = petespecieDAO.lisPetespecieByPage(session, pageSize, pageNumber, args);
+			lisCottipolugar = cottipolugarDAO.lisCottipolugarByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
 			throw new RuntimeException();
 		}finally{
 			session.close();
 		}
 		
-		return lisPetespecie;
+		return lisCottipolugar;
 	}
 	
-	public boolean ingresarPetespecie(Petespecie petespecie) throws Exception {
+	public boolean ingresarCottipolugar(Cottipolugar cottipolugar) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
@@ -79,23 +60,23 @@ public class PetespecieBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			PetespecieDAO petespecieDAO = new PetespecieDAO();
+			CottipolugarDAO cottipolugarDAO = new CottipolugarDAO();
 			
-			int maxid = petespecieDAO.maxIdPetespecie(session)+1;
+			int idtipolugar = cottipolugarDAO.maxIdCottipolugar(session)+1;
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
-			petespecie.setIdespecie(maxid);
-			petespecie.setFecharegistro(fecharegistro);
-			petespecie.setIplog(usuarioBean.getIp());
+			cottipolugar.setIdtipolugar(idtipolugar);
+			cottipolugar.setFecharegistro(fecharegistro);
+			cottipolugar.setIplog(usuarioBean.getIp());
 			
 			Setestado setestado = new Setestado();
 			setestado.setIdestado(1);
-			petespecie.setSetestado(setestado);
+			cottipolugar.setSetestado(setestado);
 			
-			petespecie.setSetusuario(usuarioBean.getSetUsuario());
+			cottipolugar.setSetusuario(usuarioBean.getSetUsuario());
 	
-			petespecieDAO.savePetespecie(session, petespecie);
+			cottipolugarDAO.ingresarCottipolugar(session, cottipolugar);
 			
 			session.getTransaction().commit();
 			ok = true;
@@ -109,7 +90,7 @@ public class PetespecieBO {
 		return ok;
 	}
 	
-	public boolean modificarPetespecie(Petespecie petespecie,Petespecie petespecieClon) throws Exception{
+	public boolean modificarCottipolugar(Cottipolugar cottipolugar,Cottipolugar cottipolugarClon) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -117,15 +98,15 @@ public class PetespecieBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			if(!petespecie.equals(petespecieClon)){
-				PetespecieDAO petespecieDAO = new PetespecieDAO();
+			if(!cottipolugar.equals(cottipolugarClon)){
+				CottipolugarDAO cottipolugarDAO = new CottipolugarDAO();
 				Date fecharegistro = new Date();
 				UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 				
-				petespecie.setFecharegistro(fecharegistro);
-				petespecie.setIplog(usuarioBean.getIp());
-				petespecie.setSetusuario(usuarioBean.getSetUsuario());
-				petespecieDAO.updatePetespecie(session, petespecie);
+				cottipolugar.setFecharegistro(fecharegistro);
+				cottipolugar.setIplog(usuarioBean.getIp());
+				cottipolugar.setSetusuario(usuarioBean.getSetUsuario());
+				cottipolugarDAO.modificarCottipolugar(session, cottipolugar);
 				
 				ok = true;
 			}
@@ -143,7 +124,7 @@ public class PetespecieBO {
 		return ok;
 	}
 	
-	public boolean eliminarPetespecie(Petespecie petespecie) throws Exception{
+	public boolean eliminarCottipolugar(Cottipolugar cottipolugar) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -151,18 +132,18 @@ public class PetespecieBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			PetespecieDAO petespecieDAO = new PetespecieDAO();
+			CottipolugarDAO cottipolugarDAO = new CottipolugarDAO();
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
 			Setestado setestado = new Setestado();
 			setestado.setIdestado(2);//inactivo
-			petespecie.setSetestado(setestado);
+			cottipolugar.setSetestado(setestado);
 			
-			petespecie.setFecharegistro(fecharegistro);
-			petespecie.setIplog(usuarioBean.getIp());
-			petespecie.setSetusuario(usuarioBean.getSetUsuario());
-			petespecieDAO.updatePetespecie(session, petespecie);
+			cottipolugar.setFecharegistro(fecharegistro);
+			cottipolugar.setIplog(usuarioBean.getIp());
+			cottipolugar.setSetusuario(usuarioBean.getSetUsuario());
+			cottipolugarDAO.modificarCottipolugar(session, cottipolugar);
 				
 			session.getTransaction().commit();
 			ok = true;

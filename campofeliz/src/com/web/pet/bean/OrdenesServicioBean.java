@@ -14,6 +14,7 @@ import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.PetordenservicioBO;
 import com.web.pet.pojo.annotations.Cotlugar;
+import com.web.pet.pojo.annotations.PetordenservicioId;
 import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.pet.pojo.annotations.Petordenservicio;
@@ -35,7 +36,7 @@ public class OrdenesServicioBean implements Serializable {
 	private String textoBusqueda;
 	
 	public OrdenesServicioBean() {
-		petordenservicioSelected = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), new Setusuario(), null, null, null, null, null, null);
+		petordenservicioSelected = new Petordenservicio(new PetordenservicioId(), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), new Setusuario(), null, null, null, null, null, null, null, null);
 		
 		nombre = "buscar por nombre de mascota";
 		textoBusqueda="buscar por nombre de mascota";
@@ -120,7 +121,7 @@ public class OrdenesServicioBean implements Serializable {
 	public void onRowSelect(SelectEvent event){
 		try{
 			FacesUtil facesUtil = new FacesUtil();
-			facesUtil.redirect("../admin/ordenservicio.jsf?faces-redirect=true&idordenservicio="+petordenservicioSelected.getIdordenservicio()+"&iditem=40");
+			facesUtil.redirect("../admin/ordenservicio.jsf?faces-redirect=true&idordenservicio="+petordenservicioSelected.getId().getIdordenservicio()+"&idanio="+petordenservicioSelected.getId().getIdanio()+"&iditem=40");
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");

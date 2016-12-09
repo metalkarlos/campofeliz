@@ -2,15 +2,19 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrdenServicio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="5" bottomMargin="5" uuid="1c5d0775-3fd5-40e9-90a2-4dae8c6afe95">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="344"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="P_LOGO" class="java.io.InputStream">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="P_IDORDENSERVICIO" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="P_IDANIO" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select s.idordenservicio idsolicitud,
+       s.idanio,
 	p.idpersona persona,
     CONCAT(UCASE(SUBSTRING(p.nombre1, 1, 1)), LCASE(SUBSTRING(p.nombre1, 2)), ' ', UCASE(SUBSTRING(p.nombre2, 1, 1)), LCASE(SUBSTRING(p.nombre2, 2))) as nombres,
     CONCAT(UCASE(SUBSTRING(p.apellido1, 1, 1)), LCASE(SUBSTRING(p.apellido1, 2)), ' ', UCASE(SUBSTRING(p.apellido2, 1, 1)), LCASE(SUBSTRING(p.apellido2, 2))) as apellidos,
@@ -60,10 +64,14 @@
 	   on e.idespecie = m.idespecie/*especie*/
 	   and e.idestado = 1
  where s.idordenservicio = $P{P_IDORDENSERVICIO}/*cabecera*/
+          and s.idanio = $P{P_IDANIO}/*cabecera*/
 	and s.idestado   = 1
    order by se.nombre asc]]>
 	</queryString>
 	<field name="idsolicitud" class="java.lang.Integer"/>
+	<field name="idanio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Anio en que se genera la orden de servicio]]></fieldDescription>
+	</field>
 	<field name="persona" class="java.lang.Integer"/>
 	<field name="nombres" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -488,7 +496,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Tahoma" size="10" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{idsolicitud}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{idanio} + " - " + $F{idsolicitud}]]></textFieldExpression>
 			</textField>
 			<image hAlign="Center" isUsingCache="true">
 				<reportElement x="430" y="6" width="145" height="61" uuid="e24c7699-82d0-4088-8cc3-d2d8f9d68405"/>

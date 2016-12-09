@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,11 +16,9 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.CotlugarBO;
 import com.web.pet.bo.PetespecieBO;
-//import com.web.pet.bo.PetfotomascotaBO;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetmascotacolorBO;
 import com.web.pet.bo.PetordenservicioBO;
@@ -33,10 +32,12 @@ import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Cotlugar;
 import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.pet.pojo.annotations.Petespecie;
-//import com.web.pet.pojo.annotations.Petfotomascota;
+import com.web.pet.pojo.annotations.Cotoficina;
+import com.web.pet.pojo.annotations.Cotempresa;
 import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.pet.pojo.annotations.Petmascotacolor;
 import com.web.pet.pojo.annotations.Petordenservicio;
+import com.web.pet.pojo.annotations.PetordenservicioId;
 import com.web.pet.pojo.annotations.Petordenserviciodetalle;
 import com.web.pet.pojo.annotations.PetordenserviciodetalleId;
 import com.web.pet.pojo.annotations.Petraza;
@@ -55,13 +56,13 @@ public class OrdenServicioBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -6374223940126173373L;
 	private int idordenservicio;
+	private int idanio;
 	private Petordenservicio petordenservicio;
 	private Petordenservicio petordenservicioClon;
-	//private Petmascotahomenaje petmascotahomenajeselected;
-	//private Mascotas mascotasselected;
 	private Petordenserviciodetalle petordenserviciodetalleItem;
 	private LazyDataModel<Petordenserviciodetalle> lisPetordenserviciodetalleModel;
 	private List<Petordenserviciodetalle> lisPetordenserviciodetalle;
+	private List<Petordenserviciodetalle> lisPetordenserviciodetalleClon;
 	private List<Cotlugar> lisCotlugar;
 	private List<Petmascotacolor> lisPetmascotacolor;
 	private List<Petservicio> lisPetservicio;
@@ -72,21 +73,19 @@ public class OrdenServicioBean implements Serializable {
 	private String linkReporte;
 
 	public OrdenServicioBean() {
-		petordenservicio = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null);
-		petordenservicioClon = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null);
-		//mascotasselected = new Mascotas(new Petfotomascota(), new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),0,new BigDecimal(0),null,false,false,null)); 
-		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
+		petordenservicio = new Petordenservicio(new PetordenservicioId(0, 0), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null, new Date() , null);
+		petordenservicioClon = new Petordenservicio(new PetordenservicioId(0, 0), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null, null, null);
+		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null, null);
+		petordenserviciodetalleItem.setPetservicio(new Petservicio(0, new Setestado(), null, new Setusuario(), null, null, new Cotoficina(), new Cotempresa(), null, null, null, false, null, null, 0));
 		lisPetmascotacolor = new ArrayList<Petmascotacolor>();
-		//petmascotahomenajenuevo = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,null,new Cotpersona(),null,1,new BigDecimal(0),null,false,false,null);
 		petmascotahomenajenuevo = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
-		cotpersonanuevo = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null);
+		cotpersonanuevo = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 		lisPetordenserviciodetalle = new ArrayList<Petordenserviciodetalle>();
+		lisPetordenserviciodetalleClon = new ArrayList<Petordenserviciodetalle>();
 		
 		llenarListaLugar();
 		llenarListaServicio();
 		inicializarEspecieMascota();
-		//llenarLisRaza();
-		consultarDetalle();
 	}
 	
 	@PostConstruct
@@ -95,30 +94,44 @@ public class OrdenServicioBean implements Serializable {
 		
 		try{
 			Object par = facesUtil.getParametroUrl("idordenservicio");
-			if(par != null){
+			Object par2 = facesUtil.getParametroUrl("idanio");
+			
+			if(par != null && par2 != null){
 				idordenservicio = Integer.parseInt(par.toString());
+				idanio = Integer.parseInt(par2.toString());
 				
-				petordenservicio = new PetordenservicioBO().getPetordenservicioById(idordenservicio);
-				
-				if(petordenservicio != null){
-					petordenservicioClon = petordenservicio.clonar();
+				if(idordenservicio > 0 && idanio > 0){
+					PetordenservicioId petordenservicioId = new PetordenservicioId();
+					petordenservicioId.setIdordenservicio(idordenservicio);
+					petordenservicioId.setIdanio(idanio);
 					
-					if(petordenservicio.getCotlugar() == null){
-						petordenservicio.setCotlugar(new Cotlugar());
-						petordenservicioClon.setCotlugar(new Cotlugar());
+					PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
+					petordenservicio = petordenservicioBO.getPetordenservicioById(petordenservicioId);
+					
+					if(petordenservicio != null){
+						petordenservicioClon = petordenservicio.clonar();
+						
+						if(petordenservicio != null && petordenservicio.getId() != null && petordenservicio.getId().getIdordenservicio() > 0 ){
+							PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
+							lisPetordenserviciodetalle = petordenserviciodetalleBO.lisPetordenserviciodetalle(petordenservicio.getId());
+							
+							if(lisPetordenserviciodetalle != null && lisPetordenserviciodetalle.size() > 0){
+								lisPetordenserviciodetalleClon = new ArrayList<Petordenserviciodetalle>(lisPetordenserviciodetalle);
+							}
+						}
+						
+						/*if(petordenservicio.getCotlugar() == null){
+							petordenservicio.setCotlugar(new Cotlugar());
+							//petordenservicioClon.setCotlugar(new Cotlugar());
+						}*/
+
+						lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(petordenservicio.getPetmascotahomenaje().getIdmascota());
+						if(lisPetmascotacolor == null){
+							lisPetmascotacolor = new ArrayList<Petmascotacolor>();
+						}
+					}else{
+						petordenservicio = new Petordenservicio(new PetordenservicioId(0, 0), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null, new Date(), null);
 					}
-					//Mascotas mascotas = new Mascotas();
-					//petmascotahomenajeselected = new PetmascotaBO().getPetmascotaById(petordenservicio.getPetmascotahomenaje().getIdmascota());
-					//Petfotomascota petfoto = new PetfotomascotaBO().getPetfotomascotaPerfilByIdmascota(petmascotahomenajeselected.getIdmascota());
-					//mascotas.setPetmascotahomenaje(petmascotahomenajeselected);
-					//mascotas.setPetfotomascota(petfoto);
-					//mascotasselected = mascotas;
-					lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(petordenservicio.getPetmascotahomenaje().getIdmascota());
-					if(lisPetmascotacolor == null){
-						lisPetmascotacolor = new ArrayList<Petmascotacolor>();
-					}
-				}else{
-					petordenservicio = new Petordenservicio(0, new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null);
 				}
 			}else{
 				facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
@@ -153,6 +166,8 @@ public class OrdenServicioBean implements Serializable {
 			petservicio.setNombre("Seleccione");
 			petservicio.setSetestado(new Setestado());
 			petservicio.setSetusuario(new Setusuario());
+			petservicio.setCotempresa(new Cotempresa());
+			petservicio.setCotoficina(new Cotoficina());
 			
 			lisPetservicio = new ArrayList<Petservicio>();
 			lisPetservicio.add(petservicio);
@@ -199,7 +214,7 @@ public class OrdenServicioBean implements Serializable {
 		}
 	}
 	
-	@SuppressWarnings("serial")
+	/*@SuppressWarnings("serial")
 	private void consultarDetalle(){
 		try
 		{
@@ -208,9 +223,9 @@ public class OrdenServicioBean implements Serializable {
 					lisPetordenserviciodetalle = new ArrayList<Petordenserviciodetalle>();
 					int args[] = {0};
 					
-					if(petordenservicio != null && petordenservicio.getIdordenservicio() > 0 ){
+					if(petordenservicio != null && petordenservicio.getId() != null && petordenservicio.getId().getIdordenservicio() > 0 ){
 						PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
-						lisPetordenserviciodetalle = petordenserviciodetalleBO.lisPetordenserviciodetalleByPage(petordenservicio.getIdordenservicio(), pageSize, first, args);
+						lisPetordenserviciodetalle = petordenserviciodetalleBO.lisPetordenserviciodetalleByPage(petordenservicio.getId(), pageSize, first, args);
 					}
 					
 					this.setRowCount(args[0]);
@@ -220,10 +235,10 @@ public class OrdenServicioBean implements Serializable {
 				
 				@Override
                public void setRowIndex(int rowIndex) {
-                   /*
+                   
                     * The following is in ancestor (LazyDataModel):
                     * this.rowIndex = rowIndex == -1 ? rowIndex : (rowIndex % pageSize);
-                    */
+                    
                    if (rowIndex == -1 || getPageSize() == 0) {
                        super.setRowIndex(-1);
                    }
@@ -236,140 +251,24 @@ public class OrdenServicioBean implements Serializable {
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
-	}
+	}*/
 	
-	/*public Petmascotahomenaje getPetmascotahomenajeselected() {
-		return petmascotahomenajeselected;
-	}
-
-	public void setPetmascotahomenajeselected(Petmascotahomenaje petmascotahomenajeselected) {
-		this.petmascotahomenajeselected = petmascotahomenajeselected;
+	/*private void consultarServicios(){
+		try{
+			if(petordenservicio != null && petordenservicio.getId() != null && petordenservicio.getId().getIdordenservicio() > 0 ){
+				PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
+				lisPetordenserviciodetalle = petordenserviciodetalleBO.lisPetordenserviciodetalle(petordenservicio.getId());
+				
+				if(lisPetordenserviciodetalle != null && lisPetordenserviciodetalle.size() > 0){
+					lisPetordenserviciodetalleClon = new ArrayList<Petordenserviciodetalle>(lisPetordenserviciodetalle);
+				}
+			}
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
 	}*/
-
-	public int getIdordenservicio() {
-		return idordenservicio;
-	}
-
-	public void setIdordenservicio(int idordenservicio) {
-		this.idordenservicio = idordenservicio;
-	}
-
-	public Petordenservicio getPetordenservicio() {
-		return petordenservicio;
-	}
-
-	public void setPetordenservicio(Petordenservicio petordenservicio) {
-		this.petordenservicio = petordenservicio;
-	}
-
-	public Petordenservicio getPetordenservicioClon() {
-		return petordenservicioClon;
-	}
-
-	public void setPetordenservicioClon(Petordenservicio petordenservicioClon) {
-		this.petordenservicioClon = petordenservicioClon;
-	}
-
-	/*public Mascotas getMascotasselected() {
-		return mascotasselected;
-	}
-
-	public void setMascotasselected(Mascotas mascotasselected) {
-		this.mascotasselected = mascotasselected;
-	}*/
-
-	public Petordenserviciodetalle getPetordenserviciodetalleItem() {
-		return petordenserviciodetalleItem;
-	}
-
-	public void setPetordenserviciodetalleItem(
-			Petordenserviciodetalle petordenserviciodetalleItem) {
-		this.petordenserviciodetalleItem = petordenserviciodetalleItem == null ? new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null) : petordenserviciodetalleItem;
-	}
-
-	public LazyDataModel<Petordenserviciodetalle> getLisPetordenserviciodetalleModel() {
-		return lisPetordenserviciodetalleModel;
-	}
-
-	public void setLisPetordenserviciodetalleModel(
-			LazyDataModel<Petordenserviciodetalle> lisPetordenserviciodetalleModel) {
-		this.lisPetordenserviciodetalleModel = lisPetordenserviciodetalleModel;
-	}
-
-	public List<Petordenserviciodetalle> getLisPetordenserviciodetalle() {
-		return lisPetordenserviciodetalle;
-	}
-
-	public void setLisPetordenserviciodetalle(
-			List<Petordenserviciodetalle> lisPetordenserviciodetalle) {
-		this.lisPetordenserviciodetalle = lisPetordenserviciodetalle;
-	}
-
-	public List<Cotlugar> getLisCotlugar() {
-		return lisCotlugar;
-	}
-
-	public void setLisCotlugar(List<Cotlugar> lisCotlugar) {
-		this.lisCotlugar = lisCotlugar;
-	}
-
-	public List<Petmascotacolor> getLisPetmascotacolor() {
-		return lisPetmascotacolor;
-	}
-
-	public void setLisPetmascotacolor(List<Petmascotacolor> lisPetmascotacolor) {
-		this.lisPetmascotacolor = lisPetmascotacolor;
-	}
-
-	public List<Petservicio> getLisPetservicio() {
-		return lisPetservicio;
-	}
-
-	public void setLisPetservicio(List<Petservicio> lisPetservicio) {
-		this.lisPetservicio = lisPetservicio;
-	}
-
-	public Petmascotahomenaje getPetmascotahomenajenuevo() {
-		return petmascotahomenajenuevo;
-	}
-
-	public void setPetmascotahomenajenuevo(
-			Petmascotahomenaje petmascotahomenajenuevo) {
-		this.petmascotahomenajenuevo = petmascotahomenajenuevo;
-	}
-
-	public List<Petespecie> getLisPetespecie() {
-		return lisPetespecie;
-	}
-
-	public void setLisPetespecie(List<Petespecie> lisPetespecie) {
-		this.lisPetespecie = lisPetespecie;
-	}
-
-	public Cotpersona getCotpersonanuevo() {
-		return cotpersonanuevo;
-	}
-
-	public void setCotpersonanuevo(Cotpersona cotpersonanuevo) {
-		this.cotpersonanuevo = cotpersonanuevo;
-	}
-
-	public List<Petraza> getLisRaza() {
-		return lisRaza;
-	}
-
-	public void setLisRaza(List<Petraza> lisRaza) {
-		this.lisRaza = lisRaza;
-	}
-
-	public String getLinkReporte() {
-		return linkReporte;
-	}
-
-	public void setLinkReporte(String linkReporte) {
-		this.linkReporte = linkReporte;
-	}
-
+	
 	/*public List<Mascotas> buscarMascotas(String query) {
 		List<Mascotas> lisMascotas = new ArrayList<Mascotas>();
 		
@@ -417,10 +316,10 @@ public class OrdenServicioBean implements Serializable {
 	}
 	
 	public void newItem(){
-		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
+		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null, null);
 	}
 	
-	public void guardarItem(){
+	/*public void guardarItem(){
 		try{
 			if(validarCamposDetalle()){
 				PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
@@ -430,12 +329,13 @@ public class OrdenServicioBean implements Serializable {
 					ok = petordenserviciodetalleBO.updatePetordenserviciodetalle(petordenserviciodetalleItem);
 				}else{
 					PetordenserviciodetalleId petordenserviciodetalleId = new PetordenserviciodetalleId();
-					petordenserviciodetalleId.setIdordenservicio(petordenservicio.getIdordenservicio());
+					petordenserviciodetalleId.setIdordenservicio(petordenservicio.getId().getIdordenservicio());
+					petordenserviciodetalleId.setIdanio(petordenservicio.getId().getIdanio());
 					petordenserviciodetalleItem.setId(petordenserviciodetalleId);
 					ok = petordenserviciodetalleBO.newPetordenserviciodetalle(petordenserviciodetalleItem);
 				}
 				
-				petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
+				petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
 				
 				if(ok){
 					new MessageUtil().showInfoMessage("Servicio Agregado con exito!","");
@@ -445,9 +345,23 @@ public class OrdenServicioBean implements Serializable {
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
+	}*/
+	
+	public void agregarServicio(){
+		try{
+			if(validarServicios()){
+				if(petordenserviciodetalleItem.getPetservicio().getIdservicio() > 0){
+					lisPetordenserviciodetalle.add(petordenserviciodetalleItem.clonar());
+				}
+			}
+			petordenserviciodetalleItem.setPetservicio(new Petservicio(0, new Setestado(),null, new Setusuario(), null, null, new Cotoficina(), new Cotempresa(), null, null, null, false, null, null, 0));
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
 	}
 
-	private boolean validarCamposDetalle()
+	/*private boolean validarCamposDetalle()
 	{
 		boolean ok = true;
 		
@@ -456,6 +370,21 @@ public class OrdenServicioBean implements Serializable {
 			new MessageUtil().showWarnMessage("Datos incompletos! El Servicio es obligatorio!","");
 		}
 		
+		return ok;
+	}*/
+	
+	private boolean validarServicios()
+	{
+		boolean ok = true;
+		
+		for(Petordenserviciodetalle petordenserviciodetalle : lisPetordenserviciodetalle){
+			if(petordenserviciodetalle.getPetservicio().equals(petordenserviciodetalleItem.getPetservicio())){
+				ok = false;
+				new MessageUtil().showWarnMessage("Servicio repetido","");
+				break;
+			}
+		}
+
 		return ok;
 	}
 	
@@ -473,17 +402,19 @@ public class OrdenServicioBean implements Serializable {
 					petordenservicioClon.setCotlugar(null);
 				}
 				
-				if(petordenservicio.getIdordenservicio() == 0){
-					ok = petordenservicioBO.ingresarPetordenservicio(petordenservicio);
+				if(petordenservicio.getId().getIdordenservicio() == 0){
+					ok = petordenservicioBO.ingresarPetordenservicio(petordenservicio, lisPetordenserviciodetalle);
 					if(ok){
-						FacesUtil facesUtil = new FacesUtil();
-						facesUtil.redirect("../admin/ordenservicio.jsf?faces-redirect=true&idordenservicio="+petordenservicio.getIdordenservicio()+"&iditem=40");
+						//FacesUtil facesUtil = new FacesUtil();
+						//facesUtil.redirect("../admin/ordenservicio.jsf?faces-redirect=true&idordenservicio="+petordenservicio.getId().getIdordenservicio()+"&idanio="+petordenservicio.getId().getIdanio()+"&iditem=40");
+						Utilities utilities = new Utilities();
+						utilities.mostrarPaginaMensaje("Orden de Servicio ingresada con exito!!");
 					}else{
 						new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
 					}
 				}else{
 					Utilities utilities = new Utilities();
-					ok = petordenservicioBO.modificarPetordenservicio(petordenservicio, petordenservicioClon);
+					ok = petordenservicioBO.modificarPetordenservicio(petordenservicio, petordenservicioClon, lisPetordenserviciodetalle, lisPetordenserviciodetalleClon);
 					if(ok){
 						utilities.mostrarPaginaMensaje("Orden de Servicio actualizada con exito!!");
 					}else{
@@ -502,13 +433,19 @@ public class OrdenServicioBean implements Serializable {
 	{
 		boolean ok = true;
 		
-		/*if(mascotasselected == null || mascotasselected.getPetmascotahomenaje() == null || mascotasselected.getPetmascotahomenaje().getIdmascota() == 0){
-			new MessageUtil().showWarnMessage("Escriba el Nombre de la Mascota.","");
+		if(petordenservicio.getFechaemision() == null){
+			new MessageUtil().showWarnMessage("Especifique la Fecha de Emisión.","");
 			ok = false;
-		}*/
-		if(petordenservicio.getPetmascotahomenaje() == null || petordenservicio.getPetmascotahomenaje().getIdmascota() == 0){
-			new MessageUtil().showWarnMessage("Escriba el Nombre de la Mascota.","");
-			ok = false;
+		}else{
+			if(petordenservicio.getPetmascotahomenaje() == null || petordenservicio.getPetmascotahomenaje().getIdmascota() == 0){
+				new MessageUtil().showWarnMessage("Escriba el Nombre de la Mascota.","");
+				ok = false;
+			}else{
+				if(lisPetordenserviciodetalle == null || lisPetordenserviciodetalle.size() == 0){
+					new MessageUtil().showWarnMessage("Debe elegir al menos un servicio.","");
+					ok = false;
+				}
+			}
 		}
 		
 		return ok;
@@ -532,24 +469,26 @@ public class OrdenServicioBean implements Serializable {
 		}
 	}
 	
-	public void eliminarItem(){
+	/*public void eliminarItem(){
 		try{
-			/*Setestado setestado = new Setestado();
-			setestado.setIdestado(2);//inactivo
-			petordenserviciodetalleItem.setSetestado(setestado);
-			PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
-			petordenserviciodetalleBO.updatePetordenserviciodetalle(petordenserviciodetalleItem);*/
-			
+
 			PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
 			petordenserviciodetalleBO.eliminarPetordenserviciodetalle(petordenserviciodetalleItem.getId());
 			
-			petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
+			petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
 			
 			new MessageUtil().showInfoMessage("Registro Eliminado con exito!","");
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
+	}*/
+	
+	public void quitarServicio(){
+		if(petordenserviciodetalleItem.getPetservicio().getIdservicio() > 0){
+			lisPetordenserviciodetalle.remove(petordenserviciodetalleItem);
+		}
+		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null, null);
 	}
 	
 	public void imprimir2(){
@@ -566,7 +505,8 @@ public class OrdenServicioBean implements Serializable {
 					parametros.put("P_LOGO", inputStream);
 				}
 				
-				parametros.put("P_IDORDENSERVICIO", petordenservicio.getIdordenservicio());
+				parametros.put("P_IDORDENSERVICIO", petordenservicio.getId().getIdordenservicio());
+				parametros.put("P_IDANIO", petordenservicio.getId().getIdanio());
 				
 				new Utilities().imprimirJasperPdf(nombreReporte, parametros);
 			}else{
@@ -585,7 +525,8 @@ public class OrdenServicioBean implements Serializable {
 				
 				VisorBean visorBean = (VisorBean)facesUtil.getSessionBean("visorBean");
 				visorBean.setNombreReporte("OrdenServicio");
-				visorBean.getParametros().put("P_IDORDENSERVICIO", petordenservicio.getIdordenservicio());
+				visorBean.getParametros().put("P_IDORDENSERVICIO", petordenservicio.getId().getIdordenservicio());
+				visorBean.getParametros().put("P_IDANIO", petordenservicio.getId().getIdanio());
 				
 				RequestContext.getCurrentInstance().execute("varDlgMostrarReporte.show()");
 			}else{
@@ -695,7 +636,140 @@ public class OrdenServicioBean implements Serializable {
 	
 	public void limpiarEditorMascotaResumido(){
 		petmascotahomenajenuevo = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
-		cotpersonanuevo = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null); 
+		cotpersonanuevo = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null); 
+	}
+	
+	public int getIdordenservicio() {
+		return idordenservicio;
+	}
+
+	public void setIdordenservicio(int idordenservicio) {
+		this.idordenservicio = idordenservicio;
+	}
+
+	public int getIdanio() {
+		return idanio;
+	}
+
+	public void setIdanio(int idanio) {
+		this.idanio = idanio;
+	}
+
+	public Petordenservicio getPetordenservicio() {
+		return petordenservicio;
+	}
+
+	public void setPetordenservicio(Petordenservicio petordenservicio) {
+		this.petordenservicio = petordenservicio;
+	}
+
+	public Petordenservicio getPetordenservicioClon() {
+		return petordenservicioClon;
+	}
+
+	public void setPetordenservicioClon(Petordenservicio petordenservicioClon) {
+		this.petordenservicioClon = petordenservicioClon;
+	}
+
+	public Petordenserviciodetalle getPetordenserviciodetalleItem() {
+		return petordenserviciodetalleItem;
+	}
+
+	public void setPetordenserviciodetalleItem(
+			Petordenserviciodetalle petordenserviciodetalleItem) {
+		this.petordenserviciodetalleItem = petordenserviciodetalleItem == null ? new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null, null) : petordenserviciodetalleItem;
+	}
+
+	public LazyDataModel<Petordenserviciodetalle> getLisPetordenserviciodetalleModel() {
+		return lisPetordenserviciodetalleModel;
+	}
+
+	public void setLisPetordenserviciodetalleModel(
+			LazyDataModel<Petordenserviciodetalle> lisPetordenserviciodetalleModel) {
+		this.lisPetordenserviciodetalleModel = lisPetordenserviciodetalleModel;
+	}
+
+	public List<Petordenserviciodetalle> getLisPetordenserviciodetalle() {
+		return lisPetordenserviciodetalle;
+	}
+
+	public void setLisPetordenserviciodetalle(
+			List<Petordenserviciodetalle> lisPetordenserviciodetalle) {
+		this.lisPetordenserviciodetalle = lisPetordenserviciodetalle;
+	}
+
+	public List<Petordenserviciodetalle> getLisPetordenserviciodetalleClon() {
+		return lisPetordenserviciodetalleClon;
+	}
+
+	public void setLisPetordenserviciodetalleClon(
+			List<Petordenserviciodetalle> lisPetordenserviciodetalleClon) {
+		this.lisPetordenserviciodetalleClon = lisPetordenserviciodetalleClon;
+	}
+
+	public List<Cotlugar> getLisCotlugar() {
+		return lisCotlugar;
+	}
+
+	public void setLisCotlugar(List<Cotlugar> lisCotlugar) {
+		this.lisCotlugar = lisCotlugar;
+	}
+
+	public List<Petmascotacolor> getLisPetmascotacolor() {
+		return lisPetmascotacolor;
+	}
+
+	public void setLisPetmascotacolor(List<Petmascotacolor> lisPetmascotacolor) {
+		this.lisPetmascotacolor = lisPetmascotacolor;
+	}
+
+	public List<Petservicio> getLisPetservicio() {
+		return lisPetservicio;
+	}
+
+	public void setLisPetservicio(List<Petservicio> lisPetservicio) {
+		this.lisPetservicio = lisPetservicio;
+	}
+
+	public Petmascotahomenaje getPetmascotahomenajenuevo() {
+		return petmascotahomenajenuevo;
+	}
+
+	public void setPetmascotahomenajenuevo(
+			Petmascotahomenaje petmascotahomenajenuevo) {
+		this.petmascotahomenajenuevo = petmascotahomenajenuevo;
+	}
+
+	public List<Petespecie> getLisPetespecie() {
+		return lisPetespecie;
+	}
+
+	public void setLisPetespecie(List<Petespecie> lisPetespecie) {
+		this.lisPetespecie = lisPetespecie;
+	}
+
+	public Cotpersona getCotpersonanuevo() {
+		return cotpersonanuevo;
+	}
+
+	public void setCotpersonanuevo(Cotpersona cotpersonanuevo) {
+		this.cotpersonanuevo = cotpersonanuevo;
+	}
+
+	public List<Petraza> getLisRaza() {
+		return lisRaza;
+	}
+
+	public void setLisRaza(List<Petraza> lisRaza) {
+		this.lisRaza = lisRaza;
+	}
+
+	public String getLinkReporte() {
+		return linkReporte;
+	}
+
+	public void setLinkReporte(String linkReporte) {
+		this.linkReporte = linkReporte;
 	}
 
 }

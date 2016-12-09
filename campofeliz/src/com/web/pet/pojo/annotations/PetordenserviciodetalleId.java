@@ -11,19 +11,18 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class PetordenserviciodetalleId implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -895097552435148800L;
 	private int idordenservicio;
+	private int idanio;
 	private int idordenserviciodetalle;
 
 	public PetordenserviciodetalleId() {
 	}
 
 	public PetordenserviciodetalleId(int idordenservicio,
-			int idordenserviciodetalle) {
+			int idordenserviciodetalle, int idanio) {
 		this.idordenservicio = idordenservicio;
+		this.idanio = idanio;
 		this.idordenserviciodetalle = idordenserviciodetalle;
 	}
 
@@ -34,6 +33,15 @@ public class PetordenserviciodetalleId implements java.io.Serializable {
 
 	public void setIdordenservicio(int idordenservicio) {
 		this.idordenservicio = idordenservicio;
+	}
+
+	@Column(name = "idanio", nullable = false)
+	public int getIdanio() {
+		return this.idanio;
+	}
+
+	public void setIdanio(int idanio) {
+		this.idanio = idanio;
 	}
 
 	@Column(name = "idordenserviciodetalle", nullable = false)
@@ -55,6 +63,7 @@ public class PetordenserviciodetalleId implements java.io.Serializable {
 		PetordenserviciodetalleId castOther = (PetordenserviciodetalleId) other;
 
 		return (this.getIdordenservicio() == castOther.getIdordenservicio())
+				&& (this.getIdanio() == castOther.getIdanio())
 				&& (this.getIdordenserviciodetalle() == castOther
 						.getIdordenserviciodetalle());
 	}
@@ -63,6 +72,7 @@ public class PetordenserviciodetalleId implements java.io.Serializable {
 		int result = 17;
 
 		result = 37 * result + this.getIdordenservicio();
+		result = 37 * result + this.getIdanio();
 		result = 37 * result + this.getIdordenserviciodetalle();
 		return result;
 	}

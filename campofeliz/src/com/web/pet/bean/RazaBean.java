@@ -34,8 +34,8 @@ public class RazaBean implements Serializable {
 	public RazaBean() {
 		petrazaItem = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null, new Petespecie());
 		petrazaItemClon = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null, new Petespecie());
-		consultarRazas();
 		llenarEspecieMascota();
+		consultarRazas();
 	}
 	
 	@SuppressWarnings("serial")

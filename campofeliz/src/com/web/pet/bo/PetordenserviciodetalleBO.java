@@ -7,6 +7,7 @@ import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
 import com.web.pet.dao.PetordenserviciodetalleDAO;
+import com.web.pet.pojo.annotations.PetordenservicioId;
 import com.web.pet.pojo.annotations.Petordenserviciodetalle;
 import com.web.pet.pojo.annotations.PetordenserviciodetalleId;
 import com.web.util.FacesUtil;
@@ -33,7 +34,7 @@ public class PetordenserviciodetalleBO {
 		return petordenserviciodetalle;
 	}
 	
-	public List<Petordenserviciodetalle> lisPetordenserviciodetalleByPage(int idordenservicio, int pageSize, int pageNumber, int args[]) throws RuntimeException {
+	public List<Petordenserviciodetalle> lisPetordenserviciodetalleByPage(PetordenservicioId petordenservicioId, int pageSize, int pageNumber, int args[]) throws RuntimeException {
 		List<Petordenserviciodetalle> lisPetordenserviciodetalle = null;
 		Session session = null;
 		
@@ -42,7 +43,7 @@ public class PetordenserviciodetalleBO {
 			
 			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
 			
-			lisPetordenserviciodetalle = petordenserviciodetalleDAO.lisPethistoriaclinicadetalleByPage(session, pageSize, pageNumber, args, idordenservicio);
+			lisPetordenserviciodetalle = petordenserviciodetalleDAO.lisPethistoriaclinicadetalleByPage(session, pageSize, pageNumber, args, petordenservicioId);
 		}catch(Exception e){
 			throw new RuntimeException();
 		}finally{
@@ -52,7 +53,26 @@ public class PetordenserviciodetalleBO {
 		return lisPetordenserviciodetalle;
 	}
 	
-	public boolean newPetordenserviciodetalle(Petordenserviciodetalle petordenserviciodetalle) throws Exception {
+	public List<Petordenserviciodetalle> lisPetordenserviciodetalle(PetordenservicioId petordenservicioId) throws Exception {
+		List<Petordenserviciodetalle> lisPetordenserviciodetalle = null;
+		Session session = null;
+		
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			
+			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
+			
+			lisPetordenserviciodetalle = petordenserviciodetalleDAO.lisPetordenserviciodetalle(session, petordenservicioId);
+		}catch(Exception e){
+			throw new Exception(e.getMessage(), e.getCause());
+		}finally{
+			session.close();
+		}
+		
+		return lisPetordenserviciodetalle;
+	}
+	
+	/*public boolean newPetordenserviciodetalle(Petordenserviciodetalle petordenserviciodetalle) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
@@ -62,7 +82,7 @@ public class PetordenserviciodetalleBO {
 			
 			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
 			
-			int maxid = petordenserviciodetalleDAO.maxIdPetordenserviciodetalleByParent(session, petordenserviciodetalle.getId().getIdordenservicio())+1;
+			int maxid = petordenserviciodetalleDAO.maxIdPetordenserviciodetalleByParent(session, petordenserviciodetalle.getId())+1;
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
@@ -84,7 +104,7 @@ public class PetordenserviciodetalleBO {
 		}
 		
 		return ok;
-	}
+	}*/
 	
 	public boolean updatePetordenserviciodetalle(Petordenserviciodetalle petordenserviciodetalle) throws Exception{
 		boolean ok = false;

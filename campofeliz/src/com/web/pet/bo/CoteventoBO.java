@@ -1,5 +1,6 @@
 package com.web.pet.bo;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -8,12 +9,13 @@ import org.hibernate.Session;
 import com.web.pet.bean.UsuarioBean;
 import com.web.pet.dao.CoteventoDAO;
 import com.web.pet.pojo.annotations.Cotevento;
+import com.web.pet.pojo.annotations.Setestado;
 import com.web.util.FacesUtil;
 import com.web.util.HibernateUtil;
 
 public class CoteventoBO {
 	
-	public boolean newCotevento(Cotevento cotevento) throws Exception{
+	public boolean newCotevento(Cotevento cotevento, boolean isAllDay) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -23,15 +25,27 @@ public class CoteventoBO {
 			
 			CoteventoDAO coteventoDAO = new CoteventoDAO();
 			
-			int max = coteventoDAO.maxIdCotevento(session)+1;
+			int idEvento = coteventoDAO.maxIdCotevento(session)+1;
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			
-			cotevento.setIdevento(max);
+			cotevento.setIdevento(idEvento);
 			cotevento.setFecharegistro(fecharegistro);
-			cotevento.getSetestado().setIdestado(1);
+			Setestado setestado = new Setestado();
+			setestado.setIdestado(1);
+			cotevento.setSetestado(setestado);
 			cotevento.setIplog(usuarioBean.getIp());
 			cotevento.setSetusuario(usuarioBean.getSetUsuario());
+			
+    		if(isAllDay){
+    			Calendar endDate = Calendar.getInstance();
+    			endDate.setTime(cotevento.getFechadesde());
+    			endDate.set(Calendar.DATE, endDate.get(Calendar.DATE)+1);
+    			endDate.set(Calendar.SECOND, endDate.get(Calendar.SECOND)-1);
+    			
+    			Date fechaHasta = endDate.getTime();
+    			cotevento.setFechahasta(fechaHasta);
+    		}
 			
 			coteventoDAO.saveCotevento(session, cotevento);
 			

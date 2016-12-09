@@ -3,15 +3,18 @@ package com.web.pet.pojo.annotations;
 // Generated 29/01/2013 08:42:08 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
-import java.util.HashSet;
+//import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+//import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+//import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,11 +28,8 @@ import com.web.pet.pojo.annotations.Petordenserviciodetalle;
 @Table(name = "petordenservicio")
 public class Petordenservicio implements java.io.Serializable, Cloneable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4645223024729017391L;
-	private int idordenservicio;
+	private PetordenservicioId id;
 	private Petmascotahomenaje petmascotahomenaje;
 	private Setestado setestado;
 	private Cotlugar cotlugar;
@@ -39,23 +39,27 @@ public class Petordenservicio implements java.io.Serializable, Cloneable {
 	private String observacion;
 	private Date fecharegistro;
 	private String iplog;
-	private Set<Petordenserviciodetalle> petordenserviciodetalles = new HashSet<Petordenserviciodetalle>(0);
+	private Date fechaemision;
+	//private Set<Petordenserviciodetalle> petordenserviciodetalles = new HashSet<Petordenserviciodetalle>(0);
+	private Date fechamodificacion;
 
 	public Petordenservicio() {
 	}
 
-	public Petordenservicio(int idordenservicio, Petmascotahomenaje petmascotahomenaje,
-			Date fecharegistro) {
-		this.idordenservicio = idordenservicio;
+	public Petordenservicio(PetordenservicioId id,
+			Petmascotahomenaje petmascotahomenaje, Date fecharegistro,
+			Date fechaemision) {
+		this.id = id;
 		this.petmascotahomenaje = petmascotahomenaje;
 		this.fecharegistro = fecharegistro;
+		this.fechaemision = fechaemision;
 	}
 
-	public Petordenservicio(int idordenservicio, Petmascotahomenaje petmascotahomenaje,
+	public Petordenservicio(PetordenservicioId id, Petmascotahomenaje petmascotahomenaje,
 			Setestado setestado, Cotlugar cotlugar, Setusuario setusuario,
 			Date fechaentierro, String dedicatoria, String observacion,
-			Date fecharegistro, String iplog, Set<Petordenserviciodetalle> petordenserviciodetalles) {
-		this.idordenservicio = idordenservicio;
+			Date fecharegistro, String iplog, Set<Petordenserviciodetalle> petordenserviciodetalles, Date fechaemision, Date fechamodificacion) {
+		this.id = id;
 		this.petmascotahomenaje = petmascotahomenaje;
 		this.setestado = setestado;
 		this.cotlugar = cotlugar;
@@ -65,17 +69,21 @@ public class Petordenservicio implements java.io.Serializable, Cloneable {
 		this.observacion = observacion;
 		this.fecharegistro = fecharegistro;
 		this.iplog = iplog;
-		this.petordenserviciodetalles = petordenserviciodetalles;
+		this.fechaemision = fechaemision;
+		//this.petordenserviciodetalles = petordenserviciodetalles;
+		this.fechamodificacion = fechamodificacion;
 	}
 
-	@Id
-	@Column(name = "idordenservicio", unique = true, nullable = false)
-	public int getIdordenservicio() {
-		return this.idordenservicio;
+	@EmbeddedId
+	@AttributeOverrides({
+			@AttributeOverride(name = "idordenservicio", column = @Column(name = "idordenservicio", nullable = false)),
+			@AttributeOverride(name = "idanio", column = @Column(name = "idanio", nullable = false)) })
+	public PetordenservicioId getId() {
+		return this.id;
 	}
 
-	public void setIdordenservicio(int idordenservicio) {
-		this.idordenservicio = idordenservicio;
+	public void setId(PetordenservicioId id) {
+		this.id = id;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -119,7 +127,7 @@ public class Petordenservicio implements java.io.Serializable, Cloneable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fechaentierro", length = 29)
+	@Column(name = "fechaentierro", length = 19)
 	public Date getFechaentierro() {
 		return this.fechaentierro;
 	}
@@ -128,7 +136,7 @@ public class Petordenservicio implements java.io.Serializable, Cloneable {
 		this.fechaentierro = fechaentierro;
 	}
 
-	@Column(name = "dedicatoria", length = 100)
+	@Column(name = "dedicatoria", length = 1000)
 	public String getDedicatoria() {
 		return this.dedicatoria;
 	}
@@ -147,7 +155,7 @@ public class Petordenservicio implements java.io.Serializable, Cloneable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecharegistro", nullable = false, length = 29)
+	@Column(name = "fecharegistro", nullable = false, length = 19)
 	public Date getFecharegistro() {
 		return this.fecharegistro;
 	}
@@ -165,13 +173,33 @@ public class Petordenservicio implements java.io.Serializable, Cloneable {
 		this.iplog = iplog;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "petordenservicio", targetEntity = Petordenserviciodetalle.class)
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fechaemision", nullable = false, length = 19)
+	public Date getFechaemision() {
+		return this.fechaemision;
+	}
+
+	public void setFechaemision(Date fechaemision) {
+		this.fechaemision = fechaemision;
+	}
+
+	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "petordenservicio", targetEntity = Petordenserviciodetalle.class, cascade = CascadeType.ALL)
 	public Set<Petordenserviciodetalle> getPetordenserviciodetalles() {
 		return this.petordenserviciodetalles;
 	}
 
 	public void setPetordenserviciodetalles(Set<Petordenserviciodetalle> petordenserviciodetalles) {
 		this.petordenserviciodetalles = petordenserviciodetalles;
+	}*/
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fechamodificacion",  length = 19)
+	public Date getFechamodificacion() {
+		return this.fechamodificacion;
+	}
+
+	public void setFechamodificacion(Date fechamodificacion) {
+		this.fechamodificacion = fechamodificacion;
 	}
 	
 	@Override
@@ -193,26 +221,18 @@ public class Petordenservicio implements java.io.Serializable, Cloneable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((cotlugar == null) ? 0 : cotlugar.getIdlugar());
-		result = prime * result
-				+ ((dedicatoria == null) ? 0 : dedicatoria.hashCode());
-		result = prime * result
-				+ ((fechaentierro == null) ? 0 : fechaentierro.hashCode());
-		result = prime * result
-				+ ((fecharegistro == null) ? 0 : fecharegistro.hashCode());
-		result = prime * result + idordenservicio;
+		result = prime * result + ((cotlugar == null) ? 0 : cotlugar.getIdlugar());
+		result = prime * result + ((dedicatoria == null) ? 0 : dedicatoria.hashCode());
+		result = prime * result + ((fechaemision == null) ? 0 : fechaemision.hashCode());
+		result = prime * result + ((fechaentierro == null) ? 0 : fechaentierro.hashCode());
+		result = prime * result + ((fecharegistro == null) ? 0 : fecharegistro.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((iplog == null) ? 0 : iplog.hashCode());
-		result = prime * result
-				+ ((observacion == null) ? 0 : observacion.hashCode());
-		result = prime
-				* result
-				+ ((petmascotahomenaje == null) ? 0 : petmascotahomenaje
-						.getIdmascota());
-		result = prime * result
-				+ ((setestado == null) ? 0 : setestado.getIdestado());
-		result = prime * result
-				+ ((setusuario == null) ? 0 : setusuario.getIdusuario());
+		result = prime * result + ((observacion == null) ? 0 : observacion.hashCode());
+		result = prime * result + ((petmascotahomenaje == null) ? 0 : petmascotahomenaje.getIdmascota());
+		result = prime * result + ((setestado == null) ? 0 : setestado.getIdestado());
+		result = prime * result + ((setusuario == null) ? 0 : setusuario.getIdusuario());
+		result = prime * result + ((fechamodificacion == null) ? 0 : fechamodificacion.hashCode());
 		return result;
 	}
 
@@ -228,12 +248,17 @@ public class Petordenservicio implements java.io.Serializable, Cloneable {
 		if (cotlugar == null) {
 			if (other.cotlugar != null)
 				return false;
-		} else if (cotlugar.getIdlugar() != other.cotlugar.getIdlugar())
+		} else if (!cotlugar.equals(other.cotlugar))
 			return false;
 		if (dedicatoria == null) {
 			if (other.dedicatoria != null)
 				return false;
 		} else if (!dedicatoria.equals(other.dedicatoria))
+			return false;
+		if (fechaemision == null) {
+			if (other.fechaemision != null)
+				return false;
+		} else if (!fechaemision.equals(other.fechaemision))
 			return false;
 		if (fechaentierro == null) {
 			if (other.fechaentierro != null)
@@ -245,7 +270,10 @@ public class Petordenservicio implements java.io.Serializable, Cloneable {
 				return false;
 		} else if (!fecharegistro.equals(other.fecharegistro))
 			return false;
-		if (idordenservicio != other.idordenservicio)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (iplog == null) {
 			if (other.iplog != null)
@@ -272,9 +300,12 @@ public class Petordenservicio implements java.io.Serializable, Cloneable {
 				return false;
 		} else if (setusuario.getIdusuario() != other.setusuario.getIdusuario())
 			return false;
+		if (fechamodificacion == null) {
+			if (other.fechamodificacion != null)
+				return false;
+		} else if (!fechamodificacion.equals(other.fechamodificacion))
+			return false;
 		return true;
 	}
-	
-	
 
 }

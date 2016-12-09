@@ -39,7 +39,7 @@ import com.web.util.MessageUtil;
 		
 		public FotosPersonaBean(){
 			liscotfotopersona = new ArrayList<Cotfotopersona>();
-			cotpersona = new Cotpersona(0, null, null, null, null);
+			cotpersona = new Cotpersona(0, null);
 			setFileSeparator(Parametro.FILE_SEPARATOR);
 		}
 		
