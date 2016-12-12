@@ -94,5 +94,20 @@ public class CotlugarDAO {
 		
 		return cotlugar;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Cotlugar> lisCotlugarByTipoLugar(Session session, int idtipolugar) throws Exception {
+		List<Cotlugar> arraydatos = null;
+		
+		Criteria criteria = session.createCriteria(Cotlugar.class)
+		.add( Restrictions.eq("setestado.idestado", 1))
+		.createAlias("cottipolugar", "tipolugar", Criteria.LEFT_JOIN)
+		.add( Restrictions.eq("tipolugar.idtipolugar", idtipolugar))
+		.addOrder(Order.asc("nombre").ignoreCase());
+			
+		arraydatos = (List<Cotlugar>) criteria.list();
+		
+		return arraydatos;
+	}
 
 }

@@ -74,14 +74,30 @@
 							</tr>
 							<tr>
 							<td>
-							<h:outputLabel id="idlbllugar" value="Lugar de Fallecimiento: " for="idlugar" />
+							<h:outputLabel id="idlbltipolugar" value="Tipo Lugar de Fallecimiento: " for="idtipolugar" />
 							</td>
 							<td>
-							<p:selectOneRadio id="idlugar" converter="lugar"
+							<p:selectOneMenu id="cmbTipoLugar"
+								style="width: 150px; align: center;" 
+								value="#{ordenServicioBean.cottipolugar.idtipolugar}">
+								<f:selectItem itemLabel="Seleccione" itemValue="" />
+								<f:selectItems value="#{ordenServicioBean.lisCottipolugar}" var="tipolugar"
+									itemLabel="#{tipolugar.nombre}" itemValue="#{tipolugar.idtipolugar}" />
+								<p:ajax event="change" listener="#{ordenServicioBean.llenarListaLugar()}" update=":form-contentpage:cmbLugar, :form-contentpage:mensajes"></p:ajax>
+							</p:selectOneMenu>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<h:outputLabel id="idlbllugar" value="Lugar de Fallecimiento: " for="cmbLugar" />
+							</td>
+							<td>
+							<p:selectOneMenu id="cmbLugar" converter="lugar"
 								value="#{ordenServicioBean.petordenservicio.cotlugar}">
+								<f:selectItem itemLabel="Seleccione" itemValue="" />
 								<f:selectItems value="#{ordenServicioBean.lisCotlugar}" var="l"
 									itemLabel="#{l.nombre}" itemValue="#{l}" />
-							</p:selectOneRadio>
+							</p:selectOneMenu>
 							</td>
 							</tr>
 							<tr>
@@ -407,7 +423,7 @@
 						actionListener="#{ordenServicioBean.guardar()}"
 						oncomplete="vardialoggrabar.hide()"
 						update="mensajes" 
-						process="mensajes,idsolicitud,idfechaemision,idfechaentierro,idlugar,idobservacion,iddedicatoria,txtNombreMascota,idTablaDetalle"/>
+						process="mensajes,idsolicitud,idfechaemision,idfechaentierro,cmbLugar,idobservacion,iddedicatoria,txtNombreMascota,idTablaDetalle"/>
 					<p:commandButton value="NO" style="width: 50px"
 						onclick="vardialoggrabar.hide()" immediate="true" />
 				</h:panelGrid>

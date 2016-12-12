@@ -18,6 +18,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 
 import com.web.pet.bo.CotlugarBO;
+import com.web.pet.bo.CottipolugarBO;
 import com.web.pet.bo.PetespecieBO;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetmascotacolorBO;
@@ -27,6 +28,7 @@ import com.web.pet.bo.PetrazaBO;
 import com.web.pet.bo.PetservicioBO;
 import com.web.pet.global.Parametro;
 import com.web.pet.pojo.annotations.Cottipoidentificacion;
+import com.web.pet.pojo.annotations.Cottipolugar;
 import com.web.pet.pojo.annotations.Petservicio;
 import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Cotlugar;
@@ -63,6 +65,7 @@ public class OrdenServicioBean implements Serializable {
 	private LazyDataModel<Petordenserviciodetalle> lisPetordenserviciodetalleModel;
 	private List<Petordenserviciodetalle> lisPetordenserviciodetalle;
 	private List<Petordenserviciodetalle> lisPetordenserviciodetalleClon;
+	private List<Cottipolugar> lisCottipolugar;
 	private List<Cotlugar> lisCotlugar;
 	private List<Petmascotacolor> lisPetmascotacolor;
 	private List<Petservicio> lisPetservicio;
@@ -71,6 +74,7 @@ public class OrdenServicioBean implements Serializable {
 	private List<Petespecie> lisPetespecie;
 	private List<Petraza> lisRaza;
 	private String linkReporte;
+	private Cottipolugar cottipolugar;
 
 	public OrdenServicioBean() {
 		petordenservicio = new Petordenservicio(new PetordenservicioId(0, 0), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null, new Date() , null);
@@ -82,8 +86,10 @@ public class OrdenServicioBean implements Serializable {
 		cotpersonanuevo = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 		lisPetordenserviciodetalle = new ArrayList<Petordenserviciodetalle>();
 		lisPetordenserviciodetalleClon = new ArrayList<Petordenserviciodetalle>();
+		cottipolugar = new Cottipolugar(0, null, null, null, new Setestado(), new Setusuario());
 		
-		llenarListaLugar();
+		llenarListaTipoLugar();
+		//llenarListaLugar();
 		llenarListaServicio();
 		inicializarEspecieMascota();
 	}
@@ -118,6 +124,11 @@ public class OrdenServicioBean implements Serializable {
 							if(lisPetordenserviciodetalle != null && lisPetordenserviciodetalle.size() > 0){
 								lisPetordenserviciodetalleClon = new ArrayList<Petordenserviciodetalle>(lisPetordenserviciodetalle);
 							}
+							
+							if(petordenservicio.getCotlugar() != null && petordenservicio.getCotlugar().getIdlugar() > 0){
+								cottipolugar.setIdtipolugar(petordenservicio.getCotlugar().getCottipolugar().getIdtipolugar());
+								llenarListaLugar();
+							}
 						}
 						
 						/*if(petordenservicio.getCotlugar() == null){
@@ -144,7 +155,7 @@ public class OrdenServicioBean implements Serializable {
 		}
 	}
 	
-	private void llenarListaLugar(){
+	/*private void llenarListaLugar(){
 		try{
 			lisCotlugar = new ArrayList<Cotlugar>();
 			
@@ -157,7 +168,7 @@ public class OrdenServicioBean implements Serializable {
 			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
-	}
+	}*/
 	
 	private void llenarListaServicio(){
 		try{
@@ -187,6 +198,32 @@ public class OrdenServicioBean implements Serializable {
 		try
 		{
 			lisPetespecie = new PetespecieBO().lisPetespecie();
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
+	private void llenarListaTipoLugar(){
+		try
+		{
+			CottipolugarBO cottipolugarBO = new CottipolugarBO();
+			lisCottipolugar = cottipolugarBO.lisCottipolugar();
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
+	public void llenarListaLugar(){
+		try{
+			lisCotlugar = new ArrayList<Cotlugar>();
+			
+			CotlugarBO cotlugarBO = new CotlugarBO();
+			List<Cotlugar> lisTmp = cotlugarBO.lisCotlugarByTipoLugar(this.cottipolugar.getIdtipolugar());
+			if(lisTmp != null & lisTmp.size() > 0){
+				lisCotlugar.addAll(lisTmp);
+			}
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -707,6 +744,14 @@ public class OrdenServicioBean implements Serializable {
 		this.lisPetordenserviciodetalleClon = lisPetordenserviciodetalleClon;
 	}
 
+	public List<Cottipolugar> getLisCottipolugar() {
+		return lisCottipolugar;
+	}
+
+	public void setLisCottipolugar(List<Cottipolugar> lisCottipolugar) {
+		this.lisCottipolugar = lisCottipolugar;
+	}
+
 	public List<Cotlugar> getLisCotlugar() {
 		return lisCotlugar;
 	}
@@ -770,6 +815,14 @@ public class OrdenServicioBean implements Serializable {
 
 	public void setLinkReporte(String linkReporte) {
 		this.linkReporte = linkReporte;
+	}
+
+	public Cottipolugar getCottipolugar() {
+		return cottipolugar;
+	}
+
+	public void setCottipolugar(Cottipolugar cottipolugar) {
+		this.cottipolugar = cottipolugar;
 	}
 
 }

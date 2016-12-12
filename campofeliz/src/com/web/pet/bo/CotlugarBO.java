@@ -52,6 +52,25 @@ public class CotlugarBO {
 		return cotlugar;
 	}
 	
+	public List<Cotlugar> lisCotlugarByTipoLugar(int idtipolugar) throws Exception {
+		List<Cotlugar> lisCotlugar = null;
+		Session session = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			
+			CotlugarDAO cotlugarDAO = new CotlugarDAO();
+			
+			lisCotlugar = cotlugarDAO.lisCotlugarByTipoLugar(session, idtipolugar);
+		} catch(Exception e){
+			throw new Exception();
+		} finally {
+			session.close();
+		}
+		
+		return lisCotlugar;
+	}
+	
 	public List<Cotlugar> lisCotlugarByPage(int pageSize, int pageNumber, int args[]) throws RuntimeException {
 		List<Cotlugar> lisCotlugar = null;
 		Session session = null;
