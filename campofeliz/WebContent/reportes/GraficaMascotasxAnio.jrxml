@@ -28,14 +28,14 @@
 			<staticText>
 				<reportElement x="3" y="89" width="39" height="20" uuid="3a302b6e-39dd-4274-a6d1-976dfad4c2bc"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
-			<textField pattern="dd MMMMM yyyy">
+			<textField pattern="d/M/yyyy">
 				<reportElement x="42" y="89" width="110" height="20" forecolor="#000000" uuid="a8cbd397-f44b-4618-8406-e9459f366844"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
@@ -46,7 +46,7 @@
 			<staticText>
 				<reportElement x="195" y="21" width="439" height="55" forecolor="#990000" uuid="e93c8870-d064-4799-b408-8fc473cbf8ea"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="20" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="20" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Gráfica de Mascotas Sepultadas/Cremadas por Año]]></text>
 			</staticText>
@@ -59,7 +59,7 @@
 			<textField>
 				<reportElement x="677" y="66" width="145" height="59" uuid="815db035-469a-49ab-83a8-2e5d95d0094b"/>
 				<textElement>
-					<font fontName="Tahoma" size="6"/>
+					<font fontName="DejaVu Sans" size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{membrete}]]></textFieldExpression>
 			</textField>

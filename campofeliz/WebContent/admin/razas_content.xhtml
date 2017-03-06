@@ -80,8 +80,10 @@
 					
 				<h:outputLabel id="ideditorlbldescripcion" value="Descripción"
 					for="ideditortxtdescripcion" />
-				<h:inputTextarea id="ideditortxtdescripcion"
-					value="#{razaBean.petrazaItem.descripcion}" />
+				<h:inputTextarea id="ideditortxtdescripcion" 
+					value="#{razaBean.petrazaItem.descripcion}" >
+					<f:validateLength minimum="0" maximum="100"/>
+				</h:inputTextarea>
 
 				<h:outputText value="" />
 				<h:column>

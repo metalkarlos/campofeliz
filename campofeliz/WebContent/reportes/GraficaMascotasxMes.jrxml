@@ -35,14 +35,14 @@
 			<staticText>
 				<reportElement x="3" y="89" width="39" height="20" uuid="3a302b6e-39dd-4274-a6d1-976dfad4c2bc"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
-			<textField pattern="dd MMMMM yyyy">
+			<textField pattern="d/M/yyyy">
 				<reportElement x="42" y="89" width="110" height="20" forecolor="#000000" uuid="a8cbd397-f44b-4618-8406-e9459f366844"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
@@ -53,7 +53,7 @@
 			<staticText>
 				<reportElement x="212" y="21" width="422" height="55" forecolor="#990000" uuid="e93c8870-d064-4799-b408-8fc473cbf8ea"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="20" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="20" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Gráfica de Mascotas Sepultadas/Cremadas por Mes]]></text>
 			</staticText>
@@ -66,21 +66,21 @@
 			<staticText>
 				<reportElement x="395" y="88" width="39" height="20" uuid="53165aee-d13b-4c4b-b3c7-33738b5e200f"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Año:]]></text>
 			</staticText>
 			<textField pattern="">
 				<reportElement x="434" y="88" width="65" height="20" forecolor="#000000" uuid="6df32183-b543-478c-9bb4-6c59b517be82"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{P_ANIO}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="677" y="66" width="145" height="59" uuid="bd7f946d-e7a5-43a2-ba3c-64646b4877bd"/>
 				<textElement>
-					<font fontName="Tahoma" size="6"/>
+					<font fontName="DejaVu Sans" size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{membrete}]]></textFieldExpression>
 			</textField>
@@ -105,10 +105,10 @@
 		<band height="184" splitType="Stretch">
 			<barChart>
 				<chart>
-					<reportElement x="17" y="42" width="223" height="132" uuid="e72e6bbd-4fb5-44d1-9ea0-f731645ddb53"/>
+					<reportElement x="17" y="42" width="784" height="132" uuid="e72e6bbd-4fb5-44d1-9ea0-f731645ddb53"/>
 					<chartTitle/>
 					<chartSubtitle/>
-					<chartLegend/>
+					<chartLegend position="Top"/>
 				</chart>
 				<categoryDataset>
 					<categorySeries>
