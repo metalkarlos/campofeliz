@@ -56,7 +56,6 @@ public class CotlugarDAO {
 		Criteria criteria = session.createCriteria(Cotlugar.class)
 		.add( Restrictions.eq("setestado.idestado", 1))
 		.createAlias("cottipolugar", "lugar", Criteria.LEFT_JOIN)
-		.addOrder(Order.asc("lugar.nombre").ignoreCase())
 		.addOrder(Order.asc("nombre").ignoreCase())
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);

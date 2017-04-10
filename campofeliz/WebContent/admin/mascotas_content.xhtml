@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="form-contentpage" prependId="false">
@@ -11,27 +12,15 @@
 		<p:defaultCommand target="lnkbuscar"></p:defaultCommand>
 		
 		<p:panel id="panel-ordencontent">
-			<br />
-			<div style="float: right; margin: 10px 15px 0 0;">
-				<div id="search-form">
-					<p:inputText id="txtbusqueda" value="#{mascotasBean.nombre}"
-						onblur="if(this.value==''){this.value='#{mascotasBean.textoBusqueda}'}"
-						onfocus="if(this.value=='#{mascotasBean.textoBusqueda}'){this.value=''}" 
-						validatorMessage="Ingrese sólo letras. Corrija y reintente.">
-						<f:validateRegex pattern="[a-zA-Z ]*" />
-					</p:inputText>
-					<h:commandLink id="lnkbuscar" styleClass="search-form-submit" >
-						<f:ajax render="idGridMascotas mensajes" execute="txtbusqueda"></f:ajax>
-					</h:commandLink>
-				</div>
+			<div class="blog-search">
+				<p:inputText id="txtbusqueda" value="#{mascotasBean.nombre}"
+					onblur="if(this.value==''){this.value='#{mascotasBean.textoBusqueda}'}"
+					onfocus="if(this.value=='#{mascotasBean.textoBusqueda}'){this.value=''}" 
+					validatorMessage="Ingrese sólo letras. Corrija y reintente.">
+					<f:validateRegex pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ ]*" />
+				</p:inputText>
+				<p:commandButton id="lnkbuscar" image="btn-find" update="idGridMascotas mensajes"/>
 			</div>
-			<br />
-			<br />
-		[ <h:link class="link" value="Nueva Mascota" outcome="mascota.hxtml">
-				<f:param name="idmascota" value="0" />
-				<f:param name="iditem" value="#{menuBean.activeIdItem}" />
-			</h:link> ]
-		<br />
 			<br />
 			<p:dataGrid id="idGridMascotas" value="#{mascotasBean.lisPetmascotahomenaje}"
 				var="pet" columns="#{mascotasBean.columnsGrid}"
@@ -40,19 +29,23 @@
 				emptyMessage="No se encontraron registros">
 				<p:column>
 					<p:panel
-						style="text-align:center; text-transform: capitalize; height: 185px; width: 180px;">
+						style="text-align:center; text-transform: capitalize; height: 200px; width: 180px;">
 						<f:facet name="header">
-							<h:link value="#{pet.nombre}"
+							<h:link value="#{fn:substring(pet.nombre, 0, 20)}"
 								outcome="mascota.hxtml">
 								<f:param name="idmascota"
 									value="#{pet.idmascota}" />
 								<f:param name="iditem" value="#{menuBean.activeIdItem}" />
 							</h:link>
+							
 						</f:facet>
 						<f:facet name="footer">
 							<center>
-								<h:outputText
-									value="#{pet.sexo==1?'Macho':'Hembra'}" />
+								<h:outputText value="#{pet.fechafallecimiento}" >
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+								<br />
+								<h:outputText value="#{pet.cotpersona.apellido2} #{pet.cotpersona.apellido1} #{pet.cotpersona.nombre2} #{pet.cotpersona.nombre1}" />
 							</center>
 						</f:facet>
 						<h:panelGrid columns="1" style="width:100%;height: 110px;">

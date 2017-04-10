@@ -71,6 +71,25 @@ public class PetrazaBO {
 		return lisPetraza;
 	}
 	
+	public List<Petraza> lisPetrazaPorEspeciePagineo(int idespecie, String nombre, int pageSize, int pageNumber, int args[]) throws RuntimeException {
+		List<Petraza> lisPetraza = null;
+		Session session = null;
+		
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			
+			PetrazaDAO petrazaDAO = new PetrazaDAO();
+			
+			lisPetraza = petrazaDAO.lisPetrazaPorEspeciePagineo(session, idespecie, nombre, pageSize, pageNumber, args);
+		}catch(Exception he){
+			throw new RuntimeException();
+		}finally{
+			session.close();
+		}
+		
+		return lisPetraza;
+	}
+	
 	public boolean ingresarPetraza(Petraza petraza) throws Exception {
 		boolean ok = false;
 		Session session = null;

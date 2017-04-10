@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -30,11 +31,27 @@ public class RazaBean implements Serializable {
 	private Petraza petrazaItemClon;
 	private List<Petespecie> lisPetespecie;
 	private LazyDataModel<Petraza> lisPetraza;
+	private int idespecie;
+	private String nombre;
+	private String textoBusqueda;
 	
 	public RazaBean() {
 		petrazaItem = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null, new Petespecie());
 		petrazaItemClon = new Petraza(0, new Setestado(), new Setusuario(), null, null, null, null, null, null, new Petespecie());
+		
+		nombre = "buscar por nombre de especie";
+		textoBusqueda = "buscar por nombre de especie";
+	}
+	
+	@PostConstruct
+	public void PostMascotasBean(){
+		
 		llenarEspecieMascota();
+		
+		if(lisPetespecie != null && lisPetespecie.size() > 0){
+			idespecie = lisPetespecie.get(0).getIdespecie();
+		}
+		
 		consultarRazas();
 	}
 	
@@ -48,7 +65,12 @@ public class RazaBean implements Serializable {
 	
 					PetrazaBO petrazaBO = new PetrazaBO();
 					int args[] = {0};
-					data = petrazaBO.lisPetrazaByPage(pageSize, first, args);
+					
+					String nombreParam = nombre.equals(textoBusqueda)?null:nombre;
+					if(idespecie > 0 || nombreParam != null){
+						data = petrazaBO.lisPetrazaPorEspeciePagineo(idespecie, nombreParam, pageSize, first, args);
+					}
+					
 					this.setRowCount(args[0]);
 	
 			        return data;
@@ -192,6 +214,26 @@ public class RazaBean implements Serializable {
 
 	public void setLisPetespecie(List<Petespecie> lisPetespecie) {
 		this.lisPetespecie = lisPetespecie;
+	}
+
+	public int getIdespecie() {
+		return idespecie;
+	}
+
+	public void setIdespecie(int idespecie) {
+		this.idespecie = idespecie;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getTextoBusqueda() {
+		return textoBusqueda;
 	}
 
 }

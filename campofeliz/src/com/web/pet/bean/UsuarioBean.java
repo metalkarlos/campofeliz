@@ -1,6 +1,7 @@
 package com.web.pet.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
@@ -34,6 +35,7 @@ public class UsuarioBean implements Serializable{
 	private boolean autenticado;
 	private StreamedContent streamedContent;
 	private String mensaje;
+	private Date hoy;
 	
 	public UsuarioBean(){
 		FacesUtil facesUtil = new FacesUtil();  
@@ -42,6 +44,7 @@ public class UsuarioBean implements Serializable{
 		autenticado = false;
 		setUsuario = new Setusuario();
 		mensaje = "";
+		hoy = new Date();
 	}
 	
 	public String login(){
@@ -290,5 +293,8 @@ public class UsuarioBean implements Serializable{
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
 	}
-	
+
+	public Date getHoy() {
+		return hoy;
+	}
 }

@@ -304,8 +304,10 @@ public class PetordenservicioBO {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			
-			CotpersonaBO cotpersonaBO = new CotpersonaBO();
-			cotpersonaBO.grabarPersonaBasico(session, cotpersona);
+			if(cotpersona.getIdpersona() == 0){
+				CotpersonaBO cotpersonaBO = new CotpersonaBO();
+				cotpersonaBO.grabarPersonaBasico(session, cotpersona);
+			}
 			
 			PetmascotaBO petmascotaBO = new PetmascotaBO();
 			petmascotahomenaje.setCotpersona(cotpersona);

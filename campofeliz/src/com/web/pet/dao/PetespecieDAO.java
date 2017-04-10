@@ -37,7 +37,8 @@ public class PetespecieDAO {
 		List<Petespecie> lisPettipo = null;
 		
 		Criteria criteria = session.createCriteria(Petespecie.class)
-		.add( Restrictions.eq("setestado.idestado", 1) );
+		.add( Restrictions.eq("setestado.idestado", 1) )
+		.addOrder(Order.asc("nombre"));
 		
 		lisPettipo = (List<Petespecie>) criteria.list();
 		

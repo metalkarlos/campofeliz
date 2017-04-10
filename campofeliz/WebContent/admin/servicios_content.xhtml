@@ -12,26 +12,17 @@
 		<p:defaultCommand target="lnkbuscar"></p:defaultCommand>
 		
 		<p:panel id="panel-content">
-			<div style="float: right;margin: 10px 0 0 0;">
-				<div id="search-form">
-					<p:inputText id="txtbusqueda"
-						value="#{serviciosBean.descripcionParam}"
-						onblur="if(this.value==''){this.value='buscar'}"
-						onfocus="if(this.value=='buscar'){this.value='';} this.select();" 
-						validatorMessage="Ingrese sólo letras. Corrija y reintente.">
-						<f:validateRegex pattern="[a-zA-Z ]*" />
-					</p:inputText>
-					<h:commandLink id="lnkbuscar" styleClass="search-form-submit" >
-						<f:ajax render="gridServicios mensajes" execute="txtbusqueda"></f:ajax>
-					</h:commandLink>
-				</div>
+			<div class="blog-search">
+				<p:inputText id="txtbusqueda"
+					value="#{serviciosBean.descripcionParam}"
+					onblur="if(this.value==''){this.value='buscar'}"
+					onfocus="if(this.value=='buscar'){this.value='';} this.select();" 
+					validatorMessage="Ingrese sólo letras. Corrija y reintente.">
+					<f:validateRegex pattern="[a-zA-Z ]*" />
+				</p:inputText>
+				<p:commandButton id="lnkbuscar" image="btn-find" update="gridServicios mensajes" />
 			</div>
-			<br /><br />
-			[ <h:link  class="link" value="Nuevo Servicio" outcome="servicio_admin" >
-				<f:param name="idservicio" value="0"></f:param>
-				<f:param name="idempresa" value="#{serviciosBean.idempresa}"></f:param>
-			</h:link> ]
-			<br /><br />
+			<br />
 			<p:dataGrid id="gridServicios"
 				value="#{serviciosBean.lisPetservicio}" var="servicio"
 				columns="#{serviciosBean.columnsGrid}"

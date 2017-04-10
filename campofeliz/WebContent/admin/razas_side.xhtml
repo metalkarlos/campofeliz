@@ -2,10 +2,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
 	
 	<h:form id="form-sidepage">
 		<h1>Razas</h1>
 		<hr noshade="noshade"  />
+		<label for="idespeciemascota">Seleccione la Especie:</label>
+		<br />
+		<p:selectOneMenu id="idespeciemascota" style="width: 145px; align: center;" value="#{razaBean.idespecie}" >
+			<f:selectItem itemLabel="Seleccione" itemValue="0"/>
+			<f:selectItems value="#{razaBean.lisPetespecie}" var="especie" itemLabel="#{especie.nombre}" itemValue="#{especie.idespecie}"></f:selectItems>
+			<f:ajax  event="change" render=":form-contentpage:idTablaRazas :form-contentpage:mensajes"></f:ajax>
+		</p:selectOneMenu>
 	</h:form>
 </ui:composition>

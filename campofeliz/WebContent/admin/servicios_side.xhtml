@@ -2,10 +2,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 	
 	<h:form id="form-sidepage">
 		<h1>Servicios</h1>
 		<hr noshade="noshade"  />
+		[ <h:link  class="link" value="Nuevo Servicio" outcome="servicio_admin" >
+				<f:param name="idservicio" value="0"></f:param>
+				<f:param name="idempresa" value="#{serviciosBean.idempresa}"></f:param>
+			</h:link> ]
 	</h:form>
 </ui:composition>

@@ -85,7 +85,7 @@ public class PetordenservicioDAO {
 		joinCotpersona.setMaxResults(pageSize)
 		//joinPetmascotahomenaje.setMaxResults(pageSize)
 		.setFirstResult(pageNumber)
-		.addOrder(Order.asc("m.nombre").ignoreCase());
+		.addOrder(Order.desc("m.nombre").ignoreCase());
 		/*.addOrder(Order.asc("p.apellido1"))
 		.addOrder(Order.asc("p.apellido2"))
 		.addOrder(Order.asc("p.nombre1"))

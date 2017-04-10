@@ -131,7 +131,7 @@
 				        </f:facet>
 					    </h:panelGrid>
 					    <h:outputLabel value="Descripción de la Foto" for="txtDescripcionFoto" />
-					    <p:inputTextarea id="txtDescripcionFoto" value="#{item.descripcion}" maxlength="500" />
+					    <p:inputTextarea id="txtDescripcionFoto" value="#{item.descripcion}" maxlength="500" autoResize="false" />
 						</p:galleriaContent>
 					</p:galleria>
 					</center>
@@ -322,7 +322,7 @@
 						value="#{mascotaBean.petmascotahomenaje.caracteristicas}"
 						required="false"
 						requiredMessage="El campo 'Características' es obligatorio."
-						maxlength="300" />
+						maxlength="300" autoResize="false" />
 					</p:column>
 					<p:column>
 					<p:message id="msgtxtCaracteristicas" for="txtCaracteristicas" display="icon" />
@@ -376,7 +376,7 @@
 					<p:column>
 					<p:calendar id="txtFechaNacimiento" styleClass="calendario"
 						value="#{mascotaBean.petmascotahomenaje.fechanacimiento}"
-						yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy"
+						yearRange="c-30:c" locale="es" pattern="dd/MM/yyyy"
 						navigator="true" />
 					</p:column>
 					<p:column>
@@ -497,7 +497,8 @@
 					<p:commandButton value="SI" style="width: 50px"
 						actionListener="#{mascotaBean.eliminar()}"
 						oncomplete="varEliminarMascota.hide()"
-						update=":form-contentpage:mensajes" />
+						update=":form-contentpage:mensajes"
+						immediate="true" />
 					<p:commandButton value="NO" style="width: 50px"
 						onclick="varEliminarMascota.hide()" immediate="true" />
 				</h:panelGrid>

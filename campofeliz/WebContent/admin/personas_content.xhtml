@@ -11,25 +11,15 @@
 		<p:defaultCommand target="lnkbuscar"></p:defaultCommand>
 
 		<p:panel id="panel-content">
-			<div style="float: right; margin: 10px 15px 0 0;">
-				<div id="search-form">
-					<p:inputText id="txtbusqueda" value="#{personasBean.nombre}"
-						onblur="if(this.value==''){this.value='#{personasBean.textoBusqueda}'}"
-						onfocus="if(this.value=='#{personasBean.textoBusqueda}'){this.value='';}  this.select();" 
-						validatorMessage="Ingrese sólo letras. Corrija y reintente.">
-						<f:validateRegex pattern="[a-zA-Z ]*" />
-					</p:inputText>
-					<h:commandLink id="lnkbuscar" styleClass="search-form-submit" >
-						<f:ajax execute="txtbusqueda" render="idTablaPersonas mensajes"></f:ajax>
-					</h:commandLink>
-				</div>
+			<div class="blog-search">
+				<p:inputText id="txtbusqueda" value="#{personasBean.nombre}"
+					onblur="if(this.value==''){this.value='#{personasBean.textoBusqueda}'}"
+					onfocus="if(this.value=='#{personasBean.textoBusqueda}'){this.value='';}  this.select();" 
+					validatorMessage="Ingrese sólo letras. Corrija y reintente.">
+					<f:validateRegex pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ ]*" />
+				</p:inputText>
+				<p:commandButton id="lnkbuscar" image="btn-find" update="idTablaPersonas mensajes" />
 			</div>
-			<br />
-			<br />
-			[ <h:link class="link" value="Nueva Persona" outcome="persona.xhtml">
-				<f:param name="idpersona" value="0" />
-			</h:link> ]
-			<br />
 			<br />
 			<p:dataTable id="idTablaPersonas"
 				value="#{personasBean.lisCotpersona}" var="persona"

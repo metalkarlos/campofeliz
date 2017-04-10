@@ -7,8 +7,14 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 	
 	<h:form id="form-sidepage">
-	    <h1>Mascotas</h1>
-	    <hr noshade="noshade" />
+    <h1>Mascotas</h1>
+    <hr noshade="noshade" />
+    [ <h:link class="link" value="Nueva Mascota" outcome="mascota.hxtml">
+			<f:param name="idmascota" value="0" />
+			<f:param name="iditem" value="#{menuBean.activeIdItem}" />
+		</h:link> ]
+		<br />
+		<br />
 		<label for="idespeciemascota">Seleccione la Especie:</label>
 		<br />
 		<p:selectOneMenu id="idespeciemascota" style="width: 145px; align: center;" value="#{mascotasBean.especie}" >

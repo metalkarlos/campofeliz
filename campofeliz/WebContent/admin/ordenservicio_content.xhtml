@@ -107,7 +107,7 @@
 							<td>
 							<p:inputTextarea id="idobservacion"
 								value="#{ordenServicioBean.petordenservicio.observacion}"
-								maxlength="300" />
+								maxlength="300" autoResize="false" />
 							</td>
 							</tr>
 							<tr>
@@ -117,7 +117,7 @@
 							<td>
 							<p:inputTextarea id="iddedicatoria"
 								value="#{ordenServicioBean.petordenservicio.dedicatoria}"
-								maxlength="1000" />
+								maxlength="1000" autoResize="false" />
 							</td>
 							</tr>
 							</table>
@@ -497,7 +497,7 @@
 		<p:dialog id="iddialogeditormascota"
 			header="Registro de Mascotas Simplificado" closable="false"
 			widgetVar="vardialogeditormascota" modal="true" height="570"
-			width="500">
+			width="500" >
 			<p:growl id="mensajeseditormascota" showDetail="false" sticky="true" autoUpdate="true" />
 			<p:fieldset id="idpaneleditormascota" style="margin-top: 10px"
 				legend="Datos de la Mascota">
@@ -619,6 +619,28 @@
 			<p:fieldset id="idpaneleditorpropietario" style="margin-top: 10px"
 				legend="Datos del Propietario">
 				<p:panelGrid id="idgrideditorpropietario" style="width: 100%" columnClasses="col1,col2">
+				
+					<p:row>
+					<p:column>
+					<h:outputLabel value="Buscar"
+						for="cmbPropietarioEditor" />
+					</p:column>
+					<p:column>
+					<p:autoComplete id="cmbPropietarioEditor" 
+						value="#{ordenServicioBean.cotpersonabusqueda}"
+						completeMethod="#{ordenServicioBean.buscarPropietarios}" var="p"
+						itemLabel="#{p.nombre1} #{p.nombre2} #{p.apellido1} #{p.apellido2}"
+						itemValue="#{p}" converter="persona" minQueryLength="1"
+						forceSelection="true" >
+						<p:ajax event="itemSelect" listener="#{ordenServicioBean.seleccionarPropietario()}"
+							update=":form-contentpage:idgrideditorpropietario, :form-contentpage:mensajes"></p:ajax>
+					</p:autoComplete>
+					</p:column>
+					<p:column>
+					<p:message id="msgcmbPropietarioEditor" for="cmbPropietarioEditor" display="icon" />
+					</p:column>
+					</p:row>
+				
 					<p:row>
 					<p:column>
 					<h:outputLabel value="Primer Nombre: "
@@ -703,17 +725,42 @@
 					<p:message id="msgtxtTelefonoEditor" for="txtTelefonoEditor" display="icon" />
 					</p:column>
 					</p:row>
+					
+					<p:row>
+					<p:column>
+					<h:outputLabel value="Dirección: " for="txtDireccionEditor" />
+					</p:column>
+					<p:column>
+						<p:inputTextarea id="txtDireccionEditor" value="#{ordenServicioBean.cotpersonanuevo.direccion}" maxlength="250" autoResize="false" />
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtDireccionEditor" for="txtDireccionEditor" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<h:outputLabel value="E-mail: " for="txtEmailEditor" />
+					</p:column>
+					<p:column>
+						<p:inputText id="txtEmailEditor" value="#{ordenServicioBean.cotpersonanuevo.email}" />
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtEmailEditor" for="txtEmailEditor" display="icon" />
+					</p:column>
+					</p:row>
+					
 				</p:panelGrid>
 			</p:fieldset>
 			<div align="right" style="padding: 5px 0;">
 				<p:commandButton id="idgrabarmascota" value="Grabar"
 					action="#{ordenServicioBean.guardarMascotaResumido()}"
-					update="mensajeseditormascota,msgtxtCodVeterinariaEditor,txtCodVeterinariaEditor,msgtxtNombreMascotaEditor,txtNombreMascotaEditor,msgcmbEspecieEditor,cmbEspecieEditor,msgcmbRazaEditor,cmbRazaEditor,msgtxtFechaNacimientoEditor,txtFechaNacimientoEditor,msgtxtFechaFallecimientoEditor,txtFechaFallecimientoEditor,msgcmbSexoEditor,cmbSexoEditor,msgtxtPrimerNombreEditor,txtPrimerNombreEditor,msgtxtPrimerApellidoEditor,txtPrimerApellidoEditor,msgcmbSexoPropietarioEditor,cmbSexoPropietarioEditor,msgtxtTelefonoEditor,txtTelefonoEditor" />
+					update="idgrideditormascota, idgrideditorpropietario, panelgridmascota, panelgridpropietario, mensajes" />
 				<p:commandButton id="idcancelarmascota" value="Cerrar"
 					action="#{ordenServicioBean.limpiarEditorMascotaResumido()}"
-					update=":form-contentpage:iddialogeditormascota"
+					update="idgrideditormascota, idgrideditorpropietario"
 					oncomplete="vardialogeditormascota.hide()"
-					immediate="true" />
+					immediate="false" />
 			</div>
 		</p:dialog>
 		<p:dialog id="dlgMostrarReporte" header="Reporte" height="30" width="200"

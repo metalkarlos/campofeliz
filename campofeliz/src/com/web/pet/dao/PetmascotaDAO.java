@@ -71,7 +71,7 @@ public class PetmascotaDAO {
 			criteria.add( Restrictions.like("nombre", "%"+nombre.replaceAll(" ", "%")+"%").ignoreCase());
 		}
 		
-		criteria.addOrder(Order.asc("nombre").ignoreCase())
+		criteria.addOrder(Order.desc("fechafallecimiento").ignoreCase())
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
 			

@@ -36,7 +36,8 @@ public class PetrazaDAO {
 		List<Petraza> lisPetraza = null;
 		
 		Criteria criteria = session.createCriteria(Petraza.class)
-		.add( Restrictions.eq("setestado.idestado", 1));
+		.add( Restrictions.eq("setestado.idestado", 1))
+		.addOrder(Order.asc("nombre"));
 		
 		if(idespecie > 0) {
 			criteria.add( Restrictions.eq("petespecie.idespecie", new Integer(idespecie)));
@@ -86,6 +87,53 @@ public class PetrazaDAO {
 		}
 		else
 		{
+			args[0] = 0;
+		}
+		
+		return lisPetraza;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Petraza> lisPetrazaPorEspeciePagineo(Session session, int idespecie, String nombre, int pageSize, int pageNumber, int[] args) throws Exception {
+		List<Petraza> lisPetraza = null;
+		
+		Criteria criteria = session.createCriteria(Petraza.class)
+		.add( Restrictions.eq("setestado.idestado", 1) )
+		.createAlias("petespecie", "especie", Criteria.LEFT_JOIN);
+		
+		if(idespecie > 0){
+			criteria.add( Restrictions.eq("especie.idespecie", idespecie) );
+		}
+		
+		if(nombre != null && nombre.trim().length() > 0){
+			criteria.add( Restrictions.like("nombre", "%"+nombre.replaceAll(" ", "%")+"%").ignoreCase());
+		}
+		
+		criteria.addOrder(Order.asc("nombre").ignoreCase())
+		.setMaxResults(pageSize)
+		.setFirstResult(pageNumber);
+			
+		lisPetraza = (List<Petraza>) criteria.list();
+		
+		if(lisPetraza != null && lisPetraza.size() > 0)
+		{
+			Criteria criteriaCount = session.createCriteria( Petraza.class)
+			.setProjection( Projections.rowCount())
+			.add( Restrictions.eq("setestado.idestado", 1))
+			.createAlias("petespecie", "especie", Criteria.LEFT_JOIN);
+			
+			if(idespecie > 0){
+				criteriaCount.add( Restrictions.eq("especie.idespecie", idespecie) );
+			}
+			
+			if(nombre != null && nombre.trim().length() > 0){
+				criteriaCount.add( Restrictions.like("nombre", "%"+nombre.replaceAll(" ", "%")+"%").ignoreCase());
+			}
+			
+			Object object = criteriaCount.uniqueResult();
+			int count = (object==null?0:Integer.parseInt(object.toString()));
+			args[0] = count;
+		} else {
 			args[0] = 0;
 		}
 		

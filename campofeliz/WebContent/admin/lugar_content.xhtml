@@ -34,15 +34,15 @@
 				<f:facet name="header">
 					Lugares
 				</f:facet>
-				
-				<p:column id="idTipoLugarHeader" headerText="Tipo Lugar"
-					style="width: 150px">
-					<h:outputText value="#{lugar.cottipolugar.nombre}" />
-				</p:column>
 
 				<p:column id="idNombreHeader" headerText="Nombre"
 					style="width: 150px">
 					<h:outputText value="#{lugar.nombre}" />
+				</p:column>
+				
+				<p:column id="idTipoLugarHeader" headerText="Tipo Lugar"
+					style="width: 150px">
+					<h:outputText value="#{lugar.cottipolugar.nombre}" />
 				</p:column>
 
 				<p:column id="idDescripcionHeader" headerText="Descripción">
@@ -80,7 +80,7 @@
 					<h:outputLabel id="ideditorlbldescripcion" value="Descripción"
 						for="ideditortxtdescripcion" />
 					<h:inputTextarea id="ideditortxtdescripcion"
-						value="#{lugarBean.cotlugarItem.descripcion}" />
+						value="#{lugarBean.cotlugarItem.descripcion}" maxlength="200" autoResize="false" />
 
 					<h:outputText value="" />
 					<h:column>

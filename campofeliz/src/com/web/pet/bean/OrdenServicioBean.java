@@ -18,6 +18,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 
 import com.web.pet.bo.CotlugarBO;
+import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.bo.CottipolugarBO;
 import com.web.pet.bo.PetespecieBO;
 import com.web.pet.bo.PetmascotaBO;
@@ -70,7 +71,8 @@ public class OrdenServicioBean implements Serializable {
 	private List<Petmascotacolor> lisPetmascotacolor;
 	private List<Petservicio> lisPetservicio;
 	private Petmascotahomenaje petmascotahomenajenuevo; 
-	private Cotpersona cotpersonanuevo; 
+	private Cotpersona cotpersonanuevo;
+	private Cotpersona cotpersonabusqueda; 
 	private List<Petespecie> lisPetespecie;
 	private List<Petraza> lisRaza;
 	private String linkReporte;
@@ -84,6 +86,7 @@ public class OrdenServicioBean implements Serializable {
 		lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 		petmascotahomenajenuevo = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
 		cotpersonanuevo = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+		cotpersonabusqueda = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 		lisPetordenserviciodetalle = new ArrayList<Petordenserviciodetalle>();
 		lisPetordenserviciodetalleClon = new ArrayList<Petordenserviciodetalle>();
 		cottipolugar = new Cottipolugar(0, null, null, null, new Setestado(), new Setusuario());
@@ -338,6 +341,36 @@ public class OrdenServicioBean implements Serializable {
 		return lisPetmascotahomenaje;
 	}
 	
+	public List<Cotpersona> buscarPropietarios(String query) {
+		List<Cotpersona> lisPropietarios = new ArrayList<Cotpersona>();
+		
+		List<Cotpersona> lisCotpersona = new ArrayList<Cotpersona>();
+		CotpersonaBO cotpersonaBO = new CotpersonaBO();
+		int args[] = {0};
+		String[] nombres = null;
+		if(query != null && query.trim().length() > 0){
+			nombres = query.split(" ");
+		}
+		lisCotpersona = cotpersonaBO.lisCotpersonaByPage(nombres, 10, 0, args);
+		
+		if(lisCotpersona != null && lisCotpersona.size() > 0){
+			for(Cotpersona cotpersona : lisCotpersona){
+				lisPropietarios.add(cotpersona);
+			}
+		}
+		
+		return lisPropietarios;
+	}
+	
+	public void seleccionarPropietario() {
+		try{
+			cotpersonanuevo = cotpersonabusqueda.clonar();
+		}catch(Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
 	public void itemSelectMascota(SelectEvent event){
 		try{
 			Petmascotahomenaje petmascotahomenaje = (Petmascotahomenaje) event.getObject();
@@ -590,7 +623,11 @@ public class OrdenServicioBean implements Serializable {
 					ok = petordenservicioBO.grabarMascotaBasico(petmascotahomenajenuevo, cotpersonanuevo);
 					
 					if(ok){
-						new MessageUtil().showInfoMessage("Mascota ingresada con exito!","");
+						//new MessageUtil().showInfoMessage("Mascota ingresada con exito!","");
+						PetmascotaBO petmascotaBO = new PetmascotaBO();
+						petordenservicio.setPetmascotahomenaje(petmascotaBO.getPetmascotaById(petmascotahomenajenuevo.getIdmascota()));
+						
+						RequestContext.getCurrentInstance().execute("vardialogeditormascota.hide()");
 					}
 				}
 			}else{
@@ -658,11 +695,6 @@ public class OrdenServicioBean implements Serializable {
 					if(cotpersonanuevo.getSexo() == 0){
 						new MessageUtil().showWarnMessage("Datos incompletos! El sexo del propietario es obligatorio!","");
 						ok = false;
-					}else{
-						if(cotpersonanuevo.getTelefono() == null || cotpersonanuevo.getTelefono().trim().length() == 0 ){
-							new MessageUtil().showWarnMessage("Datos incompletos! El telefono del propietario es obligatorio!","");
-							ok = false;
-						}
 					}
 				}
 			}
@@ -673,7 +705,8 @@ public class OrdenServicioBean implements Serializable {
 	
 	public void limpiarEditorMascotaResumido(){
 		petmascotahomenajenuevo = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
-		cotpersonanuevo = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null); 
+		cotpersonanuevo = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+		cotpersonabusqueda = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 	}
 	
 	public int getIdordenservicio() {
@@ -823,6 +856,14 @@ public class OrdenServicioBean implements Serializable {
 
 	public void setCottipolugar(Cottipolugar cottipolugar) {
 		this.cottipolugar = cottipolugar;
+	}
+
+	public Cotpersona getCotpersonabusqueda() {
+		return cotpersonabusqueda;
+	}
+
+	public void setCotpersonabusqueda(Cotpersona cotpersonabusqueda) {
+		this.cotpersonabusqueda = cotpersonabusqueda;
 	}
 
 }

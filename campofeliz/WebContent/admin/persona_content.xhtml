@@ -131,7 +131,7 @@
 				        </f:facet>
 					    </h:panelGrid>
 					    <h:outputLabel value="Descripción de la Foto" for="txtDescripcionFoto" />
-					    <p:inputTextarea id="txtDescripcionFoto" value="#{item.descripcion}" maxlength="500" />
+					    <p:inputTextarea id="txtDescripcionFoto" value="#{item.descripcion}" maxlength="500" autoResize="false" />
 						</p:galleriaContent>
 					</p:galleria>
 					</center>
@@ -294,7 +294,7 @@
 					<p:column>
 					<p:inputTextarea id="txtDireccion"
 						value="#{personaBean.cotpersona.direccion}"
-						maxlength="250" />
+						maxlength="250" autoResize="false" />
 					</p:column>
 					<p:column>
 					<p:message id="msgtxtDireccion" for="txtDireccion" display="icon" />
@@ -369,7 +369,8 @@
 							<p:commandButton id="idconfirmardeletepersona" value="Confirmar"
 								action="#{personaBean.eliminar()}"
 								onclick="varEliminarPersona.hide()"
-								update="mensajes" />
+								update="mensajes" 
+								immediate="true" />
 							<p:commandButton id="idcancelardeletepersona" value="Cancelar"
 								onclick="varEliminarPersona.hide()" immediate="true" />
 						</p:column>
