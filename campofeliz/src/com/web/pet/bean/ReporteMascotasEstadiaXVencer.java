@@ -36,7 +36,7 @@ public class ReporteMascotasEstadiaXVencer implements Serializable {
 					visorBean.getParametros().put("P_ANIOS", anio);
 				}
   
-				RequestContext.getCurrentInstance().execute("varDlgMostrarReporte.show()");
+				RequestContext.getCurrentInstance().execute("window.open('visor_reportes.jsf')");
 			}
 		}catch (Exception e) {
 			e.printStackTrace();

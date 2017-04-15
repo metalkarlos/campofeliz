@@ -13,8 +13,38 @@
 			<h2>Búsqueda Avanzada de Mascotas</h2>
 			<hr noshade="noshade" />
 			<br />
-			<p:focus for="idnombre" />
+			<p:focus for="idcodigo" />
 			<p:panelGrid id="panelgridcriterios" styleClass="gridcriterios">
+				<p:row>
+					<p:column style="width: 100px">
+						<h:outputLabel value="Código:" for="idcodigo" />
+					</p:column>
+					<p:column>
+						<p:inputText id="idcodigo"
+							value="#{buscarMascotaBean.petmascotahomenaje.idmascota}"
+							style="width: 400px" />
+					</p:column>
+					<p:column>
+						<h:outputText value="*Código del sistema de la mascota"
+							style="font-style: italic;" />
+					</p:column>
+				</p:row>
+				
+				<p:row>
+					<p:column style="width: 100px">
+						<h:outputLabel value="Código Manual:" for="idmascotaveterinaria" />
+					</p:column>
+					<p:column>
+						<p:inputText id="idmascotaveterinaria"
+							value="#{buscarMascotaBean.petmascotahomenaje.idmascotaveterinaria}"
+							style="width: 400px" />
+					</p:column>
+					<p:column>
+						<h:outputText value="*Código manual de la mascota"
+							style="font-style: italic;" />
+					</p:column>
+				</p:row>
+				
 				<p:row>
 					<p:column style="width: 100px">
 						<h:outputLabel value="Nombre:" for="idnombre" />
@@ -25,7 +55,7 @@
 							style="width: 400px" />
 					</p:column>
 					<p:column>
-						<h:outputText value="*Escriba el nombre de la mascota"
+						<h:outputText value="*Nombre de la mascota"
 							style="font-style: italic;" />
 					</p:column>
 				</p:row>
@@ -46,7 +76,7 @@
 						</p:autoComplete>
 					</p:column>
 					<p:column>
-						<h:outputText value="*Escriba el nombre del propietario"
+						<h:outputText value="*Nombre del propietario"
 							style="font-style: italic;" />
 					</p:column>
 				</p:row>

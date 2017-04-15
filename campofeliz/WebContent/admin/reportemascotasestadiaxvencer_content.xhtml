@@ -10,34 +10,13 @@
 		<p:growl id="mensajes" showDetail="false" sticky="true" />
 
 		<p:panel id="panel-reportemascotaxtiempocontent">
-			<div class="area-botones">
-				<my:buttons renderedButtonImprimir="true"
-					renderedButtonAceptar="false"
-					actionButtonImprimir="#{reporteMascotasEstadiaXVencer.imprimir()}"
-					renderedButtonEliminar="false" 
-					renderedButtonCancelar="false"
-					renderedButtonNewItem="false" />
-			</div>
 			<h:panelGrid columns="3" cellpadding="2">
 				<h:outputLabel value="Años de Estadía:" for="idanio" />
 				<p:spinner id="idanio" value="#{reporteMascotasEstadiaXVencer.anio}"
 					min="0" max="99" size="2" />
 				<h:outputText value=" (* 0 - todos)" style="font-style: italic;" />
 			</h:panelGrid>
-			<div class="area-botones">
-				<my:buttons renderedButtonImprimir="true"
-					renderedButtonAceptar="false"
-					actionButtonImprimir="#{reporteMascotasEstadiaXVencer.imprimir()}"
-					renderedButtonEliminar="false" 
-					renderedButtonCancelar="false"
-					renderedButtonNewItem="false" />
-			</div>
+			<p:commandButton action="#{reporteMascotasEstadiaXVencer.imprimir()}" value="Imprimir" />
 		</p:panel>
-		<p:dialog id="dlgMostrarReporte" header="Reporte" height="30" width="200"
-			closable="true" widgetVar="varDlgMostrarReporte" modal="true">
-			<center>
-			<h:link id="lnkVerReporte" value="Ver Reporte" outcome="visor_reportes" target="_blank" onclick="varDlgMostrarReporte.hide()" />
-			</center>
-		</p:dialog>
 	</h:form>
 </ui:composition>

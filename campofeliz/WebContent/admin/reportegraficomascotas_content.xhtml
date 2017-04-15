@@ -11,14 +11,6 @@
 		<p:growl id="mensajes" showDetail="false" sticky="true" />
 
 		<p:panel id="panel-graficomascota">
-			<div class="area-botones">
-				<my:buttons renderedButtonImprimir="true"
-					renderedButtonAceptar="false"
-					actionButtonImprimir="#{reporteGraficoMascotasBean.imprimir()}"
-					renderedButtonEliminar="false" 
-					renderedButtonCancelar="false"
-					renderedButtonNewItem="false" />
-			</div>
 			<p:selectOneRadio id="idtipografico"
 				value="#{reporteGraficoMascotasBean.tipografico}" layout="custom">
 				<f:selectItem itemLabel="Gráfico Anual" itemValue="1" />
@@ -34,20 +26,7 @@
 				<p:spinner id="idanio" value="#{reporteGraficoMascotasBean.anio}"
 					min="1" max="9999" size="4" />
 			</h:panelGrid>
-			<div class="area-botones">
-				<my:buttons renderedButtonImprimir="true"
-					renderedButtonAceptar="false"
-					actionButtonImprimir="#{reporteGraficoMascotasBean.imprimir()}"
-					renderedButtonEliminar="false" 
-					renderedButtonCancelar="false"
-					renderedButtonNewItem="false" />
-			</div>
+			<p:commandButton action="#{reporteGraficoMascotasBean.imprimir()}" value="Imprimir" />
 		</p:panel>
-		<p:dialog id="dlgMostrarReporte" header="Reporte" height="30" width="200"
-			closable="true" widgetVar="varDlgMostrarReporte" modal="true">
-			<center>
-			<h:link id="lnkVerReporte" value="Ver Reporte" outcome="visor_reportes" target="_blank" onclick="varDlgMostrarReporte.hide()" />
-			</center>
-		</p:dialog>
 	</h:form>
 </ui:composition>

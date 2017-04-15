@@ -196,7 +196,12 @@ public class PetmascotaDAO {
 		Criteria criteria = session.createCriteria(Petmascotahomenaje.class)
 		.add(Restrictions.eq("setestado.idestado", 1));
 		
-		
+		if(petmascotahomenaje.getIdmascota() > 0){
+			criteria.add(Restrictions.eq("idmascota", petmascotahomenaje.getIdmascota()));
+		}
+		if(petmascotahomenaje.getIdmascotaveterinaria() != null && petmascotahomenaje.getIdmascotaveterinaria().trim().length() > 0){
+			criteria.add(Restrictions.like("idmascotaveterinaria", petmascotahomenaje.getIdmascotaveterinaria()).ignoreCase());
+		}
 		if(petmascotahomenaje.getNombre() != null && petmascotahomenaje.getNombre().trim().length() > 0){
 			criteria.add(Restrictions.like("nombre", "%"+petmascotahomenaje.getNombre().replaceAll(" ", "%")+"%").ignoreCase());
 		}

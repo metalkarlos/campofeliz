@@ -29,7 +29,7 @@
 				emptyMessage="No se encontraron registros">
 				<p:column>
 					<p:panel
-						style="text-align:center; text-transform: capitalize; height: 200px; width: 180px;">
+						style="text-align:center; text-transform: capitalize; height: 215px; width: 180px;">
 						<f:facet name="header">
 							<h:link value="#{fn:substring(pet.nombre, 0, 20)}"
 								outcome="mascota.hxtml">
@@ -41,6 +41,8 @@
 						</f:facet>
 						<f:facet name="footer">
 							<center>
+								<h:outputText value="##{pet.idmascota}" />
+								<br />
 								<h:outputText value="#{pet.fechafallecimiento}" >
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>

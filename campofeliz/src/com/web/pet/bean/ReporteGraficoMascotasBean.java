@@ -43,7 +43,7 @@ public class ReporteGraficoMascotasBean implements Serializable {
 				}
 			}
 
-			RequestContext.getCurrentInstance().execute("varDlgMostrarReporte.show()");
+			RequestContext.getCurrentInstance().execute("window.open('visor_reportes.jsf')");
 		}catch (Exception e) {
 			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");

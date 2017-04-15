@@ -11,14 +11,6 @@
 		<p:growl id="mensajes" showDetail="false" sticky="true" />
 
 		<p:panel id="panel-reportemascotaxtiempocontent">
-			<div class="area-botones">
-				<my:buttons renderedButtonImprimir="true"
-					renderedButtonAceptar="false"
-					actionButtonImprimir="#{reporteMascotasxTiempoBean.imprimir()}"
-					renderedButtonEliminar="false" 
-					renderedButtonCancelar="false"
-					renderedButtonNewItem="false" />
-			</div>
 			<h:panelGrid columns="3" cellpadding="5">
 				<h:outputLabel value="Fecha Desde:" for="idfechanadesde" />
 				<p:calendar id="idfechanadesde"
@@ -34,19 +26,12 @@
 				<h:outputText value="*Seleccione la Fecha de Entierro/Cremación hasta cuando desea consultar"
 					style="font-style: italic;" />
 			</h:panelGrid>
-			<div class="area-botones">
-				<my:buttons renderedButtonImprimir="true"
-					renderedButtonAceptar="false"
-					actionButtonImprimir="#{reporteMascotasxTiempoBean.imprimir()}"
-					renderedButtonEliminar="false" 
-					renderedButtonCancelar="false"
-					renderedButtonNewItem="false" />
-			</div>
+			<p:commandButton action="#{reporteMascotasxTiempoBean.imprimir()}" value="Imprimir" />
 		</p:panel>
 		<p:dialog id="dlgMostrarReporte" header="Reporte" height="30" width="200"
 			closable="true" widgetVar="varDlgMostrarReporte" modal="true">
 			<center>
-			<h:link id="lnkVerReporte" value="Ver Reporte" outcome="visor_reportes" target="_blank" onclick="varDlgMostrarReporte.hide()" />
+			<h:link id="lnkVerReporte" value="Ver Reporte" outcome="visor_reportes" target="_blank" />
 			</center>
 		</p:dialog>
 	</h:form>
