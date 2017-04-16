@@ -507,13 +507,23 @@ public class OrdenServicioBean implements Serializable {
 			new MessageUtil().showWarnMessage("Especifique la Fecha de Emisión.","");
 			ok = false;
 		}else{
-			if(petordenservicio.getPetmascotahomenaje() == null || petordenservicio.getPetmascotahomenaje().getIdmascota() == 0){
-				new MessageUtil().showWarnMessage("Escriba el Nombre de la Mascota.","");
+			if(petordenservicio.getFechaentierro() == null){
+				new MessageUtil().showWarnMessage("Especifique la Fecha de Entierro/Cremación.","");
 				ok = false;
-			}else{
-				if(lisPetordenserviciodetalle == null || lisPetordenserviciodetalle.size() == 0){
-					new MessageUtil().showWarnMessage("Debe elegir al menos un servicio.","");
+			}else{ 
+				if(petordenservicio.getFechaentierro() != null && petordenservicio.getPetmascotahomenaje().getFechafallecimiento() != null && (petordenservicio.getFechaentierro().before(petordenservicio.getPetmascotahomenaje().getFechafallecimiento()) )){
+					new MessageUtil().showWarnMessage("Fecha de Entierro/Cremación debe ser mayor a Fecha de Fallecimiento de la mascota.","");
 					ok = false;
+				}else{
+					if(petordenservicio.getPetmascotahomenaje() == null || petordenservicio.getPetmascotahomenaje().getIdmascota() == 0){
+						new MessageUtil().showWarnMessage("Escriba el Nombre de la Mascota.","");
+						ok = false;
+					}else{
+						if(lisPetordenserviciodetalle == null || lisPetordenserviciodetalle.size() == 0){
+							new MessageUtil().showWarnMessage("Debe elegir al menos un servicio.","");
+							ok = false;
+						}
+					}
 				}
 			}
 		}
@@ -598,7 +608,7 @@ public class OrdenServicioBean implements Serializable {
 				visorBean.getParametros().put("P_IDORDENSERVICIO", petordenservicio.getId().getIdordenservicio());
 				visorBean.getParametros().put("P_IDANIO", petordenservicio.getId().getIdanio());
 				
-				RequestContext.getCurrentInstance().execute("varDlgMostrarReporte.show()");
+				RequestContext.getCurrentInstance().execute("window.open('visor_reportes.jsf')");
 			}else{
 				new MessageUtil().showWarnMessage("Debe ingresar los servicios. Corrija y reintente.","");
 			}
@@ -643,38 +653,38 @@ public class OrdenServicioBean implements Serializable {
 	{
 		boolean ok = true;
 		
-		if(petmascotahomenajenuevo.getIdmascotaveterinaria() == null || petmascotahomenajenuevo.getIdmascotaveterinaria().trim().length() == 0){
-			new MessageUtil().showWarnMessage("Datos incompletos! El código de la veterinaria es obligatorio!","");
+		if(petmascotahomenajenuevo.getNombre() == null || petmascotahomenajenuevo.getNombre().trim().length() == 0){
+			new MessageUtil().showWarnMessage("Datos incompletos! El nombre de la mascota es obligatorio!","");
 			ok = false;
 		}else{
-			if(petmascotahomenajenuevo.getNombre() == null || petmascotahomenajenuevo.getNombre().trim().length() == 0){
-				new MessageUtil().showWarnMessage("Datos incompletos! El nombre de la mascota es obligatorio!","");
+			if(petmascotahomenajenuevo.getPetespecie().getIdespecie() == 0){
+				new MessageUtil().showWarnMessage("Datos incompletos! La especie de la mascota es obligatorio!","");
 				ok = false;
 			}else{
-				if(petmascotahomenajenuevo.getPetespecie().getIdespecie() == 0){
-					new MessageUtil().showWarnMessage("Datos incompletos! La especie de la mascota es obligatorio!","");
+				if(petmascotahomenajenuevo.getPetraza() == null || petmascotahomenajenuevo.getPetraza().getIdraza() == 0 ){
+					new MessageUtil().showWarnMessage("Datos incompletos! La Raza es obligatoria!","");
 					ok = false;
 				}else{
-					if(petmascotahomenajenuevo.getPetraza() == null || petmascotahomenajenuevo.getPetraza().getIdraza() == 0 ){
-						new MessageUtil().showWarnMessage("Datos incompletos! La Raza es obligatoria!","");
+					if(petmascotahomenajenuevo.getSexo() == 0){
+						new MessageUtil().showWarnMessage("Datos incompletos! El sexo de la mascota es obligatorio!","");
 						ok = false;
 					}else{
-						if(petmascotahomenajenuevo.getSexo() == 0){
-							new MessageUtil().showWarnMessage("Datos incompletos! El sexo de la mascota es obligatorio!","");
+						if(petmascotahomenajenuevo.getFechafallecimiento() == null){
+							new MessageUtil().showWarnMessage("Datos incompletos! Fecha de Fallecimiento es obligatorio!","");
 							ok = false;
 						}else{
-							if(petmascotahomenajenuevo.getFechanacimiento() == null){
-								new MessageUtil().showWarnMessage("Datos incompletos! Fecha de Nacimiento es obligatorio!","");
+							if(petmascotahomenajenuevo.getFechanacimiento() != null && petmascotahomenajenuevo.getFechafallecimiento().before(petmascotahomenajenuevo.getFechanacimiento())){
+								new MessageUtil().showWarnMessage("Atención! Fecha de Fallecimiento debe ser mayor a Fecha de Nacimiento!","");
 								ok = false;
 							}else{
-								if(petmascotahomenajenuevo.getFechafallecimiento() == null){
-									new MessageUtil().showWarnMessage("Datos incompletos! Fecha de Fallecimiento es obligatorio!","");
+								if(cotpersonanuevo.getNombre1() == null || cotpersonanuevo.getNombre1().trim().length() == 0){
+									new MessageUtil().showWarnMessage("Datos incompletos! El Primer Nombre es obligatorio!","");
 									ok = false;
 								}else{
-									if(petmascotahomenajenuevo.getFechafallecimiento().before(petmascotahomenajenuevo.getFechanacimiento())){
-										new MessageUtil().showWarnMessage("Atención! Fecha de Fallecimiento debe ser mayor a Fecha de Nacimiento!","");
+									if(cotpersonanuevo.getApellido1() == null || cotpersonanuevo.getApellido1().trim().length() == 0){
+										new MessageUtil().showWarnMessage("Datos incompletos! El Primer Apellido es obligatorio!","");
 										ok = false;
-									}	
+									}
 								}
 							}
 						}

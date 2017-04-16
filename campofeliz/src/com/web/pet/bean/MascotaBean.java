@@ -443,10 +443,15 @@ public class MascotaBean implements Serializable {
 								ok = false;
 							}
 							else{ 
-								if(petmascotahomenaje.getFechafallecimiento() != null && petmascotahomenaje.getFechanacimiento() != null && (petmascotahomenaje.getFechafallecimiento().before(petmascotahomenaje.getFechanacimiento()) )){
-									new MessageUtil().showWarnMessage("Fecha de Fallecimiento debe ser mayor a Fecha de Nacimiento.","");
+								if(petmascotahomenaje.getFechafallecimiento() == null){
+									new MessageUtil().showWarnMessage("Datos incompletos! Fecha de Fallecimiento es obligatorio!","");
 									ok = false;
-								}	
+								}else{
+									if(petmascotahomenaje.getFechanacimiento() != null && (petmascotahomenaje.getFechafallecimiento().before(petmascotahomenaje.getFechanacimiento()) )){
+										new MessageUtil().showWarnMessage("Fecha de Fallecimiento debe ser mayor a Fecha de Nacimiento.","");
+										ok = false;
+									}	
+								}
 							}	
 							
 						}

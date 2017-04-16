@@ -10,7 +10,7 @@
 
 	<h:form id="form-contentpage">
 		<p:growl id="mensajes" showDetail="false" sticky="true" />
-		<p:focus for="txtNombreMascota" />
+		<p:focus for="idfechaemision" />
 
 		<p:panel id="panel-ordencontent">
 			<div class="area-botones">
@@ -63,7 +63,7 @@
 							</tr>
 							<tr>
 							<td>
-							<h:outputLabel id="idlblfechaentierro" value="Fecha de Entierro/Cremación: " for="idfechaentierro" />
+							<h:outputLabel id="idlblfechaentierro" value="Fecha de Entierro/Cremación: " for="idfechaentierro" /><span style="color: red;">*</span>
 							</td>
 							<td>
 							<p:calendar id="idfechaentierro" styleClass="calendario" 
@@ -361,7 +361,7 @@
 				
 					<p:row>
 						<p:column colspan="2">
-						<div class="titulo">Servicios Ofrecidos</div>
+						<div class="titulo">Servicios Ofrecidos<span style="color: red;">*</span></div>
 						</p:column>
 					</p:row>
 	
@@ -504,8 +504,7 @@
 				<p:panelGrid id="idgrideditormascota" style="width: 100%" columnClasses="col1,col2">
 					<p:row>
 					<p:column>
-					<h:outputLabel value="Código Veterinaria: "
-						for="txtCodVeterinariaEditor" />
+					<h:outputLabel value="Código Veterinaria: "	for="txtCodVeterinariaEditor" />
 					</p:column>
 					<p:column>
 					<p:inputText id="txtCodVeterinariaEditor" required="false" requiredMessage="Código Veterinaria es Obligatorio"
@@ -518,7 +517,7 @@
 					
 					<p:row>
 					<p:column>
-					<h:outputLabel value="Nombre: " for="txtNombreMascotaEditor" />
+					<h:outputLabel value="Nombre: " for="txtNombreMascotaEditor" /><span style="color: red;">*</span>
 					</p:column>
 					<p:column>
 					<p:inputText id="txtNombreMascotaEditor" required="false" requiredMessage="Nombre de Mascota es Obligatorio"
@@ -531,7 +530,7 @@
 					
 					<p:row>
 					<p:column>
-					<h:outputLabel value="Especie: " for="cmbEspecieEditor" />
+					<h:outputLabel value="Especie: " for="cmbEspecieEditor" /><span style="color: red;">*</span>
 					</p:column>
 					<p:column>
 					<p:selectOneMenu id="cmbEspecieEditor" required="false" requiredMessage="Especie es Obligatorio"
@@ -551,7 +550,7 @@
 					
 					<p:row>
 					<p:column>
-					<h:outputLabel value="Raza: " for="cmbRazaEditor" />
+					<h:outputLabel value="Raza: " for="cmbRazaEditor" /><span style="color: red;">*</span>
 					</p:column>
 					<p:column>
 					<p:selectOneMenu id="cmbRazaEditor" required="false" requiredMessage="Raza es Obligatorio"
@@ -585,8 +584,7 @@
 					
 					<p:row>
 					<p:column>
-					<h:outputLabel value="Fecha Fallecimiento: "
-						for="txtFechaFallecimientoEditor" />
+					<h:outputLabel value="Fecha Fallecimiento: " for="txtFechaFallecimientoEditor" /><span style="color: red;">*</span>
 					</p:column>
 					<p:column>
 					<p:calendar id="txtFechaFallecimientoEditor" required="false" requiredMessage="Fecha Fallecimiento es Obligatorio"
@@ -601,7 +599,7 @@
 					
 					<p:row>
 					<p:column>
-					<h:outputLabel value="Sexo: " for="cmbSexoEditor" />
+					<h:outputLabel value="Sexo: " for="cmbSexoEditor" /><span style="color: red;">*</span>
 					</p:column>
 					<p:column>
 					<p:selectOneMenu id="cmbSexoEditor" required="false" requiredMessage="Sexo es Obligatorio"
@@ -643,8 +641,7 @@
 				
 					<p:row>
 					<p:column>
-					<h:outputLabel value="Primer Nombre: "
-						for="txtPrimerNombreEditor" />
+					<h:outputLabel value="Primer Nombre: " for="txtPrimerNombreEditor" /><span style="color: red;">*</span>
 					</p:column>
 					<p:column>
 					<p:inputText id="txtPrimerNombreEditor" required="false" requiredMessage="Primer Nombre del Propietario es Obligatorio"
@@ -671,8 +668,7 @@
 					
 					<p:row>
 					<p:column>
-					<h:outputLabel value="Primer Apellido: "
-						for="txtPrimerApellidoEditor" />
+					<h:outputLabel value="Primer Apellido: " for="txtPrimerApellidoEditor" /><span style="color: red;">*</span>
 					</p:column>
 					<p:column>
 					<p:inputText id="txtPrimerApellidoEditor" required="false" requiredMessage="Primer Apellido del Propietario es Obligatorio"
@@ -762,12 +758,6 @@
 					oncomplete="vardialogeditormascota.hide()"
 					immediate="false" />
 			</div>
-		</p:dialog>
-		<p:dialog id="dlgMostrarReporte" header="Reporte" height="30" width="200"
-			closable="true" widgetVar="varDlgMostrarReporte" modal="true">
-			<center>
-			<h:link id="lnkVerReporte" value="Ver Reporte" outcome="visor_reportes" target="_blank" onclick="varDlgMostrarReporte.hide()" />
-			</center>
 		</p:dialog>
 	</h:form>
 </ui:composition>
