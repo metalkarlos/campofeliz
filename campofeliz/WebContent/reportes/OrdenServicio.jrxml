@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrdenServicio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="5" bottomMargin="5" uuid="1c5d0775-3fd5-40e9-90a2-4dae8c6afe95">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="69"/>
+	<property name="ireport.y" value="45"/>
 	<parameter name="P_LOGO" class="java.io.InputStream">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -23,7 +23,7 @@
 	p.telefono,
 	p.email,
 	p.direccion,
-	m.idmascotaveterinaria mascota,
+	m.idmascota mascota,
     edad_mascota(m.idmascota) as edad,
     CONCAT(UCASE(SUBSTRING(m.nombre, 1, 1)), LCASE(SUBSTRING(m.nombre, 2))) as nombremascota,
     CONCAT(UCASE(SUBSTRING(e.nombre, 1, 1)), LCASE(SUBSTRING(e.nombre, 2))) as especie,
@@ -31,7 +31,7 @@
 	case when m.sexo = 1 then 'Macho' else 'Hembra' end as sexo,
 	m.pesokg,
 	color_mascota(m.idmascota) as color,
-	m.fechanacimiento,
+	m.fechanacimiento fechanacimientomascota,
           m.fechafallecimiento,
 	s.fechaentierro,
 	l.nombre lugarfallecimiento,
@@ -40,7 +40,8 @@
 	se.nombre as servicio,
           (SELECT concat('Direccion: ',ofi.direccion,'\r',ofi.descripcion,
            '\rTelef: ',ofi.telefono,' / ',ofi.celular,'\rCorreo: ',ofi.email)
-           FROM cotoficina ofi where ofi.idoficina = 1) as membrete
+           FROM cotoficina ofi where ofi.idoficina = 1) as membrete,
+           s.fechaemision
   from petordenservicio s
        inner join petordenserviciodetalle d
        on d.idordenservicio = s.idordenservicio/*detalle*/
@@ -68,60 +69,61 @@
 	and s.idestado   = 1
    order by se.nombre asc]]>
 	</queryString>
-	<field name="idsolicitud" class="java.lang.Integer"/>
-	<field name="idanio" class="java.lang.Integer">
-		<fieldDescription><![CDATA[Anio en que se genera la orden de servicio]]></fieldDescription>
-	</field>
-	<field name="persona" class="java.lang.Integer"/>
-	<field name="nombres" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="apellidos" class="java.lang.String"/>
-	<field name="numeroidentificacion" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="fechanacimientopersona" class="java.sql.Timestamp"/>
-	<field name="telefono" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="email" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="direccion" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="mascota" class="java.lang.String"/>
-	<field name="edad" class="java.lang.String"/>
-	<field name="nombremascota" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="especie" class="java.lang.String"/>
-	<field name="raza" class="java.lang.String"/>
-	<field name="sexo" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="color" class="java.lang.String"/>
+	<field name="membrete" class="java.lang.String"/>
 	<field name="pesokg" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="color" class="java.lang.String"/>
-	<field name="fechanacimiento" class="java.sql.Timestamp">
+	<field name="idanio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Anio en que se genera la orden de servicio]]></fieldDescription>
+	</field>
+	<field name="raza" class="java.lang.String"/>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaemision" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[Fecha en que se emite la orden de servicio.]]></fieldDescription>
+	</field>
+	<field name="servicio" class="java.lang.String"/>
+	<field name="fechanacimientopersona" class="java.sql.Timestamp"/>
+	<field name="idordenserviciodetalle" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="fechafallecimiento" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="edad" class="java.lang.String"/>
+	<field name="nombres" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dedicatoria" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="especie" class="java.lang.String"/>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mascota" class="java.lang.Integer"/>
+	<field name="sexo" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="fechaentierro" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="lugarfallecimiento" class="java.lang.String"/>
-	<field name="dedicatoria" class="java.lang.String">
+	<field name="apellidos" class="java.lang.String"/>
+	<field name="persona" class="java.lang.Integer"/>
+	<field name="idsolicitud" class="java.lang.Integer"/>
+	<field name="fechanacimientomascota" class="java.sql.Timestamp"/>
+	<field name="numeroidentificacion" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="idordenserviciodetalle" class="java.lang.Integer">
+	<field name="direccion" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="servicio" class="java.lang.String"/>
-	<field name="membrete" class="java.lang.String"/>
+	<field name="nombremascota" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<group name="idsolicitud">
 		<groupExpression><![CDATA[$F{idsolicitud}]]></groupExpression>
 		<groupHeader>
@@ -157,7 +159,7 @@
 					<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement x="367" y="49" width="205" height="15" uuid="bc6a3018-698d-4544-a84e-67c183ee174c"/>
+					<reportElement x="367" y="34" width="205" height="15" uuid="bc6a3018-698d-4544-a84e-67c183ee174c"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 					</textElement>
@@ -199,7 +201,7 @@
 					<text><![CDATA[Teléfono:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="292" y="49" width="75" height="15" forecolor="#000000" uuid="515ad94b-a2c1-41bb-a8a7-46a7dccdcd8a"/>
+					<reportElement x="292" y="34" width="75" height="15" forecolor="#000000" uuid="515ad94b-a2c1-41bb-a8a7-46a7dccdcd8a"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 					</textElement>
@@ -218,20 +220,6 @@
 					</textElement>
 					<text><![CDATA[Información del Propietario]]></text>
 				</staticText>
-				<staticText>
-					<reportElement x="292" y="34" width="75" height="15" isPrintInFirstWholeBand="true" forecolor="#000000" uuid="0836d5d4-a468-4ab1-82c1-54f158fb56e0"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
-					</textElement>
-					<text><![CDATA[F. Nacimiento:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="true" pattern="dd MMMMM yyyy" isBlankWhenNull="true">
-					<reportElement x="367" y="34" width="205" height="15" uuid="97d749ae-be1d-462e-baee-55c9ef7458bd"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{fechanacimientopersona}]]></textFieldExpression>
-				</textField>
 				<staticText>
 					<reportElement x="5" y="62" width="52" height="15" forecolor="#000000" uuid="515ad94b-a2c1-41bb-a8a7-46a7dccdcd8a"/>
 					<textElement verticalAlignment="Middle">
@@ -343,13 +331,6 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{nombremascota}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="dd MMMMM yyyy" isBlankWhenNull="true">
-					<reportElement x="100" y="81" width="147" height="15" uuid="2d41c3cf-2e2f-4999-ba94-10a93b950960"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{fechanacimiento}]]></textFieldExpression>
-				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement x="339" y="36" width="233" height="15" uuid="c8ec725b-ac81-42ee-8ac1-e678f2d0d7c9"/>
 					<textElement verticalAlignment="Middle">
@@ -378,8 +359,8 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="dd MMMMM yyyy" isBlankWhenNull="true">
-					<reportElement x="100" y="95" width="147" height="15" uuid="3ce32462-9f2f-452c-9d20-27251901d65d"/>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement x="100" y="95" width="191" height="15" uuid="3ce32462-9f2f-452c-9d20-27251901d65d"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 					</textElement>
@@ -427,7 +408,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{mascota}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="dd MMMMM yyyy" isBlankWhenNull="true">
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
 					<reportElement x="383" y="82" width="189" height="15" uuid="773013ec-62c7-40a3-8e49-3fd12af096a8"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
@@ -455,6 +436,13 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{edad}]]></textFieldExpression>
 				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement x="100" y="82" width="191" height="15" uuid="05a89189-4c32-4b4c-b3fe-87f7e8c307a9"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fechanacimientomascota}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 	</group>
@@ -470,34 +458,13 @@
 				</textElement>
 				<text><![CDATA[Solicitud de Servicios Fúnebres]]></text>
 			</staticText>
-			<textField pattern="dd MMMMM yyyy">
-				<reportElement x="56" y="95" width="110" height="20" forecolor="#000000" uuid="f2a97386-da59-4e83-aabd-16c155eba71c"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="9" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="6" y="95" width="52" height="20" uuid="154326d0-5272-4d7f-ab18-9148a0a57645"/>
+				<reportElement x="6" y="95" width="78" height="20" uuid="154326d0-5272-4d7f-ab18-9148a0a57645"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Fecha:]]></text>
+				<text><![CDATA[Fecha Emisión:]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="6" y="75" width="52" height="20" uuid="7f6713d6-180a-4e3b-a616-7703eedbd6ab"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="9" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[No.:]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="56" y="75" width="110" height="20" forecolor="#000000" uuid="47483ded-f382-4d6c-b3d2-f85f9f25a3f0"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="9" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{idanio} + " - " + $F{idsolicitud}]]></textFieldExpression>
-			</textField>
 			<image hAlign="Center" isUsingCache="true">
 				<reportElement x="430" y="6" width="145" height="61" uuid="e24c7699-82d0-4088-8cc3-d2d8f9d68405"/>
 				<imageExpression><![CDATA[$P{P_LOGO}]]></imageExpression>
@@ -508,6 +475,13 @@
 					<font fontName="DejaVu Sans" size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{membrete}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="84" y="95" width="110" height="20" uuid="6dbb0098-8077-4a48-9287-92b7604e8929"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaemision}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

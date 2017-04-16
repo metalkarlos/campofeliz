@@ -12,18 +12,18 @@
 
 		<p:panel id="panel-reportemascotaxtiempocontent">
 			<h:panelGrid columns="3" cellpadding="5">
-				<h:outputLabel value="Fecha Desde:" for="idfechanadesde" />
+				<h:outputLabel value="Fecha Entierro/Cremación Inicial:" for="idfechanadesde" />
 				<p:calendar id="idfechanadesde"
 					value="#{reporteMascotasxTiempoBean.fechadesde}" yearRange="c-20:c"
 					locale="es" pattern="dd/MM/yyyy" navigator="true" />
-				<h:outputText value="*Seleccione la Fecha de Entierro/Cremación desde la que desea consultar"
+				<h:outputText value="*Seleccione Fecha desde la que desea consultar"
 					style="font-style: italic;" />
 
-				<h:outputLabel value="Fecha Hasta:" for="idfechanahasta" />
+				<h:outputLabel value="Fecha Entierro/Cremación Final:" for="idfechanahasta" />
 				<p:calendar id="idfechanahasta"
 					value="#{reporteMascotasxTiempoBean.fechahasta}" yearRange="c-20:c"
 					locale="es" pattern="dd/MM/yyyy" navigator="true" />
-				<h:outputText value="*Seleccione la Fecha de Entierro/Cremación hasta cuando desea consultar"
+				<h:outputText value="*Seleccione Fecha hasta cuando desea consultar"
 					style="font-style: italic;" />
 			</h:panelGrid>
 			<p:commandButton action="#{reporteMascotasxTiempoBean.imprimir()}" value="Imprimir" />

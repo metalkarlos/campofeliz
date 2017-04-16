@@ -44,17 +44,9 @@
 							<table style="width: 100%">
 							<tr>
 							<td style="width:25%">
-							<h:outputLabel id="idlblsolicitud" value="No. Solicitud: " for="idsolicitud" />
-							</td>
-							<td style="width:75%">
-							<h:outputText id="idsolicitud" value="#{ordenServicioBean.idanio} - #{ordenServicioBean.idordenservicio}" />
-							</td>
-							</tr>
-							<tr>
-							<td>
 							<h:outputLabel id="idlblfechaemision" value="Fecha de Emisión: " for="idfechaemision" /><span style="color: red;">*</span>
 							</td>
-							<td>
+							<td style="width:75%">
 							<p:calendar id="idfechaemision" styleClass="calendario" 
 								value="#{ordenServicioBean.petordenservicio.fechaemision}"
 								yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy"
@@ -423,7 +415,7 @@
 						actionListener="#{ordenServicioBean.guardar()}"
 						oncomplete="vardialoggrabar.hide()"
 						update="mensajes" 
-						process="mensajes,idsolicitud,idfechaemision,idfechaentierro,cmbLugar,idobservacion,iddedicatoria,txtNombreMascota,idTablaDetalle"/>
+						process="mensajes,idfechaemision,idfechaentierro,cmbLugar,idobservacion,iddedicatoria,txtNombreMascota,idTablaDetalle"/>
 					<p:commandButton value="NO" style="width: 50px"
 						onclick="vardialoggrabar.hide()" immediate="true" />
 				</h:panelGrid>
