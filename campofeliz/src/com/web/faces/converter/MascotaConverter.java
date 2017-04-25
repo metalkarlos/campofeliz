@@ -26,7 +26,7 @@ public class MascotaConverter implements Converter {
             try {
                 int id = Integer.parseInt(submittedValue);
                 
-                Petmascotahomenaje petmascotahomenaje = new Petmascotahomenaje();
+                Petmascotahomenaje petmascotahomenaje = new Petmascotahomenaje(0, new Setestado(), new Setusuario(), new Petespecie(), null, null, null, null, null, null, null, null, null, null, null, null, new Petraza(), new Cotpersona(), new Cottipoidentificacion(), 1, new BigDecimal(0), null, false, false, null);
                 
                 if(id > 0){
                 	PetmascotaBO petmascotaBO = new PetmascotaBO();

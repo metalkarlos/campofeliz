@@ -149,7 +149,7 @@
 									converter="mascota" minQueryLength="1" forceSelection="true"
 									required="false" requiredMessage="Escriba el Nombre de la Mascota" >
 									<p:ajax event="itemSelect"
-										listener="#{ordenServicioBean.seleccionarMascota()}"
+										listener="#{ordenServicioBean.seleccionarMascota}"
 										update=":form-contentpage:panelgridmascota, :form-contentpage:panelgridpropietario, :form-contentpage:mensajes"></p:ajax>
 				
 									<f:facet name="itemtip">
@@ -169,8 +169,7 @@
 											<h:outputText id="idtoolcodigomanual" value="#{m.idmascotaveterinaria}" />
 				
 											<h:outputText value="Mascota: " style="font-weight: bold;" />
-											<h:outputText id="idtoolnombre"
-												value="#{m.nombre}" />
+											<h:outputText id="idtoolnombre"	value="#{m.nombre}" />
 												
 											<h:outputText value="Raza: " style="font-weight: bold;" />
 											<h:outputText id="idtoolraza"	value="#{m.petraza.nombre}" />
@@ -531,14 +530,27 @@
 										</center>
 									</f:facet>
 		
-									<h:outputText value="Código: " style="font-weight: bold;" />
+									<h:outputText value="Código Interno: " style="font-weight: bold;" />
 									<h:outputText id="idtoolcodigoeditor" value="#{m.idmascota}" />
+										
+									<h:outputText value="Código Manual: " style="font-weight: bold;" />
+									<h:outputText id="idtoolcodigomanualeditor" value="#{m.idmascotaveterinaria}" />
 		
 									<h:outputText value="Mascota: " style="font-weight: bold;" />
 									<h:outputText id="idtoolnombreeditor" value="#{m.nombre}" />
 										
 									<h:outputText value="Raza: " style="font-weight: bold;" />
 									<h:outputText id="idtoolrazaeditor"	value="#{m.petraza.nombre}" />
+									
+									<h:outputLabel value="Fecha Nacimiento: " />
+									<h:outputText id="idtoolfechanacimientoeditor" value="#{m.fechanacimiento}">
+										<f:convertDateTime dateStyle="medium" />
+									</h:outputText>
+
+									<h:outputLabel value="Fecha Fallecimiento: " />
+									<h:outputText id="idtoolfechafallecimientoeditor" value="#{m.fechafallecimiento}">
+										<f:convertDateTime dateStyle="medium" />
+									</h:outputText>
 		
 									<h:outputText value="Propietario: " style="font-weight: bold;" />
 									<h:outputText id="idtoolpropietarioeditor" value="#{m.cotpersona.nombre1} #{m.cotpersona.nombre2} #{m.cotpersona.apellido1} #{m.cotpersona.apellido2}" />
