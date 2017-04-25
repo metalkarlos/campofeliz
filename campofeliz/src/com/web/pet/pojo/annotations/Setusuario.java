@@ -160,7 +160,7 @@ public class Setusuario implements java.io.Serializable {
 		int result = 1;
 		result = prime * result + ((clave == null) ? 0 : clave.hashCode());
 		result = prime * result
-				+ ((cotpersona == null) ? 0 : cotpersona.hashCode());
+				+ ((cotpersona == null) ? 0 : cotpersona.getIdpersona());
 		result = prime * result
 				+ ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime
@@ -173,9 +173,9 @@ public class Setusuario implements java.io.Serializable {
 		result = prime * result + ((iplog == null) ? 0 : iplog.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result
-				+ ((setestado == null) ? 0 : setestado.hashCode());
+				+ ((setestado == null) ? 0 : setestado.getIdestado());
 		result = prime * result
-				+ ((setperfil == null) ? 0 : setperfil.hashCode());
+				+ ((setperfil == null) ? 0 : setperfil.getIdperfil());
 		return result;
 	}
 
@@ -196,7 +196,7 @@ public class Setusuario implements java.io.Serializable {
 		if (cotpersona == null) {
 			if (other.cotpersona != null)
 				return false;
-		} else if (!cotpersona.equals(other.cotpersona))
+		} else if (cotpersona.getIdpersona() != other.cotpersona.getIdpersona())
 			return false;
 		if (descripcion == null) {
 			if (other.descripcion != null)
@@ -228,12 +228,12 @@ public class Setusuario implements java.io.Serializable {
 		if (setestado == null) {
 			if (other.setestado != null)
 				return false;
-		} else if (!setestado.equals(other.setestado))
+		} else if (setestado.getIdestado() != other.setestado.getIdestado())
 			return false;
 		if (setperfil == null) {
 			if (other.setperfil != null)
 				return false;
-		} else if (!setperfil.equals(other.setperfil))
+		} else if (setperfil.getIdperfil() != other.setperfil.getIdperfil())
 			return false;
 		return true;
 	}

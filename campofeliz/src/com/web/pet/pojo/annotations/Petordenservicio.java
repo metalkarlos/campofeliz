@@ -248,7 +248,7 @@ public class Petordenservicio implements java.io.Serializable, Cloneable {
 		if (cotlugar == null) {
 			if (other.cotlugar != null)
 				return false;
-		} else if (!cotlugar.equals(other.cotlugar))
+		} else if (cotlugar.getIdlugar() != other.cotlugar.getIdlugar())
 			return false;
 		if (dedicatoria == null) {
 			if (other.dedicatoria != null)

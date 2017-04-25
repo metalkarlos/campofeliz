@@ -100,10 +100,18 @@ public class BuscarMascotaBean implements Serializable {
 		}
 	}
 	
-	private void llenarPetraza(){
+	public void llenarPetraza(){
 		try{
+			int idespecie = petmascotahomenaje.getPetespecie().getIdespecie() > 0 ? petmascotahomenaje.getPetespecie().getIdespecie() : 0;
+			lisPetraza = new ArrayList<Petraza>();
+			
 			PetrazaBO petrazaBO = new PetrazaBO();
-			setLisPetraza(petrazaBO.lisRazas(0));
+			List<Petraza> lisTmp = petrazaBO.lisRazas(idespecie);
+			if(lisTmp != null & lisTmp.size() > 0){
+				lisPetraza.addAll(lisTmp);
+			}
+			
+			petmascotahomenaje.getPetraza().setIdraza(0);
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage(re.getMessage(),"");

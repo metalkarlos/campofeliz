@@ -1,5 +1,6 @@
 package com.web.pet.bo;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +10,10 @@ import org.hibernate.Session;
 import com.web.pet.bean.UsuarioBean;
 import com.web.pet.dao.PetordenservicioDAO;
 import com.web.pet.dao.PetordenserviciodetalleDAO;
+import com.web.pet.pojo.annotations.Cotfotopersona;
 import com.web.pet.pojo.annotations.Cotpersona;
+import com.web.pet.pojo.annotations.Petfotomascota;
+import com.web.pet.pojo.annotations.Petmascotacolor;
 import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.pet.pojo.annotations.Petordenservicio;
 import com.web.pet.pojo.annotations.PetordenservicioId;
@@ -296,26 +300,38 @@ public class PetordenservicioBO {
 		return ok;
 	}
 
-	public boolean grabarMascotaBasico(Petmascotahomenaje petmascotahomenaje, Cotpersona cotpersona) throws Exception {
+	public boolean grabarMascotaBasico(Petmascotahomenaje petmascotahomenaje, Petmascotahomenaje petmascotahomenajeClon, Cotpersona cotpersona, Cotpersona cotpersonaClon) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
+
+			CotpersonaBO cotpersonaBO = new CotpersonaBO();
 			
 			if(cotpersona.getIdpersona() == 0){
-				CotpersonaBO cotpersonaBO = new CotpersonaBO();
-				cotpersonaBO.grabarPersonaBasico(session, cotpersona);
+				//cotpersonaBO.grabarPersonaBasico(session, cotpersona);
+				ok = cotpersonaBO.ingresarCotpersona(cotpersona, null, null, session);
+			}else{
+				ok = cotpersonaBO.modificarCotpersona(cotpersona, cotpersonaClon, new ArrayList<Cotfotopersona>(), new ArrayList<Cotfotopersona>(), null, null, session);
 			}
 			
 			PetmascotaBO petmascotaBO = new PetmascotaBO();
 			petmascotahomenaje.setCotpersona(cotpersona);
-			petmascotaBO.grabarMascotaBasico(session, petmascotahomenaje);
 			
-			session.getTransaction().commit();
-			ok = true;
+			if(petmascotahomenaje.getIdmascota() == 0){
+				//petmascotaBO.grabarMascotaBasico(session, petmascotahomenaje);
+				ok = petmascotaBO.ingresarMascota(petmascotahomenaje, new ArrayList<Petmascotacolor>(), null, null, session);
+			}else{
+				ok = petmascotaBO.modificarMascota(petmascotahomenaje, petmascotahomenajeClon, new ArrayList<Petfotomascota>(), new ArrayList<Petfotomascota>(), new ArrayList<Petmascotacolor>(), new ArrayList<Petmascotacolor>(), null, null, session);
+			}
+			
+			if(ok){
+				session.getTransaction().commit();
+			}
 		}catch(Exception he){
+			ok = false;
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{

@@ -197,14 +197,14 @@ public class PersonaBean implements Serializable {
 				Utilities utilities = new Utilities();
 				
 				if(idpersona > 0){
-					ok = cotpersonaBO.modificarCotpersona(cotpersona, cotpersonaClon, lisCotfotopersona, lisCotfotopersonaClon, cotfotopersona, uploadedFile);
+					ok = cotpersonaBO.modificarCotpersona(cotpersona, cotpersonaClon, lisCotfotopersona, lisCotfotopersonaClon, cotfotopersona, uploadedFile, null);
 					if(ok){
 						utilities.mostrarPaginaMensaje("Persona actualizada con exito!!");
 					}else{
 						new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
 					}
 				}else{
-					ok = cotpersonaBO.ingresarCotpersona(cotpersona, cotfotopersona, uploadedFile);
+					ok = cotpersonaBO.ingresarCotpersona(cotpersona, cotfotopersona, uploadedFile, null);
 					uploadedFile = null;
 					if(ok){
 						utilities.mostrarPaginaMensaje("Persona ingresada con exito!!");

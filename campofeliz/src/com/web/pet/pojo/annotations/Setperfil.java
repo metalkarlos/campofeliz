@@ -133,9 +133,9 @@ public class Setperfil implements java.io.Serializable {
 		result = prime * result + ((iplog == null) ? 0 : iplog.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 		result = prime * result
-				+ ((setestado == null) ? 0 : setestado.hashCode());
+				+ ((setestado == null) ? 0 : setestado.getIdestado());
 		result = prime * result
-				+ ((setusuario == null) ? 0 : setusuario.hashCode());
+				+ ((setusuario == null) ? 0 : setusuario.getIdusuario());
 		return result;
 	}
 
@@ -173,12 +173,12 @@ public class Setperfil implements java.io.Serializable {
 		if (setestado == null) {
 			if (other.setestado != null)
 				return false;
-		} else if (!setestado.equals(other.setestado))
+		} else if (setestado.getIdestado() != other.setestado.getIdestado())
 			return false;
 		if (setusuario == null) {
 			if (other.setusuario != null)
 				return false;
-		} else if (!setusuario.equals(other.setusuario))
+		} else if (setusuario.getIdusuario() != other.setusuario.getIdusuario())
 			return false;
 		return true;
 	}

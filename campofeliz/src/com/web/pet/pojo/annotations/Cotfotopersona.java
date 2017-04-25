@@ -190,7 +190,7 @@ public class Cotfotopersona implements java.io.Serializable, Cloneable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((cotpersona == null) ? 0 : cotpersona.hashCode());
+				+ ((cotpersona == null) ? 0 : cotpersona.getIdpersona());
 		result = prime * result
 				+ ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime

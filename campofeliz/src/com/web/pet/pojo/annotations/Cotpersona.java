@@ -288,7 +288,8 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 		Cotpersona cotpersona = (Cotpersona)super.clone();
 		
 		if(cotpersona.getCottipoidentificacion() != null && cotpersona.getCottipoidentificacion().getIdtipoidentificacion() > 0){
-			cotpersona.setCottipoidentificacion((Cottipoidentificacion) cotpersona.getCottipoidentificacion().clone());
+			//cotpersona.setCottipoidentificacion((Cottipoidentificacion) cotpersona.getCottipoidentificacion().clone());
+			cotpersona.setCottipoidentificacion(new Cottipoidentificacion(cotpersona.getCottipoidentificacion().getIdtipoidentificacion(), null, null));
 		}
 		
 		return cotpersona;
@@ -305,7 +306,8 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
 		result = prime * result + ((apellido1 == null) ? 0 : apellido1.hashCode());
 		result = prime * result + ((apellido2 == null) ? 0 : apellido2.hashCode());
-		result = prime * result + ((cottipoidentificacion == null) ? 0 : cottipoidentificacion.hashCode());
+		//result = prime * result + ((cottipoidentificacion == null) ? 0 : cottipoidentificacion.hashCode());
+		result = prime * result + ((cottipoidentificacion == null) ? 0 : cottipoidentificacion.getIdtipoidentificacion());
 		result = prime * result + ((direccion == null) ? 0 : direccion.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((fechamodificacion == null) ? 0 : fechamodificacion.hashCode());
@@ -353,7 +355,8 @@ public class Cotpersona implements java.io.Serializable, Cloneable {
 		if (cottipoidentificacion == null) {
 			if (other.cottipoidentificacion != null)
 				return false;
-		} else if (!cottipoidentificacion.equals(other.cottipoidentificacion))
+		//} else if (!cottipoidentificacion.equals(other.cottipoidentificacion))
+		} else if (cottipoidentificacion.getIdtipoidentificacion() != other.cottipoidentificacion.getIdtipoidentificacion())
 			return false;
 		if (direccion == null) {
 			if (other.direccion != null)

@@ -225,7 +225,7 @@ public class Cotoficina implements java.io.Serializable, Cloneable {
 		int result = 1;
 		result = prime * result + ((celular == null) ? 0 : celular.hashCode());
 		result = prime * result
-				+ ((cotempresa == null) ? 0 : cotempresa.hashCode());
+				+ ((cotempresa == null) ? 0 : cotempresa.getIdempresa());
 		result = prime * result
 				+ ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result
@@ -267,7 +267,7 @@ public class Cotoficina implements java.io.Serializable, Cloneable {
 		if (cotempresa == null) {
 			if (other.cotempresa != null)
 				return false;
-		} else if (!cotempresa.equals(other.cotempresa))
+		} else if (cotempresa.getIdempresa() != other.cotempresa.getIdempresa())
 			return false;
 		if (descripcion == null) {
 			if (other.descripcion != null)

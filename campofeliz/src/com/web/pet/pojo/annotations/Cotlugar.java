@@ -150,7 +150,7 @@ public class Cotlugar implements java.io.Serializable, Cloneable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cottipolugar == null) ? 0 : cottipolugar.hashCode());
+		result = prime * result + ((cottipolugar == null) ? 0 : cottipolugar.getIdtipolugar());
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((fecharegistro == null) ? 0 : fecharegistro.hashCode());
 		result = prime * result + idlugar;
@@ -173,7 +173,7 @@ public class Cotlugar implements java.io.Serializable, Cloneable {
 		if (cottipolugar == null) {
 			if (other.cottipolugar != null)
 				return false;
-		} else if (!cottipolugar.equals(other.cottipolugar))
+		} else if (cottipolugar.getIdtipolugar() != other.cottipolugar.getIdtipolugar())
 			return false;
 		if (descripcion == null) {
 			if (other.descripcion != null)

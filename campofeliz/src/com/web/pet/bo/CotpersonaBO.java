@@ -115,13 +115,17 @@ public class CotpersonaBO {
 		return lisCotpersona;
 	}
 	
-	public boolean ingresarCotpersona(Cotpersona cotpersona, Cotfotopersona cotfotopersona, UploadedFile uploadedFile) throws Exception{
+	public boolean ingresarCotpersona(Cotpersona cotpersona, Cotfotopersona cotfotopersona, UploadedFile uploadedFile, Session sessionExterna) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
 		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
+			if(sessionExterna == null){
+				session = HibernateUtil.getSessionFactory().openSession();
+				session.beginTransaction();
+			}else{
+				session = sessionExterna;
+			}
 			
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			CotpersonaDAO cotpersonaDAO = new CotpersonaDAO();
@@ -150,14 +154,20 @@ public class CotpersonaBO {
 				cotpersonaDAO.updateCotpersona(session, cotpersona);
 			}
 			
-			session.getTransaction().commit();
+			if(sessionExterna == null){
+				session.getTransaction().commit();
+			}
 			
 			ok = true;
 		}catch(Exception e){
-			session.getTransaction().rollback();
+			if(sessionExterna == null){
+				session.getTransaction().rollback();
+			}
 			throw new Exception();
 		}finally{
-			session.close();
+			if(sessionExterna == null){
+				session.close();
+			}
 		}
 		
 		return ok;
@@ -208,13 +218,17 @@ public class CotpersonaBO {
 		cotfotopersonaDAO.saveCotfotopersona(session, cotfotopersona);
 	}
 	
-	public boolean modificarCotpersona(Cotpersona cotpersona, Cotpersona cotpersonaClon, List<Cotfotopersona> lisCotfotopersona, List<Cotfotopersona> lisCotfotopersonaClon, Cotfotopersona cotfotopersona, UploadedFile uploadedFile) throws Exception{
+	public boolean modificarCotpersona(Cotpersona cotpersona, Cotpersona cotpersonaClon, List<Cotfotopersona> lisCotfotopersona, List<Cotfotopersona> lisCotfotopersonaClon, Cotfotopersona cotfotopersona, UploadedFile uploadedFile, Session sessionExterna) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
 		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
+			if(sessionExterna == null){
+				session = HibernateUtil.getSessionFactory().openSession();
+				session.beginTransaction();
+			}else{
+				session = sessionExterna;
+			}
 			
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			CotpersonaDAO cotpersonaDAO = new CotpersonaDAO();
@@ -294,14 +308,18 @@ public class CotpersonaBO {
 				ok = true;
 			}
 			
-			if(ok){
+			if(ok && sessionExterna == null){
 				session.getTransaction().commit();
 			}
 		}catch(Exception e){
-			session.getTransaction().rollback();
+			if(sessionExterna == null){
+				session.getTransaction().rollback();
+			}
 			throw new Exception();
 		}finally{
-			session.close();
+			if(sessionExterna == null){
+				session.close();
+			}
 		}
 		
 		return ok;

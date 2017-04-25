@@ -345,7 +345,7 @@ public class MascotaBean implements Serializable {
 				Utilities utilities = new Utilities();
 				
 				if(idmascota > 0){
-					ok = petmascotaBO.modificarMascota(petmascotahomenaje,petmascotahomenajeClon,lisPetfotomascota,lisPetfotomascotaClon,lisPetmascotacolor,lisPetmascotacolorOld,petfotomascota, uploadedFile);
+					ok = petmascotaBO.modificarMascota(petmascotahomenaje,petmascotahomenajeClon,lisPetfotomascota,lisPetfotomascotaClon,lisPetmascotacolor,lisPetmascotacolorOld,petfotomascota, uploadedFile, null);
 					lisPetmascotacolorOld = new ArrayList<Petmascotacolor>(lisPetmascotacolor);
 					if(ok){
 						utilities.mostrarPaginaMensaje("Mascota actualizada con exito!!");
@@ -355,7 +355,7 @@ public class MascotaBean implements Serializable {
 				}else{
 					//if(especie > 0){
 						//petmascota.getPetespecie().setIdespecie(especie);
-						ok = petmascotaBO.ingresarMascota(petmascotahomenaje, lisPetmascotacolor, petfotomascota, uploadedFile);
+						ok = petmascotaBO.ingresarMascota(petmascotahomenaje, lisPetmascotacolor, petfotomascota, uploadedFile, null);
 						uploadedFile = null;
 						if(ok){
 							utilities.mostrarPaginaMensaje("Mascota ingresada con exito!!");
@@ -390,6 +390,18 @@ public class MascotaBean implements Serializable {
 			
 			if(petmascotahomenaje.getCottipoidentificacion() != null && petmascotahomenaje.getCottipoidentificacion().getIdtipoidentificacion() == 0){
 				petmascotahomenaje.setCottipoidentificacion(null);
+			}
+			
+			if(petmascotahomenaje.getPetespecie() != null && petmascotahomenaje.getPetespecie().getIdespecie() == 0){
+				petmascotahomenaje.setPetespecie(null);
+			}
+			
+			if(petmascotahomenaje.getPetraza() != null && petmascotahomenaje.getPetraza().getIdraza() == 0){
+				petmascotahomenaje.setPetraza(null);
+			}
+			
+			if(petmascotahomenaje.getCotpersona() != null && petmascotahomenaje.getCotpersona().getIdpersona() == 0){
+				petmascotahomenaje.setCotpersona(null);
 			}
 			
 			boolean ok = petmascotaBO.eliminar(petmascotahomenaje,lisPetfotomascota,lisPetmascotacolor);

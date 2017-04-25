@@ -113,6 +113,7 @@
 							<f:selectItems value="#{buscarMascotaBean.lisPetespecie}"
 								var="tipo" itemLabel="#{tipo.nombre}"
 								itemValue="#{tipo.idespecie}" />
+							<p:ajax event="change" listener="#{buscarMascotaBean.llenarPetraza()}" update=":form-contentpage:idrazalist :form-contentpage:mensajes"></p:ajax>
 						</p:selectOneMenu>
 					</p:column>
 					<p:column>

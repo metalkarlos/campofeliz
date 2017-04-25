@@ -22,13 +22,17 @@ import com.web.util.HibernateUtil;
 
 public class PetmascotaBO {
 
-	public boolean modificarMascota(Petmascotahomenaje petmascotahomenaje,Petmascotahomenaje petmascotahomenajeClon,List<Petfotomascota> lisPetfotomascota,List<Petfotomascota> lisPetfotomascotaClon,List<Petmascotacolor> lisPetmascotacolor, List<Petmascotacolor> lisPetmascotacolorOld, Petfotomascota petfotomascota, UploadedFile uploadedFile) throws Exception{
+	public boolean modificarMascota(Petmascotahomenaje petmascotahomenaje,Petmascotahomenaje petmascotahomenajeClon,List<Petfotomascota> lisPetfotomascota,List<Petfotomascota> lisPetfotomascotaClon,List<Petmascotacolor> lisPetmascotacolor, List<Petmascotacolor> lisPetmascotacolorOld, Petfotomascota petfotomascota, UploadedFile uploadedFile, Session sessionExterna) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
 		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
+			if(sessionExterna == null){
+				session = HibernateUtil.getSessionFactory().openSession();
+				session.beginTransaction();
+			}else{
+				session = sessionExterna;
+			}
 			
 			PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
 			PetfotomascotaDAO PetfotomascotaDAO = new PetfotomascotaDAO();
@@ -157,15 +161,19 @@ public class PetmascotaBO {
 				ok = true;
 			}
 			
-			if(ok){
+			if(ok && sessionExterna == null){
 				session.getTransaction().commit();
 			}
 		}catch(Exception he){
 			ok = false;
-			session.getTransaction().rollback();
+			if(sessionExterna == null){
+				session.getTransaction().rollback();
+			}
 			throw new Exception();
 		}finally{
-			session.close();
+			if(sessionExterna == null){
+				session.close();
+			}
 		}
 		
 		return ok;
@@ -216,13 +224,17 @@ public class PetmascotaBO {
 		petfotomascotaDAO.savePetfotomascota(session, petfotomascota);
 	}
 	
-	public boolean ingresarMascota(Petmascotahomenaje petmascotahomenaje, List<Petmascotacolor> lisPetmascotacolor, Petfotomascota petfotomascota, UploadedFile uploadedFile) throws Exception {
+	public boolean ingresarMascota(Petmascotahomenaje petmascotahomenaje, List<Petmascotacolor> lisPetmascotacolor, Petfotomascota petfotomascota, UploadedFile uploadedFile, Session sessionExterna) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
 		try{
-			session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
+			if(sessionExterna == null){
+				session = HibernateUtil.getSessionFactory().openSession();
+				session.beginTransaction();
+			}else{
+				session = sessionExterna;
+			}
 			
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 			PetmascotaDAO petmascotaDAO = new PetmascotaDAO();
@@ -271,13 +283,20 @@ public class PetmascotaBO {
 				petmascotaDAO.updatePetmascota(session, petmascotahomenaje);
 			}
 			
-			session.getTransaction().commit();
+			if(sessionExterna == null){
+				session.getTransaction().commit();
+			}
+			
 			ok = true;
 		}catch(Exception he){
-			session.getTransaction().rollback();
+			if(sessionExterna == null){
+				session.getTransaction().rollback();
+			}
 			throw new Exception(); 
 		}finally{
-			session.close();
+			if(sessionExterna == null){
+				session.close();
+			}
 		}
 		
 		return ok;
