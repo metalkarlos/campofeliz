@@ -142,7 +142,7 @@
 								<h:outputLabel id="idlblmascota" value="Escriba el Nombre: " for="idmascota" /><span style="color: red;">*</span>
 							</td>
 							<td style="width: 75%">
-								<p:autoComplete id="txtNombreMascota" size="60"
+								<p:autoComplete id="txtNombreMascota" size="60" scrollHeight="250"
 									value="#{ordenServicioBean.petordenservicio.petmascotahomenaje}"
 									completeMethod="#{ordenServicioBean.buscarMascotas}" var="m"
 									itemLabel="#{m.nombre}" itemValue="#{m}"
@@ -514,7 +514,7 @@
 					<h:outputLabel value="Buscar "	for="cmbMascotaEditor" />
 					</p:column>
 					<p:column>
-						<p:autoComplete id="cmbMascotaEditor" 
+						<p:autoComplete id="cmbMascotaEditor" scrollHeight="250"
 							value="#{ordenServicioBean.petmascotahomenajeEditor}"
 							completeMethod="#{ordenServicioBean.buscarMascotas}" var="m"
 							itemLabel="#{m.nombre}" itemValue="#{m}"
