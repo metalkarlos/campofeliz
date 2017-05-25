@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.pojo.annotations.Cotpersona;
@@ -16,6 +17,7 @@ import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.MessageUtil;
 
+@FacesConverter("mascota")
 public class MascotaConverter implements Converter {
 	
 	@Override

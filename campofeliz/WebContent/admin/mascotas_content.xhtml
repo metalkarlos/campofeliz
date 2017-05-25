@@ -19,7 +19,7 @@
 					validatorMessage="Ingrese sólo letras. Corrija y reintente.">
 					<f:validateRegex pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ ]*" />
 				</p:inputText>
-				<p:commandButton id="lnkbuscar" image="btn-find" update="idGridMascotas mensajes"/>
+				<p:commandButton id="lnkbuscar" icon="btn-find" update="idGridMascotas mensajes"/>
 			</div>
 			<br />
 			<p:dataGrid id="idGridMascotas" value="#{mascotasBean.lisPetmascotahomenaje}"
@@ -43,7 +43,7 @@
 							<center>
 								<h:outputText value="##{pet.idmascota}" />
 								<br />
-								<h:outputText value="#{pet.fechafallecimiento}" >
+								F.F.: <h:outputText value="#{pet.fechafallecimiento}" >
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 								<br />

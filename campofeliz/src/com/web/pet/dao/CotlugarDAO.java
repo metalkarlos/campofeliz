@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import com.web.pet.pojo.annotations.Cotlugar;
 
@@ -40,7 +41,7 @@ public class CotlugarDAO {
 		
 		Criteria criteria = session.createCriteria(Cotlugar.class)
 		.add( Restrictions.eq("setestado.idestado", 1))
-		.createAlias("cottipolugar", "tipolugar", Criteria.LEFT_JOIN)
+		.createAlias("cottipolugar", "tipolugar", JoinType.LEFT_OUTER_JOIN)
 		.addOrder(Order.asc("nombre").ignoreCase());
 			
 		arraydatos = (List<Cotlugar>) criteria.list();
@@ -55,7 +56,7 @@ public class CotlugarDAO {
 		
 		Criteria criteria = session.createCriteria(Cotlugar.class)
 		.add( Restrictions.eq("setestado.idestado", 1))
-		.createAlias("cottipolugar", "lugar", Criteria.LEFT_JOIN)
+		.createAlias("cottipolugar", "lugar", JoinType.LEFT_OUTER_JOIN)
 		.addOrder(Order.asc("nombre").ignoreCase())
 		.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
@@ -67,7 +68,7 @@ public class CotlugarDAO {
 			Criteria criteriaCount = session.createCriteria( Cotlugar.class)
 			.setProjection( Projections.rowCount())
 			.add( Restrictions.eq("setestado.idestado", 1))
-			.createAlias("cottipolugar", "lugar", Criteria.LEFT_JOIN);
+			.createAlias("cottipolugar", "lugar", JoinType.LEFT_OUTER_JOIN);
 			
 			Object object = criteriaCount.uniqueResult();
 			int count = (object==null?0:Integer.parseInt(object.toString()));
@@ -86,7 +87,7 @@ public class CotlugarDAO {
 		
 		Criteria criteria = session.createCriteria(Cotlugar.class)
 		.add( Restrictions.eq("setestado.idestado", 1) )
-		.createAlias("cottipolugar", "tipolugar", Criteria.LEFT_JOIN)
+		.createAlias("cottipolugar", "tipolugar", JoinType.LEFT_OUTER_JOIN)
 		.add( Restrictions.eq("idlugar", id));
 		
 		cotlugar = (Cotlugar) criteria.uniqueResult();
@@ -100,7 +101,7 @@ public class CotlugarDAO {
 		
 		Criteria criteria = session.createCriteria(Cotlugar.class)
 		.add( Restrictions.eq("setestado.idestado", 1))
-		.createAlias("cottipolugar", "tipolugar", Criteria.LEFT_JOIN)
+		.createAlias("cottipolugar", "tipolugar", JoinType.LEFT_OUTER_JOIN)
 		.add( Restrictions.eq("tipolugar.idtipolugar", idtipolugar))
 		.addOrder(Order.asc("nombre").ignoreCase());
 			

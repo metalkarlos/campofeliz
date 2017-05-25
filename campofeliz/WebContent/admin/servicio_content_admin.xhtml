@@ -8,7 +8,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
 	
-	<h:form id="form-contentpage" enctype="multipart/form-data">
+	<h:form id="form-contentpage" enctype="multipart/form-data" prependId="false">
 		<p:growl id="mensajes" showDetail="false" sticky="true" />
 
 		<p:focus for="txtNombre"></p:focus>
@@ -34,6 +34,23 @@
 					</p:column>
 					<p:column>
 					<p:message id="msgtxtNombre" for="txtNombre" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Precio del Servicio<span style="color: red;">*</span></div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:inputText id="txtPrecio" value="#{servicioAdminBean.petservicio.precio}" >
+						<f:convertNumber type="currency" currencySymbol="$" />
+					</p:inputText>
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtPrecio" for="txtPrecio" display="icon" />
 					</p:column>
 					</p:row>
 					
@@ -249,7 +266,7 @@
 				<p:panelGrid id="idpanel2grabar" style="width: 100%; text-align: right;">
 					<p:row>
 					<p:column>
-					<p:commandButton id="idconfirmargrabar" value="Confirmar" action="#{servicioAdminBean.grabar()}" onclick="vardialoggrabar.hide()" update="mensajes,txtNombre,msgtxtNombre,txtDescripcionFoto2,msgtxtDescripcionFoto2,txtDescripcion,msgtxtDescripcion,cmbOficina,msgcmbOficina,txtTags,msgtxtTags,txtOrden,msgtxtOrden,txtprincipal,msgtxtprincipal" />
+					<p:commandButton id="idconfirmargrabar" value="Confirmar" action="#{servicioAdminBean.grabar()}" onclick="vardialoggrabar.hide()" update="mensajes,txtNombre,msgtxtNombre,txtPrecio,msgtxtPrecio,txtDescripcionFoto2,msgtxtDescripcionFoto2,txtDescripcion,msgtxtDescripcion,cmbOficina,msgcmbOficina,txtTags,msgtxtTags,txtOrden,msgtxtOrden,txtprincipal,msgtxtprincipal" />
 					<p:commandButton id="idcancelargrabar" value="Cancelar" immediate="true" onclick="vardialoggrabar.hide()" />
 					</p:column>
 					</p:row>

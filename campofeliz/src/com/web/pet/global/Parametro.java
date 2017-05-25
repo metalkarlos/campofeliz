@@ -1,13 +1,13 @@
 package com.web.pet.global;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class Parametro {
 	public static final String FILE_SEPARATOR = "/";//File.separator;
 	public static final long DAY_IN_MILLISECONDS = (24*60*60*1000);
@@ -24,6 +24,10 @@ public class Parametro {
 	public static final int OFICINA_CAMPOFELIZ_LAROCA = 1;
 	public static final int OFICINA_CAMPOFELIZ_LAMARTHA = 2;
 	public static final int OFICINA_VETERINARIABURGOS_LAMARTHA = 3;
+	
+	/*ESTADO PAGO*/
+	public static final int ESTADO_PAGO_CANCELADO = 1;
+	public static final int ESTADO_PAGO_PORCANCELAR = 2;
 	
 	public Parametro() {
 		cargarRutaImagenes();

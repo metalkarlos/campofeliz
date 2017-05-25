@@ -123,7 +123,7 @@
                 </f:facet>
             </p:ajaxStatus>
         </ui:insert>
-		<p:idleMonitor timeout="#{session.maxInactiveInterval * 1000}" onidle="redirect(window.location);" />
+		<p:idleMonitor timeout="#{session.maxInactiveInterval * 1000}" onidle="location.reload();" />
 	</h:body>
 </f:view>
 </html>

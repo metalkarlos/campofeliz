@@ -2,26 +2,6 @@
 <faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
  xmlns:xi="http://www.w3.org/2001/XInclude"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
- <converter>
-  <converter-id>color</converter-id>
-  <converter-class>com.web.faces.converter.ColorConverter</converter-class>
- </converter>
- <converter>
-  <converter-id>persona</converter-id>
-  <converter-class>com.web.faces.converter.PersonaConverter</converter-class>
- </converter>
- <converter>
-  <converter-id>mascota</converter-id>
-  <converter-class>com.web.faces.converter.MascotaConverter</converter-class>
- </converter>
- <converter>
-  <converter-id>servicio</converter-id>
-  <converter-class>com.web.faces.converter.ServicioConverter</converter-class>
- </converter>
- <converter>
-  <converter-id>lugar</converter-id>
-  <converter-class>com.web.faces.converter.LugarConverter</converter-class>
- </converter>
  <!-- <factory>
   <exception-handler-factory>com.web.faces.exceptions.ViewExpiredExceptionExceptionHandlerFactory</exception-handler-factory>
  </factory> -->

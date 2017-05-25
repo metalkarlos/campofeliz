@@ -3,6 +3,7 @@ package com.web.faces.converter;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.pojo.annotations.Cotpersona;
@@ -10,6 +11,7 @@ import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.MessageUtil;
 
+@FacesConverter("persona")
 public class PersonaConverter implements Converter {
 	
 	@Override

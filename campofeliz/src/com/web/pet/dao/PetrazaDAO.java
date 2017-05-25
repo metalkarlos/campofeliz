@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import com.web.pet.pojo.annotations.Petraza;
 
@@ -99,7 +100,7 @@ public class PetrazaDAO {
 		
 		Criteria criteria = session.createCriteria(Petraza.class)
 		.add( Restrictions.eq("setestado.idestado", 1) )
-		.createAlias("petespecie", "especie", Criteria.LEFT_JOIN);
+		.createAlias("petespecie", "especie", JoinType.LEFT_OUTER_JOIN);
 		
 		if(idespecie > 0){
 			criteria.add( Restrictions.eq("especie.idespecie", idespecie) );
@@ -120,7 +121,7 @@ public class PetrazaDAO {
 			Criteria criteriaCount = session.createCriteria( Petraza.class)
 			.setProjection( Projections.rowCount())
 			.add( Restrictions.eq("setestado.idestado", 1))
-			.createAlias("petespecie", "especie", Criteria.LEFT_JOIN);
+			.createAlias("petespecie", "especie", JoinType.LEFT_OUTER_JOIN);
 			
 			if(idespecie > 0){
 				criteriaCount.add( Restrictions.eq("especie.idespecie", idespecie) );

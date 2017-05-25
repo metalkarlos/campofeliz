@@ -46,7 +46,7 @@ public class PetordenserviciodetalleDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Petordenserviciodetalle> lisPethistoriaclinicadetalleByPage(
+	public List<Petordenserviciodetalle> lisPetordenserviciodetalleByPage(
 			Session session, int pageSize, int pageNumber, int[] args,
 			PetordenservicioId petordenservicioId) throws Exception {
 		List<Petordenserviciodetalle> lisPetordenserviciodetalle = null;

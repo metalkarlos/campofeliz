@@ -1,6 +1,7 @@
 package com.web.pet.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import com.web.pet.bo.PetordenservicioBO;
+import com.web.pet.pojo.annotations.Cotestadopago;
 import com.web.pet.pojo.annotations.Cotlugar;
 import com.web.pet.pojo.annotations.PetordenservicioId;
 import com.web.pet.pojo.annotations.Setestado;
@@ -36,7 +38,7 @@ public class OrdenesServicioBean implements Serializable {
 	private String textoBusqueda;
 	
 	public OrdenesServicioBean() {
-		petordenservicioSelected = new Petordenservicio(new PetordenservicioId(), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), new Setusuario(), null, null, null, null, null, null, null, null);
+		petordenservicioSelected = new Petordenservicio(new PetordenservicioId(), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), new Setusuario(), null, null, null, null, null, null, null, new Cotestadopago(), new BigDecimal(0), new BigDecimal(0));
 		
 		nombre = "buscar por nombre de mascota";
 		textoBusqueda="buscar por nombre de mascota";

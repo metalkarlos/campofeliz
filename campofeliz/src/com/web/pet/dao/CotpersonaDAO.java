@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import com.web.pet.pojo.annotations.Cotpersona;
 
@@ -30,7 +31,7 @@ public class CotpersonaDAO {
 		Criteria criteria = session.createCriteria(Cotpersona.class)
 		.add( Restrictions.eq("idpersona", idpersona) )
 		.add( Restrictions.eq("setestado.idestado", 1) )
-		.createAlias("cottipoidentificacion", "tipoidentificacion", Criteria.LEFT_JOIN);
+		.createAlias("cottipoidentificacion", "tipoidentificacion", JoinType.LEFT_OUTER_JOIN);
 		
 		cotpersona = (Cotpersona)criteria.uniqueResult();
 		
@@ -44,7 +45,7 @@ public class CotpersonaDAO {
 				.add( Restrictions.eq("per.idpersona", idpersona))
 				.add( Restrictions.eq("per.setestado.idestado", 1))
 				//.createAlias("per.cotfotopersonas", "foto", Criteria.LEFT_JOIN, Restrictions.eq("foto.setestado.idestado", 1))
-				.createAlias("per.cottipoidentificacion", "tid", Criteria.LEFT_JOIN);
+				.createAlias("per.cottipoidentificacion", "tid", JoinType.LEFT_OUTER_JOIN);
 				//.add( Restrictions.eq("foto.setestado.idestado", 1));
 		
 		cotpersona = (Cotpersona) criteria.uniqueResult();

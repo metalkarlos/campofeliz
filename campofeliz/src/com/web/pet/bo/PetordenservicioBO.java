@@ -8,10 +8,13 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.web.pet.bean.UsuarioBean;
+import com.web.pet.dao.PetformapagoordenDAO;
 import com.web.pet.dao.PetordenservicioDAO;
 import com.web.pet.dao.PetordenserviciodetalleDAO;
 import com.web.pet.pojo.annotations.Cotfotopersona;
 import com.web.pet.pojo.annotations.Cotpersona;
+import com.web.pet.pojo.annotations.Petformapagoorden;
+import com.web.pet.pojo.annotations.PetformapagoordenId;
 import com.web.pet.pojo.annotations.Petfotomascota;
 import com.web.pet.pojo.annotations.Petmascotacolor;
 import com.web.pet.pojo.annotations.Petmascotahomenaje;
@@ -63,7 +66,7 @@ public class PetordenservicioBO {
 		return lisPetordenservicio;
 	}
 	
-	public boolean ingresarPetordenservicio(Petordenservicio petordenservicio, List<Petordenserviciodetalle> lisPetordenserviciodetalle) throws Exception{
+	public boolean ingresarPetordenservicio(Petordenservicio petordenservicio, List<Petordenserviciodetalle> lisPetordenserviciodetalle, List<Petformapagoorden> lisPetformapagoorden) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -73,6 +76,7 @@ public class PetordenservicioBO {
 			
 			PetordenservicioDAO petordenservicioDAO = new PetordenservicioDAO();
 			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
+			PetformapagoordenDAO petformapagoordenDAO = new PetformapagoordenDAO();
 			
 			//grabar cabecera
 			int idanio = Calendar.getInstance().get(Calendar.YEAR);
@@ -92,7 +96,7 @@ public class PetordenservicioBO {
 			
 			petordenservicioDAO.savePetordenservicio(session, petordenservicio);
 			
-			//grabar detalle
+			//grabar detalle servicios
 			for(Petordenserviciodetalle petordenserviciodetalle : lisPetordenserviciodetalle){
 
 				int idordenserviciodetalle = petordenserviciodetalleDAO.maxIdPetordenserviciodetalleByParent(session, petordenservicioId) + 1;
@@ -118,6 +122,32 @@ public class PetordenservicioBO {
 				petordenserviciodetalleDAO.savePetordenserviciodetalle(session, petordenserviciodetalle);
 			}
 			
+			//grabar detalle pagos
+			for(Petformapagoorden petformapagoorden : lisPetformapagoorden){
+
+				int idformapagoorden = petformapagoordenDAO.maxIdByParent(session, petordenservicioId) + 1;
+				
+				petformapagoorden.setPetordenservicio(petordenservicio);
+				
+				PetformapagoordenId petformapagoordenId = new PetformapagoordenId();
+				petformapagoordenId.setIdanio(petordenservicioId.getIdanio());
+				petformapagoordenId.setIdordenservicio(petordenservicioId.getIdordenservicio());
+				petformapagoordenId.setIdformapagoorden(idformapagoorden);
+				
+				petformapagoorden.setId(petformapagoordenId);
+				
+				//auditoria
+				fecharegistro = new Date();
+				petformapagoorden.setFecharegistro(fecharegistro);
+				petformapagoorden.setIplog(usuarioBean.getIp());
+				petformapagoorden.setSetusuario(usuarioBean.getSetUsuario());
+				Setestado setestado = new Setestado(); 
+				setestado.setIdestado(1);
+				petformapagoorden.setSetestado(setestado);
+				
+				petformapagoordenDAO.grabarPetformapagoorden(session, petformapagoorden);
+			}
+			
 			session.getTransaction().commit();
 			ok = true;
 		}catch(Exception e){
@@ -131,7 +161,7 @@ public class PetordenservicioBO {
 		return ok;
 	}
 	
-	public boolean modificarPetordenservicio(Petordenservicio petordenservicio, Petordenservicio petordenservicioClon, List<Petordenserviciodetalle> lisPetordenserviciodetalle, List<Petordenserviciodetalle> lisPetordenserviciodetalleClon) throws Exception{
+	public boolean modificarPetordenservicio(Petordenservicio petordenservicio, Petordenservicio petordenservicioClon, List<Petordenserviciodetalle> lisPetordenserviciodetalle, List<Petordenserviciodetalle> lisPetordenserviciodetalleClon, List<Petformapagoorden> lisPetformapagoorden, List<Petformapagoorden> lisPetformapagoordenClon) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -141,6 +171,7 @@ public class PetordenservicioBO {
 			
 			PetordenservicioDAO petordenservicioDAO = new PetordenservicioDAO();
 			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
+			PetformapagoordenDAO petformapagoordenDAO = new PetformapagoordenDAO();
 		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
@@ -236,6 +267,88 @@ public class PetordenservicioBO {
 				}
 			}
 			
+			//Se evalua si han habido cambios en la lista de pagos
+			for(Petformapagoorden petformapagoordenClon : lisPetformapagoordenClon){
+				boolean encuentra = false;
+				for(Petformapagoorden petformapagoordenItem : lisPetformapagoorden){
+					if(petformapagoordenClon.getId().equals(petformapagoordenItem.getId())){
+						//si encuentra
+						encuentra = true;
+						
+						if(!petformapagoordenClon.equals(petformapagoordenItem)){
+							//si han habido cambios se actualiza
+							
+							//auditoria
+							fecharegistro = new Date();
+							petformapagoordenItem.setFechamodificacion(fecharegistro);
+							petformapagoordenItem.setIplog(usuarioBean.getIp());
+							petformapagoordenItem.setSetusuario(usuarioBean.getSetUsuario());
+							
+							//actualizar
+							petformapagoordenDAO.actualizarPetformapagoorden(session, petformapagoordenItem);
+							ok = true;
+						}
+						
+						break;
+					}
+				}
+				if(!encuentra){
+					//no encuentra
+					//inhabilitar
+					Setestado setestado = new Setestado();
+					setestado.setIdestado(2);
+					petformapagoordenClon.setSetestado(setestado);
+					
+					//auditoria
+					fecharegistro = new Date();
+					petformapagoordenClon.setFechamodificacion(fecharegistro);
+					petformapagoordenClon.setIplog(usuarioBean.getIp());
+					petformapagoordenClon.setSetusuario(usuarioBean.getSetUsuario());
+					
+					//actualizar
+					petformapagoordenDAO.actualizarPetformapagoorden(session, petformapagoordenClon);
+					
+					ok = true;
+				}
+			}
+			
+			//Se evalua si han subido nuevos pagos
+			for(Petformapagoorden petformapagoordenItem : lisPetformapagoorden){
+				boolean encuentra = false;
+				for(Petformapagoorden petformapagoordenClon : lisPetformapagoordenClon){
+					if(petformapagoordenItem.getId().equals(petformapagoordenClon.getId())){
+						//si encuentra
+						encuentra = true; 
+						break;
+					}
+				}
+				//no encuentra en lista clonada
+				if(!encuentra){
+					int idformapagoorden = petformapagoordenDAO.maxIdByParent(session, petordenservicio.getId()) + 1;
+					
+					petformapagoordenItem.setPetordenservicio(petordenservicio);
+					
+					PetformapagoordenId petformapagoordenId = new PetformapagoordenId();
+					petformapagoordenId.setIdanio(petordenservicio.getId().getIdanio());
+					petformapagoordenId.setIdordenservicio(petordenservicio.getId().getIdordenservicio());
+					petformapagoordenId.setIdformapagoorden(idformapagoorden);
+					
+					petformapagoordenItem.setId(petformapagoordenId);
+					
+					//auditoria
+					fecharegistro = new Date();
+					petformapagoordenItem.setFecharegistro(fecharegistro);
+					petformapagoordenItem.setIplog(usuarioBean.getIp());
+					petformapagoordenItem.setSetusuario(usuarioBean.getSetUsuario());
+					Setestado setestado = new Setestado(); 
+					setestado.setIdestado(1);
+					petformapagoordenItem.setSetestado(setestado);
+					
+					petformapagoordenDAO.grabarPetformapagoorden(session, petformapagoordenItem);
+					ok = true;
+				}
+			}
+			
 			if(ok){
 				session.getTransaction().commit();
 			}
@@ -250,7 +363,7 @@ public class PetordenservicioBO {
 		return ok;
 	}
 	
-	public boolean eliminarPetordenservicio(Petordenservicio petordenservicio, List<Petordenserviciodetalle> lisPetordenserviciodetalle) throws Exception{
+	public boolean eliminarPetordenservicio(Petordenservicio petordenservicio, List<Petordenserviciodetalle> lisPetordenserviciodetalle, List<Petformapagoorden> lisPetformapagoorden) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -260,6 +373,7 @@ public class PetordenservicioBO {
 			
 			PetordenservicioDAO petordenservicioDAO = new PetordenservicioDAO();
 			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
+			PetformapagoordenDAO petformapagoordenDAO = new PetformapagoordenDAO();
 		
 			Date fecharegistro = new Date();
 			UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
@@ -273,7 +387,7 @@ public class PetordenservicioBO {
 			petordenservicio.setSetusuario(usuarioBean.getSetUsuario());
 			petordenservicioDAO.updatePetordenservicio(session, petordenservicio);
 			
-			//se eliminan detalles en caso de existir
+			//se eliminan los servicios en caso de existir
 			for(Petordenserviciodetalle tmp : lisPetordenserviciodetalle){
 				//petordenserviciodetalleDAO.deletePetordenserviciodetalle(session, tmp.getId());
 				Setestado setestadoservicios = new Setestado();
@@ -286,6 +400,20 @@ public class PetordenservicioBO {
 				tmp.setSetusuario(usuarioBean.getSetUsuario());
 				
 				petordenserviciodetalleDAO.updatePetordenserviciodetalle(session, tmp);
+			}
+			
+			//se eliminan los pagos en caso de existir
+			for(Petformapagoorden petformapagoorden : lisPetformapagoorden){
+				Setestado setestadoPago = new Setestado();
+				setestadoPago.setIdestado(2);//inactivo
+				petformapagoorden.setSetestado(setestadoPago);
+				
+				fecharegistro = new Date();
+				petformapagoorden.setFechamodificacion(fecharegistro);
+				petformapagoorden.setIplog(usuarioBean.getIp());
+				petformapagoorden.setSetusuario(usuarioBean.getSetUsuario());
+				
+				petformapagoordenDAO.actualizarPetformapagoorden(session, petformapagoorden);
 			}
 			
 			session.getTransaction().commit();

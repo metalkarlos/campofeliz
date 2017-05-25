@@ -43,7 +43,7 @@ public class PetordenserviciodetalleBO {
 			
 			PetordenserviciodetalleDAO petordenserviciodetalleDAO = new PetordenserviciodetalleDAO();
 			
-			lisPetordenserviciodetalle = petordenserviciodetalleDAO.lisPethistoriaclinicadetalleByPage(session, pageSize, pageNumber, args, petordenservicioId);
+			lisPetordenserviciodetalle = petordenserviciodetalleDAO.lisPetordenserviciodetalleByPage(session, pageSize, pageNumber, args, petordenservicioId);
 		}catch(Exception e){
 			throw new RuntimeException();
 		}finally{

@@ -5,31 +5,49 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.sql.Connection;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.faces.context.FacesContext;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
 import org.hibernate.Session;
+import org.hibernate.jdbc.Work;
 
 import com.web.pet.bean.UsuarioBean;
 
 public class Utilities {
 	
-	@SuppressWarnings("deprecation")
+	private InputStream inputStream = null;
+	private JasperPrint jasperPrint = null;
+	private Map<String, Object> parametros;
+	
 	public void imprimirJasperPdf(String nombreReporte, Map<String, Object> parametros) throws Exception {
-		InputStream inputStream = null;
-		
 		//try{
+			this.parametros = parametros;
 			inputStream = new FacesUtil().getResourceAsStream("/reportes/"+nombreReporte+".jasper");
 
 			if(inputStream != null){
 		        Session session = HibernateUtil.getSessionFactory().openSession();
-		        Connection connection = session.connection();
+		        //Connection connection = session.connection();
 		        
-				JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, connection);//new JREmptyDataSource());
+		        session.doWork(
+	        	    new Work() {
+	        	        public void execute(Connection connection)  
+	        	        { 
+							try {
+								jasperPrint = JasperFillManager.fillReport(inputStream, Utilities.this.parametros, connection);
+							} catch (JRException e) {
+								e.printStackTrace();
+							}
+	        	        }
+	        	    }
+	        	);
+		        
+				//JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, connection);//new JREmptyDataSource());
 				
 				//crea en disco
 				String rutaReporteDestino = System.getProperty("java.io.tmpdir");
@@ -78,6 +96,11 @@ public class Utilities {
 		
 		FacesUtil facesUtil = new FacesUtil();
 		facesUtil.redirect("../admin/mensaje.jsf");	 
+	}
+	
+	public String generarAleatorio(){
+		UUID uid = UUID.randomUUID();
+		return uid.toString();
 	}
 	
 }

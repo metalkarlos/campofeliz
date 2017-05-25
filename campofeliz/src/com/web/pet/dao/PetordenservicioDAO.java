@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import com.web.pet.pojo.annotations.Petordenservicio;
 import com.web.pet.pojo.annotations.PetordenservicioId;
@@ -35,11 +36,12 @@ public class PetordenservicioDAO {
 		.add( Restrictions.eq("id.idanio", new Integer(petordenservicioId.getIdanio())))
 		.add( Restrictions.eq("setestado.idestado", 1))
 		.createAlias("petmascotahomenaje", "mascota")
-		.createAlias("mascota.petespecie", "especie", Criteria.LEFT_JOIN)
-		.createAlias("mascota.petraza", "raza", Criteria.LEFT_JOIN)
-		.createAlias("mascota.cotpersona", "persona", Criteria.LEFT_JOIN)
-		.createAlias("cotlugar", "lugar", Criteria.LEFT_JOIN)
-		.createAlias("lugar.cottipolugar", "tipolugar", Criteria.LEFT_JOIN);
+		.createAlias("mascota.petespecie", "especie", JoinType.LEFT_OUTER_JOIN)
+		.createAlias("mascota.petraza", "raza", JoinType.LEFT_OUTER_JOIN)
+		.createAlias("mascota.cotpersona", "persona", JoinType.LEFT_OUTER_JOIN)
+		.createAlias("cotlugar", "lugar", JoinType.LEFT_OUTER_JOIN)
+		.createAlias("lugar.cottipolugar", "tipolugar", JoinType.LEFT_OUTER_JOIN)
+		.createAlias("cotestadopago", "estadopago", JoinType.LEFT_OUTER_JOIN);
 		
 		petordenservicio = (Petordenservicio) criteria.uniqueResult();
 		
@@ -56,7 +58,7 @@ public class PetordenservicioDAO {
 		.add( Restrictions.eq("setestado.idestado", 1))
 		.addOrder(Order.desc("fechaemision").ignoreCase());
 		
-		Criteria joinPetmascotahomenaje = criteriaPetordenservicio.createCriteria("petmascotahomenaje", "m", Criteria.INNER_JOIN, Restrictions.eq("m.setestado.idestado", 1));
+		Criteria joinPetmascotahomenaje = criteriaPetordenservicio.createCriteria("petmascotahomenaje", "m", JoinType.LEFT_OUTER_JOIN, Restrictions.eq("m.setestado.idestado", 1));
 		
 		if(nombres != null && nombres.length > 0){
 			String query = "(";
@@ -73,7 +75,7 @@ public class PetordenservicioDAO {
 			joinPetmascotahomenaje.add(Restrictions.sqlRestriction(query));
 		}
 		
-		Criteria joinCotpersona = joinPetmascotahomenaje.createCriteria("m.cotpersona", "p", Criteria.LEFT_JOIN, Restrictions.eq("p.setestado.idestado", 1));
+		Criteria joinCotpersona = joinPetmascotahomenaje.createCriteria("m.cotpersona", "p", JoinType.LEFT_OUTER_JOIN, Restrictions.eq("p.setestado.idestado", 1));
 		
 		joinCotpersona.setMaxResults(pageSize)
 		.setFirstResult(pageNumber);
@@ -85,7 +87,7 @@ public class PetordenservicioDAO {
 			.setProjection( Projections.rowCount())
 			.add( Restrictions.eq("setestado.idestado", 1));
 			
-			Criteria joinPetmascotahomenajeCount = criteriaCount.createCriteria("petmascotahomenaje", "m", Criteria.INNER_JOIN, Restrictions.eq("m.setestado.idestado", 1));
+			Criteria joinPetmascotahomenajeCount = criteriaCount.createCriteria("petmascotahomenaje", "m", JoinType.LEFT_OUTER_JOIN, Restrictions.eq("m.setestado.idestado", 1));
 			
 			if(nombres != null && nombres.length > 0){
 				String query = "(";
@@ -102,7 +104,7 @@ public class PetordenservicioDAO {
 				joinPetmascotahomenajeCount.add(Restrictions.sqlRestriction(query));
 			}
 			
-			Criteria joinCotpersonaCount = joinPetmascotahomenajeCount.createCriteria("m.cotpersona", "p", Criteria.LEFT_JOIN, Restrictions.eq("p.setestado.idestado", 1));
+			Criteria joinCotpersonaCount = joinPetmascotahomenajeCount.createCriteria("m.cotpersona", "p", JoinType.LEFT_OUTER_JOIN, Restrictions.eq("p.setestado.idestado", 1));
 			
 			Object object = joinCotpersonaCount.uniqueResult();
 			int count = (object==null?0:Integer.parseInt(object.toString()));

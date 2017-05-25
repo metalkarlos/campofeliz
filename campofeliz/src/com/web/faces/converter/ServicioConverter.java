@@ -3,11 +3,13 @@ package com.web.faces.converter;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 import com.web.pet.bo.PetservicioBO;
 import com.web.pet.pojo.annotations.Petservicio;
 import com.web.util.MessageUtil;
 
+@FacesConverter("servicio")
 public class ServicioConverter implements Converter {
 	
 	@Override

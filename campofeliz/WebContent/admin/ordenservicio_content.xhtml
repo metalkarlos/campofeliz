@@ -174,12 +174,12 @@
 											<h:outputText value="Raza: " style="font-weight: bold;" />
 											<h:outputText id="idtoolraza"	value="#{m.petraza.nombre}" />
 											
-											<h:outputLabel value="Fecha Nacimiento: " />
+											<h:outputText value="Fecha Nacimiento: " />
 											<h:outputText id="idtoolfechanacimiento" value="#{m.fechanacimiento}">
 												<f:convertDateTime dateStyle="medium" />
 											</h:outputText>
 
-											<h:outputLabel value="Fecha Fallecimiento: " />
+											<h:outputText value="Fecha Fallecimiento: " />
 											<h:outputText id="idtoolfechafallecimiento" value="#{m.fechafallecimiento}">
 												<f:convertDateTime dateStyle="medium" />
 											</h:outputText>
@@ -373,33 +373,107 @@
 	
 					<p:row>
 					<p:column colspan="2">
-						<p:dataTable id="idTablaDetalle"
-							value="#{ordenServicioBean.lisPetordenserviciodetalle}"
-							var="servicio" rowKey="#{servicio.id.idordenserviciodetalle}"
-							widgetVar="vartablaServicios" selection="#{ordenServicioBean.petordenserviciodetalleItem}"
-							selectionMode="single" emptyMessage="No existen servicios">
+						<p:dataTable id="detalleServicios" styleClass="tablaServiciosCss" value="#{ordenServicioBean.lisPetordenserviciodetalle}"
+							var="servicio" widgetVar="varServicios" emptyMessage="No existen servicios">
 		
-							<p:ajax event="rowSelect" update=":form-contentpage:idpaneleditor"
-								oncomplete="varQuitarServicio.show()"></p:ajax>
+							<p:ajax event="rowSelect" update=":form-contentpage:idpaneleditorservicio" listener="#{ordenServicioBean.seleccionarDetalleServicios()}"
+							oncomplete="varDialogEditorServicio.show()"></p:ajax>
 		
-							<p:column id="idNombreHeader" headerText="Nombre">
-								<h:outputText value="#{servicio.petservicio.nombre}" />
+							<p:column id="idNombreHeader">
+								<f:facet name="header">
+									<h:outputLabel value="Nombre" for="nombredetalleservicios" />
+								</f:facet>
+								<h:outputText id="nombredetalleservicios" value="#{servicio.petservicio.nombre}" />
+							</p:column>
+							
+							<p:column id="idPrecioHeader" >
+								<f:facet name="header">
+									<h:outputLabel value="Precio" for="preciodetalleservicios" />
+								</f:facet>
+								<h:outputText id="preciodetalleservicios" value="$#{servicio.precio}" />
+								<f:facet name="footer">
+									<h:outputText value="#{ordenServicioBean.petordenservicio.preciototal}" >
+										<f:convertNumber type="currency" currencySymbol="$" />
+									</h:outputText>
+								</f:facet>
+							</p:column>
+							
+							<p:column>
+								<p:commandButton icon="ui-icon-search" title="Seleccionar" update=":form-contentpage:idpaneleditorservicio" oncomplete="varDialogEditorServicio.show()">
+									<f:setPropertyActionListener value="#{servicio}"	target="#{ordenServicioBean.petordenserviciodetalleSeleccionado}" />
+									<f:actionListener binding="#{ordenServicioBean.seleccionarDetalleServicios()}" />
+								</p:commandButton>
 							</p:column>
 						</p:dataTable>
-						<h:panelGrid id="detallebuttondown" columns="1">
-							<my:buttons renderedButtonNewItem="true"
-								labelButtonNewItem="+"
-								immediateButtonNewItem="true"
-								actionButtonNewItem="#{ordenServicioBean.newItem()}"
-								oncompleteButtonNewItem="varAgregarServicio.show()"
-								updateButtonNewItem=":form-contentpage:idpaneleditor"
-								tooltipButtonNewItem="Agregar Servicio"
-								renderedButtonEliminar="false" renderedButtonCancelar="false"
-								renderedButtonAceptar="false" />
+
+						<h:panelGrid columns="1">
+							<p:commandButton value="+" update="cmbServicio, txtPrecio " immediate="false" action="#{ordenServicioBean.nuevoServicio()}" oncomplete="varDialogEditorServicio.show()" title="Agregar Servicio" />
 						</h:panelGrid>
 					</p:column>
 					</p:row>
 				
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Formas de Pago</div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+						<p:dataTable id="detallePagos" styleClass="tablaPagosCss" value="#{ordenServicioBean.lisPetformapagoorden}"
+							var="pago" widgetVar="varPago" emptyMessage="No se han realizado pagos">
+
+							<p:column id="idNombreHeader">
+								<f:facet name="header">
+									<h:outputLabel value="Nombre" for="nombredetallepagos" />
+								</f:facet>
+								<h:outputText id="nombredetallepagos" value="#{pago.cotformapago.nombre}" />
+							</p:column>
+							
+							<p:column id="idObservacionHeader">
+								<f:facet name="header">
+									<h:outputLabel value="Observación" for="observaciondetallepagos" />
+								</f:facet>
+								<h:outputText id="observaciondetallepagos" value="#{pago.observacion}" />
+							</p:column>
+							
+							<p:column id="idValorHeader" >
+								<f:facet name="header">
+									<h:outputLabel value="Valor" for="valordetallepagos" />
+								</f:facet>
+								<h:outputText id="valordetallepagos" value="$#{pago.valor}" />
+								<f:facet name="footer">
+									<h:outputText value="#{ordenServicioBean.petordenservicio.pagototal}" >
+										<f:convertNumber type="currency" currencySymbol="$" />
+									</h:outputText>
+								</f:facet>
+							</p:column>
+							
+							<p:column>
+								<p:commandButton icon="ui-icon-search" title="Seleccionar" update=":form-contentpage:idpaneleditorpagos" oncomplete="varDialogEditorFormaPago.show()">
+									<f:setPropertyActionListener value="#{pago}"	target="#{ordenServicioBean.petformapagoordenSeleccionado}" />
+									<f:actionListener binding="#{ordenServicioBean.seleccionarDetallePagos()}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+						
+						<h:panelGrid columns="1">
+							<p:commandButton value="+" update="cmbFormaPago, txtValor, txtObservacion" immediate="false" action="#{ordenServicioBean.nuevaFormaPago()}" oncomplete="varDialogEditorFormaPago.show()" title="Agregar Pago" />
+						</h:panelGrid>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<div class="titulo">Estado del Pago</div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+						<h:outputText value="#{ordenServicioBean.petordenservicio.cotestadopago.nombre}" />
+					</p:column>
+					</p:row>
 				</p:panelGrid>
 
 			</div>
@@ -429,7 +503,7 @@
 						actionListener="#{ordenServicioBean.guardar()}"
 						oncomplete="vardialoggrabar.hide()"
 						update="mensajes" 
-						process="mensajes,idfechaemision,idfechaentierro,cmbLugar,idobservacion,iddedicatoria,txtNombreMascota,idTablaDetalle"/>
+						process="mensajes,idfechaemision,idfechaentierro,cmbLugar,idobservacion,iddedicatoria,txtNombreMascota,detalleServicios"/>
 					<p:commandButton value="NO" style="width: 50px"
 						onclick="vardialoggrabar.hide()" immediate="true" />
 				</h:panelGrid>
@@ -451,53 +525,94 @@
 				</h:panelGrid>
 			</h:panelGrid>
 		</p:dialog>
-		<p:dialog id="dlgAgregarServicio" header="Agregar Servicio" closable="true"
-			onHide="vartablaServicios.unselectAllRows()"
-			widgetVar="varAgregarServicio" modal="true" height="150" width="400">
+		<p:dialog id="dlgEditorServicio" header="Editor de Servicios" closable="false"
+			onHide="varServicios.unselectAllRows()"
+			widgetVar="varDialogEditorServicio" modal="true" height="150" width="400">
 			<p:focus for="cmbServicio" />
 			<br />
-			<h:panelGrid id="idpaneleditor" columns="2"
+			<h:panelGrid id="idpaneleditorservicio" columns="2"
 				style="width: 100%; height: 130px;">
 				<p:outputLabel value="Servicio: " for="cmbServicio" />
 				<p:selectOneMenu id="cmbServicio" converter="servicio"
 					value="#{ordenServicioBean.petordenserviciodetalleItem.petservicio}"
-					style="width: 300px">
-					<f:selectItems value="#{ordenServicioBean.lisPetservicio}" var="s" 
-						itemLabel="#{s.nombre}" itemValue="#{s}" />
+					style="width: 150px">
+					<f:selectItems value="#{ordenServicioBean.lisPetservicio}" var="s" itemLabel="#{s.nombre}" itemValue="#{s}" />
+					<p:ajax event="change" listener="#{ordenServicioBean.seleccionarComboServicio()}" update="txtPrecio, mensajes"></p:ajax>
 				</p:selectOneMenu>
 
+				<p:outputLabel value="Precio: " for="txtPrecio" />
+				<p:inputText id="txtPrecio" value="#{ordenServicioBean.petordenserviciodetalleItem.precio}" 
+				style="width: 150px">
+					<f:convertNumber type="currency" currencySymbol="$" />
+				</p:inputText>
+					
 				<h:outputText value="" />
 				<h:outputText value="" />
 
 				<h:outputText value="" />
 				<h:column>
 					<div align="right">
-						<p:commandButton id="idgrabareditor" value="Agregar"
-							actionListener="#{ordenServicioBean.agregarServicio()}"
-							oncomplete="varAgregarServicio.hide()"
-							update=":form-contentpage:mensajes, :form-contentpage:idTablaDetalle, :form-contentpage:cmbServicio" 
-							process="cmbServicio"/>
+						<p:commandButton id="idgrabareditor" value="Grabar"
+							actionListener="#{ordenServicioBean.grabarServicio()}"
+							update=":form-contentpage:mensajes, :form-contentpage:detalleServicios, cmbServicio, txtPrecio" />
+						<p:commandButton id="ideliminar" value="Eliminar"
+							actionListener="#{ordenServicioBean.quitarServicio()}"
+							oncomplete="varDialogEditorServicio.hide()"
+							update=":form-contentpage:mensajes, :form-contentpage:detalleServicios"
+							rendered="#{ordenServicioBean.petordenserviciodetalleItem.petservicio.idservicio > 0}" />
 						<p:commandButton id="idcancelareditor" value="Cancelar"
-							onclick="varAgregarServicio.hide()"
-							update=":form-contentpage:mensajes" 
-							immediate="true"/>
+							actionListener="#{ordenServicioBean.limpiarVentanaServicio()}"
+							oncomplete="varDialogEditorServicio.hide()"
+							update=":form-contentpage:mensajes, :form-contentpage:idpaneleditorservicio" 
+							immediate="false"/>
 					</div>
 				</h:column>
 			</h:panelGrid>
 		</p:dialog>
-		<p:dialog id="dlgQuitarServicio" header="Quitar Servicio" onHide="vartablaServicios.unselectAllRows()"
-			closable="true" widgetVar="varQuitarServicio" modal="true">
-			<h:panelGrid id="pnlQuitarServicio" columns="2">
-				<h:outputText value="¿Desea quitar el servicio?" />
-				<h:panelGrid columns="2">
-					<p:commandButton value="SI" style="width: 50px"
-						actionListener="#{ordenServicioBean.quitarServicio()}"
-						oncomplete="varQuitarServicio.hide()"
-						immediate="true"
-						update=":form-contentpage:mensajes, :form-contentpage:idTablaDetalle" />
-					<p:commandButton value="NO" style="width: 50px"
-						onclick="varQuitarServicio.hide()" immediate="true" />
-				</h:panelGrid>
+		<p:dialog id="dlgEditorFormaPago" header="Editor de Formas de Pago" closable="false"
+			onHide="varPago.unselectAllRows()"
+			widgetVar="varDialogEditorFormaPago" modal="true" height="200" width="450">
+			<p:focus for="cmbFormaPago" />
+			<br />
+			<h:panelGrid id="idpaneleditorpagos" columns="2"
+				style="width: 100%; height: 130px;">
+				<p:outputLabel value="Forma de Pago: " for="cmbFormaPago" />
+				<p:selectOneMenu id="cmbFormaPago" converter="formapago"
+					value="#{ordenServicioBean.petformapagoordenItem.cotformapago}"
+					style="width: 150px">
+					<f:selectItems value="#{ordenServicioBean.lisCotformapago}" var="f" itemLabel="#{f.nombre}" itemValue="#{f}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Valor: " for="txtValor" />
+				<p:inputText id="txtValor" value="#{ordenServicioBean.petformapagoordenItem.valor}" 
+				style="width: 150px">
+					<f:convertNumber type="currency" currencySymbol="$" />
+				</p:inputText>
+				
+				<p:outputLabel value="Observación: " for="txtObservacion" />
+				<p:inputTextarea id="txtObservacion" value="#{ordenServicioBean.petformapagoordenItem.observacion}" autoResize="false" /> 
+					
+				<h:outputText value="" />
+				<h:outputText value="" />
+
+				<h:outputText value="" />
+				<h:column>
+					<div align="right">
+						<p:commandButton id="idgrabareditorpago" value="Grabar"
+							actionListener="#{ordenServicioBean.grabarPago()}"
+							update=":form-contentpage:mensajes, :form-contentpage:detallePagos, cmbFormaPago, txtValor, txtObservacion" />
+						<p:commandButton id="ideliminareditorpago" value="Eliminar"
+							actionListener="#{ordenServicioBean.quitarPago()}"
+							oncomplete="varDialogEditorFormaPago.hide()"
+							update=":form-contentpage:mensajes, :form-contentpage:detallePagos"
+							rendered="#{ordenServicioBean.petformapagoordenItem.cotformapago.idformapago > 0}" />
+						<p:commandButton id="idcancelareditorpago" value="Cancelar"
+							actionListener="#{ordenServicioBean.limpiarVentanaPagos()}"
+							oncomplete="varDialogEditorFormaPago.hide()"
+							update=":form-contentpage:mensajes, :form-contentpage:idpaneleditorpagos" 
+							immediate="false"/>
+					</div>
+				</h:column>
 			</h:panelGrid>
 		</p:dialog>
 		<p:dialog id="iddialogeditormascota"

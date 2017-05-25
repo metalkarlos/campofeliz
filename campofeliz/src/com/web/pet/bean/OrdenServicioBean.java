@@ -1,13 +1,10 @@
 package com.web.pet.bean;
 
-import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -15,12 +12,13 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.LazyDataModel;
 
+import com.web.pet.bo.CotformapagoBO;
 import com.web.pet.bo.CotlugarBO;
 import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.bo.CottipolugarBO;
 import com.web.pet.bo.PetespecieBO;
+import com.web.pet.bo.PetformapagoordenBO;
 import com.web.pet.bo.PetmascotaBO;
 import com.web.pet.bo.PetmascotacolorBO;
 import com.web.pet.bo.PetordenservicioBO;
@@ -35,8 +33,12 @@ import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Cotlugar;
 import com.web.pet.pojo.annotations.Cotpersona;
 import com.web.pet.pojo.annotations.Petespecie;
+import com.web.pet.pojo.annotations.Petformapagoorden;
+import com.web.pet.pojo.annotations.PetformapagoordenId;
 import com.web.pet.pojo.annotations.Cotoficina;
 import com.web.pet.pojo.annotations.Cotempresa;
+import com.web.pet.pojo.annotations.Cotestadopago;
+import com.web.pet.pojo.annotations.Cotformapago;
 import com.web.pet.pojo.annotations.Petmascotahomenaje;
 import com.web.pet.pojo.annotations.Petmascotacolor;
 import com.web.pet.pojo.annotations.Petordenservicio;
@@ -46,7 +48,6 @@ import com.web.pet.pojo.annotations.PetordenserviciodetalleId;
 import com.web.pet.pojo.annotations.Petraza;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.FacesUtil;
-import com.web.util.FileUtil;
 import com.web.util.MessageUtil;
 import com.web.util.Utilities;
 
@@ -54,51 +55,71 @@ import com.web.util.Utilities;
 @ViewScoped
 public class OrdenServicioBean implements Serializable {
 	
-	/**
-	 * 
-	 */
+	//Orden de servicio
 	private static final long serialVersionUID = -6374223940126173373L;
 	private int idordenservicio;
 	private int idanio;
 	private Petordenservicio petordenservicio;
 	private Petordenservicio petordenservicioClon;
-	private Petordenserviciodetalle petordenserviciodetalleItem;
-	private LazyDataModel<Petordenserviciodetalle> lisPetordenserviciodetalleModel;
-	private List<Petordenserviciodetalle> lisPetordenserviciodetalle;
-	private List<Petordenserviciodetalle> lisPetordenserviciodetalleClon;
+	private Cottipolugar cottipolugar;
 	private List<Cottipolugar> lisCottipolugar;
 	private List<Cotlugar> lisCotlugar;
 	private List<Petmascotacolor> lisPetmascotacolor;
-	private List<Petservicio> lisPetservicio;
+
+	//Editor de Mascotas
 	private Petmascotahomenaje petmascotahomenajeEditor;
-	private Petmascotahomenaje petmascotahomenajeEditorClon; 
+	private Petmascotahomenaje petmascotahomenajeEditorClon;
 	private Cotpersona cotpersonaEditor;
 	private Cotpersona cotpersonaEditorClon;
-	private Cotpersona cotpersonabusqueda; 
+	private Cotpersona cotpersonabusqueda;
 	private List<Petespecie> lisPetespecie;
 	private List<Petraza> lisRaza;
-	private String linkReporte;
-	private Cottipolugar cottipolugar;
-
+		
+	//Seccion de Servicios
+	private List<Petordenserviciodetalle> lisPetordenserviciodetalle;
+	private List<Petordenserviciodetalle> lisPetordenserviciodetalleClon;
+	private Petordenserviciodetalle petordenserviciodetalleSeleccionado;
+	private Petordenserviciodetalle petordenserviciodetalleItem;
+	private List<Petservicio> lisPetservicio;
+	
+	//Seccion de Formas de Pago
+	private List<Petformapagoorden> lisPetformapagoorden;
+	private List<Petformapagoorden> lisPetformapagoordenClon;
+	private Petformapagoorden petformapagoordenSeleccionado;
+	private Petformapagoorden petformapagoordenItem;
+	private List<Cotformapago> lisCotformapago;
+	
 	public OrdenServicioBean() {
-		petordenservicio = new Petordenservicio(new PetordenservicioId(0, 0), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, new Date(), null, null, null, null, null, new Date() , null);
-		petordenservicioClon = new Petordenservicio(new PetordenservicioId(0, 0), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null, null, null);
-		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null, null);
-		petordenserviciodetalleItem.setPetservicio(new Petservicio(0, new Setestado(), null, new Setusuario(), null, null, new Cotoficina(), new Cotempresa(), null, null, null, false, null, null, 0));
+		//Orden de servicio
+		petordenservicio = new Petordenservicio(new PetordenservicioId(0, 0), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, new Date(), null, null, null, null, null, new Date() , new Cotestadopago(), new BigDecimal(0), new BigDecimal(0));
+		petordenservicioClon = new Petordenservicio(new PetordenservicioId(0, 0), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, null, null, null, null, null, null, null, new Cotestadopago(), new BigDecimal(0), new BigDecimal(0));
+		cottipolugar = new Cottipolugar(0, null, null, null, new Setestado(), new Setusuario());
 		lisPetmascotacolor = new ArrayList<Petmascotacolor>();
+		llenarListaTipoLugar();
+		
+		//Editor de Mascotas
 		petmascotahomenajeEditor = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
 		petmascotahomenajeEditorClon = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
 		cotpersonaEditor = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 		cotpersonaEditorClon = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 		cotpersonabusqueda = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+		inicializarEspecieMascota();
+		
+		//Seccion de Servicios
 		lisPetordenserviciodetalle = new ArrayList<Petordenserviciodetalle>();
 		lisPetordenserviciodetalleClon = new ArrayList<Petordenserviciodetalle>();
-		cottipolugar = new Cottipolugar(0, null, null, null, new Setestado(), new Setusuario());
+		petordenserviciodetalleSeleccionado = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null, null, 0, new BigDecimal(0));
+		petordenserviciodetalleSeleccionado.setPetservicio(new Petservicio(0, new Setestado(), null, new Setusuario(), null, null, new Cotoficina(), new Cotempresa(), null, null, null, false, null, null, 0, new BigDecimal(0)));
+		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null, null, 0, new BigDecimal(0));
+		petordenserviciodetalleItem.setPetservicio(new Petservicio(0, new Setestado(), null, new Setusuario(), null, null, new Cotoficina(), new Cotempresa(), null, null, null, false, null, null, 0, new BigDecimal(0)));
+		//llenarListaServicio();
 		
-		llenarListaTipoLugar();
-		//llenarListaLugar();
-		llenarListaServicio();
-		inicializarEspecieMascota();
+		//Seccion de Formas de Pago
+		lisPetformapagoorden = new ArrayList<Petformapagoorden>();
+		lisPetformapagoordenClon = new ArrayList<Petformapagoorden>();
+		petformapagoordenSeleccionado = new Petformapagoorden(new PetformapagoordenId(), new Cotformapago(), new Petordenservicio(), new Setestado(), new Setusuario(), new BigDecimal(0), null, null, null, null, null);
+		petformapagoordenItem = new Petformapagoorden(new PetformapagoordenId(), new Cotformapago(), new Petordenservicio(), new Setestado(), new Setusuario(), new BigDecimal(0), null, null, null, null, null);
+		lisCotformapago = new ArrayList<Cotformapago>();
 	}
 	
 	@PostConstruct
@@ -126,29 +147,36 @@ public class OrdenServicioBean implements Serializable {
 						
 						if(petordenservicio != null && petordenservicio.getId() != null && petordenservicio.getId().getIdordenservicio() > 0 ){
 							PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
-							lisPetordenserviciodetalle = petordenserviciodetalleBO.lisPetordenserviciodetalle(petordenservicio.getId());
+							lisPetordenserviciodetalle = petordenserviciodetalleBO.lisPetordenserviciodetalle(petordenservicioId);
 							
 							if(lisPetordenserviciodetalle != null && lisPetordenserviciodetalle.size() > 0){
 								lisPetordenserviciodetalleClon = new ArrayList<Petordenserviciodetalle>(lisPetordenserviciodetalle);
+							}
+							
+							PetformapagoordenBO petformapagoordenBO = new PetformapagoordenBO();
+							lisPetformapagoorden = petformapagoordenBO.lisPetformapagoorden(petordenservicioId);
+							
+							if(lisPetformapagoorden != null && lisPetformapagoorden.size() > 0){
+								lisPetformapagoordenClon = new ArrayList<Petformapagoorden>(lisPetformapagoorden);
 							}
 							
 							if(petordenservicio.getCotlugar() != null && petordenservicio.getCotlugar().getIdlugar() > 0){
 								cottipolugar.setIdtipolugar(petordenservicio.getCotlugar().getCottipolugar().getIdtipolugar());
 								llenarListaLugar();
 							}
+							
+							if(petordenservicio.getCotestadopago() == null){
+								petordenservicio.setCotestadopago(new Cotestadopago(0, null, null));
+								petordenservicioClon.setCotestadopago(new Cotestadopago(0, null, null));
+							}
 						}
 						
-						/*if(petordenservicio.getCotlugar() == null){
-							petordenservicio.setCotlugar(new Cotlugar());
-							//petordenservicioClon.setCotlugar(new Cotlugar());
-						}*/
-
 						lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(petordenservicio.getPetmascotahomenaje().getIdmascota());
 						if(lisPetmascotacolor == null){
 							lisPetmascotacolor = new ArrayList<Petmascotacolor>();
 						}
 					}else{
-						petordenservicio = new Petordenservicio(new PetordenservicioId(0, 0), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, new Date(), null, null, null, null, null, new Date(), null);
+						petordenservicio = new Petordenservicio(new PetordenservicioId(0, 0), new Petmascotahomenaje(), new Setestado(), new Cotlugar(), null, new Date(), null, null, null, null, null, new Date(), new Cotestadopago(), new BigDecimal(0), new BigDecimal(0));
 					}
 				}
 			}else{
@@ -161,21 +189,6 @@ public class OrdenServicioBean implements Serializable {
 			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e2){}
 		}
 	}
-	
-	/*private void llenarListaLugar(){
-		try{
-			lisCotlugar = new ArrayList<Cotlugar>();
-			
-			CotlugarBO cotlugarBO = new CotlugarBO();
-			List<Cotlugar> lisTmp = cotlugarBO.lisCotlugar();
-			if(lisTmp != null && lisTmp.size() > 0){
-				lisCotlugar.addAll(lisTmp);
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
-		}
-	}*/
 	
 	private void llenarListaServicio(){
 		try{
@@ -194,6 +207,28 @@ public class OrdenServicioBean implements Serializable {
 			List<Petservicio> lisTmp = petservicioBO.lisPetservicio(Parametro.EMPRESA_CAMPOFELIZ, Parametro.OFICINA_CAMPOFELIZ_LAROCA);
 			if(lisTmp != null && lisTmp.size() > 0){
 				lisPetservicio.addAll(lisTmp);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
+	private void llenarListaFormasPago(){
+		try{
+			Cotformapago cotformapago = new Cotformapago();
+			cotformapago.setIdformapago(0);
+			cotformapago.setNombre("Seleccione");
+			cotformapago.setSetestado(new Setestado());
+			cotformapago.setSetusuario(new Setusuario());
+			
+			lisCotformapago = new ArrayList<Cotformapago>();
+			lisCotformapago.add(cotformapago);
+			
+			CotformapagoBO cotformapagoBO = new CotformapagoBO();
+			List<Cotformapago> lisTmp = cotformapagoBO.lisCotformapago();
+			if(lisTmp != null && lisTmp.size() > 0){
+				lisCotformapago.addAll(lisTmp);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -252,77 +287,6 @@ public class OrdenServicioBean implements Serializable {
 		}
 	}
 	
-	/*@SuppressWarnings("serial")
-	private void consultarDetalle(){
-		try
-		{
-			lisPetordenserviciodetalleModel = new LazyDataModel<Petordenserviciodetalle>() {
-				public List<Petordenserviciodetalle> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
-					lisPetordenserviciodetalle = new ArrayList<Petordenserviciodetalle>();
-					int args[] = {0};
-					
-					if(petordenservicio != null && petordenservicio.getId() != null && petordenservicio.getId().getIdordenservicio() > 0 ){
-						PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
-						lisPetordenserviciodetalle = petordenserviciodetalleBO.lisPetordenserviciodetalleByPage(petordenservicio.getId(), pageSize, first, args);
-					}
-					
-					this.setRowCount(args[0]);
-	
-			        return lisPetordenserviciodetalle;
-				}
-				
-				@Override
-               public void setRowIndex(int rowIndex) {
-                   
-                    * The following is in ancestor (LazyDataModel):
-                    * this.rowIndex = rowIndex == -1 ? rowIndex : (rowIndex % pageSize);
-                    
-                   if (rowIndex == -1 || getPageSize() == 0) {
-                       super.setRowIndex(-1);
-                   }
-                   else {
-                       super.setRowIndex(rowIndex % getPageSize());
-                   }      
-               }
-			};
-		}catch(Exception re){
-			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
-		}
-	}*/
-	
-	/*private void consultarServicios(){
-		try{
-			if(petordenservicio != null && petordenservicio.getId() != null && petordenservicio.getId().getIdordenservicio() > 0 ){
-				PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
-				lisPetordenserviciodetalle = petordenserviciodetalleBO.lisPetordenserviciodetalle(petordenservicio.getId());
-				
-				if(lisPetordenserviciodetalle != null && lisPetordenserviciodetalle.size() > 0){
-					lisPetordenserviciodetalleClon = new ArrayList<Petordenserviciodetalle>(lisPetordenserviciodetalle);
-				}
-			}
-		}catch(Exception re){
-			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
-		}
-	}*/
-	
-	/*public List<Mascotas> buscarMascotas(String query) {
-		List<Mascotas> lisMascotas = new ArrayList<Mascotas>();
-		
-		try{
-			PetmascotaBO petmascotaBO = new PetmascotaBO();
-			int args[] = {0};
-			lisMascotas = petmascotaBO.lisMascotasByPage(query, 10, 0, args);
-			
-		}catch(Exception re){
-			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
-		}
-			
-		return lisMascotas;
-	}*/
-	
 	public List<Petmascotahomenaje> buscarMascotas(String query) {
 		List<Petmascotahomenaje> lisPetmascotahomenaje = new ArrayList<Petmascotahomenaje>();
 		
@@ -368,8 +332,7 @@ public class OrdenServicioBean implements Serializable {
 	
 	public void seleccionarPropietarioEditor() {
 		try{
-			//cotpersonaEditor = cotpersonabusqueda.clonar();
-			cotpersonaEditorClon = cotpersonaEditor.clonar();// cotpersonabusqueda.clonar();
+			cotpersonaEditorClon = cotpersonaEditor.clonar();
 		}catch(Exception e) {
 			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -412,74 +375,315 @@ public class OrdenServicioBean implements Serializable {
 		}
 	}
 	
-	public void newItem(){
-		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null, null);
-	}
-	
-	/*public void guardarItem(){
+	public void seleccionarDetalleServicios(){
 		try{
-			if(validarCamposDetalle()){
-				PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
-				boolean ok = false;
-				
-				if(petordenserviciodetalleItem.getId().getIdordenserviciodetalle() > 0){
-					ok = petordenserviciodetalleBO.updatePetordenserviciodetalle(petordenserviciodetalleItem);
-				}else{
-					PetordenserviciodetalleId petordenserviciodetalleId = new PetordenserviciodetalleId();
-					petordenserviciodetalleId.setIdordenservicio(petordenservicio.getId().getIdordenservicio());
-					petordenserviciodetalleId.setIdanio(petordenservicio.getId().getIdanio());
-					petordenserviciodetalleItem.setId(petordenserviciodetalleId);
-					ok = petordenserviciodetalleBO.newPetordenserviciodetalle(petordenserviciodetalleItem);
-				}
-				
-				petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
-				
-				if(ok){
-					new MessageUtil().showInfoMessage("Servicio Agregado con exito!","");
-				}
-			}
-		}catch(Exception re){
-			re.printStackTrace();
+			petordenserviciodetalleItem = petordenserviciodetalleSeleccionado.clonar();
+			llenarListaServicio();
+		}catch(Exception e) {
+			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
-	}*/
+	}
 	
-	public void agregarServicio(){
+	public void seleccionarDetallePagos(){
 		try{
-			if(validarServicios()){
-				if(petordenserviciodetalleItem.getPetservicio().getIdservicio() > 0){
-					lisPetordenserviciodetalle.add(petordenserviciodetalleItem.clonar());
-				}
+			petformapagoordenItem = petformapagoordenSeleccionado.clonar();
+			llenarListaFormasPago();
+		}catch(Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
+	public void seleccionarComboServicio(){
+		try{
+			if(petordenserviciodetalleItem.getPetservicio() != null && petordenserviciodetalleItem.getPetservicio().getIdservicio() > 0){
+				petordenserviciodetalleItem.setPrecio(petordenserviciodetalleItem.getPetservicio().getPrecio());
 			}
-			petordenserviciodetalleItem.setPetservicio(new Petservicio(0, new Setestado(),null, new Setusuario(), null, null, new Cotoficina(), new Cotempresa(), null, null, null, false, null, null, 0));
-		}catch(Exception re){
-			re.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
 
-	/*private boolean validarCamposDetalle()
+	public void nuevoServicio(){
+		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(new PetordenservicioId(0,0), null, null, null), null, null, null, 0, new BigDecimal(0));
+		llenarListaServicio();
+	}
+	
+	public void nuevaFormaPago(){
+		petformapagoordenItem = new Petformapagoorden(new PetformapagoordenId(), new Cotformapago(), new Petordenservicio(), new Setestado(), new Setusuario(), new BigDecimal(0), null, null, null, null, null);
+		llenarListaFormasPago();
+	}
+	
+	public void grabarServicio(){
+		try{
+			if(validarServicios()){
+				int index = -1;
+				for(Petordenserviciodetalle petordenserviciodetalle : lisPetordenserviciodetalle){
+					if(petordenserviciodetalle.getPetservicio().getIdservicio() == petordenserviciodetalleItem.getPetservicio().getIdservicio()){
+						index = lisPetordenserviciodetalle.indexOf(petordenserviciodetalle);
+						break;
+					}
+				}
+				
+				//modificar
+				if(index > -1){
+					lisPetordenserviciodetalle.set(index, petordenserviciodetalleItem.clonar());
+					petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(new PetordenservicioId(0,0), null, null, null), null, null, null, 0, new BigDecimal(0));
+					lisPetservicio = new ArrayList<Petservicio>();
+					calcularTotalServicios();
+					
+					RequestContext.getCurrentInstance().execute("varDialogEditorServicio.hide()");
+				}else{
+					//nuevo
+					if(petordenserviciodetalleItem.getPetservicio().getIdservicio() > 0){
+						lisPetordenserviciodetalle.add(petordenserviciodetalleItem.clonar());
+						petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(new PetordenservicioId(0,0), null, null, null), null, null, null, 0, new BigDecimal(0));
+						lisPetservicio = new ArrayList<Petservicio>();
+						calcularTotalServicios();
+						
+						RequestContext.getCurrentInstance().execute("varDialogEditorServicio.hide()");
+					}
+				}
+				
+				//modificar
+				/*if(petordenserviciodetalleItem.getId().getIdordenserviciodetalle() > 0){
+					int index = -1;
+					for(Petordenserviciodetalle petordenserviciodetalle : lisPetordenserviciodetalle){
+						if(petordenserviciodetalle.getId().equals(petordenserviciodetalleItem.getId())){
+							index = lisPetordenserviciodetalle.indexOf(petordenserviciodetalle);
+							break;
+						}
+					}
+					
+					if(index > -1){
+						lisPetordenserviciodetalle.set(index, petordenserviciodetalleItem.clonar());
+						petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(new PetordenservicioId(0,0), null, null, null), null, null, null, 0, new BigDecimal(0));
+						lisPetservicio = new ArrayList<Petservicio>();
+						calcularTotalServicios();
+						
+						RequestContext.getCurrentInstance().execute("varDialogEditorServicio.hide()");
+					}
+				}else{
+					//nuevo
+					if(petordenserviciodetalleItem.getPetservicio().getIdservicio() > 0){
+						lisPetordenserviciodetalle.add(petordenserviciodetalleItem.clonar());
+						petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(new PetordenservicioId(0,0), null, null, null), null, null, null, 0, new BigDecimal(0));
+						lisPetservicio = new ArrayList<Petservicio>();
+						calcularTotalServicios();
+						
+						RequestContext.getCurrentInstance().execute("varDialogEditorServicio.hide()");
+					}
+				}*/
+			}
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
+	public void quitarServicio(){
+		if(petordenserviciodetalleItem.getPetservicio().getIdservicio() > 0){
+			int index = -1;
+			for(Petordenserviciodetalle petordenserviciodetalle : lisPetordenserviciodetalle){
+				if(petordenserviciodetalle.getPetservicio().getIdservicio() == petordenserviciodetalleItem.getPetservicio().getIdservicio()){
+					index = lisPetordenserviciodetalle.indexOf(petordenserviciodetalle);
+					break;
+				}
+			}
+			if(index > -1){
+				lisPetordenserviciodetalle.remove(index);
+				calcularTotalServicios();
+			}
+		}
+		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(new PetordenservicioId(0,0), null, null, null), null, null, null, 0, new BigDecimal(0));
+		lisPetservicio = new ArrayList<Petservicio>();
+	}
+	
+	private void calcularTotalServicios(){
+		BigDecimal preciototal = new BigDecimal(0);
+		for(Petordenserviciodetalle petordenserviciodetalle : lisPetordenserviciodetalle){
+			preciototal = preciototal.add(petordenserviciodetalle.getPrecio());
+		}
+		petordenservicio.setPreciototal(preciototal);
+	}
+	
+	public void grabarPago(){
+		try{
+			if(validarPagos()){
+				/*int index = -1;
+				for(Petformapagoorden petformapagoorden : lisPetformapagoorden){
+					if(petformapagoorden.getCotformapago().getIdformapago() == petformapagoordenItem.getCotformapago().getIdformapago()){
+						index = lisPetformapagoorden.indexOf(petformapagoorden);
+						break;
+					}
+				}
+				
+				//modificar
+				if(index > -1){
+					lisPetformapagoorden.set(index, petformapagoordenItem.clonar());
+					petformapagoordenItem = new Petformapagoorden(new PetformapagoordenId(), new Cotformapago(), new Petordenservicio(), new Setestado(), new Setusuario(), new BigDecimal(0), null, null, null, null);
+					lisCotformapago = new ArrayList<Cotformapago>();
+					calcularTotalPagos();
+					
+					RequestContext.getCurrentInstance().execute("varDialogEditorFormaPago.hide()");
+				}else{
+					//nuevo
+					if(petformapagoordenItem.getCotformapago().getIdformapago() > 0){
+						lisPetformapagoorden.add(petformapagoordenItem.clonar());
+						petformapagoordenItem = new Petformapagoorden(new PetformapagoordenId(), new Cotformapago(), new Petordenservicio(), new Setestado(), new Setusuario(), new BigDecimal(0), null, null, null, null);
+						lisCotformapago = new ArrayList<Cotformapago>();
+						calcularTotalPagos();
+						
+						RequestContext.getCurrentInstance().execute("varDialogEditorFormaPago.hide()");
+					}
+				}*/
+				//modificar
+				if(petformapagoordenItem.getId().getIdformapagoorden() > 0 || petformapagoordenItem.getCodigoUnico() != null){
+					int index = -1;
+					for(Petformapagoorden petformapagoorden : lisPetformapagoorden){
+						if( (petformapagoordenItem.getId().getIdformapagoorden() > 0 && petformapagoorden.getId().equals(petformapagoordenItem.getId())) || 
+							(petformapagoordenItem.getCodigoUnico() != null && petformapagoordenItem.getCodigoUnico().equals(petformapagoorden.getCodigoUnico())) ){
+							index = lisPetformapagoorden.indexOf(petformapagoorden);
+							break;
+						}
+					}
+					
+					if(index > -1){
+						lisPetformapagoorden.set(index, petformapagoordenItem.clonar());
+						petformapagoordenItem = new Petformapagoorden(new PetformapagoordenId(), new Cotformapago(), new Petordenservicio(), new Setestado(), new Setusuario(), new BigDecimal(0), null, null, null, null, null);
+						lisCotformapago = new ArrayList<Cotformapago>();
+						calcularTotalPagos();
+						
+						RequestContext.getCurrentInstance().execute("varDialogEditorFormaPago.hide()");
+					}
+				}else{
+					//nuevo
+					if(petformapagoordenItem.getCotformapago().getIdformapago() > 0){
+						if(petformapagoordenItem.getCodigoUnico() == null || petformapagoordenItem.getCodigoUnico().length() == 0){
+							Utilities utilities = new Utilities();
+							String codigoUnico = utilities.generarAleatorio();
+							petformapagoordenItem.setCodigoUnico(codigoUnico);
+						}
+						lisPetformapagoorden.add(petformapagoordenItem.clonar());
+						petformapagoordenItem = new Petformapagoorden(new PetformapagoordenId(), new Cotformapago(), new Petordenservicio(), new Setestado(), new Setusuario(), new BigDecimal(0), null, null, null, null, null);
+						lisCotformapago = new ArrayList<Cotformapago>();
+						calcularTotalPagos();
+						
+						RequestContext.getCurrentInstance().execute("varDialogEditorFormaPago.hide()");
+					}
+				}
+			}
+		}catch(Exception re){
+			re.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
+	private boolean validarPagos()
 	{
 		boolean ok = true;
 		
-		if(petordenserviciodetalleItem.getPetservicio() == null || petordenserviciodetalleItem.getPetservicio().getIdservicio() == 0){
+		if(petformapagoordenItem.getCotformapago() == null || petformapagoordenItem.getCotformapago().getIdformapago() == 0){
 			ok = false;
-			new MessageUtil().showWarnMessage("Datos incompletos! El Servicio es obligatorio!","");
+			new MessageUtil().showWarnMessage("Seleccione una Forma de Pago","");
+		}else{
+			for(Petformapagoorden petformapagoorden : lisPetformapagoorden){
+				/*if(petformapagoorden.getCotformapago().getIdformapago() == petformapagoordenItem.getCotformapago().getIdformapago()){
+					if(petformapagoorden.equals(petformapagoordenItem)){
+						ok = false;
+						new MessageUtil().showWarnMessage("Ningún cambio que agregar","");
+						break;
+					}
+				}*/
+				
+				if( (petformapagoordenItem.getId().getIdformapagoorden() > 0 && petformapagoorden.getId().equals(petformapagoordenItem.getId())) || 
+					(petformapagoordenItem.getCodigoUnico() != null && petformapagoordenItem.getCodigoUnico().equals(petformapagoorden.getCodigoUnico())) ){
+					if(petformapagoorden.equals(petformapagoordenItem)){
+						ok = false;
+						new MessageUtil().showWarnMessage("Ningún cambio que agregar","");
+						break;
+					}
+				}
+			}
+			
+				
+			
+			//Pregunto si valor es mayor a cero
+			if(ok && petformapagoordenItem.getValor().compareTo(new BigDecimal(0)) <= 0){
+				ok = false;
+				new MessageUtil().showWarnMessage("Debe especificar un valor","");
+			}
 		}
-		
+
 		return ok;
-	}*/
+	}
+	
+	public void quitarPago(){
+		if(petformapagoordenItem.getCotformapago().getIdformapago() > 0){
+			int index = -1;
+			for(Petformapagoorden petformapagoorden : lisPetformapagoorden){
+				if(petformapagoorden.getCotformapago().getIdformapago() == petformapagoordenItem.getCotformapago().getIdformapago()){
+					index = lisPetformapagoorden.indexOf(petformapagoorden);
+					break;
+				}
+			}
+			if(index > -1){
+				lisPetformapagoorden.remove(index);
+			}
+		}
+		petformapagoordenItem = new Petformapagoorden(new PetformapagoordenId(), new Cotformapago(), new Petordenservicio(), new Setestado(), new Setusuario(), new BigDecimal(0), null, null, null, null, null);
+		lisCotformapago = new ArrayList<Cotformapago>();
+	}
+	
+	private void calcularTotalPagos(){
+		BigDecimal pagototal = new BigDecimal(0);
+		for(Petformapagoorden petformapagoorden : lisPetformapagoorden){
+			pagototal = pagototal.add(petformapagoorden.getValor());
+		}
+		petordenservicio.setPagototal(pagototal);
+	}
+	
+	public void limpiarVentanaServicio(){
+		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(new PetordenservicioId(0,0), null, null, null), null, null, null, 0, new BigDecimal(0));
+		lisPetservicio = new ArrayList<Petservicio>();
+	}
+	
+	public void limpiarVentanaPagos(){
+		petformapagoordenItem = new Petformapagoorden(new PetformapagoordenId(), new Cotformapago(), new Petordenservicio(), new Setestado(), new Setusuario(), new BigDecimal(0), null, null, null, null, null);
+		lisCotformapago = new ArrayList<Cotformapago>();
+	}
 	
 	private boolean validarServicios()
 	{
 		boolean ok = true;
 		
-		for(Petordenserviciodetalle petordenserviciodetalle : lisPetordenserviciodetalle){
-			if(petordenserviciodetalle.getPetservicio().equals(petordenserviciodetalleItem.getPetservicio())){
-				ok = false;
-				new MessageUtil().showWarnMessage("Servicio repetido","");
-				break;
+		if(petordenserviciodetalleItem.getPetservicio() == null || petordenserviciodetalleItem.getPetservicio().getIdservicio() == 0){
+			ok = false;
+			new MessageUtil().showWarnMessage("Seleccione un Servicio","");
+		}else{
+			for(Petordenserviciodetalle petordenserviciodetalle : lisPetordenserviciodetalle){
+				if(petordenserviciodetalle.getPetservicio().getIdservicio() == petordenserviciodetalleItem.getPetservicio().getIdservicio()){
+					if(!petordenserviciodetalle.getId().equals(petordenserviciodetalleItem.getId())){
+						ok = false;
+						new MessageUtil().showWarnMessage("Servicio repetido","");
+						break;
+					}else{
+						if(petordenserviciodetalle.equals(petordenserviciodetalleItem)){
+							ok = false;
+							new MessageUtil().showWarnMessage("Ningún cambio que agregar","");
+							break;
+						}
+					}
+				}
 			}
+			
+			//Pregunto si precio es mayor a cero
+			/*if(ok && petordenserviciodetalleItem.getPrecio().compareTo(new BigDecimal(0)) <= 0){
+				ok = false;
+				new MessageUtil().showWarnMessage("Debe especificar un precio","");
+			}*/
 		}
 
 		return ok;
@@ -492,18 +696,28 @@ public class OrdenServicioBean implements Serializable {
 				boolean ok = false;
 				
 				PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
-				//petordenservicio.setPetmascotahomenaje(mascotasselected.getPetmascotahomenaje());
 				
 				if(petordenservicio.getCotlugar() == null ||  petordenservicio.getCotlugar().getIdlugar() == 0){
 					petordenservicio.setCotlugar(null);
 					petordenservicioClon.setCotlugar(null);
 				}
 				
+				/*if(petordenservicio.getCotestadopago() == null ||  petordenservicio.getCotestadopago().getIdestadopago() == 0){
+					petordenservicio.setCotestadopago(null);
+					petordenservicioClon.setCotestadopago(null);
+				}*/
+				
+				Cotestadopago cotestadopago = new Cotestadopago();
+				if(petordenservicio.getPagototal().compareTo(petordenservicio.getPreciototal()) >= 0){
+					cotestadopago.setIdestadopago(Parametro.ESTADO_PAGO_CANCELADO);
+				}else{
+					cotestadopago.setIdestadopago(Parametro.ESTADO_PAGO_PORCANCELAR);
+				}
+				petordenservicio.setCotestadopago(cotestadopago);
+				
 				if(petordenservicio.getId().getIdordenservicio() == 0){
-					ok = petordenservicioBO.ingresarPetordenservicio(petordenservicio, lisPetordenserviciodetalle);
+					ok = petordenservicioBO.ingresarPetordenservicio(petordenservicio, lisPetordenserviciodetalle, lisPetformapagoorden);
 					if(ok){
-						//FacesUtil facesUtil = new FacesUtil();
-						//facesUtil.redirect("../admin/ordenservicio.jsf?faces-redirect=true&idordenservicio="+petordenservicio.getId().getIdordenservicio()+"&idanio="+petordenservicio.getId().getIdanio()+"&iditem=40");
 						Utilities utilities = new Utilities();
 						utilities.mostrarPaginaMensaje("Orden de Servicio ingresada con exito!!");
 					}else{
@@ -511,7 +725,7 @@ public class OrdenServicioBean implements Serializable {
 					}
 				}else{
 					Utilities utilities = new Utilities();
-					ok = petordenservicioBO.modificarPetordenservicio(petordenservicio, petordenservicioClon, lisPetordenserviciodetalle, lisPetordenserviciodetalleClon);
+					ok = petordenservicioBO.modificarPetordenservicio(petordenservicio, petordenservicioClon, lisPetordenserviciodetalle, lisPetordenserviciodetalleClon, lisPetformapagoorden, lisPetformapagoordenClon);
 					if(ok){
 						utilities.mostrarPaginaMensaje("Orden de Servicio actualizada con exito!!");
 					}else{
@@ -563,7 +777,7 @@ public class OrdenServicioBean implements Serializable {
 			PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
 			Utilities utilities = new Utilities();
 			
-			boolean ok = petordenservicioBO.eliminarPetordenservicio(petordenservicio,lisPetordenserviciodetalle);
+			boolean ok = petordenservicioBO.eliminarPetordenservicio(petordenservicio,lisPetordenserviciodetalle,lisPetformapagoorden);
 			
 			if(ok){
 				utilities.mostrarPaginaMensaje("Orden de Servicio eliminada con exito!!");
@@ -572,55 +786,6 @@ public class OrdenServicioBean implements Serializable {
 			}
 		}catch(Exception re){
 			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
-		}
-	}
-	
-	/*public void eliminarItem(){
-		try{
-
-			PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
-			petordenserviciodetalleBO.eliminarPetordenserviciodetalle(petordenserviciodetalleItem.getId());
-			
-			petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null);
-			
-			new MessageUtil().showInfoMessage("Registro Eliminado con exito!","");
-		}catch(Exception re){
-			re.printStackTrace();
-			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
-		}
-	}*/
-	
-	public void quitarServicio(){
-		if(petordenserviciodetalleItem.getPetservicio().getIdservicio() > 0){
-			lisPetordenserviciodetalle.remove(petordenserviciodetalleItem);
-		}
-		petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null, null);
-	}
-	
-	public void imprimir2(){
-		try {
-			if(lisPetordenserviciodetalle != null && lisPetordenserviciodetalle.size() > 0){
-				InputStream inputStream = null;
-				String nombreReporte = "OrdenServicio";
-	
-				Map<String, Object> parametros = new HashMap<String, Object>();
-				
-				FileUtil fileUtil = new FileUtil();
-				inputStream = fileUtil.getLogoEmpresaAsStream();
-				if(inputStream != null){
-					parametros.put("P_LOGO", inputStream);
-				}
-				
-				parametros.put("P_IDORDENSERVICIO", petordenservicio.getId().getIdordenservicio());
-				parametros.put("P_IDANIO", petordenservicio.getId().getIdanio());
-				
-				new Utilities().imprimirJasperPdf(nombreReporte, parametros);
-			}else{
-				new MessageUtil().showWarnMessage("Debe ingresar los servicios. Corrija y reintente.","");
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
@@ -785,16 +950,9 @@ public class OrdenServicioBean implements Serializable {
 
 	public void setPetordenserviciodetalleItem(
 			Petordenserviciodetalle petordenserviciodetalleItem) {
-		this.petordenserviciodetalleItem = petordenserviciodetalleItem == null ? new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null, null) : petordenserviciodetalleItem;
-	}
-
-	public LazyDataModel<Petordenserviciodetalle> getLisPetordenserviciodetalleModel() {
-		return lisPetordenserviciodetalleModel;
-	}
-
-	public void setLisPetordenserviciodetalleModel(
-			LazyDataModel<Petordenserviciodetalle> lisPetordenserviciodetalleModel) {
-		this.lisPetordenserviciodetalleModel = lisPetordenserviciodetalleModel;
+		this.petordenserviciodetalleItem = petordenserviciodetalleItem;
+		//this.petordenserviciodetalleItem = petordenserviciodetalleItem == null ? new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(), null, null, null, 0, new BigDecimal(0)) : petordenserviciodetalleItem;
+		//petordenserviciodetalleItem = new Petordenserviciodetalle(new PetordenserviciodetalleId(0,0,0), new Setestado(), new Setusuario(), new Petservicio(), new Petordenservicio(new PetordenservicioId(0,0), null, null, null), null, null, null, 0, new BigDecimal(0));
 	}
 
 	public List<Petordenserviciodetalle> getLisPetordenserviciodetalle() {
@@ -897,14 +1055,6 @@ public class OrdenServicioBean implements Serializable {
 		this.lisRaza = lisRaza;
 	}
 
-	public String getLinkReporte() {
-		return linkReporte;
-	}
-
-	public void setLinkReporte(String linkReporte) {
-		this.linkReporte = linkReporte;
-	}
-
 	public Cottipolugar getCottipolugar() {
 		return cottipolugar;
 	}
@@ -919,6 +1069,54 @@ public class OrdenServicioBean implements Serializable {
 
 	public void setCotpersonabusqueda(Cotpersona cotpersonabusqueda) {
 		this.cotpersonabusqueda = cotpersonabusqueda;
+	}
+
+	public Petordenserviciodetalle getPetordenserviciodetalleSeleccionado() {
+		return petordenserviciodetalleSeleccionado;
+	}
+
+	public void setPetordenserviciodetalleSeleccionado(Petordenserviciodetalle petordenserviciodetalleSeleccionado) {
+		this.petordenserviciodetalleSeleccionado = petordenserviciodetalleSeleccionado;
+	}
+
+	public List<Petformapagoorden> getLisPetformapagoorden() {
+		return lisPetformapagoorden;
+	}
+
+	public void setLisPetformapagoorden(List<Petformapagoorden> lisPetformapagoorden) {
+		this.lisPetformapagoorden = lisPetformapagoorden;
+	}
+
+	public List<Petformapagoorden> getLisPetformapagoordenClon() {
+		return lisPetformapagoordenClon;
+	}
+
+	public void setLisPetformapagoordenClon(List<Petformapagoorden> lisPetformapagoordenClon) {
+		this.lisPetformapagoordenClon = lisPetformapagoordenClon;
+	}
+
+	public Petformapagoorden getPetformapagoordenSeleccionado() {
+		return petformapagoordenSeleccionado;
+	}
+
+	public void setPetformapagoordenSeleccionado(Petformapagoorden petformapagoordenSeleccionado) {
+		this.petformapagoordenSeleccionado = petformapagoordenSeleccionado;
+	}
+
+	public Petformapagoorden getPetformapagoordenItem() {
+		return petformapagoordenItem;
+	}
+
+	public void setPetformapagoordenItem(Petformapagoorden petformapagoordenItem) {
+		this.petformapagoordenItem = petformapagoordenItem;
+	}
+
+	public List<Cotformapago> getLisCotformapago() {
+		return lisCotformapago;
+	}
+
+	public void setLisCotformapago(List<Cotformapago> lisCotformapago) {
+		this.lisCotformapago = lisCotformapago;
 	}
 
 }

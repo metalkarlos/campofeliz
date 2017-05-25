@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import com.web.pet.pojo.annotations.Petfotoservicio;
 import com.web.pet.pojo.annotations.Petservicio;
@@ -159,7 +160,7 @@ public class PetservicioDAO {
 				.createAlias("cotempresa", "emp")
 				.add(Restrictions.eq("emp.idempresa", idempresa))
 				.createAlias("cotoficina", "ofi")
-				.createAlias("serv.petfotoservicios", "foto", Criteria.LEFT_JOIN);
+				.createAlias("serv.petfotoservicios", "foto", JoinType.LEFT_OUTER_JOIN);
 		
 		petservicio = (Petservicio) criteria.uniqueResult();
 		

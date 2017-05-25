@@ -1,5 +1,7 @@
 package com.web.pet.pojo.annotations;
 
+import java.math.BigDecimal;
+
 // Generated 05/03/2014 11:20:16 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
@@ -43,6 +45,7 @@ public class Petservicio implements java.io.Serializable, Cloneable {
 	private String rutafoto;
 	private Set<Petfotoservicio> petfotoservicios = new HashSet<Petfotoservicio>(0);
 	private int orden;
+	private BigDecimal precio;
 
 	public Petservicio() {
 	}
@@ -58,7 +61,7 @@ public class Petservicio implements java.io.Serializable, Cloneable {
 	public Petservicio(int idservicio, Setestado setestado, String rutafoto, 
 			Setusuario setusuario, String nombre, String descripcion, Cotoficina cotoficina, 
 			Cotempresa cotempresa, String tag, Date fecharegistro, String iplog, boolean principal,
-			Date fechamodificacion, Set<Petfotoservicio> petfotoservicios, int orden) {
+			Date fechamodificacion, Set<Petfotoservicio> petfotoservicios, int orden, BigDecimal precio) {
 		this.idservicio = idservicio;
 		this.setestado = setestado;
 		this.cotoficina = cotoficina;
@@ -74,6 +77,7 @@ public class Petservicio implements java.io.Serializable, Cloneable {
 		this.rutafoto = rutafoto;
 		this.petfotoservicios = petfotoservicios;
 		this.orden = orden;
+		this.precio = precio;
 	}
 
 	@Id
@@ -236,6 +240,15 @@ public class Petservicio implements java.io.Serializable, Cloneable {
 	public Petservicio clonar() throws Exception {
 		return (Petservicio)this.clone();
 	}
+	
+	@Column(name = "precio", precision = 5)
+	public BigDecimal getPrecio() {
+		return this.precio;
+	}
+
+	public void setPrecio(BigDecimal precio) {
+		this.precio = precio;
+	}
 
 	@Override
 	public int hashCode() {
@@ -265,6 +278,7 @@ public class Petservicio implements java.io.Serializable, Cloneable {
 		result = prime * result
 				+ ((setusuario == null) ? 0 : setusuario.getIdusuario());
 		result = prime * result + ((tag == null) ? 0 : tag.hashCode());
+		result = prime * result + ((precio == null) ? 0 : precio.hashCode());
 		return result;
 	}
 
@@ -337,6 +351,11 @@ public class Petservicio implements java.io.Serializable, Cloneable {
 			if (other.tag != null)
 				return false;
 		} else if (!tag.equals(other.tag))
+			return false;
+		if (precio == null) {
+			if (other.precio != null)
+				return false;
+		} else if (!precio.equals(other.precio))
 			return false;
 		return true;
 	}

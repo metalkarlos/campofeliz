@@ -1,6 +1,7 @@
 package com.web.pet.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -51,8 +52,8 @@ public class ServicioAdminBean implements Serializable {
 	private long maxfilesize;
 	
 	public ServicioAdminBean() {
-		petservicio = new Petservicio(0, new Setestado(), null, new Setusuario(), null, null, new Cotoficina(), new Cotempresa(), null, null, null, false, new Date(), null, 0);
-		petservicioClon = new Petservicio(0, new Setestado(), null, new Setusuario(), null, null, new Cotoficina(), new Cotempresa(), null, null, null, false, new Date(), null, 0);
+		petservicio = new Petservicio(0, new Setestado(), null, new Setusuario(), null, null, new Cotoficina(), new Cotempresa(), null, null, null, false, new Date(), null, 0, new BigDecimal(0));
+		petservicioClon = new Petservicio(0, new Setestado(), null, new Setusuario(), null, null, new Cotoficina(), new Cotempresa(), null, null, null, false, new Date(), null, 0, new BigDecimal(0));
 		lisPetfotoservicio = new ArrayList<Petfotoservicio>();
 		lisPetfotoservicioClon = new ArrayList<Petfotoservicio>();
 		lisCotoficina = new ArrayList<Cotoficina>();
@@ -186,14 +187,14 @@ public class ServicioAdminBean implements Serializable {
 				if(ok){
 					utilities.mostrarPaginaMensaje("Servicio creado con exito!!");
 				}else{
-					utilities.mostrarPaginaMensaje("No existen cambios que guardar.");
+					new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
 				}
 			}else{
 				ok = petservicioBO.modificar(petservicio, petservicioClon, lisPetfotoservicio, lisPetfotoservicioClon, petfotoservicio, uploadedFile);
 				if(ok){
 					utilities.mostrarPaginaMensaje("Servicio modificado con exito!!");
 				}else{
-					utilities.mostrarPaginaMensaje("No existen cambios que guardar.");
+					new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
 				}
 			}
 		}catch(Exception e){

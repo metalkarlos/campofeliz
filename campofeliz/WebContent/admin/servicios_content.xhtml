@@ -20,7 +20,7 @@
 					validatorMessage="Ingrese sólo letras. Corrija y reintente.">
 					<f:validateRegex pattern="[a-zA-Z ]*" />
 				</p:inputText>
-				<p:commandButton id="lnkbuscar" image="btn-find" update="gridServicios mensajes" />
+				<p:commandButton id="lnkbuscar" icon="btn-find" update="gridServicios mensajes" />
 			</div>
 			<br />
 			<p:dataGrid id="gridServicios"
@@ -30,7 +30,7 @@
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				emptyMessage="No se encontraron registros"
 				paginatorPosition="both">
-				<p:panel header="#{servicio.nombre}" style="text-align:center">
+				<p:panel header="#{servicio.nombre} $#{servicio.precio}" style="text-align:center">
 					<p:column>
 						<div class="inner-content">
 							<div class="cuerpo">

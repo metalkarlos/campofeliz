@@ -1,5 +1,7 @@
 package com.web.pet.pojo.annotations;
 
+import java.math.BigDecimal;
+
 // Generated 29/01/2013 08:42:08 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
@@ -32,6 +34,8 @@ public class Petordenserviciodetalle implements java.io.Serializable, Cloneable 
 	private Date fecharegistro;
 	private String iplog;
 	private Date fechamodificacion;
+	private Integer cantidad;
+	private BigDecimal precio;
 
 	public Petordenserviciodetalle() {
 	}
@@ -46,7 +50,8 @@ public class Petordenserviciodetalle implements java.io.Serializable, Cloneable 
 	public Petordenserviciodetalle(PetordenserviciodetalleId id,
 			Setestado setestado, Setusuario setusuario,
 			Petservicio petservicio, Petordenservicio petordenservicio,
-			Date fecharegistro, String iplog, Date fechamodificacion) {
+			Date fecharegistro, String iplog, Date fechamodificacion,
+			Integer cantidad, BigDecimal precio) {
 		this.id = id;
 		this.setestado = setestado;
 		this.setusuario = setusuario;
@@ -55,6 +60,8 @@ public class Petordenserviciodetalle implements java.io.Serializable, Cloneable 
 		this.fecharegistro = fecharegistro;
 		this.iplog = iplog;
 		this.fechamodificacion = fechamodificacion;
+		this.cantidad = cantidad;
+		this.precio = precio;
 	}
 
 	@EmbeddedId
@@ -150,6 +157,24 @@ public class Petordenserviciodetalle implements java.io.Serializable, Cloneable 
 	public Petordenserviciodetalle clonar() throws Exception {
 		return (Petordenserviciodetalle)this.clone();
 	}
+	
+	@Column(name = "cantidad")
+	public Integer getCantidad() {
+		return this.cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	@Column(name = "precio", precision = 5)
+	public BigDecimal getPrecio() {
+		return this.precio;
+	}
+
+	public void setPrecio(BigDecimal precio) {
+		this.precio = precio;
+	}
 
 	@Override
 	public int hashCode() {
@@ -169,6 +194,8 @@ public class Petordenserviciodetalle implements java.io.Serializable, Cloneable 
 		result = prime * result
 				+ ((setusuario == null) ? 0 : setusuario.getIdusuario());
 		result = prime * result + ((fechamodificacion == null) ? 0 : fechamodificacion.hashCode());
+		result = prime * result + ((cantidad == null) ? 0 : cantidad.hashCode());
+		result = prime * result + ((precio == null) ? 0 : precio.hashCode());
 		return result;
 	}
 
@@ -220,6 +247,16 @@ public class Petordenserviciodetalle implements java.io.Serializable, Cloneable 
 			if (other.fechamodificacion != null)
 				return false;
 		} else if (!fechamodificacion.equals(other.fechamodificacion))
+			return false;
+		if (cantidad == null) {
+			if (other.cantidad != null)
+				return false;
+		} else if (!cantidad.equals(other.cantidad))
+			return false;
+		if (precio == null) {
+			if (other.precio != null)
+				return false;
+		} else if (!precio.equals(other.precio))
 			return false;
 		return true;
 	}

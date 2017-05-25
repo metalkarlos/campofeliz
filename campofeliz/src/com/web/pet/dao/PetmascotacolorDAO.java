@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import com.web.pet.pojo.annotations.Petmascotacolor;
 
@@ -30,7 +31,7 @@ public class PetmascotacolorDAO {
 		Criteria criteria = session.createCriteria(Petmascotacolor.class)
 		.add( Restrictions.eq("petmascotahomenaje.idmascota", idmascota))
 		.add( Restrictions.eq("setestado.idestado", 1))
-		.createAlias("cotcolor", "color", Criteria.LEFT_JOIN);
+		.createAlias("cotcolor", "color", JoinType.LEFT_OUTER_JOIN);
 		
 		lisPetmascotacolor = (List<Petmascotacolor>)criteria.list();
 		

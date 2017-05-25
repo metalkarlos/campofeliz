@@ -429,3 +429,21 @@ input, textarea {
 .ui-selectonemenu-panel .ui-selectonemenu-list {
 	font-size: 12px;
 }
+.tablaServiciosCss tbody tr td:nth-child(2) , .tablaServiciosCss tfoot td:nth-child(2) {
+   text-align: right;
+}
+.tablaServiciosCss table, .tablaServiciosCss .ui-widget-content tr  {
+   border: 1px solid #c8eba7;
+}
+.tablaServiciosCss table tr td:nth-child(3), .tablaServiciosCss thead tr th:nth-child(3)  {
+   width: 50px;
+}
+.tablaPagosCss tbody tr td:nth-child(3) , .tablaPagosCss tfoot td:nth-child(3) {
+   text-align: right;
+}
+.tablaPagosCss table, .tablaPagosCss .ui-widget-content tr  {
+   border: 1px solid #c8eba7;
+}
+.tablaPagosCss table tr td:nth-child(4), .tablaPagosCss thead tr th:nth-child(4)  {
+   width: 50px;
+}
