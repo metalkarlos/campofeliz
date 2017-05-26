@@ -66,7 +66,7 @@
 							</tr>
 							<tr>
 							<td>
-							<h:outputLabel id="idlbltipolugar" value="Tipo Lugar de Fallecimiento: " for="idtipolugar" />
+							<h:outputLabel id="idlbltipolugar" value="Tipo Lugar de Fallecimiento: " for="cmbTipoLugar" />
 							</td>
 							<td>
 							<p:selectOneMenu id="cmbTipoLugar"
@@ -139,7 +139,7 @@
 							</tr>
 							<tr>
 							<td style="width: 25%">
-								<h:outputLabel id="idlblmascota" value="Escriba el Nombre: " for="idmascota" /><span style="color: red;">*</span>
+								<h:outputLabel id="idlblmascota" value="Escriba el Nombre: " for="txtNombreMascota" /><span style="color: red;">*</span>
 							</td>
 							<td style="width: 75%">
 								<p:autoComplete id="txtNombreMascota" size="60" scrollHeight="250"
@@ -273,10 +273,10 @@
 							</tr>
 							<tr>
 							<td>
-								<h:outputLabel id="idlblcolor" value="Color: " for="idfechafallecimiento" />
+								<h:outputLabel id="idlblcolor" value="Color: " for="idcolor" />
 							</td>
 							<td>
-								<ui:repeat var="color"
+								<ui:repeat var="color" id="idcolor"
 									value="#{ordenServicioBean.lisPetmascotacolor}">
 									<div style="float: left; width: 35px; height: 60px;">
 										<center>
@@ -308,7 +308,7 @@
 							<h:outputLabel id="idlblpropietario" value="Nombres: " for="idpropietario" />
 							</td>
 							<td style="width: 75%">
-							<h:link id="idpropietario" outcome="persona.xhtml" title="Consultar/Editar"
+							<h:link id="idpropietario" outcome="persona.xhtml" title="Consultar/Editar" rendered="#{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.idpersona > 0}"
 								value="#{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.nombre1} #{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.nombre2} #{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.apellido1} #{ordenServicioBean.petordenservicio.petmascotahomenaje.cotpersona.apellido2}"
 								target="_blank">
 								<f:param name="idpersona"
@@ -622,7 +622,7 @@
 			<p:growl id="mensajeseditormascota" showDetail="false" sticky="true" autoUpdate="true" />
 			<p:fieldset id="idpaneleditormascota" style="margin-top: 10px"
 				legend="Datos de la Mascota">
-				<p:panelGrid id="idgrideditormascota" style="width: 100%" columnClasses="col1,col2">
+				<p:panelGrid id="idgrideditormascota" style="width: 100%">
 					<p:row>
 					<p:column>
 					<h:outputLabel value="Buscar "	for="cmbMascotaEditor" />
@@ -657,12 +657,12 @@
 									<h:outputText value="Raza: " style="font-weight: bold;" />
 									<h:outputText id="idtoolrazaeditor"	value="#{m.petraza.nombre}" />
 									
-									<h:outputLabel value="Fecha Nacimiento: " />
+									<h:outputLabel value="Fecha Nacimiento: " for="idtoolfechanacimientoeditor" />
 									<h:outputText id="idtoolfechanacimientoeditor" value="#{m.fechanacimiento}">
 										<f:convertDateTime dateStyle="medium" />
 									</h:outputText>
 
-									<h:outputLabel value="Fecha Fallecimiento: " />
+									<h:outputLabel value="Fecha Fallecimiento: " for="idtoolfechafallecimientoeditor" />
 									<h:outputText id="idtoolfechafallecimientoeditor" value="#{m.fechafallecimiento}">
 										<f:convertDateTime dateStyle="medium" />
 									</h:outputText>
@@ -672,9 +672,6 @@
 								</h:panelGrid>
 							</f:facet>
 						</p:autoComplete>
-					</p:column>
-					<p:column>
-					<p:message id="msgcmbMascotaEditor" for="cmbMascotaEditor" display="icon" />
 					</p:column>
 					</p:row>
 					
@@ -686,9 +683,6 @@
 					<p:inputText id="txtCodVeterinariaEditor" required="false" requiredMessage="Código Veterinaria es Obligatorio"
 						value="#{ordenServicioBean.petmascotahomenajeEditor.idmascotaveterinaria}" />
 					</p:column>
-					<p:column>
-					<p:message id="msgtxtCodVeterinariaEditor" for="txtCodVeterinariaEditor" display="icon" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
@@ -698,9 +692,6 @@
 					<p:column>
 					<p:inputText id="txtNombreMascotaEditor" required="false" requiredMessage="Nombre de Mascota es Obligatorio"
 						value="#{ordenServicioBean.petmascotahomenajeEditor.nombre}" />
-					</p:column>
-					<p:column>
-					<p:message id="msgtxtNombreMascotaEditor" for="txtNombreMascotaEditor" display="icon" />
 					</p:column>
 					</p:row>
 					
@@ -719,9 +710,6 @@
 						<f:ajax event="change" listener="#{ordenServicioBean.llenarLisRaza()}" render=":form-contentpage:cmbRazaEditor" />
 					</p:selectOneMenu>
 					</p:column>
-					<p:column>
-					<p:message id="msgcmbEspecieEditor" for="cmbEspecieEditor" display="icon" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
@@ -737,9 +725,6 @@
 							itemLabel="#{raza.nombre}" itemValue="#{raza.idraza}" />
 					</p:selectOneMenu>
 					</p:column>
-					<p:column>
-					<p:message id="msgcmbRazaEditor" for="cmbRazaEditor" display="icon" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
@@ -753,9 +738,6 @@
 						yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy"
 						navigator="true" />
 					</p:column>
-					<p:column>
-					<p:message id="msgtxtFechaNacimientoEditor" for="txtFechaNacimientoEditor" display="icon" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
@@ -767,9 +749,6 @@
 						value="#{ordenServicioBean.petmascotahomenajeEditor.fechafallecimiento}"
 						yearRange="c-20:c" locale="es" pattern="dd/MM/yyyy"
 						navigator="true" />
-					</p:column>
-					<p:column>
-					<p:message id="msgtxtFechaFallecimientoEditor" for="txtFechaFallecimientoEditor" display="icon" />
 					</p:column>
 					</p:row>
 					
@@ -784,15 +763,12 @@
 						<f:selectItem itemLabel="Hembra" itemValue="2" />
 					</p:selectOneMenu>
 					</p:column>
-					<p:column>
-					<p:message id="msgcmbSexoEditor" for="cmbSexoEditor" display="icon" />
-					</p:column>
 					</p:row>
 				</p:panelGrid>
 			</p:fieldset>
 			<p:fieldset id="idpaneleditorpropietario" style="margin-top: 10px"
 				legend="Datos del Propietario">
-				<p:panelGrid id="idgrideditorpropietario" style="width: 100%" columnClasses="col1,col2">
+				<p:panelGrid id="idgrideditorpropietario" style="width: 100%">
 				
 					<p:row>
 					<p:column>
@@ -810,9 +786,6 @@
 							update=":form-contentpage:idgrideditorpropietario, :form-contentpage:mensajes"></p:ajax>
 					</p:autoComplete>
 					</p:column>
-					<p:column>
-					<p:message id="msgcmbPropietarioEditor" for="cmbPropietarioEditor" display="icon" />
-					</p:column>
 					</p:row>
 				
 					<p:row>
@@ -822,9 +795,6 @@
 					<p:column>
 					<p:inputText id="txtPrimerNombreEditor" required="false" requiredMessage="Primer Nombre del Propietario es Obligatorio"
 						value="#{ordenServicioBean.cotpersonaEditor.nombre1}" />
-					</p:column>
-					<p:column>
-					<p:message id="msgtxtPrimerNombreEditor" for="txtPrimerNombreEditor" display="icon" />
 					</p:column>
 					</p:row>
 					
@@ -849,9 +819,6 @@
 					<p:column>
 					<p:inputText id="txtPrimerApellidoEditor" required="false" requiredMessage="Primer Apellido del Propietario es Obligatorio"
 						value="#{ordenServicioBean.cotpersonaEditor.apellido1}" />
-					</p:column>
-					<p:column>
-					<p:message id="msgtxtPrimerApellidoEditor" for="txtPrimerApellidoEditor" display="icon" />
 					</p:column>
 					</p:row>
 
@@ -880,9 +847,6 @@
 						<f:selectItem itemLabel="Mujer" itemValue="2" />
 					</p:selectOneMenu>
 					</p:column>
-					<p:column>
-					<p:message id="msgcmbSexoPropietarioEditor" for="cmbSexoPropietarioEditor" display="icon" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
@@ -893,9 +857,6 @@
 					<p:inputText id="txtTelefonoEditor" required="false" requiredMessage="Teléfono del Propietario es Obligatorio"
 						value="#{ordenServicioBean.cotpersonaEditor.telefono}" />
 					</p:column>
-					<p:column>
-					<p:message id="msgtxtTelefonoEditor" for="txtTelefonoEditor" display="icon" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
@@ -905,9 +866,6 @@
 					<p:column>
 						<p:inputTextarea id="txtDireccionEditor" value="#{ordenServicioBean.cotpersonaEditor.direccion}" autoResize="false" />
 					</p:column>
-					<p:column>
-					<p:message id="msgtxtDireccionEditor" for="txtDireccionEditor" display="icon" />
-					</p:column>
 					</p:row>
 					
 					<p:row>
@@ -916,9 +874,6 @@
 					</p:column>
 					<p:column>
 						<p:inputText id="txtEmailEditor" value="#{ordenServicioBean.cotpersonaEditor.email}" />
-					</p:column>
-					<p:column>
-					<p:message id="msgtxtEmailEditor" for="txtEmailEditor" display="icon" />
 					</p:column>
 					</p:row>
 					

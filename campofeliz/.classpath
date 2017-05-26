@@ -36,6 +36,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jsf">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+			<attribute name="owner.project.facets" value="#system#;jst.jsf"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jstl">
