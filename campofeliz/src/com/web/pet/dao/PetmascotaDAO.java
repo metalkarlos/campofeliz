@@ -28,10 +28,11 @@ public class PetmascotaDAO {
 		Criteria criteria = session.createCriteria(Petmascotahomenaje.class)
 		.add( Restrictions.eq("idmascota", id) )
 		.add( Restrictions.eq("setestado.idestado", 1))
-		.createAlias("cotpersona","persona", JoinType.LEFT_OUTER_JOIN)
+		.createAlias("cotpersona","p", JoinType.LEFT_OUTER_JOIN)
+		.createAlias("p.cottipoidentificacion", "t1", JoinType.LEFT_OUTER_JOIN)
 		.createAlias("petraza","raza", JoinType.LEFT_OUTER_JOIN)
 		.createAlias("petespecie", "especie")
-		.createAlias("cottipoidentificacion", "tipoidentificacion", JoinType.LEFT_OUTER_JOIN)
+		.createAlias("cottipoidentificacion", "t2", JoinType.LEFT_OUTER_JOIN)
 		//.createAlias("petfotomascotas", "foto", Criteria.LEFT_JOIN, Restrictions.eq("foto.setestado.idestado", 1))
 		//.add( Restrictions.eq("foto.setestado.idestado", 1))
 		;
@@ -112,6 +113,7 @@ public class PetmascotaDAO {
 		.add( Restrictions.eq("setestado.idestado", 1) )
 		.createAlias("petraza", "r", JoinType.LEFT_OUTER_JOIN)
 		.createAlias("cotpersona", "p", JoinType.LEFT_OUTER_JOIN)
+		.createAlias("p.cottipoidentificacion", "tid", JoinType.LEFT_OUTER_JOIN)
 		.createAlias("petespecie", "e");
 		
 		if(nombre != null && nombre.trim().length() > 0){

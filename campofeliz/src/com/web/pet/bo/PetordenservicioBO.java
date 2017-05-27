@@ -429,7 +429,8 @@ public class PetordenservicioBO {
 	}
 
 	public boolean grabarMascotaBasico(Petmascotahomenaje petmascotahomenaje, Petmascotahomenaje petmascotahomenajeClon, Cotpersona cotpersona, Cotpersona cotpersonaClon) throws Exception {
-		boolean ok = false;
+		boolean okPersona = false;
+		boolean okMascota = false;
 		Session session = null;
 		
 		try{
@@ -440,9 +441,9 @@ public class PetordenservicioBO {
 			
 			if(cotpersona.getIdpersona() == 0){
 				//cotpersonaBO.grabarPersonaBasico(session, cotpersona);
-				ok = cotpersonaBO.ingresarCotpersona(cotpersona, null, null, session);
+				okPersona = cotpersonaBO.ingresarCotpersona(cotpersona, null, null, session);
 			}else{
-				ok = cotpersonaBO.modificarCotpersona(cotpersona, cotpersonaClon, new ArrayList<Cotfotopersona>(), new ArrayList<Cotfotopersona>(), null, null, session);
+				okPersona = cotpersonaBO.modificarCotpersona(cotpersona, cotpersonaClon, new ArrayList<Cotfotopersona>(), new ArrayList<Cotfotopersona>(), null, null, session);
 			}
 			
 			PetmascotaBO petmascotaBO = new PetmascotaBO();
@@ -450,22 +451,22 @@ public class PetordenservicioBO {
 			
 			if(petmascotahomenaje.getIdmascota() == 0){
 				//petmascotaBO.grabarMascotaBasico(session, petmascotahomenaje);
-				ok = petmascotaBO.ingresarMascota(petmascotahomenaje, new ArrayList<Petmascotacolor>(), null, null, session);
+				okMascota = petmascotaBO.ingresarMascota(petmascotahomenaje, new ArrayList<Petmascotacolor>(), null, null, session);
 			}else{
-				ok = petmascotaBO.modificarMascota(petmascotahomenaje, petmascotahomenajeClon, new ArrayList<Petfotomascota>(), new ArrayList<Petfotomascota>(), new ArrayList<Petmascotacolor>(), new ArrayList<Petmascotacolor>(), null, null, session);
+				okMascota = petmascotaBO.modificarMascota(petmascotahomenaje, petmascotahomenajeClon, new ArrayList<Petfotomascota>(), new ArrayList<Petfotomascota>(), new ArrayList<Petmascotacolor>(), new ArrayList<Petmascotacolor>(), null, null, session);
 			}
 			
-			if(ok){
+			if(okPersona || okMascota){
 				session.getTransaction().commit();
 			}
 		}catch(Exception he){
-			ok = false;
+			okPersona = false;
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{
 			session.close();
 		}
 		
-		return ok;
+		return okPersona;
 	}
 }

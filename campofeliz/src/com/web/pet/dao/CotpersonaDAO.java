@@ -70,7 +70,8 @@ public class CotpersonaDAO {
 		List<Cotpersona> lisCotpersona = null;
 		
 		Criteria criteria = session.createCriteria(Cotpersona.class)
-		.add( Restrictions.eq("setestado.idestado", 1));
+		.add( Restrictions.eq("setestado.idestado", 1))
+		.createAlias("cottipoidentificacion", "tid", JoinType.LEFT_OUTER_JOIN);
 		
 		if(nombres != null && nombres.length > 0){
 			String query = "(";
@@ -101,7 +102,8 @@ public class CotpersonaDAO {
 		if(lisCotpersona != null && lisCotpersona.size() > 0){
 			Criteria criteriaCount = session.createCriteria(Cotpersona.class)
 			.setProjection( Projections.rowCount())
-			.add( Restrictions.eq("setestado.idestado", 1));
+			.add( Restrictions.eq("setestado.idestado", 1))
+			.createAlias("cottipoidentificacion", "tid", JoinType.LEFT_OUTER_JOIN);
 			
 			if(nombres != null && nombres.length > 0){
 				String query = "(";

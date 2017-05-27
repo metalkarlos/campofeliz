@@ -15,6 +15,7 @@ import org.primefaces.context.RequestContext;
 import com.web.pet.bo.CotformapagoBO;
 import com.web.pet.bo.CotlugarBO;
 import com.web.pet.bo.CotpersonaBO;
+import com.web.pet.bo.CottipoidentificacionBO;
 import com.web.pet.bo.CottipolugarBO;
 import com.web.pet.bo.PetespecieBO;
 import com.web.pet.bo.PetformapagoordenBO;
@@ -74,6 +75,7 @@ public class OrdenServicioBean implements Serializable {
 	private Cotpersona cotpersonaEditor;
 	private Cotpersona cotpersonaEditorClon;
 	private Cotpersona cotpersonabusqueda;
+	private List<Cottipoidentificacion> lisCottipoidentificacion;
 	private List<Petespecie> lisPetespecie;
 	private List<Petraza> lisRaza;
 		
@@ -104,11 +106,12 @@ public class OrdenServicioBean implements Serializable {
 		petmascotahomenajeEditorSeleccionar = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
 		petmascotahomenajeEditor = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
 		petmascotahomenajeEditorClon = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
-		cotpersonaEditorSeleccionar = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
-		cotpersonaEditor = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
-		cotpersonaEditorClon = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
-		cotpersonabusqueda = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+		cotpersonaEditorSeleccionar = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+		cotpersonaEditor = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+		cotpersonaEditorClon = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+		cotpersonabusqueda = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 		inicializarEspecieMascota();
+		llenarLisTipoidentificacion();
 		
 		//Seccion de Servicios
 		lisPetordenserviciodetalle = new ArrayList<Petordenserviciodetalle>();
@@ -292,6 +295,21 @@ public class OrdenServicioBean implements Serializable {
 		}
 	}
 	
+	private void llenarLisTipoidentificacion(){
+		try{
+			lisCottipoidentificacion = new ArrayList<Cottipoidentificacion>();
+			
+			CottipoidentificacionBO cottipoidentificacionBO = new CottipoidentificacionBO();
+			List<Cottipoidentificacion> lisTmp = cottipoidentificacionBO.lisCottipoidentificacion();
+			if(lisTmp != null && lisTmp.size() > 0){
+				lisCottipoidentificacion.addAll(lisTmp);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
 	public List<Petmascotahomenaje> buscarMascotas(String query) {
 		List<Petmascotahomenaje> lisPetmascotahomenaje = new ArrayList<Petmascotahomenaje>();
 		
@@ -339,7 +357,7 @@ public class OrdenServicioBean implements Serializable {
 		try{
 			cotpersonaEditor = cotpersonaEditorSeleccionar.clonar();
 			cotpersonaEditorClon = cotpersonaEditorSeleccionar.clonar();
-			cotpersonaEditorSeleccionar = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+			cotpersonaEditorSeleccionar = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 		}catch(Exception e) {
 			e.printStackTrace();
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
@@ -371,8 +389,8 @@ public class OrdenServicioBean implements Serializable {
 					cotpersonaEditor = petmascotahomenajeEditor.getCotpersona().clonar();
 					cotpersonaEditorClon = petmascotahomenajeEditor.getCotpersona().clonar();
 				}else{
-					cotpersonaEditor = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
-					cotpersonaEditorClon = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+					cotpersonaEditor = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+					cotpersonaEditorClon = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 				}
 				if(petmascotahomenajeEditor.getPetraza() == null){
 					petmascotahomenajeEditor.setPetraza(new Petraza());
@@ -923,9 +941,9 @@ public class OrdenServicioBean implements Serializable {
 	public void limpiarEditorMascotaResumido(){
 		petmascotahomenajeEditor = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
 		petmascotahomenajeEditorClon = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),1,new BigDecimal(0),null,false,false,null);
-		cotpersonaEditor = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
-		cotpersonaEditorClon = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
-		cotpersonabusqueda = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+		cotpersonaEditor = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+		cotpersonaEditorClon = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+		cotpersonabusqueda = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 	}
 	
 	public int getIdordenservicio() {
@@ -1157,6 +1175,14 @@ public class OrdenServicioBean implements Serializable {
 
 	public void setCotpersonaEditorSeleccionar(Cotpersona cotpersonaEditorSeleccionar) {
 		this.cotpersonaEditorSeleccionar = cotpersonaEditorSeleccionar;
+	}
+
+	public List<Cottipoidentificacion> getLisCottipoidentificacion() {
+		return lisCottipoidentificacion;
+	}
+
+	public void setLisCottipoidentificacion(List<Cottipoidentificacion> lisCottipoidentificacion) {
+		this.lisCottipoidentificacion = lisCottipoidentificacion;
 	}
 
 }

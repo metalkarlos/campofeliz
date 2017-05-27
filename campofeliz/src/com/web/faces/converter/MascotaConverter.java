@@ -39,7 +39,7 @@ public class MascotaConverter implements Converter {
 							petmascotahomenaje.setCottipoidentificacion(new Cottipoidentificacion(0,null,null));
 						}
 						if(petmascotahomenaje.getCotpersona() == null){
-							petmascotahomenaje.setCotpersona(new Cotpersona());
+							petmascotahomenaje.setCotpersona(new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null));
 						}
 						if(petmascotahomenaje.getCottipoidentificacion() == null){
 							petmascotahomenaje.setCottipoidentificacion(new Cottipoidentificacion());

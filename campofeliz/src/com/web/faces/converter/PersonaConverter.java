@@ -7,6 +7,7 @@ import javax.faces.convert.FacesConverter;
 
 import com.web.pet.bo.CotpersonaBO;
 import com.web.pet.pojo.annotations.Cotpersona;
+import com.web.pet.pojo.annotations.Cottipoidentificacion;
 import com.web.pet.pojo.annotations.Setestado;
 import com.web.pet.pojo.annotations.Setusuario;
 import com.web.util.MessageUtil;
@@ -21,7 +22,7 @@ public class PersonaConverter implements Converter {
                 int id = Integer.parseInt(submittedValue);
                 Cotpersona cotpersona = new CotpersonaBO().getCotpersonaById(id);
                 if(cotpersona == null){
-                	cotpersona = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+                	cotpersona = new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
                 }
                 return cotpersona;
             } catch(Exception ex) {
