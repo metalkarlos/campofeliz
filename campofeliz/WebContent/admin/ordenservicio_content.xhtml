@@ -806,23 +806,6 @@
 				
 					<p:row>
 					<p:column>
-						<h:outputLabel value="No. Cédula: " for="cmbTipoIdentificacion" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="cmbTipoIdentificacion" style="width:100px;float: left;"
-							value="#{ordenServicioBean.cotpersonaEditor.cottipoidentificacion.idtipoidentificacion}">
-							<f:selectItem itemLabel="Seleccione" itemValue="" />
-							<f:selectItems value="#{ordenServicioBean.lisCottipoidentificacion}"
-								var="i" itemLabel="#{i.nombre}"
-								itemValue="#{i.idtipoidentificacion}" />
-						</p:selectOneMenu>
-						<p:inputText id="txtNumeroIdentificacion" style="width:110px;"
-						value="#{ordenServicioBean.cotpersonaEditor.numeroidentificacion}" size="15" />
-					</p:column>
-					</p:row>
-				
-					<p:row>
-					<p:column>
 					<h:outputLabel value="Primer Nombre: " for="txtPrimerNombreEditor" /><span style="color: red;">*</span>
 					</p:column>
 					<p:column>
@@ -866,6 +849,23 @@
 					</p:column>
 					<p:column>
 					<h:outputText value="" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+						<h:outputLabel value="No. Cédula: " for="cmbTipoIdentificacion" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="cmbTipoIdentificacion" style="width:100px;float: left;"
+							value="#{ordenServicioBean.cotpersonaEditor.cottipoidentificacion.idtipoidentificacion}">
+							<f:selectItem itemLabel="Seleccione" itemValue="" />
+							<f:selectItems value="#{ordenServicioBean.lisCottipoidentificacion}"
+								var="i" itemLabel="#{i.nombre}"
+								itemValue="#{i.idtipoidentificacion}" />
+						</p:selectOneMenu>
+						<p:inputText id="txtNumeroIdentificacion" style="width:110px;"
+						value="#{ordenServicioBean.cotpersonaEditor.numeroidentificacion}" size="15" />
 					</p:column>
 					</p:row>
 					

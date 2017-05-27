@@ -854,6 +854,11 @@ public class OrdenServicioBean implements Serializable {
 					petmascotahomenajeEditorClon.setCottipoidentificacion(null);
 				}
 				
+				if(cotpersonaEditor.getCottipoidentificacion() == null ||  cotpersonaEditor.getCottipoidentificacion().getIdtipoidentificacion() == 0){
+					cotpersonaEditor.setCottipoidentificacion(null);
+					cotpersonaEditorClon.setCottipoidentificacion(null);
+				}
+				
 				PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
 				
 				ok = petordenservicioBO.grabarMascotaBasico(petmascotahomenajeEditor, petmascotahomenajeEditorClon, cotpersonaEditor, cotpersonaEditorClon);
