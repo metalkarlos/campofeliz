@@ -69,6 +69,7 @@ public class MascotaBean implements Serializable {
 	private String descripcionFoto;
 	private boolean fotoSubida;
 	private long maxfilesize;
+	private Cotpersona cotpersonaSeleccionar;
 
 	public MascotaBean() {
 		petmascotahomenaje = new Petmascotahomenaje(0,new Setestado(),new Setusuario(),new Petespecie(),null,null,null,null,null,null,null,null,null,null,null,null,new Petraza(),new Cotpersona(),new Cottipoidentificacion(),0,new BigDecimal(0),null,false,false,null);
@@ -83,6 +84,7 @@ public class MascotaBean implements Serializable {
 		lisPetfotomascotaClon = new ArrayList<Petfotomascota>();
 		petfotomascotaSeleccionado = new Petfotomascota();
 		maxfilesize = Parametro.TAMAÑO_IMAGEN;
+		cotpersonaSeleccionar = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
 
 		llenarLisTipoidentificacion();
 		llenarLisColor();
@@ -276,18 +278,16 @@ public class MascotaBean implements Serializable {
 	public List<Cotpersona> buscarPropietarios(String query) {
 		List<Cotpersona> lisPropietarios = new ArrayList<Cotpersona>();
 		
-		List<Cotpersona> lisCotpersona = new ArrayList<Cotpersona>();
-		CotpersonaBO cotpersonaBO = new CotpersonaBO();
-		int args[] = {0};
-		String[] nombres = null;
 		if(query != null && query.trim().length() > 0){
-			nombres = query.split(" ");
-		}
-		lisCotpersona = cotpersonaBO.lisCotpersonaByPage(nombres, 10, 0, args);
-		
-		if(lisCotpersona != null && lisCotpersona.size() > 0){
-			for(Cotpersona cotpersona : lisCotpersona){
-				lisPropietarios.add(cotpersona);
+			CotpersonaBO cotpersonaBO = new CotpersonaBO();
+			String[] nombres = query.split(" ");
+			int args[] = {0};
+			List<Cotpersona> lisCotpersona = cotpersonaBO.lisCotpersonaByPage(nombres, 20, 0, args);
+			
+			if(lisCotpersona != null && lisCotpersona.size() > 0){
+				for(Cotpersona cotpersona : lisCotpersona){
+					lisPropietarios.add(cotpersona);
+				}
 			}
 		}
 		
@@ -674,6 +674,14 @@ public class MascotaBean implements Serializable {
 
 	public long getMaxfilesize() {
 		return maxfilesize;
+	}
+
+	public Cotpersona getCotpersonaSeleccionar() {
+		return cotpersonaSeleccionar;
+	}
+
+	public void setCotpersonaSeleccionar(Cotpersona cotpersonaSeleccionar) {
+		this.cotpersonaSeleccionar = cotpersonaSeleccionar;
 	}
 
 }

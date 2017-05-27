@@ -29,7 +29,8 @@ public class CottipolugarDAO {
 		List<Cottipolugar> lisCottipolugar = null;
 		
 		Criteria criteria = session.createCriteria(Cottipolugar.class)
-		.add( Restrictions.eq("setestado.idestado", 1) );
+		.add( Restrictions.eq("setestado.idestado", 1) )
+		.addOrder(Order.asc("nombre").ignoreCase());
 		
 		lisCottipolugar = (List<Cottipolugar>) criteria.list();
 		

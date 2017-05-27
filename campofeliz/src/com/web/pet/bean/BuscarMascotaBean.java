@@ -93,7 +93,7 @@ public class BuscarMascotaBean implements Serializable {
 	private void llenarPettipo(){
 		try{
 			PetespecieBO pettipoBO = new PetespecieBO();
-			setLisPetespecie(pettipoBO.lisPetespecie());
+			lisPetespecie = pettipoBO.lisPetespecie();
 		}catch(Exception re){
 			re.printStackTrace();
 			new MessageUtil().showFatalMessage(re.getMessage(),"");

@@ -38,7 +38,7 @@ public class PetrazaDAO {
 		
 		Criteria criteria = session.createCriteria(Petraza.class)
 		.add( Restrictions.eq("setestado.idestado", 1))
-		.addOrder(Order.asc("nombre"));
+		.addOrder(Order.asc("nombre").ignoreCase());
 		
 		if(idespecie > 0) {
 			criteria.add( Restrictions.eq("petespecie.idespecie", new Integer(idespecie)));

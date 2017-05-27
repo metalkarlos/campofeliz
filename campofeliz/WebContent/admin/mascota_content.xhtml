@@ -197,15 +197,31 @@
 					
 					<p:row>
 					<p:column>
-					<p:autoComplete id="cmbPropietario" size="80"
-						value="#{mascotaBean.petmascotahomenaje.cotpersona}"
+					<p:autoComplete id="cmbPropietario" size="80" scrollHeight="250"
+						value="#{mascotaBean.cotpersonaSeleccionar}"
 						completeMethod="#{mascotaBean.buscarPropietarios}" var="p"
-						itemLabel="#{p.nombre1} #{p.nombre2} #{p.apellido1} #{p.apellido2}"
+						itemLabel="#{p.nombre1 == null || p.nombre1.length() == 0 ? '' : p.nombre1.concat(' ')}#{p.nombre2 == null || p.nombre2.length() == 0 ? '' : p.nombre2.concat(' ')}#{p.apellido1 == null || p.apellido1.length() == 0 ? '' : p.apellido1.concat(' ')}#{p.apellido2 == null || p.apellido2.length() == 0 ? '' : p.apellido2.concat(' ')}"
 						itemValue="#{p}" converter="persona" minQueryLength="1"
 						forceSelection="true" required="true"
 						requiredMessage="El Propietario de la Mascota es obligatorio">
 						<p:ajax event="itemSelect"
 							update=":form-contentpage:idpanelpropietario, :form-contentpage:mensajes"></p:ajax>
+							
+						<f:facet name="itemtip">
+							<h:panelGrid columns="2" cellpadding="5" width="350px">
+								<h:outputText value="Nombres: " style="font-weight: bold;" />
+								<h:outputText value="#{p.nombre1 == null || p.nombre1.length() == 0 ? '' : p.nombre1.concat(' ')}#{p.nombre2 == null || p.nombre2.length() == 0 ? '' : p.nombre2.concat(' ')}#{p.apellido1 == null || p.apellido1.length() == 0 ? '' : p.apellido1.concat(' ')}#{p.apellido2 == null || p.apellido2.length() == 0 ? '' : p.apellido2.concat(' ')}" />
+									
+								<h:outputText value="C.I.: " style="font-weight: bold;" />
+								<h:outputText value="#{p.numeroidentificacion}" />
+	
+								<h:outputText value="Teléfono: " style="font-weight: bold;" />
+								<h:outputText value="#{p.telefono}" />
+									
+								<h:outputText value="E-mail: " style="font-weight: bold;" />
+								<h:outputText value="#{p.email}" />
+							</h:panelGrid>
+						</f:facet>
 					</p:autoComplete>
 					</p:column>
 					<p:column>

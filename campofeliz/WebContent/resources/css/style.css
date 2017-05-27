@@ -447,3 +447,9 @@ input, textarea {
 .tablaPagosCss table tr td:nth-child(4), .tablaPagosCss thead tr th:nth-child(4)  {
    width: 50px;
 }
+.tablaEditorMascotaCss {
+	width: 100%;
+}
+.tablaEditorMascotaCss tbody tr td:nth-child(1) {
+	width: 40%;
+}

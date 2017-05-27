@@ -143,7 +143,7 @@
 							</td>
 							<td style="width: 75%">
 								<p:autoComplete id="txtNombreMascota" size="60" scrollHeight="250"
-									value="#{ordenServicioBean.petordenservicio.petmascotahomenaje}"
+									value="#{ordenServicioBean.petmascotahomenajeSeleccionar}"
 									completeMethod="#{ordenServicioBean.buscarMascotas}" var="m"
 									itemLabel="#{m.nombre}" itemValue="#{m}"
 									converter="mascota" minQueryLength="1" forceSelection="true"
@@ -622,14 +622,14 @@
 			<p:growl id="mensajeseditormascota" showDetail="false" sticky="true" autoUpdate="true" />
 			<p:fieldset id="idpaneleditormascota" style="margin-top: 10px"
 				legend="Datos de la Mascota">
-				<p:panelGrid id="idgrideditormascota" style="width: 100%">
+				<p:panelGrid id="idgrideditormascota" styleClass="tablaEditorMascotaCss">
 					<p:row>
 					<p:column>
 					<h:outputLabel value="Buscar "	for="cmbMascotaEditor" />
 					</p:column>
 					<p:column>
 						<p:autoComplete id="cmbMascotaEditor" scrollHeight="250"
-							value="#{ordenServicioBean.petmascotahomenajeEditor}"
+							value="#{ordenServicioBean.petmascotahomenajeEditorSeleccionar}"
 							completeMethod="#{ordenServicioBean.buscarMascotas}" var="m"
 							itemLabel="#{m.nombre}" itemValue="#{m}"
 							converter="mascota" minQueryLength="1" forceSelection="true">
@@ -768,7 +768,7 @@
 			</p:fieldset>
 			<p:fieldset id="idpaneleditorpropietario" style="margin-top: 10px"
 				legend="Datos del Propietario">
-				<p:panelGrid id="idgrideditorpropietario" style="width: 100%">
+				<p:panelGrid id="idgrideditorpropietario" styleClass="tablaEditorMascotaCss">
 				
 					<p:row>
 					<p:column>
@@ -776,14 +776,30 @@
 						for="cmbPropietarioEditor" />
 					</p:column>
 					<p:column>
-					<p:autoComplete id="cmbPropietarioEditor" 
-						value="#{ordenServicioBean.cotpersonaEditor}"
+					<p:autoComplete id="cmbPropietarioEditor" size="80" scrollHeight="250"
+						value="#{ordenServicioBean.cotpersonaEditorSeleccionar}" 
 						completeMethod="#{ordenServicioBean.buscarPropietarios}" var="p"
-						itemLabel="#{p.nombre1} #{p.nombre2} #{p.apellido1} #{p.apellido2}"
+						itemLabel="#{p.nombre1 == null || p.nombre1.length() == 0 ? '' : p.nombre1.concat(' ')}#{p.nombre2 == null || p.nombre2.length() == 0 ? '' : p.nombre2.concat(' ')}#{p.apellido1 == null || p.apellido1.length() == 0 ? '' : p.apellido1.concat(' ')}#{p.apellido2 == null || p.apellido2.length() == 0 ? '' : p.apellido2.concat(' ')}"
 						itemValue="#{p}" converter="persona" minQueryLength="1"
 						forceSelection="true" >
 						<p:ajax event="itemSelect" listener="#{ordenServicioBean.seleccionarPropietarioEditor()}"
 							update=":form-contentpage:idgrideditorpropietario, :form-contentpage:mensajes"></p:ajax>
+							
+						<f:facet name="itemtip">
+							<h:panelGrid columns="2" cellpadding="5" width="350px">
+								<h:outputText value="Nombres: " style="font-weight: bold;" />
+								<h:outputText value="#{p.nombre1 != null ? p.nombre1.concat(' ') : ''}#{p.nombre2 != null ? p.nombre2.concat(' ') : ''}#{p.apellido1 != null ? p.apellido1.concat(' ') : ''}#{p.apellido2 != null ? p.apellido2.concat(' ') : ''}" />
+									
+								<h:outputText value="C.I.: " style="font-weight: bold;" />
+								<h:outputText value="#{p.numeroidentificacion}" />
+	
+								<h:outputText value="Teléfono: " style="font-weight: bold;" />
+								<h:outputText value="#{p.telefono}" />
+									
+								<h:outputText value="E-mail: " style="font-weight: bold;" />
+								<h:outputText value="#{p.email}" />
+							</h:panelGrid>
+						</f:facet>
 					</p:autoComplete>
 					</p:column>
 					</p:row>
