@@ -453,3 +453,18 @@ input, textarea {
 .tablaEditorMascotaCss tbody tr td:nth-child(1) {
 	width: 40%;
 }
+.tablaSolicitudesCss table tr td:nth-child(1) {
+	width: 15%;
+}
+.tablaSolicitudesCss table tr td:nth-child(2) {
+	width: 15%;
+}
+.tablaSolicitudesCss tbody tr td:nth-child(2) {
+	text-align: right;
+}
+.tablaSolicitudesCss table tr td:nth-child(3) {
+	width: 35%;
+}
+.tablaSolicitudesCss table tr td:nth-child(4) {
+	width: 35%;
+}
