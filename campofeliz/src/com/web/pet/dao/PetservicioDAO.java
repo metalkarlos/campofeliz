@@ -57,29 +57,16 @@ public class PetservicioDAO {
 	public List<Petservicio> lisPetservicio(Session session, int idempresa, int idoficina) throws Exception {
 		List<Petservicio> lisPetservicio = null;
 		
-		//String hql = " from Petservicio ";
-		//hql += " where setestado.idestado = :idestado ";
-		
 		Criteria criteria = session.createCriteria(Petservicio.class)
-		.createAlias("cotoficina", "ofi")
-		.add( Restrictions.eq("ofi.idoficina", idoficina))
 		.createAlias("cotempresa", "emp")
 		.add( Restrictions.eq("emp.idempresa", idempresa))
 		.add( Restrictions.eq("setestado.idestado", 1))
 		.addOrder(Order.asc("nombre"));
 		
-		/*if(idempresa > 0){
-			hql += " and cotempresa.idempresa = " + idempresa;
-		}
-		
 		if(idoficina > 0){
-			hql += " and cotoficina.idoficina = " + idoficina;
+			criteria.createAlias("cotoficina", "ofi")
+			.add( Restrictions.eq("ofi.idoficina", idoficina));
 		}
-		
-		hql += " order by nombre ";
-		
-		Query query = session.createQuery(hql)
-				.setInteger("idestado", 1);*/
 		
 		lisPetservicio = (List<Petservicio>) criteria.list();
 		

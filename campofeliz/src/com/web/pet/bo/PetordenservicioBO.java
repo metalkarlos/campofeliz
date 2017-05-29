@@ -461,12 +461,13 @@ public class PetordenservicioBO {
 			}
 		}catch(Exception he){
 			okPersona = false;
+			okMascota = false;
 			session.getTransaction().rollback();
 			throw new Exception(); 
 		}finally{
 			session.close();
 		}
 		
-		return okPersona;
+		return (okPersona || okMascota);
 	}
 }

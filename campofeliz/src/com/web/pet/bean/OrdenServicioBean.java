@@ -212,7 +212,7 @@ public class OrdenServicioBean implements Serializable {
 			lisPetservicio.add(petservicio);
 			
 			PetservicioBO petservicioBO = new PetservicioBO();
-			List<Petservicio> lisTmp = petservicioBO.lisPetservicio(Parametro.EMPRESA_CAMPOFELIZ, Parametro.OFICINA_CAMPOFELIZ_LAROCA);
+			List<Petservicio> lisTmp = petservicioBO.lisPetservicio(Parametro.EMPRESA_CAMPOFELIZ, 0);
 			if(lisTmp != null && lisTmp.size() > 0){
 				lisPetservicio.addAll(lisTmp);
 			}
