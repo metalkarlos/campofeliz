@@ -322,6 +322,13 @@ public class OrdenServicioBean implements Serializable {
 				if(petmascotahomenaje.getPetraza() == null){
 					petmascotahomenaje.setPetraza(new Petraza());
 				}
+				if(petmascotahomenaje.getCotpersona() == null){
+					petmascotahomenaje.setCotpersona(new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null));
+				}else{
+					if(petmascotahomenaje.getCotpersona().getCottipoidentificacion() == null){
+						petmascotahomenaje.getCotpersona().setCottipoidentificacion(new Cottipoidentificacion(0,null,null));
+					}
+				}
 			}
 			
 		}catch(Exception re){
@@ -333,7 +340,7 @@ public class OrdenServicioBean implements Serializable {
 	}
 	
 	public List<Cotpersona> buscarPropietarios(String query) {
-		List<Cotpersona> lisPropietarios = new ArrayList<Cotpersona>();
+		List<Cotpersona> lisCotpersona = new ArrayList<Cotpersona>();
 		
 		if(query != null && query.trim().length() > 0){
 			String[] nombres = null;
@@ -341,16 +348,16 @@ public class OrdenServicioBean implements Serializable {
 			
 			CotpersonaBO cotpersonaBO = new CotpersonaBO();
 			int args[] = {0};
-			List<Cotpersona> lisCotpersona = cotpersonaBO.lisCotpersonaByPage(nombres, 20, 0, args);
+			lisCotpersona = cotpersonaBO.lisCotpersonaByPage(nombres, 20, 0, args);
 			
-			if(lisCotpersona != null && lisCotpersona.size() > 0){
-				for(Cotpersona cotpersona : lisCotpersona){
-					lisPropietarios.add(cotpersona);
+			for(Cotpersona cotpersona : lisCotpersona){
+				if(cotpersona.getCottipoidentificacion() == null){
+					cotpersona.setCottipoidentificacion(new Cottipoidentificacion(0,null,null));
 				}
 			}
 		}
 		
-		return lisPropietarios;
+		return lisCotpersona;
 	}
 	
 	public void seleccionarPropietarioEditor() {

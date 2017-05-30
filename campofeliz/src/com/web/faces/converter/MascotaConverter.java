@@ -40,6 +40,10 @@ public class MascotaConverter implements Converter {
 						}
 						if(petmascotahomenaje.getCotpersona() == null){
 							petmascotahomenaje.setCotpersona(new Cotpersona(0, new Cottipoidentificacion(0,null,null), new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null));
+						}else{
+							if(petmascotahomenaje.getCotpersona().getCottipoidentificacion() == null){
+								petmascotahomenaje.getCotpersona().setCottipoidentificacion(new Cottipoidentificacion(0,null,null));
+							}
 						}
 						if(petmascotahomenaje.getCottipoidentificacion() == null){
 							petmascotahomenaje.setCottipoidentificacion(new Cottipoidentificacion());
