@@ -142,7 +142,7 @@
 								<h:outputLabel id="idlblmascota" value="Escriba el Nombre: " for="txtNombreMascota" /><span style="color: red;">*</span>
 							</td>
 							<td style="width: 75%">
-								<p:autoComplete id="txtNombreMascota" size="60" scrollHeight="250"
+								<p:autoComplete id="txtNombreMascota" size="60" scrollHeight="250" queryDelay="500"
 									value="#{ordenServicioBean.petmascotahomenajeSeleccionar}"
 									completeMethod="#{ordenServicioBean.buscarMascotas}" var="m"
 									itemLabel="#{m.nombre}" itemValue="#{m}"
@@ -628,7 +628,7 @@
 					<h:outputLabel value="Buscar "	for="cmbMascotaEditor" />
 					</p:column>
 					<p:column>
-						<p:autoComplete id="cmbMascotaEditor" scrollHeight="250"
+						<p:autoComplete id="cmbMascotaEditor" scrollHeight="250" queryDelay="500"
 							value="#{ordenServicioBean.petmascotahomenajeEditorSeleccionar}"
 							completeMethod="#{ordenServicioBean.buscarMascotas}" var="m"
 							itemLabel="#{m.nombre}" itemValue="#{m}"
@@ -776,7 +776,7 @@
 						for="cmbPropietarioEditor" />
 					</p:column>
 					<p:column>
-					<p:autoComplete id="cmbPropietarioEditor" size="80" scrollHeight="250"
+					<p:autoComplete id="cmbPropietarioEditor" size="80" scrollHeight="250" queryDelay="500"
 						value="#{ordenServicioBean.cotpersonaEditorSeleccionar}" 
 						completeMethod="#{ordenServicioBean.buscarPropietarios}" var="p"
 						itemLabel="#{p.nombre1 == null || p.nombre1.length() == 0 ? '' : p.nombre1.concat(' ')}#{p.nombre2 == null || p.nombre2.length() == 0 ? '' : p.nombre2.concat(' ')}#{p.apellido1 == null || p.apellido1.length() == 0 ? '' : p.apellido1.concat(' ')}#{p.apellido2 == null || p.apellido2.length() == 0 ? '' : p.apellido2.concat(' ')}"

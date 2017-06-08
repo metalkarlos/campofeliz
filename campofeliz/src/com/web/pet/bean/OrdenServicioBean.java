@@ -151,8 +151,6 @@ public class OrdenServicioBean implements Serializable {
 					petordenservicio = petordenservicioBO.getPetordenservicioById(petordenservicioId);
 					
 					if(petordenservicio != null){
-						petordenservicioClon = petordenservicio.clonar();
-						
 						if(petordenservicio != null && petordenservicio.getId() != null && petordenservicio.getId().getIdordenservicio() > 0 ){
 							PetordenserviciodetalleBO petordenserviciodetalleBO = new PetordenserviciodetalleBO();
 							lisPetordenserviciodetalle = petordenserviciodetalleBO.lisPetordenserviciodetalle(petordenservicioId);
@@ -175,8 +173,14 @@ public class OrdenServicioBean implements Serializable {
 							
 							if(petordenservicio.getCotestadopago() == null){
 								petordenservicio.setCotestadopago(new Cotestadopago(0, null, null));
-								petordenservicioClon.setCotestadopago(new Cotestadopago(0, null, null));
+								//petordenservicioClon.setCotestadopago(new Cotestadopago(0, null, null));
 							}
+							
+							if(petordenservicio.getCotlugar() == null){
+								petordenservicio.setCotlugar(new Cotlugar());
+							}
+							
+							petordenservicioClon = petordenservicio.clonar();
 						}
 						
 						lisPetmascotacolor = new PetmascotacolorBO().lisPetmascotacolor(petordenservicio.getPetmascotahomenaje().getIdmascota());

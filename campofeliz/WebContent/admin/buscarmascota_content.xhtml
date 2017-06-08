@@ -65,10 +65,10 @@
 						<h:outputLabel value="Propietario:" for="cmbPropietario" />
 					</p:column>
 					<p:column>
-						<p:autoComplete id="cmbPropietario" size="50"
+						<p:autoComplete id="cmbPropietario" size="50" scrollHeight="250" queryDelay="500"
 							value="#{buscarMascotaBean.petmascotahomenaje.cotpersona}"
 							completeMethod="#{buscarMascotaBean.buscarPropietarios}" var="p"
-							itemLabel="#{p.nombre1} #{p.nombre2} #{p.apellido1} #{p.apellido2}"
+							itemLabel="#{p.nombre1 == null || p.nombre1.length() == 0 ? '' : p.nombre1.concat(' ')}#{p.nombre2 == null || p.nombre2.length() == 0 ? '' : p.nombre2.concat(' ')}#{p.apellido1 == null || p.apellido1.length() == 0 ? '' : p.apellido1.concat(' ')}#{p.apellido2 == null || p.apellido2.length() == 0 ? '' : p.apellido2.concat(' ')}"
 							itemValue="#{p}" converter="persona" minQueryLength="1"
 							forceSelection="true">
 							<p:ajax event="itemSelect"

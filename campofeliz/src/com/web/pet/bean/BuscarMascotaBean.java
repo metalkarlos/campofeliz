@@ -128,7 +128,7 @@ public class BuscarMascotaBean implements Serializable {
 		if(query != null && query.trim().length() > 0){
 			nombres = query.split(" ");
 		}
-		lisCotpersona = cotpersonaBO.lisCotpersonaByPage(nombres, 10, 0, args);
+		lisCotpersona = cotpersonaBO.lisCotpersonaByPage(nombres, 20, 0, args);
 		
 		if(lisCotpersona != null && lisCotpersona.size() > 0){
 			for(Cotpersona cotpersona : lisCotpersona){
