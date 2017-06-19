@@ -65,7 +65,14 @@ input, textarea {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing : border-box;
+	text-transform: uppercase;
 }
+.minuscula {
+	text-transform: lowercase;
+}
+.mayuscula-minuscula {
+	text-transform: none;
+} 
 .link{
 	font-family: Arial,sans-serif,Verdana,Lucida Grande,Lucida Sans;
 	font-size:13px;

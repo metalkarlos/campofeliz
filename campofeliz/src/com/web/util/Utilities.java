@@ -51,7 +51,7 @@ public class Utilities {
 				
 				//crea en disco
 				String rutaReporteDestino = System.getProperty("java.io.tmpdir");
-				JasperExportManager.exportReportToPdfFile(jasperPrint, rutaReporteDestino+"/"+nombreReporte+".pdf");
+				JasperExportManager.exportReportToPdfFile(jasperPrint, rutaReporteDestino + "/campofeliz_intranet/" + nombreReporte+".pdf");
 				
 				//muestra en browser
 				FacesContext.getCurrentInstance().getExternalContext().responseReset(); 

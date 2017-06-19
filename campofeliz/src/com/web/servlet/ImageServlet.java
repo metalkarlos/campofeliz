@@ -20,6 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
+import org.imgscalr.Scalr.Method;
+import org.imgscalr.Scalr.Mode;
+
+import com.web.util.FileUtil;
 
 /**
  * Servlet implementation class ImageServlet
@@ -94,29 +98,93 @@ public class ImageServlet extends HttpServlet implements Serializable{
         }
         
         // Obtener parametro
- 		String param = request.getParameter("w");
+ 		String paramwidth = request.getParameter("w");
+ 		String paramheight = request.getParameter("h");
+ 		String paramfit = request.getParameter("m");
  		int width = 0;
+ 		int height = 0;
  		
- 		if(param != null && param.trim().length() > 0){
+ 		if(paramwidth != null && paramwidth.trim().length() > 0){
  			try{
- 				width = Integer.parseInt(param);
+ 				width = Integer.parseInt(paramwidth);
  			}catch(Exception e){
  				width = 0;
  			}
  		}
+ 		if(paramheight != null && paramheight.trim().length() > 0){
+ 			try{
+ 				height = Integer.parseInt(paramheight);
+ 			}catch(Exception e){
+ 				height = 0;
+ 			}
+ 		}
         
-        if(width > 0){
+ 		// Redimensionamiento
+        if(width > 0 || height > 0){
 	        //generar uid
 			UUID uid = UUID.randomUUID();
 			String ext = FilenameUtils.getExtension(image.getName());
-			String rutaDestino = imagePathTmp + File.separator + uid.toString() + "." + ext;
+			String rutaDestino = imagePathTmp + "/campofeliz_intranet/" + uid.toString() + "." + ext;
+
+			try {
+				FileUtil fileUtil = new FileUtil();
+				if(!fileUtil.createDir(imagePathTmp  + "/campofeliz_intranet")){
+					throw new Exception("Directorio campofelizweb no creado");
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 			
-			BufferedImage img = ImageIO.read(image);
-	        BufferedImage scaledImg = Scalr.resize(img, width);
-	        File destFile = new File(rutaDestino);
-	        ImageIO.write(scaledImg, ext, destFile);
-	        
-	        image = destFile;
+			try{
+				BufferedImage img = ImageIO.read(image);
+				BufferedImage scaledImg = null;
+				
+				if(width > 0 && height > 0){
+					if(paramfit != null && paramfit.compareTo("both")==0){
+						scaledImg = Scalr.resize(img, Method.BALANCED, Mode.FIT_EXACT, width, height);
+					}else{
+						Mode translationMode = Mode.AUTOMATIC;
+						
+						if (img.getWidth() <= width && img.getHeight() <= height) {
+							scaledImg = img;
+						} else {
+							if (img.getWidth() < width) {
+								translationMode = Mode.FIT_TO_HEIGHT;
+							} else if (img.getHeight() < height) {
+								translationMode = Mode.FIT_TO_WIDTH;
+							} else {
+								float wRatio = ((float)width / (float)img.getWidth());
+								float hRatio = ((float)height / (float)img.getHeight());
+								translationMode = wRatio < hRatio ? Mode.FIT_TO_WIDTH : Mode.FIT_TO_HEIGHT;
+							}
+							scaledImg = Scalr.resize(img, Method.BALANCED, translationMode, width, height);
+						}
+					}
+				}else{
+					if(width > 0){
+						if(paramfit != null && paramfit.compareTo("both")==0){
+							scaledImg = Scalr.resize(img, Method.BALANCED, Mode.FIT_EXACT, width);
+						}else{
+							scaledImg = Scalr.resize(img, Method.BALANCED, Mode.FIT_TO_WIDTH, width);
+						}
+						
+					}else{
+						if(paramfit != null && paramfit.compareTo("both")==0){
+							scaledImg = Scalr.resize(img, Method.BALANCED, Mode.FIT_EXACT, height);
+						}else{
+							scaledImg = Scalr.resize(img, Method.BALANCED, Mode.FIT_TO_HEIGHT, height);
+						}
+					}
+				}
+					
+				File destFile = new File(rutaDestino);
+		        ImageIO.write(scaledImg, ext, destFile);
+		        image = destFile;
+		        img.flush();
+		        scaledImg.flush();
+			}catch(Exception e){
+				
+			}
         }
 
         // Init servlet response.
