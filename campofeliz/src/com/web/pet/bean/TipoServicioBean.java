@@ -38,7 +38,7 @@ public class TipoServicioBean implements Serializable {
 		try
 		{
 			lisCottiposervicio = new LazyDataModel<Cottiposervicio>() {
-				public List<Cottiposervicio> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+				public List<Cottiposervicio> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
 					List<Cottiposervicio> data = new ArrayList<Cottiposervicio>();
 	
 					CottiposervicioBO cottiposervicioBO = new CottiposervicioBO();

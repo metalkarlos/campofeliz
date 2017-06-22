@@ -39,7 +39,7 @@ public class ColorBean implements Serializable {
 		try
 		{
 			lisCotcolor = new LazyDataModel<Cotcolor>() {
-				public List<Cotcolor> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+				public List<Cotcolor> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
 					List<Cotcolor> data = new ArrayList<Cotcolor>();
 	
 					CotcolorBO cotcolorBO = new CotcolorBO();

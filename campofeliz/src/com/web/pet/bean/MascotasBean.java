@@ -95,7 +95,7 @@ public class MascotasBean implements Serializable {
 		try
 		{
 			lisPetmascotahomenaje = new LazyDataModel<Petmascotahomenaje>() {
-				public List<Petmascotahomenaje> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+				public List<Petmascotahomenaje> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
 					List<Petmascotahomenaje> data = new ArrayList<Petmascotahomenaje>();
 					PetmascotaBO petmascotaBO = new PetmascotaBO();
 					int args[] = {0};

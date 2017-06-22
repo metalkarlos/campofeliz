@@ -40,7 +40,7 @@ public class TipoLugarBean implements Serializable {
 		try
 		{
 			lisCottipolugar = new LazyDataModel<Cottipolugar>() {
-				public List<Cottipolugar> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+				public List<Cottipolugar> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
 					List<Cottipolugar> data = new ArrayList<Cottipolugar>();
 	
 					CottipolugarBO cottipolugarBO = new CottipolugarBO();

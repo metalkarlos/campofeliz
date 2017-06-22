@@ -9,10 +9,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
-import org.primefaces.event.DateSelectEvent;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
-import org.primefaces.event.ScheduleEntrySelectEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
@@ -110,13 +109,14 @@ public class AgendaBean implements Serializable{
         }
     }
     
-    public void onEventSelect(ScheduleEntrySelectEvent selectEvent) {
-    	event = selectEvent.getScheduleEvent();
+    public void onEventSelect(SelectEvent selectEvent) {
+    	event = (ScheduleEvent)selectEvent.getObject();
     	cotevento = event.getData() == null ? new Cotevento() :  (Cotevento) event.getData();
     }
 	
-	public void onDateSelect(DateSelectEvent selectEvent) {
-		event = new DefaultScheduleEvent("Evento", selectEvent.getDate(), selectEvent.getDate());
+	public void onDateSelect(SelectEvent selectEvent) {
+		Date date = (Date) selectEvent.getObject();
+		event = new DefaultScheduleEvent("Evento", date, date);
 		cotevento = event.getData() == null ? new Cotevento() :  (Cotevento) event.getData();
 	}
 	

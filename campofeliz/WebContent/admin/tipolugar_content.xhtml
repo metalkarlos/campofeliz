@@ -24,7 +24,7 @@
 			<p:dataTable id="idTablaTipoLugar"
 				value="#{tipoLugarBean.lisCottipolugar}" var="tipolugar"
 				rowKey="#{tipolugar.idtipolugar}" widgetVar="vartablaTipoLugar"
-				paginator="true" rows="10"
+				paginator="true" rows="10" lazy="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PageLinks} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="6,8,10"
 				selection="#{tipoLugarBean.cottipolugarItem}" selectionMode="single"

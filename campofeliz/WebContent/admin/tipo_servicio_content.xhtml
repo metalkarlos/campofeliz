@@ -18,7 +18,7 @@
 				renderedButtonAceptar="false" />
 			</h:panelGrid>
 			<br />
-			<p:dataTable id="idTablaTipos" value="#{tipoServicioBean.lisCottiposervicio}" var="tipo" rowKey="#{tipo.idtiposervicio}" widgetVar="vartablaTipos"
+			<p:dataTable id="idTablaTipos" value="#{tipoServicioBean.lisCottiposervicio}" var="tipo" rowKey="#{tipo.idtiposervicio}" widgetVar="vartablaTipos" lazy="true"
 				paginator="true" rows="4" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="4,6,8" selection="#{tipoServicioBean.cottiposervicioItem}" selectionMode="single" emptyMessage="No se encontraron registros">
 				

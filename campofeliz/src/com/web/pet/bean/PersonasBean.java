@@ -49,7 +49,7 @@ public class PersonasBean implements Serializable {
 		try{
 			lisCotpersona = new LazyDataModel<Cotpersona>() {
 				@Override
-				public List<Cotpersona> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+				public List<Cotpersona> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
 					List<Cotpersona> lisCotpersona = new ArrayList<Cotpersona>();
 					CotpersonaBO cotpersonaBO = new CotpersonaBO();
 					int args[] = {0};

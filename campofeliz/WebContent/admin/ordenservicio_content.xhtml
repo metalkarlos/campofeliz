@@ -364,7 +364,7 @@
 					<p:row>
 					<p:column colspan="2">
 						<p:dataTable id="detalleServicios" styleClass="tablaServiciosCss" value="#{ordenServicioBean.lisPetordenserviciodetalle}"
-							var="servicio" widgetVar="varServicios" emptyMessage="No existen servicios">
+							var="servicio" widgetVar="varServicios" emptyMessage="No existen servicios" lazy="true">
 		
 							<p:ajax event="rowSelect" update=":form-contentpage:idpaneleditorservicio" listener="#{ordenServicioBean.seleccionarDetalleServicios()}"
 							oncomplete="varDialogEditorServicio.show()"></p:ajax>
@@ -411,7 +411,7 @@
 					<p:row>
 					<p:column colspan="2">
 						<p:dataTable id="detallePagos" styleClass="tablaPagosCss" value="#{ordenServicioBean.lisPetformapagoorden}"
-							var="pago" widgetVar="varPago" emptyMessage="No se han realizado pagos">
+							var="pago" widgetVar="varPago" emptyMessage="No se han realizado pagos" lazy="true">
 
 							<p:column id="idNombreHeader">
 								<f:facet name="header">

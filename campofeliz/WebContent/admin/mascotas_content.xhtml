@@ -23,7 +23,7 @@
 			</div>
 			<br />
 			<p:dataGrid id="idGridMascotas" value="#{mascotasBean.lisPetmascotahomenaje}"
-				var="pet" columns="#{mascotasBean.columnsGrid}"
+				var="pet" columns="#{mascotasBean.columnsGrid}" lazy="true"
 				rows="#{mascotasBean.rowsGrid}" paginator="true" effect="true"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				emptyMessage="No se encontraron registros">

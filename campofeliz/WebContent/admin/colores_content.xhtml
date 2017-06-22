@@ -23,7 +23,7 @@
 			</div>
 			<p:dataTable id="idTablaColores" value="#{colorBean.lisCotcolor}"
 				var="color" rowKey="#{color.idcolor}" widgetVar="vartablaColores"
-				paginator="true" rows="10"
+				paginator="true" rows="10" lazy="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="6,8,10" selection="#{colorBean.cotcolorItem}"
 				selectionMode="single" emptyMessage="No se encontraron registros">

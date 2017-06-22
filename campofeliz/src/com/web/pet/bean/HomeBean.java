@@ -12,7 +12,7 @@ import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
-import org.primefaces.event.DateSelectEvent;
+import org.primefaces.event.SelectEvent;
 
 import com.web.util.FileUtil;
 import com.web.pet.bo.CoteventoBO;
@@ -108,7 +108,7 @@ public class HomeBean implements Serializable {
 		this.strUrlAgenda = strUrlAgenda;
 	}
 
-	public void handleDateSelect(DateSelectEvent event) {  
+	public void handleDateSelect(SelectEvent event) {  
 		new MessageUtil().showInfoMessage("Hola! Estoy en construcción!","");  
     }
 

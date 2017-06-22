@@ -60,7 +60,7 @@ public class RazaBean implements Serializable {
 		try
 		{
 			lisPetraza = new LazyDataModel<Petraza>() {
-				public List<Petraza> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+				public List<Petraza> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
 					List<Petraza> data = new ArrayList<Petraza>();
 	
 					PetrazaBO petrazaBO = new PetrazaBO();

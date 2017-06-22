@@ -40,7 +40,7 @@ public class EspecieBean implements Serializable {
 		try
 		{
 			lisPetespecie = new LazyDataModel<Petespecie>() {
-				public List<Petespecie> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+				public List<Petespecie> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
 					List<Petespecie> data = new ArrayList<Petespecie>();
 	
 					PetespecieBO petespecieBO = new PetespecieBO();

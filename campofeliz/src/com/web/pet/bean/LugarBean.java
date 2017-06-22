@@ -44,7 +44,7 @@ public class LugarBean implements Serializable {
 		try
 		{
 			setLisCotlugar(new LazyDataModel<Cotlugar>() {
-				public List<Cotlugar> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+				public List<Cotlugar> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
 					List<Cotlugar> data = new ArrayList<Cotlugar>();
 	
 					CotlugarBO cotlugarBO = new CotlugarBO();

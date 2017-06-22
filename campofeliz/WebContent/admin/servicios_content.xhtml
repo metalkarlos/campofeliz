@@ -25,7 +25,7 @@
 			<br />
 			<p:dataGrid id="gridServicios"
 				value="#{serviciosBean.lisPetservicio}" var="servicio"
-				columns="#{serviciosBean.columnsGrid}"
+				columns="#{serviciosBean.columnsGrid}" lazy="true"
 				rows="#{serviciosBean.rowsGrid}" paginator="true" effect="true"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				emptyMessage="No se encontraron registros"

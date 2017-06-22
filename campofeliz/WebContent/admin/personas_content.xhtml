@@ -24,7 +24,7 @@
 			<p:dataTable id="idTablaPersonas"
 				value="#{personasBean.lisCotpersona}" var="persona"
 				rowKey="#{persona.idpersona}" widgetVar="vartablaPersonas"
-				paginator="true" rows="10"
+				paginator="true" rows="10" lazy="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				selection="#{personasBean.cotpersonaSelected}"
 				selectionMode="single" emptyMessage="No se encontraron registros">

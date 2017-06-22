@@ -69,7 +69,7 @@ public class ServiciosBean implements Serializable {
 		try
 		{
 			lisPetservicio = new LazyDataModel<Petservicio>() {
-				public List<Petservicio> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+				public List<Petservicio> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
 					List<Petservicio> data = new ArrayList<Petservicio>();
 					PetservicioBO petservicioBO = new PetservicioBO();
 					int args[] = {0};

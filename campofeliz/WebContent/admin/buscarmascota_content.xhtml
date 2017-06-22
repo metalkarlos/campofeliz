@@ -164,7 +164,7 @@
 			<br />
 			<p:dataGrid id="idGridResultado" var="pet"
 				value="#{buscarMascotaBean.lisPetmascotahomenaje}"
-				columns="#{buscarMascotaBean.columnsGrid}"
+				columns="#{buscarMascotaBean.columnsGrid}" lazy="true"
 				rows="#{buscarMascotaBean.rowsGrid}" paginator="true" effect="true"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				emptyMessage="No se encontraron registros">

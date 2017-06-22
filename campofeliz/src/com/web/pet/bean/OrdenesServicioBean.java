@@ -51,7 +51,7 @@ public class OrdenesServicioBean implements Serializable {
 		try{
 			lisPetordenservicio = new LazyDataModel<Petordenservicio>() {
 				@Override
-				public List<Petordenservicio> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+				public List<Petordenservicio> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,Object> filters) {
 					List<Petordenservicio> lisPetordenservicio = new ArrayList<Petordenservicio>();
 					PetordenservicioBO petordenservicioBO = new PetordenservicioBO();
 					int args[] = {0};
