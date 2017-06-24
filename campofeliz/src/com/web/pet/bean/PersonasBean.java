@@ -78,6 +78,26 @@ public class PersonasBean implements Serializable {
                        super.setRowIndex(rowIndex % getPageSize());
                    }      
                }
+				
+				@Override
+				public Object getRowKey(Cotpersona object) {
+					return object != null ? object.getIdpersona() : null;
+				}
+				
+				@SuppressWarnings("unchecked")
+				@Override
+				public Cotpersona getRowData(String rowKey) {
+					List<Cotpersona> cotpersonas = (List<Cotpersona>) getWrappedData();
+				    int idpersona = Integer.valueOf(rowKey);
+
+				    for (Cotpersona cotpersona : cotpersonas) {
+				        if (cotpersona.getIdpersona() == idpersona) {
+				            return cotpersona;
+				        }
+				    }
+
+				    return null;
+				}
 			};
 		}catch(Exception re){
 			re.printStackTrace();

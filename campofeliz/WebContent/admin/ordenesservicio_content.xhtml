@@ -26,14 +26,13 @@
 			<br />
 			<p:dataTable id="idTablaOrdenes" emptyMessage="No existen solicitudes"
 				value="#{ordenesServicioBean.lisPetordenservicio}" var="orden"
-				rowKey="#{orden.id.idordenservicio}" widgetVar="vartablaOrdenes"
+				widgetVar="vartablaOrdenes"
 				paginator="true" rows="20" lazy="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				selection="#{ordenesServicioBean.petordenservicioSelected}"
-				selectionMode="single" styleClass="tablaSolicitudesCss">
+				selectionMode="single" styleClass="tablaSolicitudesCss" >
 
-				<p:ajax event="rowSelect"
-					listener="#{ordenesServicioBean.onRowSelect}" />
+				<p:ajax event="rowSelect" listener="#{ordenesServicioBean.onRowSelect}" update="mensajes" />
 
 				<f:facet name="header">
 					Ordenes de Servicio

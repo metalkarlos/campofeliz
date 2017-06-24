@@ -68,6 +68,26 @@ public class LugarBean implements Serializable {
                        super.setRowIndex(rowIndex % getPageSize());
                    }      
                }
+				
+				@Override
+				public Object getRowKey(Cotlugar object) {
+					return object != null ? object.getIdlugar() : null;
+				}
+				
+				@SuppressWarnings("unchecked")
+				@Override
+				public Cotlugar getRowData(String rowKey) {
+					List<Cotlugar> cotlugars = (List<Cotlugar>) getWrappedData();
+				    int idlugar = Integer.valueOf(rowKey);
+
+				    for (Cotlugar cotlugar : cotlugars) {
+				        if (cotlugar.getIdlugar() == idlugar) {
+				            return cotlugar;
+				        }
+				    }
+
+				    return null;
+				}
 			});
 		}catch(Exception re){
 			re.printStackTrace();

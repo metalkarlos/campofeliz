@@ -364,7 +364,8 @@
 					<p:row>
 					<p:column colspan="2">
 						<p:dataTable id="detalleServicios" styleClass="tablaServiciosCss" value="#{ordenServicioBean.lisPetordenserviciodetalle}"
-							var="servicio" widgetVar="varServicios" emptyMessage="No existen servicios" lazy="true">
+							var="servicio" widgetVar="varServicios" emptyMessage="No existen servicios" lazy="true" selectionMode="single" 
+							selection="#{ordenServicioBean.petordenserviciodetalleSeleccionado}" rowKey="#{servicio.id.idanio}-#{servicio.id.idordenservicio}-#{servicio.id.idordenserviciodetalle}">
 		
 							<p:ajax event="rowSelect" update=":form-contentpage:idpaneleditorservicio" listener="#{ordenServicioBean.seleccionarDetalleServicios()}"
 							oncomplete="varDialogEditorServicio.show()"></p:ajax>
@@ -387,13 +388,7 @@
 									</h:outputText>
 								</f:facet>
 							</p:column>
-							
-							<p:column>
-								<p:commandButton icon="ui-icon-search" title="Seleccionar" update=":form-contentpage:idpaneleditorservicio" oncomplete="varDialogEditorServicio.show()">
-									<f:setPropertyActionListener value="#{servicio}"	target="#{ordenServicioBean.petordenserviciodetalleSeleccionado}" />
-									<f:actionListener binding="#{ordenServicioBean.seleccionarDetalleServicios()}" />
-								</p:commandButton>
-							</p:column>
+
 						</p:dataTable>
 
 						<h:panelGrid columns="1">
@@ -411,8 +406,12 @@
 					<p:row>
 					<p:column colspan="2">
 						<p:dataTable id="detallePagos" styleClass="tablaPagosCss" value="#{ordenServicioBean.lisPetformapagoorden}"
-							var="pago" widgetVar="varPago" emptyMessage="No se han realizado pagos" lazy="true">
+							var="pago" widgetVar="varPago" emptyMessage="No se han realizado pagos" lazy="true" selectionMode="single" 
+							selection="#{ordenServicioBean.petformapagoordenSeleccionado}" rowKey="#{pago.id.idanio}-#{pago.id.idordenservicio}-#{pago.id.idformapagoorden}">
 
+							<p:ajax event="rowSelect" update=":form-contentpage:idpaneleditorpagos" listener="#{ordenServicioBean.seleccionarDetallePagos()}"
+							oncomplete="varDialogEditorFormaPago.show()"></p:ajax>
+							
 							<p:column id="idNombreHeader">
 								<f:facet name="header">
 									<h:outputLabel value="Nombre" for="nombredetallepagos" />
@@ -438,13 +437,7 @@
 									</h:outputText>
 								</f:facet>
 							</p:column>
-							
-							<p:column>
-								<p:commandButton icon="ui-icon-search" title="Seleccionar" update=":form-contentpage:idpaneleditorpagos" oncomplete="varDialogEditorFormaPago.show()">
-									<f:setPropertyActionListener value="#{pago}"	target="#{ordenServicioBean.petformapagoordenSeleccionado}" />
-									<f:actionListener binding="#{ordenServicioBean.seleccionarDetallePagos()}" />
-								</p:commandButton>
-							</p:column>
+
 						</p:dataTable>
 						
 						<h:panelGrid columns="1">

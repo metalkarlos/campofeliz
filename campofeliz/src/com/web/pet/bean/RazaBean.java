@@ -89,6 +89,26 @@ public class RazaBean implements Serializable {
                        super.setRowIndex(rowIndex % getPageSize());
                    }      
                }
+				
+				@Override
+				public Object getRowKey(Petraza object) {
+					return object != null ? object.getIdraza() : null;
+				}
+				
+				@SuppressWarnings("unchecked")
+				@Override
+				public Petraza getRowData(String rowKey) {
+					List<Petraza> petrazas = (List<Petraza>) getWrappedData();
+				    int idraza = Integer.valueOf(rowKey);
+
+				    for (Petraza petraza : petrazas) {
+				        if (petraza.getIdraza() == idraza) {
+				            return petraza;
+				        }
+				    }
+
+				    return null;
+				}
 			};
 		}catch(Exception re){
 			re.printStackTrace();

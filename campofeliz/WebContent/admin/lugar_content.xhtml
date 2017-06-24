@@ -22,7 +22,7 @@
 					renderedButtonAceptar="false" />
 			</div>
 			<p:dataTable id="idTablaLugar" value="#{lugarBean.lisCotlugar}"
-				var="lugar" rowKey="#{lugar.idlugar}" widgetVar="vartablaLugar"
+				var="lugar" widgetVar="vartablaLugar"
 				paginator="true" rows="10" lazy="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="6,8,10" selection="#{lugarBean.cotlugarItem}"

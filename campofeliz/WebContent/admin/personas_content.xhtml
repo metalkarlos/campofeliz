@@ -23,7 +23,7 @@
 			<br />
 			<p:dataTable id="idTablaPersonas"
 				value="#{personasBean.lisCotpersona}" var="persona"
-				rowKey="#{persona.idpersona}" widgetVar="vartablaPersonas"
+				widgetVar="vartablaPersonas"
 				paginator="true" rows="10" lazy="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				selection="#{personasBean.cotpersonaSelected}"

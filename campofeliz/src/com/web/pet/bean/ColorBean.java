@@ -63,6 +63,26 @@ public class ColorBean implements Serializable {
                        super.setRowIndex(rowIndex % getPageSize());
                    }      
                }
+				
+				@Override
+				public Object getRowKey(Cotcolor object) {
+					return object != null ? object.getIdcolor() : null;
+				}
+				
+				@SuppressWarnings("unchecked")
+				@Override
+				public Cotcolor getRowData(String rowKey) {
+					List<Cotcolor> cotcolors = (List<Cotcolor>) getWrappedData();
+				    int idcolor = Integer.valueOf(rowKey);
+
+				    for (Cotcolor cotcolor : cotcolors) {
+				        if (cotcolor.getIdcolor() == idcolor) {
+				            return cotcolor;
+				        }
+				    }
+
+				    return null;
+				}
 			};
 		}catch(Exception re){
 			re.printStackTrace();

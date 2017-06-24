@@ -89,6 +89,28 @@ public class OrdenesServicioBean implements Serializable {
                        super.setRowIndex(rowIndex % getPageSize());
                    }      
                }
+				
+				@Override
+				public Object getRowKey(Petordenservicio object) {
+					return object != null ? object.getId().getIdanio()+"-"+object.getId().getIdordenservicio() : null;
+				}
+				
+				@SuppressWarnings("unchecked")
+				@Override
+				public Petordenservicio getRowData(String rowKey) {
+					List<Petordenservicio> petordenservicios = (List<Petordenservicio>) getWrappedData();
+				    String[] values = rowKey.split("-");
+				    int idanio = Integer.valueOf(values[0]);
+				    int idordenservicio = Integer.valueOf(values[1]);
+
+				    for (Petordenservicio petordenservicio : petordenservicios) {
+				        if (petordenservicio.getId().getIdanio() == idanio && petordenservicio.getId().getIdordenservicio() == idordenservicio) {
+				            return petordenservicio;
+				        }
+				    }
+
+				    return null;
+				}
 			};
 		}catch(Exception re){
 			re.printStackTrace();

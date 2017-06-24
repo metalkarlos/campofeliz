@@ -31,7 +31,7 @@
 					renderedButtonAceptar="false" />
 			</div>
 			<p:dataTable id="idTablaRazas" value="#{razaBean.lisPetraza}"
-				var="raza" rowKey="#{raza.idraza}" widgetVar="vartablaRazas"
+				var="raza" widgetVar="vartablaRazas"
 				paginator="true" rows="10" lazy="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="6,8,10" selection="#{razaBean.petrazaItem}"

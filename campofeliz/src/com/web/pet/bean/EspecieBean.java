@@ -64,6 +64,26 @@ public class EspecieBean implements Serializable {
                        super.setRowIndex(rowIndex % getPageSize());
                    }      
                }
+				
+				@Override
+				public Object getRowKey(Petespecie object) {
+					return object != null ? object.getIdespecie() : null;
+				}
+				
+				@SuppressWarnings("unchecked")
+				@Override
+				public Petespecie getRowData(String rowKey) {
+					List<Petespecie> petespecies = (List<Petespecie>) getWrappedData();
+				    int idespecie = Integer.valueOf(rowKey);
+
+				    for (Petespecie petespecie : petespecies) {
+				        if (petespecie.getIdespecie() == idespecie) {
+				            return petespecie;
+				        }
+				    }
+
+				    return null;
+				}
 			};
 		}catch(Exception re){
 			re.printStackTrace();

@@ -62,6 +62,26 @@ public class TipoServicioBean implements Serializable {
                        super.setRowIndex(rowIndex % getPageSize());
                    }      
                }
+				
+				@Override
+				public Object getRowKey(Cottiposervicio object) {
+					return object != null ? object.getIdtiposervicio() : null;
+				}
+				
+				@SuppressWarnings("unchecked")
+				@Override
+				public Cottiposervicio getRowData(String rowKey) {
+					List<Cottiposervicio> cottiposervicios = (List<Cottiposervicio>) getWrappedData();
+				    int idtiposervicio = Integer.valueOf(rowKey);
+
+				    for (Cottiposervicio cottiposervicio : cottiposervicios) {
+				        if (cottiposervicio.getIdtiposervicio() == idtiposervicio) {
+				            return cottiposervicio;
+				        }
+				    }
+
+				    return null;
+				}
 			};
 		}catch(Exception re){
 			re.printStackTrace();

@@ -64,6 +64,26 @@ public class TipoLugarBean implements Serializable {
                        super.setRowIndex(rowIndex % getPageSize());
                    }      
                }
+				
+				@Override
+				public Object getRowKey(Cottipolugar object) {
+					return object != null ? object.getIdtipolugar() : null;
+				}
+				
+				@SuppressWarnings("unchecked")
+				@Override
+				public Cottipolugar getRowData(String rowKey) {
+					List<Cottipolugar> cottipolugars = (List<Cottipolugar>) getWrappedData();
+				    int idtipolugar = Integer.valueOf(rowKey);
+
+				    for (Cottipolugar cottipolugar : cottipolugars) {
+				        if (cottipolugar.getIdtipolugar() == idtipolugar) {
+				            return cottipolugar;
+				        }
+				    }
+
+				    return null;
+				}
 			};
 		}catch(Exception re){
 			re.printStackTrace();
