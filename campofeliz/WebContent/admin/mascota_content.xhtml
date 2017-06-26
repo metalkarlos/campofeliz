@@ -8,7 +8,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:my="http://java.sun.com/jsf/composite/components/buttons">
 
-	<h:form id="form-contentpage">
+	<h:form id="form-contentpage" prependId="false">
 		<p:growl id="mensajes" showDetail="false" sticky="true" />
 		<p:focus for="txtCodigoVeterinaria" />
 
@@ -115,25 +115,25 @@
 					<p:column>
 					<h:panelGroup id="idpanelgaleria" >
 					<center>
-					<p:galleria id="idgalleria" value="#{mascotaBean.lisPetfotomascota}" var="item" transitionInterval="0" panelWidth="500" panelHeight="400" rendered="#{mascotaBean.lisPetfotomascota.size() > 0}">
-		        <p:graphicImage id="idfotos" value="#{parametro.servletImagenes}#{item.ruta}?w=60" style="max-height: 58px;" />
-		        <p:galleriaContent>  
-	            <h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1" style="background-color: #eaeaea;height: 300px;" >  
-			        	<f:facet name="header">
-		            	<p:graphicImage id="idfoto" value="#{parametro.servletImagenes}#{item.ruta}?w=400" style="max-height: 300px; padding-top: 10px" />
-		            	
-		            	<p:commandButton id="idbuttonprincipal" title="Colocar como foto principal" icon="ui-icon ui-icon-person" immediate="true" onclick="vardialogprincipal.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:pnlFotoPrincipal" >
-					        	<f:setPropertyActionListener value="#{item}" target="#{mascotaBean.petfotomascotaSeleccionado}" />
-					        </p:commandButton>
-					        <p:commandButton id="idbuttondelete"  title="Eliminar foto permanentemente" icon="ui-icon ui-icon-trash" immediate="true" onclick="vardialogdelete.show()" style="position:absolute;right:0px;top:60px;" update=":form-contentpage:pnlEliminarPrincipal">
-					        	<f:setPropertyActionListener value="#{item}" target="#{mascotaBean.petfotomascotaSeleccionado}" />
-					        </p:commandButton>
-				        </f:facet>
-					    </h:panelGrid>
-					    <h:outputLabel value="Descripción de la Foto" for="txtDescripcionFoto" />
-					    <p:inputTextarea id="txtDescripcionFoto" value="#{item.descripcion}" maxlength="500" autoResize="false" />
-						</p:galleriaContent>
-					</p:galleria>
+						<p:galleria id="idgalleria"  value="#{mascotaBean.lisPetfotomascota}" var="foto" autoPlay="false" panelWidth="500" panelHeight="400" rendered="#{mascotaBean.lisPetfotomascota.size() > 0}">
+							<p:graphicImage id="idfotos" value="#{parametro.servletImagenes}#{foto.ruta}?w=60" style="max-height: 58px;" />
+							<f:facet name="content">  
+								<h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1" style="background-color: #eaeaea;height: 300px;" >  
+									<f:facet name="header">
+										<p:graphicImage id="idfoto" value="#{parametro.servletImagenes}#{foto.ruta}?w=400" style="max-height: 300px; padding-top: 10px" />
+										
+										<p:commandButton id="idbuttonprincipal" title="Colocar como foto principal" icon="ui-icon ui-icon-person" immediate="true" oncomplete="vardialogprincipal.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:pnlFotoPrincipal" >
+											<f:setPropertyActionListener value="#{foto}" target="#{mascotaBean.petfotomascotaSeleccionado}" />
+										</p:commandButton>
+										<p:commandButton id="idbuttondelete"  title="Eliminar foto permanentemente" icon="ui-icon ui-icon-trash" immediate="true" oncomplete="vardialogdelete.show()" style="position:absolute;right:0px;top:60px;" update=":form-contentpage:pnlEliminarPrincipal">
+											<f:setPropertyActionListener value="#{foto}" target="#{mascotaBean.petfotomascotaSeleccionado}" />
+										</p:commandButton>
+									</f:facet>
+								</h:panelGrid>
+								<h:outputLabel value="Descripción de la Foto" for="txtDescripcionFoto" />
+								<p:inputTextarea id="txtDescripcionFoto" value="#{foto.descripcion}" maxlength="500" autoResize="false" />
+							</f:facet>
+						</p:galleria>
 					</center>
 					</h:panelGroup>
 					</p:column>

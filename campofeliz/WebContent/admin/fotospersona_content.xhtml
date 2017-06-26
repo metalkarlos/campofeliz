@@ -14,19 +14,19 @@
 			<h1 >Fotos del Propietario: #{fotosPersonaBean.cotpersona.nombre1} #{fotosPersonaBean.cotpersona.nombre2}</h1>
 			<p:galleria id="idgalleria" value="#{fotosPersonaBean.liscotfotopersona}" var="item" transitionInterval="0" panelWidth="500" panelHeight="320" styleClass="ui-widget-content ui-corner-all">
 		        <p:graphicImage id="idfotos" value="#{parametro.servletImagenes}#{item.ruta}?w=150" style="max-height: 50px" />
-		        <p:galleriaContent>  
+		        <f:facet name="content">  
 		            <h:panelGrid columns="1" style="background-color: #eaeaea;height: 100%; width: 100%;" >  
 				        <f:facet name="header">
 			            	<p:graphicImage id="idfoto" value="#{parametro.servletImagenes}#{item.ruta}?w=150" style="max-height: 300px" />
 				        </f:facet>
-				        <p:commandButton id="idbuttonperfil" title="Colocar como foto del Perfil" icon="ui-icon ui-icon-person"  onclick="vardialogperfil.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:idpanelperfil" >
+				        <p:commandButton id="idbuttonperfil" title="Colocar como foto del Perfil" icon="ui-icon ui-icon-person"  oncomplete="vardialogperfil.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:idpanelperfil" >
 				        	<f:setPropertyActionListener value="#{item}" target="#{fotosPersonaBean.cotfotopersonaSelected}" />
 				        </p:commandButton>
-				        <p:commandButton id="idbuttondelete"  title="Eliminar foto permanentemente" icon="ui-icon ui-icon-trash" onclick="vardialogdelete.show()" style="position:absolute;right:0px;top:55px;" update=":form-contentpage:idpaneldelete">
+				        <p:commandButton id="idbuttondelete"  title="Eliminar foto permanentemente" icon="ui-icon ui-icon-trash" oncomplete="vardialogdelete.show()" style="position:absolute;right:0px;top:55px;" update=":form-contentpage:idpaneldelete">
 				        	<f:setPropertyActionListener value="#{item}" target="#{fotosPersonaBean.cotfotopersonaSelected}" />
 				        </p:commandButton>
 				    </h:panelGrid>
-				</p:galleriaContent>
+				</f:facet>
 			</p:galleria>
 			<h:outputLabel value="No posee imágenes, puede empezar a subirlas dando clic en el botón 'Examinar', elija la imagen y luego de clic en el botón 'Subir Foto'" rendered="#{empty fotosPersonaBean.liscotfotopersona}" />
 			<br />

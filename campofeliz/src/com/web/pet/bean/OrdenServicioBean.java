@@ -194,7 +194,7 @@ public class OrdenServicioBean implements Serializable {
 			}else{
 				facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");
 			}
-		} catch(NumberFormatException ne){
+		} catch(NumberFormatException ne){ ne.printStackTrace();
 			try{facesUtil.redirect("../admin/home.jsf?faces-redirect=true&iditem=35");}catch(Throwable e){}
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -181,7 +181,7 @@
 									</f:facet>
 								</p:autoComplete>
 								<h:panelGroup rendered="#{ordenServicioBean.petordenservicio.id.idordenservicio == 0}">
-								[ <h:link class="link" value="Nueva" onclick="vardialogeditormascota.show()" /> ]
+								<p:commandButton value="Nueva" type="button" onclick="PF('vardialogeditormascota').show();" />
 								</h:panelGroup>
 							</td>
 							</tr>

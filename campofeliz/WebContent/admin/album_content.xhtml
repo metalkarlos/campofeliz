@@ -14,17 +14,17 @@
 			<h1 >Album #{albumBean.petmascotahomenaje.nombre}</h1>
 			<p:galleria id="idgalleria" value="#{albumBean.lispetfotomascota}" var="item" transitionInterval="0" panelWidth="500" panelHeight="320" styleClass="ui-widget-content ui-corner-all">
 		        <p:graphicImage id="idfotos" value="#{parametro.servletImagenes}#{item.ruta}?w=150" style="max-height: 50px" />
-		        <p:galleriaContent>  
+		        <f:facet name="content">  
 		            <h:panelGrid columns="1" style="background-color: #eaeaea;height: 100%; width: 100%;" >  
 				        <f:facet name="header">
 			            	<p:graphicImage id="idfoto" value="#{parametro.servletImagenes}#{item.ruta}?w=150" style="max-height: 300px" />
 				        </f:facet>
-				        <p:commandButton id="idbuttonperfil" title="Colocar como foto del Perfil" icon="ui-icon ui-icon-person"  onclick="vardialogperfil.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:idpanelperfil" >
+				        <p:commandButton id="idbuttonperfil" title="Colocar como foto del Perfil" icon="ui-icon ui-icon-person"  oncomplete="vardialogperfil.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:idpanelperfil" >
 				        	<f:setPropertyActionListener value="#{item}" target="#{albumBean.petfotomascotaSelected}" />
 				        </p:commandButton>
 				       
 				    </h:panelGrid>
-				</p:galleriaContent>
+				</f:facet>
 			</p:galleria>
 			<h:outputText value="No posee imágenes, puede empezar a subirlas dando clic en el botón 'Examinar', elija la imágen y luego de clic en el botón 'Subir Foto'" rendered="#{empty albumBean.lispetfotomascota}" />
 			<br />
