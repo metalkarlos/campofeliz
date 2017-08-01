@@ -204,7 +204,7 @@
 						itemValue="#{p}" converter="persona" minQueryLength="1"
 						forceSelection="true" required="true"
 						requiredMessage="El Propietario de la Mascota es obligatorio">
-						<p:ajax event="itemSelect"
+						<p:ajax event="itemSelect" listener="#{mascotaBean.seleccionarPropietario()}"
 							update=":form-contentpage:idpanelpropietario, :form-contentpage:mensajes"></p:ajax>
 							
 						<f:facet name="itemtip">
@@ -328,20 +328,32 @@
 					
 					<p:row>
 					<p:column colspan="2">
+					<div class="titulo">Dedicatoria</div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
+					<p:editor id="txtDedicatoria" autoResize="true" maxlength="1000" 
+									value="#{mascotaBean.petmascotahomenaje.dedicatoria}"
+									controls="bold italic underline  undo redo  cut copy  center  removeformat source" >
+					</p:editor>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
 					<div class="titulo">Características</div>
 					</p:column>
 					</p:row>
 					
 					<p:row>
-					<p:column>
+					<p:column colspan="2">
 					<p:inputTextarea id="txtCaracteristicas"
 						value="#{mascotaBean.petmascotahomenaje.caracteristicas}"
 						required="false"
 						requiredMessage="El campo 'Características' es obligatorio."
 						maxlength="300" autoResize="false" />
-					</p:column>
-					<p:column>
-					<p:message id="msgtxtCaracteristicas" for="txtCaracteristicas" display="icon" />
 					</p:column>
 					</p:row>
 	

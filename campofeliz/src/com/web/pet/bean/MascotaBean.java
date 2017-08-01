@@ -294,6 +294,16 @@ public class MascotaBean implements Serializable {
 		return lisPropietarios;
 	}
 	
+	public void seleccionarPropietario() {
+		try{
+			petmascotahomenaje.setCotpersona(cotpersonaSeleccionar.clonar());
+			cotpersonaSeleccionar = new Cotpersona(0, null, new Setestado(), new Setusuario(), null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0, null, null);
+		}catch(Exception e) {
+			e.printStackTrace();
+			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
+		}
+	}
+	
 	public void handleFileUpload(FileUploadEvent event) {
 		try{
 			uploadedFile = event.getFile();

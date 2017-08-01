@@ -91,21 +91,21 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="20" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Listado de Mascotas por período de tiempo]]></text>
+				<text><![CDATA[Listado de Mascotas Atendidas]]></text>
 			</staticText>
 			<textField pattern="dd MMMMM yyyy">
-				<reportElement x="35" y="99" width="110" height="20" forecolor="#000000" uuid="d028c064-c4e5-42e4-a6aa-dfb10309cad5"/>
+				<reportElement x="80" y="99" width="110" height="20" forecolor="#000000" uuid="d028c064-c4e5-42e4-a6aa-dfb10309cad5"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="9" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="99" width="34" height="20" uuid="58641d0b-6fe4-4d99-8e4d-ca4100e2e1c7"/>
+				<reportElement x="0" y="99" width="81" height="20" uuid="58641d0b-6fe4-4d99-8e4d-ca4100e2e1c7"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Fecha:]]></text>
+				<text><![CDATA[Fecha Emisión:]]></text>
 			</staticText>
 			<textField pattern="d/M/yyyy" isBlankWhenNull="true">
 				<reportElement x="352" y="99" width="54" height="20" uuid="f15c1bb3-9dec-4b48-8cf5-fe42766fe4e6"/>
@@ -233,7 +233,7 @@ Mascota]]></text>
 						<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 						<paragraph leftIndent="2"/>
 					</textElement>
-					<text><![CDATA[Fecha Entierro]]></text>
+					<text><![CDATA[Fecha]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="327" y="0" width="94" height="29" forecolor="#009933" uuid="380d148a-8220-4109-9503-bc9aff6f4831"/>

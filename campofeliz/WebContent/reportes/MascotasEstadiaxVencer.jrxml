@@ -54,8 +54,12 @@
        on e.idespecie = m.idespecie
        and e.idestado   = 1
  where s.idestado   = 1
-   and ($P{P_ANIOS} = 0 or timestampdiff(year, s.fechaentierro, sysdate()) <= $P{P_ANIOS})
-   order by m.nombre asc]]>
+   and ($P{P_ANIOS} = 0 or timestampdiff(year, s.fechaentierro, sysdate()) = $P{P_ANIOS})
+   and exists(select 1 from petordenserviciodetalle d
+              where d.idanio = s.idanio
+              and d.idordenservicio = s.idordenservicio
+              and d.idservicio = 4)
+   order by s.fechaentierro]]>
 	</queryString>
 	<field name="idmascota" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -106,31 +110,17 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="20" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[Listado de Mascotas cuya estadía en Campo Feliz está por vencer]]></text>
-			</staticText>
-			<textField pattern="d/M/yyyy">
-				<reportElement x="39" y="99" width="110" height="20" forecolor="#000000" uuid="d028c064-c4e5-42e4-a6aa-dfb10309cad5"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="9" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="99" width="39" height="20" uuid="58641d0b-6fe4-4d99-8e4d-ca4100e2e1c7"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[Fecha:]]></text>
+				<text><![CDATA[Listado de Mascotas por estadía en Campo Feliz]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="341" y="99" width="46" height="20" uuid="8b1024d4-a713-4982-82cb-e66fea7a891b"/>
+				<reportElement x="83" y="80" width="46" height="20" uuid="8b1024d4-a713-4982-82cb-e66fea7a891b"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="9" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{P_ANIOS} == 0 ? "Todos" : $P{P_ANIOS}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="270" y="99" width="72" height="20" uuid="03434519-0bed-4e36-a9f9-4a937ed33781"/>
+				<reportElement x="1" y="80" width="83" height="20" uuid="03434519-0bed-4e36-a9f9-4a937ed33781"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
@@ -143,6 +133,20 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{membrete}]]></textFieldExpression>
 			</textField>
+			<textField pattern="d/M/yyyy">
+				<reportElement x="83" y="100" width="110" height="20" forecolor="#000000" uuid="d028c064-c4e5-42e4-a6aa-dfb10309cad5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="false" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="100" width="83" height="20" uuid="58641d0b-6fe4-4d99-8e4d-ca4100e2e1c7"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Emisión:]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -156,7 +160,7 @@
 			<frame>
 				<reportElement mode="Opaque" x="0" y="2" width="822" height="29" forecolor="#B89F7D" backcolor="#F2EBDF" uuid="af7a8a20-441d-49f6-a5b4-058416ac5e01"/>
 				<staticText>
-					<reportElement x="27" y="0" width="80" height="29" forecolor="#009933" uuid="6bd1d424-1bc5-4500-a3f6-d886a078540c"/>
+					<reportElement x="194" y="0" width="80" height="29" forecolor="#009933" uuid="6bd1d424-1bc5-4500-a3f6-d886a078540c"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 					</textElement>
@@ -171,32 +175,25 @@ Mascota]]></text>
 					<text><![CDATA[Teléfono]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="157" y="0" width="50" height="29" forecolor="#009933" uuid="5287cdef-443b-4b71-b1bc-cd71d01a8c18"/>
+					<reportElement x="324" y="0" width="50" height="29" forecolor="#009933" uuid="5287cdef-443b-4b71-b1bc-cd71d01a8c18"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[Sexo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="107" y="0" width="50" height="29" forecolor="#009933" uuid="ae7c4945-5d43-4ca3-8b7a-a0b621c7a6b4"/>
+					<reportElement x="274" y="0" width="50" height="29" forecolor="#009933" uuid="ae7c4945-5d43-4ca3-8b7a-a0b621c7a6b4"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[Especie]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="206" y="0" width="79" height="29" forecolor="#009933" uuid="0f8b72a9-cf59-4fd7-a250-b82acaadec41"/>
+					<reportElement x="373" y="0" width="79" height="29" forecolor="#009933" uuid="0f8b72a9-cf59-4fd7-a250-b82acaadec41"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[Raza]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="338" y="0" width="40" height="29" forecolor="#009933" uuid="cca867ed-f0b2-4ae7-a99b-7c4f939e3d3c"/>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
-					</textElement>
-					<text><![CDATA[Tiempo Estadía]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="586" y="0" width="99" height="29" forecolor="#009933" uuid="de703850-e898-40c2-9b56-893e510d4f85"/>
@@ -206,7 +203,7 @@ Mascota]]></text>
 					<text><![CDATA[Correo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="451" y="0" width="70" height="29" forecolor="#009933" uuid="bb73e015-956d-40a4-b52d-0a42c67ca11d"/>
+					<reportElement x="452" y="0" width="70" height="29" forecolor="#009933" uuid="bb73e015-956d-40a4-b52d-0a42c67ca11d"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 					</textElement>
@@ -220,39 +217,46 @@ Mascota]]></text>
 					<text><![CDATA[Dirección]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="0" y="0" width="28" height="29" forecolor="#009933" uuid="cb43e8f3-d388-485a-ad68-ce5403fd8409"/>
+					<reportElement x="167" y="0" width="28" height="29" forecolor="#009933" uuid="cb43e8f3-d388-485a-ad68-ce5403fd8409"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[Cód.]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="284" y="0" width="55" height="29" forecolor="#009933" uuid="59c7b363-a88c-4fbb-a506-0bd5310a819f"/>
-					<textElement verticalAlignment="Middle">
+					<reportElement x="74" y="0" width="40" height="29" forecolor="#009933" uuid="cca867ed-f0b2-4ae7-a99b-7c4f939e3d3c"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 					</textElement>
-					<text><![CDATA[Fecha Entierro]]></text>
+					<text><![CDATA[Tiempo Estadía]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="377" y="0" width="75" height="29" forecolor="#009933" uuid="80ae32aa-1f8d-4376-a759-0855797b3ed4"/>
+					<reportElement x="0" y="0" width="75" height="29" forecolor="#009933" uuid="80ae32aa-1f8d-4376-a759-0855797b3ed4"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[Servicio]]></text>
 				</staticText>
 			</frame>
+			<staticText>
+				<reportElement x="113" y="2" width="55" height="29" forecolor="#009933" uuid="59c7b363-a88c-4fbb-a506-0bd5310a819f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Entierro]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="19" splitType="Stretch">
 			<rectangle>
-				<reportElement style="rectangleStyle" stretchType="RelativeToBandHeight" x="0" y="0" width="822" height="18" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="af1fdc9c-b0d2-471b-b126-db92d090671f"/>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="822" height="18" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="af1fdc9c-b0d2-471b-b126-db92d090671f"/>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</rectangle>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="0" y="-1" width="28" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="2d498ade-0cb1-4920-9cf0-572bfe5ad59e"/>
+				<reportElement x="167" y="-1" width="28" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="2d498ade-0cb1-4920-9cf0-572bfe5ad59e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 					<paragraph rightIndent="5" spacingAfter="5"/>
@@ -260,7 +264,7 @@ Mascota]]></text>
 				<textFieldExpression><![CDATA[$F{idmascota}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="27" y="-1" width="80" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="7bc648b4-b8b4-4e3a-8c29-80ef9db12ca2"/>
+				<reportElement x="194" y="-1" width="80" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="7bc648b4-b8b4-4e3a-8c29-80ef9db12ca2"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 					<paragraph rightIndent="5" spacingAfter="5"/>
@@ -268,7 +272,7 @@ Mascota]]></text>
 				<textFieldExpression><![CDATA[$F{nombremascota}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="107" y="-1" width="50" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="fcf14272-b4a2-4728-871b-9c6d7cce7c90"/>
+				<reportElement x="274" y="-1" width="50" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="fcf14272-b4a2-4728-871b-9c6d7cce7c90"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 					<paragraph rightIndent="5" spacingAfter="5"/>
@@ -276,7 +280,7 @@ Mascota]]></text>
 				<textFieldExpression><![CDATA[$F{especie}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="157" y="-1" width="50" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="51c4accc-4d96-41f4-b3dc-ff8fa506b640"/>
+				<reportElement x="324" y="-1" width="50" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="51c4accc-4d96-41f4-b3dc-ff8fa506b640"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 					<paragraph rightIndent="5" spacingAfter="5"/>
@@ -284,7 +288,7 @@ Mascota]]></text>
 				<textFieldExpression><![CDATA[$F{genero}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="206" y="-1" width="79" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="66500acc-0e62-47a9-a53a-0cfa2172cda3"/>
+				<reportElement x="373" y="-1" width="79" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="66500acc-0e62-47a9-a53a-0cfa2172cda3"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 					<paragraph rightIndent="5" spacingAfter="5"/>
@@ -292,15 +296,7 @@ Mascota]]></text>
 				<textFieldExpression><![CDATA[$F{raza}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="338" y="-1" width="40" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="9ded8eda-53c8-4772-a943-b1b954d6eb9b"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="8" pdfFontName="Helvetica" isPdfEmbedded="true"/>
-					<paragraph rightIndent="5" spacingAfter="5"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{tiempocumplido}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="451" y="-1" width="70" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="652da086-3c38-447d-9a7c-27b62668b6e3"/>
+				<reportElement x="452" y="-1" width="70" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="652da086-3c38-447d-9a7c-27b62668b6e3"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 					<paragraph rightIndent="5" spacingAfter="5"/>
@@ -331,8 +327,14 @@ Mascota]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="18" width="832" height="1" forecolor="#CC6600" uuid="e72b3a77-1db9-4f88-a5c2-3ae1ed22aec2"/>
+				<graphicElement>
+					<pen lineWidth="0.25" lineStyle="Dotted" lineColor="#EDEBEB"/>
+				</graphicElement>
+			</line>
 			<textField isStretchWithOverflow="true" pattern="dd MMMMM yyyy" isBlankWhenNull="true">
-				<reportElement x="284" y="-1" width="55" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="509744ef-3187-4e27-bc91-3e6b4f95c825"/>
+				<reportElement x="113" y="-1" width="55" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="509744ef-3187-4e27-bc91-3e6b4f95c825"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8" pdfFontName="Helvetica" isPdfEmbedded="true"/>
 					<paragraph rightIndent="5" spacingAfter="5"/>
@@ -340,19 +342,21 @@ Mascota]]></text>
 				<textFieldExpression><![CDATA[$F{fechaentierro}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="377" y="-1" width="75" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="9b53f57b-6761-4250-a033-ed222226055c"/>
+				<reportElement x="74" y="-1" width="40" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="9ded8eda-53c8-4772-a943-b1b954d6eb9b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" pdfFontName="Helvetica" isPdfEmbedded="true"/>
+					<paragraph rightIndent="5" spacingAfter="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tiempocumplido}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="-1" width="75" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="9b53f57b-6761-4250-a033-ed222226055c"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="8"/>
 					<paragraph rightIndent="5" spacingAfter="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{detalleservicio}]]></textFieldExpression>
 			</textField>
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="18" width="832" height="1" forecolor="#CC6600" uuid="e72b3a77-1db9-4f88-a5c2-3ae1ed22aec2"/>
-				<graphicElement>
-					<pen lineWidth="0.25" lineStyle="Dotted" lineColor="#EDEBEB"/>
-				</graphicElement>
-			</line>
 		</band>
 	</detail>
 	<columnFooter>
