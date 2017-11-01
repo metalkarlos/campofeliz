@@ -25,7 +25,7 @@ public class PetespecieBO {
 			
 			lisPetespecie = petespecieDAO.lisPetespecie(session);
 		} catch(Exception e) {
-			throw new Exception();
+			throw new Exception(e);
 		} finally {
 			session.close();
 		}
@@ -44,7 +44,7 @@ public class PetespecieBO {
 			
 			petespecie = petespecieDAO.getPetespecieById(session, id);
 		} catch(Exception e){
-			throw new Exception();
+			throw new Exception(e);
 		} finally {
 			session.close();
 		}
@@ -63,7 +63,7 @@ public class PetespecieBO {
 			
 			lisPetespecie = petespecieDAO.lisPetespecieByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
-			throw new RuntimeException();
+			throw new RuntimeException(he);
 		}finally{
 			session.close();
 		}
@@ -101,7 +101,7 @@ public class PetespecieBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception(); 
+			throw new Exception(he); 
 		}finally{
 			session.close();
 		}
@@ -135,7 +135,7 @@ public class PetespecieBO {
 			}
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}
@@ -168,7 +168,7 @@ public class PetespecieBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}

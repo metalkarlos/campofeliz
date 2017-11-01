@@ -44,7 +44,7 @@ public class CotcolorBO {
 			
 			cotcolor = cotcolorDAO.getCotcolorById(session, id);
 		} catch(Exception he) {
-			throw new Exception();
+			throw new Exception(he);
 		} finally {
 			session.close();
 		}
@@ -63,7 +63,7 @@ public class CotcolorBO {
 			
 			lisCotcolor = cotcolorDAO.lisCotcolorByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
-			throw new RuntimeException();
+			throw new RuntimeException(he);
 		}finally{
 			session.close();
 		}
@@ -101,7 +101,7 @@ public class CotcolorBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception(); 
+			throw new Exception(he); 
 		}finally{
 			session.close();
 		}
@@ -135,7 +135,7 @@ public class CotcolorBO {
 			}
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}
@@ -168,7 +168,7 @@ public class CotcolorBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}

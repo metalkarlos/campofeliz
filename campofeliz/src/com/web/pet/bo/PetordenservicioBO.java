@@ -39,7 +39,7 @@ public class PetordenservicioBO {
 			
 			petordenservicio = petordenservicioDAO.getPetordenservicioById(session, petordenservicioId);
 		}catch(Exception he) {
-			throw new Exception(he.getMessage(), he.getCause());
+			throw new Exception(he);
 		} finally {
 			session.close();
 		}
@@ -153,7 +153,7 @@ public class PetordenservicioBO {
 		}catch(Exception e){
 			petordenservicio.setId(null);
 			session.getTransaction().rollback();
-			throw new Exception(e.getMessage(),e.getCause());
+			throw new Exception(e);
 		}finally{
 			session.close();
 		}
@@ -355,7 +355,7 @@ public class PetordenservicioBO {
 		}catch(Exception e){
 			ok = false;
 			session.getTransaction().rollback();
-			throw new Exception(e.getMessage(), e.getCause());
+			throw new Exception(e);
 		}finally{
 			session.close();
 		}
@@ -420,7 +420,7 @@ public class PetordenservicioBO {
 			ok = true;
 		}catch(Exception e){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(e);
 		}finally{
 			session.close();
 		}
@@ -441,9 +441,9 @@ public class PetordenservicioBO {
 			
 			if(cotpersona.getIdpersona() == 0){
 				//cotpersonaBO.grabarPersonaBasico(session, cotpersona);
-				okPersona = cotpersonaBO.ingresarCotpersona(cotpersona, null, null, session);
+				okPersona = cotpersonaBO.ingresarCotpersona(cotpersona, null, session);
 			}else{
-				okPersona = cotpersonaBO.modificarCotpersona(cotpersona, cotpersonaClon, new ArrayList<Cotfotopersona>(), new ArrayList<Cotfotopersona>(), null, null, session);
+				okPersona = cotpersonaBO.modificarCotpersona(cotpersona, cotpersonaClon, new ArrayList<Cotfotopersona>(), new ArrayList<Cotfotopersona>(), session);
 			}
 			
 			PetmascotaBO petmascotaBO = new PetmascotaBO();
@@ -451,9 +451,9 @@ public class PetordenservicioBO {
 			
 			if(petmascotahomenaje.getIdmascota() == 0){
 				//petmascotaBO.grabarMascotaBasico(session, petmascotahomenaje);
-				okMascota = petmascotaBO.ingresarMascota(petmascotahomenaje, new ArrayList<Petmascotacolor>(), null, null, session);
+				okMascota = petmascotaBO.ingresarMascota(petmascotahomenaje, null, new ArrayList<Petmascotacolor>(), session);
 			}else{
-				okMascota = petmascotaBO.modificarMascota(petmascotahomenaje, petmascotahomenajeClon, new ArrayList<Petfotomascota>(), new ArrayList<Petfotomascota>(), new ArrayList<Petmascotacolor>(), new ArrayList<Petmascotacolor>(), null, null, session);
+				okMascota = petmascotaBO.modificarMascota(petmascotahomenaje, petmascotahomenajeClon, new ArrayList<Petfotomascota>(), new ArrayList<Petfotomascota>(), new ArrayList<Petmascotacolor>(), new ArrayList<Petmascotacolor>(), session);
 			}
 			
 			if(okPersona || okMascota){
@@ -463,7 +463,7 @@ public class PetordenservicioBO {
 			okPersona = false;
 			okMascota = false;
 			session.getTransaction().rollback();
-			throw new Exception(); 
+			throw new Exception(he); 
 		}finally{
 			session.close();
 		}

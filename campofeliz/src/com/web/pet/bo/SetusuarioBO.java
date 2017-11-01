@@ -22,7 +22,7 @@ public class SetusuarioBO {
 			
 			setusuario = setusuarioDAO.getByUserPasswd(session, nombre, clave);
 		}catch(Exception he){
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}

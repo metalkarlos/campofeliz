@@ -24,7 +24,7 @@ public class CottiposervicioBO {
 			
 			cottiposervicio = cottiposervicioDAO.getCottiposervicioById(session, id);
 		} catch(Exception e){
-			throw new Exception();
+			throw new Exception(e);
 		} finally {
 			session.close();
 		}
@@ -43,7 +43,7 @@ public class CottiposervicioBO {
 			
 			lisCottiposervicio = cottiposervicioDAO.lisCottiposervicioByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
-			throw new RuntimeException();
+			throw new RuntimeException(he);
 		}finally{
 			session.close();
 		}
@@ -77,7 +77,7 @@ public class CottiposervicioBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception(); 
+			throw new Exception(he); 
 		}finally{
 			session.close();
 		}
@@ -107,7 +107,7 @@ public class CottiposervicioBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}

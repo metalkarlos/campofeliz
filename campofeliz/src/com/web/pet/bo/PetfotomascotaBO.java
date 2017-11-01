@@ -26,7 +26,7 @@ public class PetfotomascotaBO {
 			
 			lisPetfoto = petfotoDAO.lisPetfotomascotaByIdmascota(session, idmascota);
 		}catch(Exception re){
-			throw new Exception();
+			throw new Exception(re);
 		}finally{
 			session.close();
 		}
@@ -85,7 +85,7 @@ public class PetfotomascotaBO {
 			ok = true;
 		}catch(Exception re){
 			session.getTransaction().rollback();
-			throw new Exception(); 
+			throw new Exception(re); 
 		}finally{
 			session.close();
 		}
@@ -115,7 +115,7 @@ public class PetfotomascotaBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}
@@ -134,7 +134,7 @@ public class PetfotomascotaBO {
 			
 			petfotomascota = petfotoDAO.getPetfotomascotaPerfilByIdmascota(session, idmascota);
 		} catch(Exception he){
-			throw new Exception(); 
+			throw new Exception(he); 
 		}finally{
 			session.close();
 		}
@@ -158,7 +158,7 @@ public class PetfotomascotaBO {
 			ok = true;
 		} catch(Exception he){
 			session.getTransaction().rollback();
-			throw new RuntimeException(); 
+			throw new RuntimeException(he); 
 		}finally{
 			session.close();
 		}
@@ -186,7 +186,7 @@ public class PetfotomascotaBO {
 			ok = true;
 		} catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception(); 
+			throw new Exception(he); 
 		}finally{
 			session.close();
 		}
@@ -210,7 +210,7 @@ public class PetfotomascotaBO {
 			ok = true;
 		} catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception(); 
+			throw new Exception(he); 
 		}finally{
 			session.close();
 		}

@@ -25,7 +25,7 @@ public class CottipolugarBO {
 			
 			lisCottipolugar = cottipolugarDAO.lisCottipolugar(session);
 		} catch(Exception e) {
-			throw new Exception();
+			throw new Exception(e);
 		}finally {
 			session.close();
 		}
@@ -44,7 +44,7 @@ public class CottipolugarBO {
 			
 			lisCottipolugar = cottipolugarDAO.lisCottipolugarByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
-			throw new RuntimeException();
+			throw new RuntimeException(he);
 		}finally{
 			session.close();
 		}
@@ -82,7 +82,7 @@ public class CottipolugarBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception(); 
+			throw new Exception(he); 
 		}finally{
 			session.close();
 		}
@@ -116,7 +116,7 @@ public class CottipolugarBO {
 			}
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}
@@ -149,7 +149,7 @@ public class CottipolugarBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}

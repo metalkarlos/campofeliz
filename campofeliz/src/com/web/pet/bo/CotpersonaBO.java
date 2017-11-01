@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.primefaces.model.UploadedFile;
-
 
 import com.web.pet.bean.UsuarioBean;
 import com.web.pet.dao.CotfotopersonaDAO;
@@ -31,7 +29,7 @@ public class CotpersonaBO {
 			
 			cotpersona = cotpersonaDAO.getCotpersonaById(session, idpersona);
 		}catch(Exception e){
-			throw new Exception();
+			throw new Exception(e);
 		}finally{
 			session.close();
 		}
@@ -69,7 +67,7 @@ public class CotpersonaBO {
 			
 			lisCotpersona = cotpersonaDAO.lisCotpersonaByPage(session, nombres, pageSize, pageNumber, args);
 		}catch(Exception e){
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}finally{
 			session.close();
 		}
@@ -88,7 +86,7 @@ public class CotpersonaBO {
 			
 			lisCotpersona = cotpersonaDAO.lisCotpersonaBusqueda(session, cotpersona);
 		}catch(Exception e){
-			throw new Exception();
+			throw new Exception(e);
 		}finally{
 			session.close();
 		}
@@ -107,7 +105,7 @@ public class CotpersonaBO {
 			
 			lisCotpersona = cotpersonaDAO.lisCotpersonaBusquedaByPage(session, cotpersona, pageSize, pageNumber, args);
 		}catch(Exception e){
-			throw new Exception();
+			throw new Exception(e);
 		}finally{
 			session.close();
 		}
@@ -115,7 +113,7 @@ public class CotpersonaBO {
 		return lisCotpersona;
 	}
 	
-	public boolean ingresarCotpersona(Cotpersona cotpersona, Cotfotopersona cotfotopersona, UploadedFile uploadedFile, Session sessionExterna) throws Exception{
+	public boolean ingresarCotpersona(Cotpersona cotpersona, List<Cotfotopersona> lisCotfotopersona, Session sessionExterna) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -146,10 +144,12 @@ public class CotpersonaBO {
 			cotpersonaDAO.saveCotpersona(session, cotpersona);
 			
 			//Si subio foto se crea en disco y en base
-			if(uploadedFile != null){
-				creaFotoDiscoBD(cotpersona, cotfotopersona, uploadedFile, session);
+			for(Cotfotopersona cotfotopersona : lisCotfotopersona){
+				creaFotoDiscoBD(cotpersona, cotfotopersona, session);
+			}
+			if(lisCotfotopersona != null && lisCotfotopersona.size() > 0){
 				//se setea la ruta de la foto tambien en petnoticia.rutafoto
-				cotpersona.setRuta(cotfotopersona.getRuta());
+				cotpersona.setRuta(lisCotfotopersona.get(0).getRuta());
 				//update
 				cotpersonaDAO.updateCotpersona(session, cotpersona);
 			}
@@ -163,7 +163,7 @@ public class CotpersonaBO {
 			if(sessionExterna == null){
 				session.getTransaction().rollback();
 			}
-			throw new Exception();
+			throw new Exception(e);
 		}finally{
 			if(sessionExterna == null){
 				session.close();
@@ -173,7 +173,7 @@ public class CotpersonaBO {
 		return ok;
 	}
 	
-	private void creaFotoDiscoBD(Cotpersona cotpersona, Cotfotopersona cotfotopersona, UploadedFile uploadedFile, Session session) throws Exception {
+	private void creaFotoDiscoBD(Cotpersona cotpersona, Cotfotopersona cotfotopersona, Session session) throws Exception {
 		UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 		CotfotopersonaDAO cotfotopersonaDAO = new CotfotopersonaDAO();
 		
@@ -187,14 +187,14 @@ public class CotpersonaBO {
 		
 		String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
 		String rutaPersonas =  fileUtil.getPropertyValue("repositorio-personas") + "/" + fecha.get(Calendar.YEAR);
-		String nombreArchivo = fecha.get(Calendar.YEAR) + "-" + (fecha.get(Calendar.MONTH) + 1) + "-" + fecha.get(Calendar.DAY_OF_MONTH) + "-" + cotpersona.getIdpersona() + "-" + cantFotosPorPersona + "." + fileUtil.getFileExtention(uploadedFile.getFileName()).toLowerCase();
+		String nombreArchivo = fecha.get(Calendar.YEAR) + "-" + (fecha.get(Calendar.MONTH) + 1) + "-" + fecha.get(Calendar.DAY_OF_MONTH) + "-" + cotpersona.getIdpersona() + "-" + cantFotosPorPersona + "." + fileUtil.getFileExtention(cotfotopersona.getNombrearchivo()).toLowerCase();
 		
 		String rutaCompleta = rutaImagenes + "/" + rutaPersonas;
 		
 		if(fileUtil.createDir(rutaCompleta)){
 			//crear foto en disco
 			String rutaArchivo = rutaCompleta + "/" + nombreArchivo;
-			fileUtil.createFile(rutaArchivo,uploadedFile.getContents());
+			fileUtil.createFile(rutaArchivo,cotfotopersona.getObjeto());
 		}
 		
 		//foto en BD
@@ -203,7 +203,6 @@ public class CotpersonaBO {
 		String rutaBD = "/" + rutaPersonas + "/" + nombreArchivo;
 		cotfotopersona.setRuta(rutaBD);
 		cotfotopersona.setNombrearchivo(nombreArchivo);
-		cotfotopersona.setMostrar(1);//campo sin uso ya que tabla principal posee ruta de foto de perfil
 		Setestado setestadoCotfotopersona = new Setestado();
 		setestadoCotfotopersona.setIdestado(1);
 		cotfotopersona.setSetestado(setestadoCotfotopersona);
@@ -218,7 +217,7 @@ public class CotpersonaBO {
 		cotfotopersonaDAO.saveCotfotopersona(session, cotfotopersona);
 	}
 	
-	public boolean modificarCotpersona(Cotpersona cotpersona, Cotpersona cotpersonaClon, List<Cotfotopersona> lisCotfotopersona, List<Cotfotopersona> lisCotfotopersonaClon, Cotfotopersona cotfotopersona, UploadedFile uploadedFile, Session sessionExterna) throws Exception{
+	public boolean modificarCotpersona(Cotpersona cotpersona, Cotpersona cotpersonaClon, List<Cotfotopersona> lisCotfotopersona, List<Cotfotopersona> lisCotfotopersonaClon, Session sessionExterna) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -258,6 +257,8 @@ public class CotpersonaBO {
 							cotfotopersonaDAO.updateCotfotopersona(session, cotfotopersonaItem);
 							ok = true;
 						}
+						
+						break;
 					}
 				}
 				if(!encuentra){
@@ -279,21 +280,29 @@ public class CotpersonaBO {
 					//eliminar foto del disco
 					String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
 					
-					String rutaArchivo = rutaImagenes + cotfotopersonaClon.getRuta();
+					String rutaArchivo = rutaImagenes + "/" + cotfotopersonaClon.getRuta();
 					
 					fileUtil.deleteFile(rutaArchivo);
 					ok = true;
 				}
 			}
 			
-			//Si subio foto se crea en disco y en base
-			if(uploadedFile != null){
-				creaFotoDiscoBD(cotpersona, cotfotopersona, uploadedFile, session);
-				//si no tiene imagen principal se setea
-				if(cotpersona.getRuta() == null || cotpersona.getRuta().trim().length() == 0){
-					cotpersona.setRuta(cotfotopersona.getRuta());
+			//Se evalua si han subido nuevas fotos
+			for(Cotfotopersona cotfotopersona : lisCotfotopersona){
+				boolean encuentra = false;
+				for(Cotfotopersona cotfotopersonaClon : lisCotfotopersonaClon){
+					if(cotfotopersona.getIdfotopersona() == cotfotopersonaClon.getIdfotopersona()){
+						//si encuentra
+						encuentra = true; 
+						break;
+					}
 				}
-				ok = true;
+				//no encuentra en lista clonada
+				if(!encuentra){
+					//es foto nueva
+					creaFotoDiscoBD(cotpersona, cotfotopersona, session);
+					ok = true;
+				}
 			}
 			
 			//Se graba la persona si han habido cambios
@@ -315,7 +324,7 @@ public class CotpersonaBO {
 			if(sessionExterna == null){
 				session.getTransaction().rollback();
 			}
-			throw new Exception();
+			throw new Exception(e);
 		}finally{
 			if(sessionExterna == null){
 				session.close();

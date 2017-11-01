@@ -10,9 +10,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.primefaces.model.UploadedFile;
 
 import com.web.pet.bo.CotfotopersonaBO;
 import com.web.pet.bo.CotpersonaBO;
@@ -39,14 +36,10 @@ public class PersonaBean implements Serializable {
 	private Cotpersona cotpersona;
 	private Cotfotopersona cotfotopersonaSelected;
 	private Cottipoidentificacion cottipoidentificacionselected;
-	//private int idtipoidentificacion;
 	private Cotpersona cotpersonaClon;
 	private List<Cottipoidentificacion> lisCottipoidentificacion;
 	private List<Cotfotopersona> lisCotfotopersona;
 	private List<Cotfotopersona> lisCotfotopersonaClon;	
-	private StreamedContent streamedContent;
-	private UploadedFile uploadedFile;
-	private String descripcionFoto;
 	private boolean fotoSubida;
 	private long maxfilesize;
 	
@@ -56,9 +49,7 @@ public class PersonaBean implements Serializable {
 		lisCotfotopersona = new ArrayList<Cotfotopersona>();
 		lisCotfotopersonaClon = new ArrayList<Cotfotopersona>();
 		cottipoidentificacionselected = new Cottipoidentificacion(0,null,null);
-		//idtipoidentificacion = 0;
 		cotfotopersonaSelected = new Cotfotopersona();
-		descripcionFoto = "";
 		fotoSubida = false;
 		maxfilesize = Parametro.TAMAÑO_IMAGEN;
 		llenarLisTipoidentificacion();
@@ -113,14 +104,8 @@ public class PersonaBean implements Serializable {
 	
 	private void llenarLisTipoidentificacion(){
 		try{
-			/*Cottipoidentificacion cottipoidentificacion = new Cottipoidentificacion();
-			cottipoidentificacion.setIdtipoidentificacion(0);
-			cottipoidentificacion.setNombre("Seleccione");
-			cottipoidentificacion.setSetestado(new Setestado());
-			cottipoidentificacion.setSetusuario(new Setusuario());*/
 		
 			lisCottipoidentificacion = new ArrayList<Cottipoidentificacion>();
-			//lisCottipoidentificacion.add(cottipoidentificacion);
 			
 			CottipoidentificacionBO cottipoidentificacionBO = new CottipoidentificacionBO();
 			List<Cottipoidentificacion> lisTmp = cottipoidentificacionBO.lisCottipoidentificacion();
@@ -151,13 +136,10 @@ public class PersonaBean implements Serializable {
 	
 	public void handleFileUpload(FileUploadEvent event) {
 		try{
-			uploadedFile = event.getFile();
-			streamedContent = new DefaultStreamedContent(event.getFile().getInputstream(), event.getFile().getContentType());
-			
-			FacesUtil facesUtil = new FacesUtil();
-			UsuarioBean usuarioBean = (UsuarioBean)facesUtil.getSessionBean("usuarioBean");
-			usuarioBean.setStreamedContent(streamedContent);
-			facesUtil.setSessionBean("usuarioBean", usuarioBean);
+			Cotfotopersona cotfotopersona = new Cotfotopersona();
+			cotfotopersona.setObjeto(event.getFile().getContents());
+			cotfotopersona.setNombrearchivo(event.getFile().getFileName().toLowerCase());
+			lisCotfotopersona.add(cotfotopersona);
 			fotoSubida = true;
 			
 			new MessageUtil().showInfoMessage("Presione Grabar para guardar los cambios.","");
@@ -166,46 +148,28 @@ public class PersonaBean implements Serializable {
 			new MessageUtil().showFatalMessage("Ha ocurrido un error inesperado. Comunicar al Webmaster!","");
 		}
 	}
-	
-	public void borrarFotoSubida(){
-		streamedContent = null;
-		uploadedFile = null;
-		fotoSubida = false;
-		descripcionFoto = null;
-	}
 
 	public void grabar(){
 		try{
 			if(validarCampos()){
 				CotpersonaBO cotpersonaBO = new CotpersonaBO();
-				Cotfotopersona cotfotopersona = new Cotfotopersona();
 				boolean ok = false;
 				
 				if(cotpersona.getCottipoidentificacion() != null && cotpersona.getCottipoidentificacion().getIdtipoidentificacion() == 0){
 					cotpersona.setCottipoidentificacion(null);
 				}
-				/*if(idtipoidentificacion > 0){
-					Cottipoidentificacion cottipoidentificacion = new Cottipoidentificacion();
-					cottipoidentificacion.setIdtipoidentificacion(idtipoidentificacion);
-					cotpersona.setCottipoidentificacion(cottipoidentificacion);
-				}*/
-				
-				if(fotoSubida && descripcionFoto != null && descripcionFoto.trim().length() > 0){
-					cotfotopersona.setDescripcion(descripcionFoto);
-				}
 				
 				Utilities utilities = new Utilities();
 				
 				if(idpersona > 0){
-					ok = cotpersonaBO.modificarCotpersona(cotpersona, cotpersonaClon, lisCotfotopersona, lisCotfotopersonaClon, cotfotopersona, uploadedFile, null);
+					ok = cotpersonaBO.modificarCotpersona(cotpersona, cotpersonaClon, lisCotfotopersona, lisCotfotopersonaClon, null);
 					if(ok){
 						utilities.mostrarPaginaMensaje("Persona actualizada con exito!!");
 					}else{
 						new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
 					}
 				}else{
-					ok = cotpersonaBO.ingresarCotpersona(cotpersona, cotfotopersona, uploadedFile, null);
-					uploadedFile = null;
+					ok = cotpersonaBO.ingresarCotpersona(cotpersona, lisCotfotopersona, null);
 					if(ok){
 						utilities.mostrarPaginaMensaje("Persona ingresada con exito!!");
 					}else{
@@ -293,66 +257,6 @@ public class PersonaBean implements Serializable {
 		this.lisCottipoidentificacion = lisCottipoidentificacion;
 	}
 	
-	/*public UploadedFile getFile() {
-		return file;
-	}*/
-
-	/*public void setFile(UploadedFile file) {
-		this.file = file;
-	}*/
-
-	/*public StreamedContent getFoto() {
-		FacesUtil facesUtil = new FacesUtil();
-		StreamedContent object = (StreamedContent) facesUtil.getSessionBean("foto");
-		if(object != null){
-			foto = object;
-		}
-		return foto;
-	}*/
-
-	/*public void setFoto(StreamedContent foto) {
-		this.foto = foto;
-	}*/
-
-	/*public void handleFileUpload(FileUploadEvent event) {
-		try {
-			cotpersona.setObjeto(event.getFile().getContents());
-			nombreFoto = event.getFile().getFileName();
-
-			//se crea la imagen en el disco del servidor temporalmente
-			FileUtil fileUtil = new FileUtil();
-			String fileExtention = fileUtil.getFileExtention(nombreFoto);
-			String newNombreFoto = cotpersona.getSexo()+"-"+cotpersona.getIdpersona()+"."+fileExtention;
-			FacesUtil facesUtil = new FacesUtil();
-			String rutaCompletaDir = facesUtil.getRealPath("")+Parametro.PERSONAS_PATH+cotpersona.getIdpersona();
-			
-			if(fileUtil.createDir(rutaCompletaDir)){
-				String rutaCompletaFile = rutaCompletaDir+Parametro.FILE_SEPARATOR+newNombreFoto;
-				fileUtil.createFile(rutaCompletaFile,cotpersona.getObjeto());
-			}
-			
-			//una vez creada la imagen en el servidor se actualiza la ruta
-			rutaFotoWar = Parametro.PERSONAS_PATH + cotpersona.getIdpersona() + Parametro.FILE_SEPARATOR + newNombreFoto;
-			cotpersona.setRuta(rutaFotoWar);
-		} catch(Exception re) {
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-		}
-	}*/
-	
-	/*public void handleFileUpload2(FileUploadEvent event) {
-		try {
-			cotpersona.setObjeto(event.getFile().getContents());
-			nombreFoto = event.getFile().getFileName();
-
-			StreamedContent object = new DefaultStreamedContent(event.getFile().getInputstream(), event.getFile().getContentType(), "nombreFoto");
-			FacesUtil facesUtil = new FacesUtil();
-			facesUtil.setSessionBean("foto", object);
-			//foto = new DefaultStreamedContent(event.getFile().getInputstream(), event.getFile().getContentType(), "nombreFoto");
-		} catch(Exception re) {
-			new MessageUtil().showFatalMessage("Esto es Vergonzoso!", "Ha ocurrido un error inesperado. Comunicar al Webmaster!");
-		}
-	}*/
-	
 	public Cottipoidentificacion getCottipoidentificacionselected() {
 		return cottipoidentificacionselected;
 	}
@@ -361,14 +265,6 @@ public class PersonaBean implements Serializable {
 			Cottipoidentificacion cottipoidentificacionselected) {
 		this.cottipoidentificacionselected = cottipoidentificacionselected;
 	}
-
-	/*public int getIdtipoidentificacion() {
-		return idtipoidentificacion;
-	}
-
-	public void setIdtipoidentificacion(int idtipoidentificacion) {
-		this.idtipoidentificacion = idtipoidentificacion;
-	}*/
 
 	public Cotfotopersona getCotfotopersonaSelected() {
 		return cotfotopersonaSelected;
@@ -392,14 +288,6 @@ public class PersonaBean implements Serializable {
 
 	public void setFotoSubida(boolean fotoSubida) {
 		this.fotoSubida = fotoSubida;
-	}
-	
-	public String getDescripcionFoto() {
-		return descripcionFoto;
-	}
-
-	public void setDescripcionFoto(String descripcionFoto) {
-		this.descripcionFoto = descripcionFoto;
 	}
 	
 	public long getMaxfilesize() {

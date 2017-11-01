@@ -47,7 +47,7 @@ public class SevmenuBO {
 				lisMenu.add(menu);
 			}
 		}catch(Exception he){
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}
@@ -86,7 +86,7 @@ public class SevmenuBO {
 				lisMenu.add(menu);
 			}
 		}catch(Exception he){
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}

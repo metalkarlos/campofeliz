@@ -21,7 +21,7 @@ public class CotformapagoBO {
 			
 			cotformapago = cotformapagoDAO.getCotformapagoById(session, id);
 		} catch(Exception he) {
-			throw new Exception();
+			throw new Exception(he);
 		} finally {
 			session.close();
 		}
@@ -40,7 +40,7 @@ public class CotformapagoBO {
 			
 			lisCotformapago = cotformapagoDAO.lisCotformapago(session);
 		}catch(Exception he){
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}

@@ -25,7 +25,7 @@ public class PetrazaBO {
 			
 			lisPetraza = petrazaDAO.lisPetraza(session, idespecie);
 		}catch(Exception he){
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}
@@ -44,7 +44,7 @@ public class PetrazaBO {
 			
 			petraza = petrazaDAO.getPetrazaById(session, id);
 		}catch(Exception he){
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}
@@ -63,7 +63,7 @@ public class PetrazaBO {
 			
 			lisPetraza = petrazaDAO.lisPetrazaByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
-			throw new RuntimeException();
+			throw new RuntimeException(he);
 		}finally{
 			session.close();
 		}
@@ -82,7 +82,7 @@ public class PetrazaBO {
 			
 			lisPetraza = petrazaDAO.lisPetrazaPorEspeciePagineo(session, idespecie, nombre, pageSize, pageNumber, args);
 		}catch(Exception he){
-			throw new RuntimeException();
+			throw new RuntimeException(he);
 		}finally{
 			session.close();
 		}
@@ -120,7 +120,7 @@ public class PetrazaBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception(); 
+			throw new Exception(he); 
 		}finally{
 			session.close();
 		}
@@ -154,7 +154,7 @@ public class PetrazaBO {
 			}
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}
@@ -187,7 +187,7 @@ public class PetrazaBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}

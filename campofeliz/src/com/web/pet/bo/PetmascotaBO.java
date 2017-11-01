@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.primefaces.model.UploadedFile;
 
 import com.web.pet.bean.UsuarioBean;
 import com.web.pet.dao.PetfotomascotaDAO;
@@ -22,7 +21,7 @@ import com.web.util.HibernateUtil;
 
 public class PetmascotaBO {
 
-	public boolean modificarMascota(Petmascotahomenaje petmascotahomenaje,Petmascotahomenaje petmascotahomenajeClon,List<Petfotomascota> lisPetfotomascota,List<Petfotomascota> lisPetfotomascotaClon,List<Petmascotacolor> lisPetmascotacolor, List<Petmascotacolor> lisPetmascotacolorOld, Petfotomascota petfotomascota, UploadedFile uploadedFile, Session sessionExterna) throws Exception{
+	public boolean modificarMascota(Petmascotahomenaje petmascotahomenaje,Petmascotahomenaje petmascotahomenajeClon,List<Petfotomascota> lisPetfotomascota,List<Petfotomascota> lisPetfotomascotaClon,List<Petmascotacolor> lisPetmascotacolor, List<Petmascotacolor> lisPetmascotacolorOld, Session sessionExterna) throws Exception{
 		boolean ok = false;
 		Session session = null;
 		
@@ -64,6 +63,8 @@ public class PetmascotaBO {
 							PetfotomascotaDAO.updatePetfotomascota(session, petfotomascotaItem);
 							ok = true;
 						}
+						
+						break;
 					}
 				}
 				if(!encuentra){
@@ -85,13 +86,12 @@ public class PetmascotaBO {
 					//eliminar foto del disco
 					String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
 					
-					String rutaArchivo = rutaImagenes + petfotomascotaClon.getRuta();
+					String rutaArchivo = rutaImagenes + "/" + petfotomascotaClon.getRuta();
 					
 					fileUtil.deleteFile(rutaArchivo);
 					ok = true;
 				}
 			}
-			
 			
 			//ingresar colores nuevos
 			boolean isnew = true;
@@ -139,14 +139,29 @@ public class PetmascotaBO {
 				}
 			}
 			
-			//Si subio foto se crea en disco y en base
-			if(uploadedFile != null){
-				creaFotoDiscoBD(petmascotahomenaje, petfotomascota, uploadedFile, session);
+			//Se evalua si han subido nuevas fotos
+			for(Petfotomascota petfotomascota : lisPetfotomascota){
+				boolean encuentra = false;
+				for(Petfotomascota petfotomascotaClon : lisPetfotomascotaClon){
+					if(petfotomascota.getIdfotomascota() == petfotomascotaClon.getIdfotomascota()){
+						//si encuentra
+						encuentra = true; 
+						break;
+					}
+				}
+				//no encuentra en lista clonada
+				if(!encuentra){
+					//es foto nueva
+					creaFotoDiscoBD(petmascotahomenaje, petfotomascota, session);
+					ok = true;
+				}
+			}
+			
+			if(lisPetfotomascota != null && lisPetfotomascota.size() > 0){
 				//si no tiene imagen principal se setea
 				if(petmascotahomenaje.getRutafoto() == null || petmascotahomenaje.getRutafoto().trim().length() == 0){
-					petmascotahomenaje.setRutafoto(petfotomascota.getRuta());
+					petmascotahomenaje.setRutafoto(lisPetfotomascota.get(0).getRuta());
 				}
-				ok = true;
 			}
 			
 			//Se graba la mascota si han habido cambios
@@ -169,7 +184,7 @@ public class PetmascotaBO {
 			if(sessionExterna == null){
 				session.getTransaction().rollback();
 			}
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			if(sessionExterna == null){
 				session.close();
@@ -179,7 +194,7 @@ public class PetmascotaBO {
 		return ok;
 	}
 	
-	private void creaFotoDiscoBD(Petmascotahomenaje petmascotahomenaje, Petfotomascota petfotomascota, UploadedFile uploadedFile, Session session) throws Exception {
+	private void creaFotoDiscoBD(Petmascotahomenaje petmascotahomenaje, Petfotomascota petfotomascota, Session session) throws Exception {
 		UsuarioBean usuarioBean = (UsuarioBean)new FacesUtil().getSessionBean("usuarioBean");
 		PetfotomascotaDAO petfotomascotaDAO = new PetfotomascotaDAO();
 		
@@ -193,14 +208,14 @@ public class PetmascotaBO {
 		
 		String rutaImagenes = facesUtil.getContextParam("imagesDirectory");
 		String rutaMascotas =  fileUtil.getPropertyValue("repositorio-mascota") + "/" + fecha.get(Calendar.YEAR);
-		String nombreArchivo = fecha.get(Calendar.YEAR) + "-" + (fecha.get(Calendar.MONTH) + 1) + "-" + fecha.get(Calendar.DAY_OF_MONTH) + "-" + petmascotahomenaje.getIdmascota() + "-" + cantFotosPorMascota + "." + fileUtil.getFileExtention(uploadedFile.getFileName()).toLowerCase();
+		String nombreArchivo = fecha.get(Calendar.YEAR) + "-" + (fecha.get(Calendar.MONTH) + 1) + "-" + fecha.get(Calendar.DAY_OF_MONTH) + "-" + petmascotahomenaje.getIdmascota() + "-" + cantFotosPorMascota + "." + fileUtil.getFileExtention(petfotomascota.getNombrearchivo()).toLowerCase();
 		
 		String rutaCompleta = rutaImagenes + "/" + rutaMascotas;
 		
 		if(fileUtil.createDir(rutaCompleta)){
 			//crear foto en disco
 			String rutaArchivo = rutaCompleta + "/" + nombreArchivo;
-			fileUtil.createFile(rutaArchivo,uploadedFile.getContents());
+			fileUtil.createFile(rutaArchivo,petfotomascota.getObjeto());
 		}
 		
 		//foto en BD
@@ -209,7 +224,6 @@ public class PetmascotaBO {
 		String rutaBD = "/" + rutaMascotas + "/" + nombreArchivo;
 		petfotomascota.setRuta(rutaBD);
 		petfotomascota.setNombrearchivo(nombreArchivo);
-		petfotomascota.setMostrar(1);//campo sin uso ya que tabla principal posee ruta de foto de perfil
 		Setestado setestadoPetfotomascota = new Setestado();
 		setestadoPetfotomascota.setIdestado(1);
 		petfotomascota.setSetestado(setestadoPetfotomascota);
@@ -224,7 +238,7 @@ public class PetmascotaBO {
 		petfotomascotaDAO.savePetfotomascota(session, petfotomascota);
 	}
 	
-	public boolean ingresarMascota(Petmascotahomenaje petmascotahomenaje, List<Petmascotacolor> lisPetmascotacolor, Petfotomascota petfotomascota, UploadedFile uploadedFile, Session sessionExterna) throws Exception {
+	public boolean ingresarMascota(Petmascotahomenaje petmascotahomenaje, List<Petfotomascota> lisPetfotomascota, List<Petmascotacolor> lisPetmascotacolor, Session sessionExterna) throws Exception {
 		boolean ok = false;
 		Session session = null;
 		
@@ -275,10 +289,12 @@ public class PetmascotaBO {
 			}
 			
 			//Si subio foto se crea en disco y en base
-			if(uploadedFile != null){
-				creaFotoDiscoBD(petmascotahomenaje, petfotomascota, uploadedFile, session);
+			for(Petfotomascota petfotomascota : lisPetfotomascota){
+				creaFotoDiscoBD(petmascotahomenaje, petfotomascota, session);
+			}
+			if(lisPetfotomascota != null && lisPetfotomascota.size() > 0){
 				//se setea la ruta de la foto tambien en petnoticia.rutafoto
-				petmascotahomenaje.setRutafoto(petfotomascota.getRuta());
+				petmascotahomenaje.setRutafoto(lisPetfotomascota.get(0).getRuta());
 				//update
 				petmascotaDAO.updatePetmascota(session, petmascotahomenaje);
 			}
@@ -292,7 +308,7 @@ public class PetmascotaBO {
 			if(sessionExterna == null){
 				session.getTransaction().rollback();
 			}
-			throw new Exception(); 
+			throw new Exception(he); 
 		}finally{
 			if(sessionExterna == null){
 				session.close();
@@ -393,7 +409,7 @@ public class PetmascotaBO {
 			
 			petmascotahomenaje = petmascotaDAO.getPetmascotaById(session, idmascota);
 		}catch(Exception he){
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}
@@ -412,7 +428,7 @@ public class PetmascotaBO {
 			
 			lisPetmascotahomenaje = petmascotaDAO.lisPetmascotaByEspecieByPage(session, especie, nombre, pageSize, pageNumber, args);
 		}catch(Exception he){
-			throw new RuntimeException();
+			throw new RuntimeException(he);
 		}finally{
 			session.close();
 		}
@@ -443,7 +459,7 @@ public class PetmascotaBO {
 			}*/
 			
 		}catch(Exception he){
-			throw new RuntimeException();
+			throw new RuntimeException(he);
 		}finally{
 			session.close();
 		}
@@ -473,7 +489,7 @@ public class PetmascotaBO {
 				lisMascotas.add(mascotas);
 			}*/
 		} catch(Exception e){
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			session.close();
 		}

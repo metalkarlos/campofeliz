@@ -25,7 +25,7 @@ public class CotlugarBO {
 			
 			lisCotlugar = cotlugarDAO.lisCotlugar(session);
 		}catch(Exception he){
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}
@@ -44,7 +44,7 @@ public class CotlugarBO {
 			
 			cotlugar = cotlugarDAO.getCotlugarById(session, id);
 		} catch(Exception e){
-			throw new Exception();
+			throw new Exception(e);
 		} finally {
 			session.close();
 		}
@@ -63,7 +63,7 @@ public class CotlugarBO {
 			
 			lisCotlugar = cotlugarDAO.lisCotlugarByTipoLugar(session, idtipolugar);
 		} catch(Exception e){
-			throw new Exception();
+			throw new Exception(e);
 		} finally {
 			session.close();
 		}
@@ -82,7 +82,7 @@ public class CotlugarBO {
 			
 			lisCotlugar = cotlugarDAO.lisCotlugarByPage(session, pageSize, pageNumber, args);
 		}catch(Exception he){
-			throw new RuntimeException();
+			throw new RuntimeException(he);
 		}finally{
 			session.close();
 		}
@@ -120,7 +120,7 @@ public class CotlugarBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception(); 
+			throw new Exception(he); 
 		}finally{
 			session.close();
 		}
@@ -154,7 +154,7 @@ public class CotlugarBO {
 			}
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}
@@ -187,7 +187,7 @@ public class CotlugarBO {
 			ok = true;
 		}catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(he);
 		}finally{
 			session.close();
 		}

@@ -24,7 +24,7 @@ public class PetmascotacolorBO {
 			
 			lisPetmascotacolor = petmascotacolorDAO.lisPetmascotacolor(session, idmascota);
 		}catch(Exception e){
-			throw new Exception();
+			throw new Exception(e);
 		}finally{
 			session.close();
 		}
@@ -58,7 +58,7 @@ public class PetmascotacolorBO {
 			ok = true;
 		}catch(Exception e){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(e);
 		}finally{
 			session.close();
 		}

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -115,25 +116,41 @@
 					<p:column>
 					<h:panelGroup id="idpanelgaleria" rendered="#{personaBean.lisCotfotopersona.size() > 0}" >
 					<center>
-					<p:galleria id="idgalleria" value="#{personaBean.lisCotfotopersona}" var="item" transitionInterval="0" panelWidth="500" panelHeight="400" rendered="#{personaBean.lisCotfotopersona.size() > 0}">
-		        <p:graphicImage id="idfotos" value="#{parametro.servletImagenes}#{item.ruta}?w=60" style="max-height: 58px;" />
-		        <f:facet name="content">
-	            <h:panelGrid cellpadding="0" cellspacing="0" border="0" columns="1" style="background-color: #eaeaea;height: 300px;" >  
-			        	<f:facet name="header">
-		            	<p:graphicImage id="idfoto" value="#{parametro.servletImagenes}#{item.ruta}?w=400" style="max-height: 300px; padding-top: 10px" />
-		            	
-		            	<p:commandButton id="idbuttonprincipal" title="Colocar como foto principal" icon="ui-icon ui-icon-person" immediate="true" oncomplete="varFotoPrincipal.show()" style="position:absolute;right:0px;top:30px;" update=":form-contentpage:pnlFotoPrincipal" >
-					        	<f:setPropertyActionListener value="#{item}" target="#{personaBean.cotfotopersonaSelected}" />
-					        </p:commandButton>
-					        <p:commandButton id="idbuttondelete"  title="Eliminar foto permanentemente" icon="ui-icon ui-icon-trash" immediate="true" oncomplete="varEliminarFoto.show()" style="position:absolute;right:0px;top:60px;" update=":form-contentpage:pnlEliminarFoto">
-					        	<f:setPropertyActionListener value="#{item}" target="#{personaBean.cotfotopersonaSelected}" />
-					        </p:commandButton>
-				        </f:facet>
-					    </h:panelGrid>
-					    <h:outputLabel value="Descripción de la Foto" for="txtDescripcionFoto" />
-					    <p:inputTextarea id="txtDescripcionFoto" value="#{item.descripcion}" maxlength="500" autoResize="false" />
-						</f:facet>
-					</p:galleria>
+					
+						<p:dataGrid id="idgalleria"
+							styleClass="nav-gallery col-md-12" var="imagen"
+							value="#{personaBean.lisCotfotopersona}"
+							rendered="#{personaBean.lisCotfotopersona.size() > 0}"
+							columns="3" rows="6" efect="true" paginator="true"
+							paginatorPosition="bottom"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							emptyMessage="No se encontraron registros" lazy="true"
+							layout="grid">
+
+							<p:panel header="#{(imagen.ruta != null and imagen.ruta.equals(personaBean.cotfotopersonaSelected.ruta))? 'En Perfil':'' }" style="text-align:center">
+			            <h:panelGrid columns="1" style="width:100%">
+			                <p:graphicImage	value="#{parametro.servletImagenes}#{imagen.ruta}?w=800&amp;h=640&amp;m=both" styleClass="img-responsive" /> 
+			 
+			                <p:inputTextarea id="txtDescripcionFoto" value="#{imagen.descripcion}" maxlength="500" style="width: 100%;" />
+											
+											<h:panelGrid columns="2" style="width:100%">
+											<p:commandButton id="idbuttonprincipal2" 
+												title="Seleccionar foto del perfil" oncomplete="varFotoPrincipal.show()"
+												icon="ui-icon ui-icon-person" update=":form-contentpage:pnlFotoPrincipal" 
+												disabled="#{(imagen.ruta != null and imagen.ruta.equals(personaBean.cotfotopersonaSelected.ruta))? true:false }">
+												<f:setPropertyActionListener value="#{imagen}" target="#{personaBean.cotfotopersonaSelected}" />
+											</p:commandButton>
+											<p:commandButton id="idbuttondelete2"
+												title="Eliminar foto permanentemente" oncomplete="varEliminarFoto.show()"
+												icon="ui-icon ui-icon-trash" update=":form-contentpage:pnlEliminarFoto"
+												disabled="#{(imagen.ruta != null and imagen.ruta.equals(personaBean.cotfotopersonaSelected.ruta))? true:false }">
+												<f:setPropertyActionListener value="#{imagen}" target="#{personaBean.cotfotopersonaSelected}" />
+											</p:commandButton>
+											</h:panelGrid>
+			            </h:panelGrid>
+			        </p:panel>
+						</p:dataGrid>
+					
 					</center>
 					</h:panelGroup>
 					</p:column>
@@ -150,42 +167,9 @@
 					
 					<p:row>
 					<p:column colspan="2">
-					<p:panel id="pnlPrevia" styleClass="panel-previa">
-						<table>
-						<tr>
-						<td>
-						<p:graphicImage id="idfotoseleccionada" value="#{usuarioBean.streamedContent}" rendered="#{personaBean.fotoSubida}" />
-						</td>
-						<td style="vertical-align: top;">
-						<p:commandButton id="btnBorraFoto" icon="ui-icon ui-icon-trash" action="#{personaBean.borrarFotoSubida()}" update="pnlPrevia,pnlTituloDescripcionFoto,pnlTxtDescripcionFoto" process="pnlPrevia" rendered="#{personaBean.fotoSubida}" />
-						</td>
-						</tr>
-						</table>
-					</p:panel>
 					<p:fileUpload id="idSubeFotos" fileUploadListener="#{personaBean.handleFileUpload}" mode="advanced" 
 					cancelLabel="Cancelar" uploadLabel="Subir Foto" label="Elegir Foto" sizeLimit="#{personaBean.maxfilesize}" showButtons="false"
-					update="mensajes,pnlPrevia,pnlTituloDescripcionFoto,pnlTxtDescripcionFoto" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" widgetVar="widgetVar"/>
-					</p:column>
-					</p:row>
-					
-					<p:row>
-					<p:column colspan="2">
-					<h:panelGroup id="pnlTituloDescripcionFoto">
-					<h:outputLabel for="txtDescripcionFoto" rendered="#{personaBean.fotoSubida}" >
-					<div class="titulo">Descripción de la Foto</div>
-					</h:outputLabel>
-					</h:panelGroup>
-					</p:column>
-					</p:row>
-					
-					<p:row>
-					<p:column>
-					<h:panelGroup id="pnlTxtDescripcionFoto">
-					<p:inputTextarea id="txtDescripcionFoto2" value="#{personaBean.descripcionFoto}" maxlength="500" autoResize="false" rendered="#{personaBean.fotoSubida}" />
-					</h:panelGroup>
-					</p:column>
-					<p:column>
-					<p:message id="msgtxtDescripcionFoto2" for="txtDescripcionFoto2" display="icon" />
+					update="mensajes" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" widgetVar="widgetVar"/>
 					</p:column>
 					</p:row>
 					
@@ -394,7 +378,7 @@
 							<p:commandButton id="idconfirmarprincipal" value="Confirmar"
 								action="#{personaBean.ponerFotoPrincipal}"
 								onclick="varFotoPrincipal.hide()"
-								update="mensajes" />
+								update=":form-contentpage:mensajes, :form-contentpage:idpanellabelgaleria, :form-contentpage:idpanelgaleria" />
 							<p:commandButton id="idcancelarprincipal" value="Cancelar"
 								onclick="varFotoPrincipal.hide()" immediate="true" />
 						</p:column>

@@ -53,7 +53,7 @@ public class CoteventoBO {
 			ok = true;
 		} catch(Exception e){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(e);
 		} finally {
 			session.close();
 		}
@@ -83,7 +83,7 @@ public class CoteventoBO {
 			ok = true;
 		} catch(Exception e){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(e);
 		} finally {
 			session.close();
 		}
@@ -106,7 +106,7 @@ public class CoteventoBO {
 			ok = true;
 		} catch(Exception e){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(e);
 		} finally {
 			session.close();
 		}
@@ -125,7 +125,7 @@ public class CoteventoBO {
 			
 			lisCotevento = coteventoDAO.lisCotevento(session, fechadesde, fechahasta);
 		} catch(Exception e){
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			session.close();
 		}

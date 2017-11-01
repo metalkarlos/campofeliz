@@ -26,7 +26,7 @@ package com.web.pet.bo;
 				
 				lisCotfotopersona = cotfotopersonaDAO.lisCotfotopersonaByIdpersona(session, idpersona);
 			}catch(Exception re){
-				throw new Exception();
+				throw new Exception(re);
 			}finally{
 				session.close();
 			}
@@ -85,7 +85,7 @@ package com.web.pet.bo;
 				ok = true;
 			}catch(Exception re){
 				session.getTransaction().rollback();
-				throw new Exception(); 
+				throw new Exception(re); 
 			}finally{
 				session.close();
 			}
@@ -115,7 +115,7 @@ package com.web.pet.bo;
 				ok = true;
 			}catch(Exception he){
 				session.getTransaction().rollback();
-				throw new Exception();
+				throw new Exception(he);
 			}finally{
 				session.close();
 			}
@@ -134,7 +134,7 @@ package com.web.pet.bo;
 				
 				cotfotopersona = cotfotopersonaDAO.getCotfotopersonaPerfilByIdpersona(session, idpersona);
 			} catch(Exception he){
-				throw new Exception(); 
+				throw new Exception(he); 
 			}finally{
 				session.close();
 			}
@@ -158,7 +158,7 @@ package com.web.pet.bo;
 				ok = true;
 			} catch(Exception he){
 				session.getTransaction().rollback();
-				throw new RuntimeException(); 
+				throw new RuntimeException(he); 
 			}finally{
 				session.close();
 			}
@@ -186,7 +186,7 @@ package com.web.pet.bo;
 				ok = true;
 			} catch(Exception he){
 				session.getTransaction().rollback();
-				throw new Exception(); 
+				throw new Exception(he); 
 			}finally{
 				session.close();
 			}
@@ -210,7 +210,7 @@ package com.web.pet.bo;
 				ok = true;
 			} catch(Exception he){
 				session.getTransaction().rollback();
-				throw new Exception(); 
+				throw new Exception(he); 
 			}finally{
 				session.close();
 			}

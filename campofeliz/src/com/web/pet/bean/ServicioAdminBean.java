@@ -12,9 +12,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.primefaces.model.UploadedFile;
 
 import com.web.pet.bo.CotoficinaBO;
 import com.web.pet.bo.PetservicioBO;
@@ -45,9 +42,6 @@ public class ServicioAdminBean implements Serializable {
 	private List<Petfotoservicio> lisPetfotoservicioClon;
 	private List<Cotoficina> lisCotoficina;
 	private Petfotoservicio petfotoservicioSeleccionado;
-	private StreamedContent streamedContent;
-	private UploadedFile uploadedFile;
-	private String descripcionFoto;
 	private boolean fotoSubida;
 	private long maxfilesize;
 	
@@ -58,7 +52,6 @@ public class ServicioAdminBean implements Serializable {
 		lisPetfotoservicioClon = new ArrayList<Petfotoservicio>();
 		lisCotoficina = new ArrayList<Cotoficina>();
 		petfotoservicioSeleccionado = new Petfotoservicio();
-		descripcionFoto = "";
 		fotoSubida = false;
 		maxfilesize = Parametro.TAMAÑO_IMAGEN;
 	}
@@ -111,8 +104,6 @@ public class ServicioAdminBean implements Serializable {
 					}
 					
 					if(petservicio.getPetfotoservicios() != null && petservicio.getPetfotoservicios().size() > 0){
-						//lisPetfotoservicio = new ArrayList<Petfotoservicio>(petservicio.getPetfotoservicios());
-						
 						//ordenar por fecharegistro
 						Petfotoservicio[] arr = new Petfotoservicio[petservicio.getPetfotoservicios().size()];
 						arr = petservicio.getPetfotoservicios().toArray(arr);
@@ -133,13 +124,10 @@ public class ServicioAdminBean implements Serializable {
 
 	public void handleFileUpload(FileUploadEvent event) {
 		try{
-			uploadedFile = event.getFile();
-			streamedContent = new DefaultStreamedContent(event.getFile().getInputstream(), event.getFile().getContentType());
-			
-			FacesUtil facesUtil = new FacesUtil();
-			UsuarioBean usuarioBean = (UsuarioBean)facesUtil.getSessionBean("usuarioBean");
-			usuarioBean.setStreamedContent(streamedContent);
-			facesUtil.setSessionBean("usuarioBean", usuarioBean);
+			Petfotoservicio petfotoservicio = new Petfotoservicio();
+			petfotoservicio.setImagen(event.getFile().getContents());
+			petfotoservicio.setNombrearchivo(event.getFile().getFileName().toLowerCase());
+			lisPetfotoservicio.add(petfotoservicio);
 			fotoSubida = true;
 			
 			new MessageUtil().showInfoMessage("Presione Grabar para guardar los cambios.","");
@@ -164,33 +152,22 @@ public class ServicioAdminBean implements Serializable {
 		}
 	}
 	
-	public void borrarFotoSubida(){
-		streamedContent = null;
-		uploadedFile = null;
-		fotoSubida = false;
-	}
-	
 	public void grabar(){
 		try{
 			boolean ok = false;
 			
 			PetservicioBO petservicioBO = new PetservicioBO();
 			Utilities utilities = new Utilities();
-			Petfotoservicio petfotoservicio = new Petfotoservicio();
-			
-			if(fotoSubida && descripcionFoto != null && descripcionFoto.trim().length() > 0){
-				petfotoservicio.setDescripcion(descripcionFoto);
-			}
 			
 			if(idservicio == 0){
-				ok = petservicioBO.ingresar(petservicio, petfotoservicio, uploadedFile);
+				ok = petservicioBO.ingresar(petservicio, lisPetfotoservicio);
 				if(ok){
 					utilities.mostrarPaginaMensaje("Servicio creado con exito!!");
 				}else{
 					new MessageUtil().showInfoMessage("No existen cambios que guardar.", "");
 				}
 			}else{
-				ok = petservicioBO.modificar(petservicio, petservicioClon, lisPetfotoservicio, lisPetfotoservicioClon, petfotoservicio, uploadedFile);
+				ok = petservicioBO.modificar(petservicio, petservicioClon, lisPetfotoservicio, lisPetfotoservicioClon);
 				if(ok){
 					utilities.mostrarPaginaMensaje("Servicio modificado con exito!!");
 				}else{
@@ -253,28 +230,12 @@ public class ServicioAdminBean implements Serializable {
 		this.petfotoservicioSeleccionado = petfotoservicioSeleccionado;
 	}
 
-	public StreamedContent getStreamedContent() {
-		return streamedContent;
-	}
-
-	public void setStreamedContent(StreamedContent streamedContent) {
-		this.streamedContent = streamedContent;
-	}
-
 	public boolean isFotoSubida() {
 		return fotoSubida;
 	}
 
 	public void setFotoSubida(boolean fotoSubida) {
 		this.fotoSubida = fotoSubida;
-	}
-
-	public String getDescripcionFoto() {
-		return descripcionFoto;
-	}
-
-	public void setDescripcionFoto(String descripcionFoto) {
-		this.descripcionFoto = descripcionFoto;
 	}
 
 	public long getMaxfilesize() {

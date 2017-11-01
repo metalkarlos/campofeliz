@@ -7,28 +7,18 @@
   <ui:define name="title">Campo Feliz - Servicios</ui:define>
   <ui:define name="head">
 		<style type="text/css">
-			/*.inner-content {
-				padding: 30px 0;
-			}*/
-			.label {
-				font-weight: bold;
-				font-size: 15px;
-				line-height: 300%;
-			}
 			.ui-panelgrid tr, .ui-panelgrid td {
 				border: none;
 				padding: 4px 0px;
 			}
+			/*.ui-autocomplete input {
+				width: 80%;
+			}*/
+			.calendario input {
+				width: 100px;
+			}
 			.area-botones {
 				margin: 0px;
-			}
-			.panel-previa .ui-panel-content {
-				padding: 0px;
-			}
-			.ui-galleria textarea {
-				max-width: 400px;
-				min-width: 400px;
-				/*margin-top: 10px;*/
 			}
 			.col1 {
 				
@@ -42,7 +32,7 @@
 		</style>
 		<script type="text/javascript">
 			function atras(){
-				redirect("../admin/servicio.jsf?idservicio="+#{servicioAdminBean.idservicio}+"&amp;idempresa="+#{servicioAdminBean.idempresa});
+				redirect("../admin/servicios.jsf?iditem=42&amp;idempresa="+#{servicioAdminBean.idempresa});
 			}
 		</script>
 	</ui:define>

@@ -26,7 +26,7 @@ public class PetordenserviciodetalleBO {
 			
 			petordenserviciodetalle = petordenserviciodetalleDAO.getPetordenserviciodetalleById(session, petordenserviciodetalleId);
 		} catch(Exception he) {
-			throw new Exception();
+			throw new Exception(he);
 		} finally {
 			session.close();
 		}
@@ -45,7 +45,7 @@ public class PetordenserviciodetalleBO {
 			
 			lisPetordenserviciodetalle = petordenserviciodetalleDAO.lisPetordenserviciodetalleByPage(session, pageSize, pageNumber, args, petordenservicioId);
 		}catch(Exception e){
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		}finally{
 			session.close();
 		}
@@ -64,7 +64,7 @@ public class PetordenserviciodetalleBO {
 			
 			lisPetordenserviciodetalle = petordenserviciodetalleDAO.lisPetordenserviciodetalle(session, petordenservicioId);
 		}catch(Exception e){
-			throw new Exception(e.getMessage(), e.getCause());
+			throw new Exception(e);
 		}finally{
 			session.close();
 		}
@@ -128,7 +128,7 @@ public class PetordenserviciodetalleBO {
 			ok = true;
 		}catch(Exception e){
 			session.getTransaction().rollback();
-			throw new Exception();
+			throw new Exception(e);
 		}finally{
 			session.close();
 		}
@@ -152,7 +152,7 @@ public class PetordenserviciodetalleBO {
 			ok = true;
 		} catch(Exception he){
 			session.getTransaction().rollback();
-			throw new Exception(); 
+			throw new Exception(he); 
 		}finally{
 			session.close();
 		}

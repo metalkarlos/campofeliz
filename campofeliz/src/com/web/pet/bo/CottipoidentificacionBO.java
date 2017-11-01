@@ -21,7 +21,7 @@ public class CottipoidentificacionBO {
 			
 			lisCottipoidentificacion = cottipoidentificacionDAO.lisCottipoidentificacion(session);
 		}catch(Exception e){
-			throw new Exception();
+			throw new Exception(e);
 		}finally{
 			session.close();
 		}

@@ -22,7 +22,7 @@ public class PetformapagoordenBO {
 			
 			lisPetformapagoorden = petformapagoordenDAO.lisPetformapagoorden(session, petordenservicioId);
 		}catch(Exception e){
-			throw new Exception(e.getMessage(), e.getCause());
+			throw new Exception(e);
 		}finally{
 			session.close();
 		}
