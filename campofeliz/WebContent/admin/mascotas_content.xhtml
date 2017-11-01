@@ -13,6 +13,10 @@
 		
 		<p:panel id="panel-ordencontent">
 			<div class="blog-search">
+				<p:selectOneMenu id="idespeciemascota" value="#{mascotasBean.especie}" >
+					<f:selectItem itemLabel="Todos" itemValue="0"/>
+					<f:selectItems value="#{mascotasBean.lisPetespecie}" var="especie" itemLabel="#{especie.nombre}" itemValue="#{especie.idespecie}"></f:selectItems>
+				</p:selectOneMenu>
 				<p:inputText id="txtbusqueda" value="#{mascotasBean.nombre}"
 					onblur="if(this.value==''){this.value='#{mascotasBean.textoBusqueda}'}"
 					onfocus="if(this.value=='#{mascotasBean.textoBusqueda}'){this.value=''}" 
@@ -41,13 +45,13 @@
 						</f:facet>
 						<f:facet name="footer">
 							<center>
-								<h:outputText value="##{pet.idmascota}" />
+								<h:outputText value="#{pet.petespecie.nombre} ##{pet.idmascota}" />
 								<br />
 								F.F.: <h:outputText value="#{pet.fechafallecimiento}" >
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 								<br />
-								<h:outputText value="#{pet.cotpersona.apellido2} #{pet.cotpersona.apellido1} #{pet.cotpersona.nombre2} #{pet.cotpersona.nombre1}" />
+								<h:outputText value="#{pet.cotpersona.nombre1} #{pet.cotpersona.nombre2} #{pet.cotpersona.apellido1} #{pet.cotpersona.apellido2}" />
 							</center>
 						</f:facet>
 						<h:panelGrid columns="1" style="width:100%;height: 110px;">

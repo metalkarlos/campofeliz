@@ -57,9 +57,9 @@ public class MascotasBean implements Serializable {
 		
 		llenarListaEspecieMascota();
 		
-		if(lisPetespecie != null && lisPetespecie.size() > 0){
+		/*if(lisPetespecie != null && lisPetespecie.size() > 0){
 			especie = lisPetespecie.get(0).getIdespecie();
-		}
+		}*/
 		
 		consultarMascotas();
 		
@@ -101,9 +101,9 @@ public class MascotasBean implements Serializable {
 					int args[] = {0};
 					
 					String nombreParam = nombre.equals(textoBusqueda)?null:nombre;
-					if(especie > 0 || nombreParam != null){
+					//if(especie > 0 || nombreParam != null){
 						data = petmascotaBO.lisPetmascotahomenajeEspecieByPage(especie, nombreParam, pageSize, first, args);
-					}
+					//}
 
 					this.setRowCount(args[0]);
 	

@@ -63,10 +63,11 @@ public class PetmascotaDAO {
 		Criteria criteria = session.createCriteria(Petmascotahomenaje.class)
 		.add( Restrictions.eq("setestado.idestado", 1) )
 		.createAlias("petraza", "raza", JoinType.LEFT_OUTER_JOIN)
-		.createAlias("cotpersona", "persona", JoinType.LEFT_OUTER_JOIN);
+		.createAlias("cotpersona", "persona", JoinType.LEFT_OUTER_JOIN)
+		.createAlias("petespecie", "especie", JoinType.LEFT_OUTER_JOIN);
 		
 		if(especie > 0){
-			criteria.add( Restrictions.eq("petespecie.idespecie", especie) );
+			criteria.add( Restrictions.eq("especie.idespecie", especie) );
 		}
 		
 		if(nombre != null && nombre.trim().length() > 0){
@@ -85,10 +86,11 @@ public class PetmascotaDAO {
 			.setProjection( Projections.rowCount())
 			.add( Restrictions.eq("setestado.idestado", 1))
 			.createAlias("petraza", "raza", JoinType.LEFT_OUTER_JOIN)
-			.createAlias("cotpersona", "persona", JoinType.LEFT_OUTER_JOIN);
+			.createAlias("cotpersona", "persona", JoinType.LEFT_OUTER_JOIN)
+			.createAlias("petespecie", "especie", JoinType.LEFT_OUTER_JOIN);
 			
 			if(especie > 0){
-				criteriaCount.add( Restrictions.eq("petespecie.idespecie", especie) );
+				criteriaCount.add( Restrictions.eq("especie.idespecie", especie) );
 			}
 			
 			if(nombre != null && nombre.trim().length() > 0){

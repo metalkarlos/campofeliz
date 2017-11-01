@@ -203,6 +203,9 @@ input, textarea {
 	width: 100%;
 	text-align: right;
 }
+.blog-search .ui-selectonemenu .ui-selectonemenu-label {
+	display: inline-table;
+}
 .blog-search input {
 	color:#c2c2c2 !important;
 	border:none;
