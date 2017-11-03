@@ -918,13 +918,18 @@ public class OrdenServicioBean implements Serializable {
 								new MessageUtil().showWarnMessage("Atención! Fecha de Fallecimiento debe ser mayor a Fecha de Nacimiento!","");
 								ok = false;
 							}else{
-								if(cotpersonaEditor.getNombre1() == null || cotpersonaEditor.getNombre1().trim().length() == 0){
-									new MessageUtil().showWarnMessage("Datos incompletos! El Primer Nombre es obligatorio!","");
+								if(petmascotahomenajeEditor.getFamilia() == null || petmascotahomenajeEditor.getFamilia().length() == 0){
+									new MessageUtil().showWarnMessage("Datos incompletos! Ingrese los apellidos de la familia dueños de la mascota","");
 									ok = false;
 								}else{
-									if(cotpersonaEditor.getApellido1() == null || cotpersonaEditor.getApellido1().trim().length() == 0){
-										new MessageUtil().showWarnMessage("Datos incompletos! El Primer Apellido es obligatorio!","");
+									if(cotpersonaEditor.getNombre1() == null || cotpersonaEditor.getNombre1().trim().length() == 0){
+										new MessageUtil().showWarnMessage("Datos incompletos! El Primer Nombre es obligatorio!","");
 										ok = false;
+									}else{
+										if(cotpersonaEditor.getApellido1() == null || cotpersonaEditor.getApellido1().trim().length() == 0){
+											new MessageUtil().showWarnMessage("Datos incompletos! El Primer Apellido es obligatorio!","");
+											ok = false;
+										}
 									}
 								}
 							}

@@ -143,11 +143,12 @@ public class CotpersonaBO {
 			//ingresar persona
 			cotpersonaDAO.saveCotpersona(session, cotpersona);
 			
-			//Si subio foto se crea en disco y en base
-			for(Cotfotopersona cotfotopersona : lisCotfotopersona){
-				creaFotoDiscoBD(cotpersona, cotfotopersona, session);
-			}
 			if(lisCotfotopersona != null && lisCotfotopersona.size() > 0){
+				//Si subio foto se crea en disco y en base
+				for(Cotfotopersona cotfotopersona : lisCotfotopersona){
+					creaFotoDiscoBD(cotpersona, cotfotopersona, session);
+				}
+				
 				//se setea la ruta de la foto tambien en petnoticia.rutafoto
 				cotpersona.setRuta(lisCotfotopersona.get(0).getRuta());
 				//update
@@ -287,21 +288,32 @@ public class CotpersonaBO {
 				}
 			}
 			
-			//Se evalua si han subido nuevas fotos
-			for(Cotfotopersona cotfotopersona : lisCotfotopersona){
-				boolean encuentra = false;
-				for(Cotfotopersona cotfotopersonaClon : lisCotfotopersonaClon){
-					if(cotfotopersona.getIdfotopersona() == cotfotopersonaClon.getIdfotopersona()){
-						//si encuentra
-						encuentra = true; 
-						break;
+			if(lisCotfotopersona != null && lisCotfotopersona.size() > 0){
+				//Se evalua si han subido nuevas fotos
+				for(Cotfotopersona cotfotopersona : lisCotfotopersona){
+					boolean encuentra = false;
+					for(Cotfotopersona cotfotopersonaClon : lisCotfotopersonaClon){
+						if(cotfotopersona.getIdfotopersona() == cotfotopersonaClon.getIdfotopersona()){
+							//si encuentra
+							encuentra = true; 
+							break;
+						}
+					}
+					//no encuentra en lista clonada
+					if(!encuentra){
+						//es foto nueva
+						creaFotoDiscoBD(cotpersona, cotfotopersona, session);
+						ok = true;
 					}
 				}
-				//no encuentra en lista clonada
-				if(!encuentra){
-					//es foto nueva
-					creaFotoDiscoBD(cotpersona, cotfotopersona, session);
-					ok = true;
+				
+				//se setea la ruta de la foto tambien en petnoticia.rutafoto
+				/*cotpersona.setRuta(lisCotfotopersona.get(0).getRuta());
+				//update
+				cotpersonaDAO.updateCotpersona(session, cotpersona);*/
+				//si no tiene imagen principal se setea
+				if(cotpersona.getRuta() == null || cotpersona.getRuta().trim().length() == 0){
+					cotpersona.setRuta(lisCotfotopersona.get(0).getRuta());
 				}
 			}
 			

@@ -759,6 +759,16 @@
 					</p:selectOneMenu>
 					</p:column>
 					</p:row>
+					
+					<p:row>
+					<p:column>
+					<h:outputLabel id="idlblfamiliaEditor" value="Familia: " for="idfamiliaEditor" /><span style="color: red;">*</span>
+					</p:column>
+					<p:column>
+					<p:inputText id="idfamiliaEditor"	value="#{ordenServicioBean.petmascotahomenajeEditor.familia}"	maxlength="100" />
+					</p:column>
+					</p:row>
+					
 					<p:row>
 					<p:column>
 					<h:outputLabel id="idlbldedicatoriaEditor" value="Dedicatoria: " for="iddedicatoriaEditor" />
@@ -767,6 +777,7 @@
 					<p:inputTextarea id="iddedicatoriaEditor"	value="#{ordenServicioBean.petmascotahomenajeEditor.dedicatoria}"	maxlength="1000" autoResize="false" />
 					</p:column>
 					</p:row>
+					
 				</p:panelGrid>
 			</p:fieldset>
 			<p:fieldset id="idpaneleditorpropietario" style="margin-top: 10px"

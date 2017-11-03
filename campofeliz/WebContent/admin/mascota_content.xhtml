@@ -311,6 +311,24 @@
 					
 					<p:row>
 					<p:column colspan="2">
+					<div class="titulo">Familia<span style="color: red;">*</span></div>
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column>
+					<p:inputText id="txtFamilia" maxlength="100" required="true"
+					requiredMessage="Ingrese Familia"
+					value="#{mascotaBean.petmascotahomenaje.familia}"
+					style="width: 100%;"></p:inputText>
+					</p:column>
+					<p:column>
+					<p:message id="msgtxtFamilia" for="txtFamilia" display="icon" />
+					</p:column>
+					</p:row>
+					
+					<p:row>
+					<p:column colspan="2">
 					<div class="titulo">Dedicatoria</div>
 					</p:column>
 					</p:row>
@@ -494,7 +512,7 @@
 						actionListener="#{mascotaBean.grabar()}"
 						oncomplete="varGrabarMascota.hide()"
 						update="mensajes,txtNombreMascota,msgtxtNombreMascota,cmbPropietario,msgcmbPropietario,
-						cmbEspecie,msgcmbEspecie,cmbRaza,msgcmbRaza,txtFechaFallecimiento,msgtxtFechaFallecimiento" />
+						txtFamilia,msgtxtFamilia,cmbEspecie,msgcmbEspecie,cmbRaza,msgcmbRaza,txtFechaFallecimiento,msgtxtFechaFallecimiento" />
 					<p:commandButton value="NO" style="width: 50px"
 						onclick="varGrabarMascota.hide()" immediate="true" />
 				</h:panelGrid>
